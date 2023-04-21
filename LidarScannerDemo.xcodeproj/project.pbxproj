@@ -15,6 +15,19 @@
 		E963F67029F23EB200CDE6E1 /* LidarScannerDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F66F29F23EB200CDE6E1 /* LidarScannerDemoTests.swift */; };
 		E963F67A29F23EB200CDE6E1 /* LidarScannerDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F67929F23EB200CDE6E1 /* LidarScannerDemoUITests.swift */; };
 		E963F67C29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F67B29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift */; };
+		E963F69229F23F4C00CDE6E1 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E963F68829F23F4C00CDE6E1 /* Earth.usdz */; };
+		E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */; };
+		E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */; };
+		E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */; };
+		E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68C29F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift */; };
+		E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */; };
+		E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */; };
+		E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */; };
+		E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */; };
+		E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */; };
+		E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */; };
+		E963F6A229F25F1400CDE6E1 /* RawMeshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */; };
+		E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */ = {isa = PBXBuildFile; fileRef = E963F6A329F275C500CDE6E1 /* rawMesh.usd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +59,20 @@
 		E963F67529F23EB200CDE6E1 /* LidarScannerDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LidarScannerDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E963F67929F23EB200CDE6E1 /* LidarScannerDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarScannerDemoUITests.swift; sourceTree = "<group>"; };
 		E963F67B29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarScannerDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		E963F68829F23F4C00CDE6E1 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
+		E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarMeshViewModel.swift; sourceTree = "<group>"; };
+		E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARSCNViewExtention.swift; sourceTree = "<group>"; };
+		E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNGeometryExtention.swift; sourceTree = "<group>"; };
+		E963F68C29F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARMeshGeometryExtention.swift; sourceTree = "<group>"; };
+		E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarMeshModel.swift; sourceTree = "<group>"; };
+		E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelViewer.swift; sourceTree = "<group>"; };
+		E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanManager.swift; sourceTree = "<group>"; };
+		E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNMaterialExtention.swift; sourceTree = "<group>"; };
+		E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanViewer.swift; sourceTree = "<group>"; };
+		E963F69C29F2526600CDE6E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawScanManagerTests.swift; sourceTree = "<group>"; };
+		E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawMeshView.swift; sourceTree = "<group>"; };
+		E963F6A329F275C500CDE6E1 /* rawMesh.usd */ = {isa = PBXFileReference; lastKnownFileType = file; path = rawMesh.usd; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,11 +123,24 @@
 		E963F65B29F23EB100CDE6E1 /* LidarScannerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E963F69C29F2526600CDE6E1 /* Info.plist */,
+				E963F68C29F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift */,
+				E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */,
+				E963F68829F23F4C00CDE6E1 /* Earth.usdz */,
+				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
+				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
+				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
+				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
+				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
+				E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */,
+				E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */,
 				E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */,
 				E963F65E29F23EB100CDE6E1 /* ContentView.swift */,
+				E963F6A329F275C500CDE6E1 /* rawMesh.usd */,
 				E963F66029F23EB100CDE6E1 /* Experience.rcproject */,
 				E963F66229F23EB200CDE6E1 /* Assets.xcassets */,
 				E963F66429F23EB200CDE6E1 /* Preview Content */,
+				E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */,
 			);
 			path = LidarScannerDemo;
 			sourceTree = "<group>";
@@ -117,6 +157,7 @@
 			isa = PBXGroup;
 			children = (
 				E963F66F29F23EB200CDE6E1 /* LidarScannerDemoTests.swift */,
+				E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */,
 			);
 			path = LidarScannerDemoTests;
 			sourceTree = "<group>";
@@ -234,7 +275,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
+				E963F69229F23F4C00CDE6E1 /* Earth.usdz in Resources */,
 				E963F66329F23EB200CDE6E1 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,8 +303,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
+				E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */,
+				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
+				E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */,
+				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
+				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
+				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
+				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
+				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
+				E963F6A229F25F1400CDE6E1 /* RawMeshView.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -271,6 +324,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E963F67029F23EB200CDE6E1 /* LidarScannerDemoTests.swift in Sources */,
+				E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -424,13 +478,16 @@
 				DEVELOPMENT_TEAM = 98S6NS7JP3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Enable camera to scan";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -438,6 +495,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -455,13 +515,16 @@
 				DEVELOPMENT_TEAM = 98S6NS7JP3;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "";
+				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
+				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Enable camera to scan";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -469,6 +532,9 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
