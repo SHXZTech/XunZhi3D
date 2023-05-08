@@ -17,6 +17,21 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
+    enum CaptureMode {
+        /// The user has selected manual capture mode, which captures one
+        /// image per button press.
+        case lidar
+        
+        case manual
+        
+        case auto
+        //case ar
+
+        /// The user has selected automatic capture mode, which captures one
+        /// image every specified interval.
+       // case automatic(everySecs: Double)
+    }
+    
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
     private var overlapThreshold:Int=90 // The overlap between the current frame and the previous frame.
     

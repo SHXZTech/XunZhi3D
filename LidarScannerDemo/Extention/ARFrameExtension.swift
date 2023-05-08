@@ -21,6 +21,10 @@ extension ARFrame {
         return nil
     }
     
+
+
+    
+    
      func lidarDepthData()-> Data?{
         //priority select smoothdepthdata then scenedepth
         var depthPixelBuffer: CVPixelBuffer? = nil
@@ -33,9 +37,25 @@ extension ARFrame {
                 return nil;
             }
         }
-        if let depthPixelBufferTemp = depthPixelBuffer {
-            let ciImage = CIImage(cvPixelBuffer: depthPixelBufferTemp)
-            let context = CIContext(options: nil)
+         if let depthPixelBufferTemp = depthPixelBuffer {
+             let ciImage = CIImage(cvPixelBuffer: depthPixelBufferTemp)
+             let depthImage = CIImage( cvImageBuffer: depthPixelBufferTemp,
+                                       options: [ .auxiliaryDisparity: true ] )
+             
+             let context = CIContext(options: nil)
+             if let colorSpace = CGColorSpace(name: CGColorSpace.linearGray), let depthMapData = context.pngRepresentation(of: depthImage, format: .Lf, colorSpace: colorSpace){
+                 return depthMapData
+             }else{
+                 return nil
+             }
+         }
+         return nil
+            
+            //let depthMapData = context.tiffRepresentation(of: depthImage,
+            //                                          format: .Lf,
+            //                                          colorSpace: colorSpace,
+            //                                          options: [.disparityImage: depthImage])
+            /*
             if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
                 let RGBimage = UIImage(cgImage: cgImage)
                 let data = RGBimage.pngData()
@@ -45,6 +65,7 @@ extension ARFrame {
             return nil
         }
         return nil
+             */
     }
 
 
