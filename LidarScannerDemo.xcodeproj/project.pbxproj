@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E9325BF22A08F66300BD5A05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF02A08F66300BD5A05 /* LICENSE */; };
+		E9325BF32A08F66300BD5A05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF12A08F66300BD5A05 /* README.md */; };
 		E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */; };
 		E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65E29F23EB100CDE6E1 /* ContentView.swift */; };
 		E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = E963F66029F23EB100CDE6E1 /* Experience.rcproject */; };
@@ -28,6 +30,10 @@
 		E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */; };
 		E963F6A229F25F1400CDE6E1 /* RawMeshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */; };
 		E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */ = {isa = PBXBuildFile; fileRef = E963F6A329F275C500CDE6E1 /* rawMesh.usd */; };
+		E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6A929F391C100CDE6E1 /* ScanView.swift */; };
+		E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */ = {isa = PBXBuildFile; fileRef = E963F6AB29F776FC00CDE6E1 /* config.geojson */; };
+		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
+		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		E9325BF02A08F66300BD5A05 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		E9325BF12A08F66300BD5A05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LidarScannerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E963F65E29F23EB100CDE6E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -73,6 +81,10 @@
 		E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawScanManagerTests.swift; sourceTree = "<group>"; };
 		E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawMeshView.swift; sourceTree = "<group>"; };
 		E963F6A329F275C500CDE6E1 /* rawMesh.usd */ = {isa = PBXFileReference; lastKnownFileType = file; path = rawMesh.usd; sourceTree = "<group>"; };
+		E963F6A929F391C100CDE6E1 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+		E963F6AB29F776FC00CDE6E1 /* config.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.geojson; sourceTree = "<group>"; };
+		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
+		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +115,8 @@
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
+				E9325BF02A08F66300BD5A05 /* LICENSE */,
+				E9325BF12A08F66300BD5A05 /* README.md */,
 				E963F65B29F23EB100CDE6E1 /* LidarScannerDemo */,
 				E963F66E29F23EB200CDE6E1 /* LidarScannerDemoTests */,
 				E963F67829F23EB200CDE6E1 /* LidarScannerDemoUITests */,
@@ -123,24 +137,18 @@
 		E963F65B29F23EB100CDE6E1 /* LidarScannerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E963F6A829F3914600CDE6E1 /* Model */,
+				E963F6A729F3912900CDE6E1 /* View */,
+				E963F6A529F390FD00CDE6E1 /* Extention */,
 				E963F69C29F2526600CDE6E1 /* Info.plist */,
-				E963F68C29F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift */,
-				E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */,
 				E963F68829F23F4C00CDE6E1 /* Earth.usdz */,
-				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
-				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
-				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
-				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
-				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
-				E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */,
-				E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */,
 				E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */,
 				E963F65E29F23EB100CDE6E1 /* ContentView.swift */,
 				E963F6A329F275C500CDE6E1 /* rawMesh.usd */,
 				E963F66029F23EB100CDE6E1 /* Experience.rcproject */,
 				E963F66229F23EB200CDE6E1 /* Assets.xcassets */,
 				E963F66429F23EB200CDE6E1 /* Preview Content */,
-				E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */,
+				E963F6AB29F776FC00CDE6E1 /* config.geojson */,
 			);
 			path = LidarScannerDemo;
 			sourceTree = "<group>";
@@ -158,6 +166,7 @@
 			children = (
 				E963F66F29F23EB200CDE6E1 /* LidarScannerDemoTests.swift */,
 				E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */,
+				E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */,
 			);
 			path = LidarScannerDemoTests;
 			sourceTree = "<group>";
@@ -169,6 +178,39 @@
 				E963F67B29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift */,
 			);
 			path = LidarScannerDemoUITests;
+			sourceTree = "<group>";
+		};
+		E963F6A529F390FD00CDE6E1 /* Extention */ = {
+			isa = PBXGroup;
+			children = (
+				E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */,
+				E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */,
+				E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */,
+				E963F68C29F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift */,
+				E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */,
+			);
+			path = Extention;
+			sourceTree = "<group>";
+		};
+		E963F6A729F3912900CDE6E1 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */,
+				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
+				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
+				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		E963F6A829F3914600CDE6E1 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
+				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
+				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,7 +317,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9325BF22A08F66300BD5A05 /* LICENSE in Resources */,
+				E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */,
 				E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */,
+				E9325BF32A08F66300BD5A05 /* README.md in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
 				E963F69229F23F4C00CDE6E1 /* Earth.usdz in Resources */,
 				E963F66329F23EB200CDE6E1 /* Assets.xcassets in Resources */,
@@ -310,8 +355,10 @@
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
+				E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */,
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
+				E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */,
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E963F6A229F25F1400CDE6E1 /* RawMeshView.swift in Sources */,
@@ -324,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E963F67029F23EB200CDE6E1 /* LidarScannerDemoTests.swift in Sources */,
+				E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */,
 				E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -49,7 +49,7 @@ class RawScanManagerTests: XCTestCase {
         try? FileManager.default.createDirectory(at: folderURL, withIntermediateDirectories: false)
         
         // Create a new file called "RawMesh.usd" in the folder
-        let rawMeshURL = folderURL.appendingPathComponent("RawMesh.usd")
+        let rawMeshURL = folderURL.appendingPathComponent("rawMesh.usd")
         let data = "test".data(using: .utf8)
         FileManager.default.createFile(atPath: rawMeshURL.path, contents: data, attributes: nil)
         

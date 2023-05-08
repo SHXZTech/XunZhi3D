@@ -15,7 +15,9 @@ extension ARSCNView: ARCoachingOverlayViewDelegate {
         coachingOverlay.delegate = self
         coachingOverlay.session = self.session
         coachingOverlay.activatesAutomatically=true
-        //coachingOverlay.setActive(true, animated: true)
+        #if DEBUG
+        coachingOverlay.setActive(true, animated: true)
+        #endif
         coachingOverlay.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         coachingOverlay.goal = .tracking
         self.addSubview(coachingOverlay)

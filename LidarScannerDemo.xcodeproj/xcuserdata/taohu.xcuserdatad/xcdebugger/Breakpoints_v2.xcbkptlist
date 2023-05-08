@@ -3,4 +3,54 @@
    uuid = "8F696AFA-0B22-4FD6-9658-1853587A25F7"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1B066849-1D40-44FC-A803-990922104138"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LidarScannerDemo/Extention/ARFrameExtension.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "36"
+            endingLineNumber = "36"
+            landmarkName = "lidarDepthData()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1B066849-1D40-44FC-A803-990922104138 - d88e100ec9b0aada"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__C.ARFrame.lidarDepthData() -&gt; Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Extention/ARFrameExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "516">
+               </Location>
+               <Location
+                  uuid = "1B066849-1D40-44FC-A803-990922104138 - d88e100ec9b0aada"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__C.ARFrame.lidarDepthData() -&gt; Swift.Optional&lt;Foundation.Data&gt;"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Extention/ARFrameExtension.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "36"
+                  endingLineNumber = "36"
+                  offsetFromSymbolStart = "524">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

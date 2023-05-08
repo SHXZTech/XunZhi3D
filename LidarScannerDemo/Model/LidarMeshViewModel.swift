@@ -12,7 +12,12 @@ import ARKit
 
 
 class LidarMeshViewModel: ObservableObject {
-    @Published private var model : LidarMeshModel = LidarMeshModel()
+    //@Published private var model : LidarMeshModel = LidarMeshModel(uuid_: uuid)
+    @Published private var model: LidarMeshModel
+    
+    init(uuid: UUID) {
+           model = LidarMeshModel(uuid_: uuid)
+       }
     
     var sceneView : ARSCNView {
         model.sceneView
