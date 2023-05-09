@@ -21,11 +21,11 @@ extension ARFrame {
         return nil
     }
     
-
-
     
     
-     func lidarDepthData()-> Data?{
+    
+    
+    func lidarDepthData()-> Data?{
         //priority select smoothdepthdata then scenedepth
         var depthPixelBuffer: CVPixelBuffer? = nil
         if let smoothDepthMap = self.smoothedSceneDepth?.depthMap {
@@ -37,61 +37,41 @@ extension ARFrame {
                 return nil;
             }
         }
-         if let depthPixelBufferTemp = depthPixelBuffer {
-             let ciImage = CIImage(cvPixelBuffer: depthPixelBufferTemp)
-             let depthImage = CIImage( cvImageBuffer: depthPixelBufferTemp,
-                                       options: [ .auxiliaryDisparity: true ] )
-             
-             let context = CIContext(options: nil)
-             if let colorSpace = CGColorSpace(name: CGColorSpace.linearGray), let depthMapData = context.pngRepresentation(of: depthImage, format: .Lf, colorSpace: colorSpace){
-                 return depthMapData
-             }else{
-                 return nil
-             }
-         }
-         return nil
-            
-            //let depthMapData = context.tiffRepresentation(of: depthImage,
-            //                                          format: .Lf,
-            //                                          colorSpace: colorSpace,
-            //                                          options: [.disparityImage: depthImage])
-            /*
-            if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
-                let RGBimage = UIImage(cgImage: cgImage)
-                let data = RGBimage.pngData()
-                return data
+        if let depthPixelBufferTemp = depthPixelBuffer {
+            let depthImage = CIImage( cvImageBuffer: depthPixelBufferTemp,options: [ .auxiliaryDepth: true ] )
+            let context = CIContext(options: nil)
+            if let colorSpace = CGColorSpace(name: CGColorSpace.linearGray), let depthMapData = context.tiffRepresentation(of: depthImage, format: .Lf, colorSpace: colorSpace, options: [.depthImage: depthImage ]){
+                return depthMapData
+            }else{
+                return nil
             }
-        } else {
-            return nil
         }
         return nil
-             */
     }
-
-
+    
+    
     
     func lidarConfidenceData()-> Data?{
-        var depthPixelBuffer: CVPixelBuffer? = nil
-        if let smoothDepthMap = self.smoothedSceneDepth?.confidenceMap {
-            depthPixelBuffer = smoothDepthMap
+        var confidencePixelBuffer: CVPixelBuffer? = nil
+        if let smoothconfidenceMap = self.smoothedSceneDepth?.confidenceMap {
+            confidencePixelBuffer = smoothconfidenceMap
         } else {
-            if let depthMap = self.sceneDepth?.confidenceMap{
-                depthPixelBuffer = depthMap}
+            if let confidenceMap = self.sceneDepth?.confidenceMap{
+                confidencePixelBuffer = confidenceMap}
             else{
                 return nil;
             }
         }
-        if let depthPixelBufferTemp = depthPixelBuffer {
-            let ciImage = CIImage(cvPixelBuffer: depthPixelBufferTemp)
+        if let confidencePixelBufferTemp = confidencePixelBuffer {
+            let confidenceImage = CIImage( cvImageBuffer: confidencePixelBufferTemp,options: [:])
             let context = CIContext(options: nil)
-            if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
-                let RGBimage = UIImage(cgImage: cgImage)
-                let data = RGBimage.pngData()
-                return data
+            if let colorSpace = CGColorSpace(name: CGColorSpace.extendedLinearGray), let confidenceMapData = context.tiffRepresentation(of: confidenceImage, format: .L8, colorSpace: colorSpace){
+                return confidenceMapData
+            }else{
+                return nil
             }
-        } else {
-            return nil
         }
         return nil
+    //SLEEP: the depth image should be like single, the confidence map is wrong
     }
 }

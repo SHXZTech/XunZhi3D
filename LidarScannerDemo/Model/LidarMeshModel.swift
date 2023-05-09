@@ -124,7 +124,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             //save RGB image
             //let RGBimage = frame.capturedImage();
             guard let jpegData = frame.capturedjpegData() else { return  }
-            if(saveJpegData(jpegData: jpegData, uuid: uuid, timeStamp: timeStamp) == false){return}
+            if(saveJpegData(jpegData: jpegData, uuid: uuid, timeStamp: timeStamp, type: "RGB") == false){return}
             print("save success")
             //save lidar depth
            // guard let lidarDepthData =
@@ -132,19 +132,13 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             if(frame.smoothedSceneDepth == nil){ print("frame.smoothedSceneDepth == nil")}
             if(frame.sceneDepth != nil) || (frame.smoothedSceneDepth != nil) {
                 guard let depthImage = frame.lidarDepthData() else {
-                    print("save fail 1")
                     return}
-                if(savePngDepthData(pngData: depthImage, uuid: uuid, timeStamp: timeStamp) == false){
-                    print("save faile 2")
+                if(saveTiffData(pngData: depthImage, uuid: uuid, timeStamp: timeStamp, type: "Depth") == false){
                     return}
-                print("save depthimage success")
                 guard let confidenceImage = frame.lidarConfidenceData() else {
-                    print("save faile 3")
                     return}
-                if(savePngConfidenceData(pngData: confidenceImage, uuid: uuid, timeStamp: timeStamp) == false){
-                    print("save faile 4")
+                if(saveTiffData(pngData: confidenceImage,uuid: uuid, timeStamp: timeStamp,type: "Confidence") == false){
                     return}
-                print("save confidenceimage success")
             }
             //save true depth
             
@@ -255,7 +249,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }else if(type(of: config).supportsFrameSemantics(.sceneDepth)){
             config.frameSemantics = .sceneDepth
         }
-        config.frameSemantics = .sceneDepth
+        //config.frameSemantics = .sceneDepth
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
@@ -308,11 +302,12 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         return true
     }
     
-    func saveJpegData(jpegData: Data,uuid:UUID,timeStamp:TimeInterval)-> Bool{
+    func saveJpegData(jpegData: Data,uuid:UUID,timeStamp:TimeInterval,type:String?)-> Bool{
         if(jpegData == nil || timeStamp == nil || uuid == nil){
             return false;
         }
-            let fileName = String(format: "%.5f", timeStamp) + ".jpeg"
+            
+            let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".jpeg"
             let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
             let directory = fileURL.deletingLastPathComponent()
             do {
@@ -330,11 +325,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             }
     }
     
-    func savePngDepthData(pngData: Data,uuid:UUID,timeStamp:TimeInterval)-> Bool{
+    func savePngData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
         if(pngData == nil || timeStamp == nil || uuid == nil){
             return false;
         }
-            let fileName = "depth_" + String(format: "%.5f", timeStamp) + ".png"
+        let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".png"
             let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
             let directory = fileURL.deletingLastPathComponent()
             do {
@@ -352,11 +347,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             }
     }
     
-    func savePngConfidenceData(pngData: Data,uuid:UUID,timeStamp:TimeInterval)-> Bool{
+    func saveTiffData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
         if(pngData == nil || timeStamp == nil || uuid == nil){
             return false;
         }
-            let fileName = "confidence_" + String(format: "%.5f", timeStamp) + ".png"
+        let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".TIF"
             let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
             let directory = fileURL.deletingLastPathComponent()
             do {
