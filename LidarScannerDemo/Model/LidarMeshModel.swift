@@ -122,12 +122,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             let currentTransform = frame.camera.transform
             print("currentTransform: \(currentTransform)")
             //save RGB image
-            //let RGBimage = frame.capturedImage();
             guard let jpegData = frame.capturedjpegData() else { return  }
             if(saveJpegData(jpegData: jpegData, uuid: uuid, timeStamp: timeStamp, type: "RGB") == false){return}
             print("save success")
             //save lidar depth
-           // guard let lidarDepthData =
             if(frame.sceneDepth == nil){ print("frame.sceneDepth == nil")}
             if(frame.smoothedSceneDepth == nil){ print("frame.smoothedSceneDepth == nil")}
             if(frame.sceneDepth != nil) || (frame.smoothedSceneDepth != nil) {
@@ -189,11 +187,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     //testpass
     func calculatePoseDistance(currentFramePose: simd_float4x4, previousFramePose: simd_float4x4)-> Float{
         let currentPoseTrans = simd_float3(currentFramePose.columns.3.x, currentFramePose.columns.3.y, currentFramePose.columns.3.z)
-       //print("currentFramePose \(currentFramePose)")
-       // print("currentPoseTrans \(currentPoseTrans)")
         let previousPoseTrans = simd_float3(previousFramePose.columns.3.x, previousFramePose.columns.3.y, previousFramePose.columns.3.z)
-       // print("previousFramePose \(previousFramePose)")
-       // print("previousPoseTrans \(previousPoseTrans)")
         let distance = abs(simd_distance(currentPoseTrans, previousPoseTrans))
         return distance
     }
