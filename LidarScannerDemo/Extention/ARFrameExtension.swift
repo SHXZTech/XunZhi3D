@@ -48,9 +48,7 @@ extension ARFrame {
         }
         return nil
     }
-    
-    
-    
+
     func lidarConfidenceData()-> Data?{
         var confidencePixelBuffer: CVPixelBuffer? = nil
         if let smoothconfidenceMap = self.smoothedSceneDepth?.confidenceMap {
@@ -62,10 +60,10 @@ extension ARFrame {
                 return nil;
             }
         }
-        if let confidencePixelBufferTemp = confidencePixelBuffer {
-            let confidenceImage = CIImage( cvImageBuffer: confidencePixelBufferTemp,options: [:])
+        if let confidencePixelBufferTemp = confidencePixelBuffer,let colorSpace = CGColorSpace(name: CGColorSpace.linearGray) {
+            let confidenceImage = CIImage( cvImageBuffer: confidencePixelBufferTemp,options: [.colorSpace: colorSpace])
             let context = CIContext(options: nil)
-            if let colorSpace = CGColorSpace(name: CGColorSpace.extendedLinearGray), let confidenceMapData = context.tiffRepresentation(of: confidenceImage, format: .L8, colorSpace: colorSpace){
+            if let confidenceMapData = context.tiffRepresentation(of: confidenceImage, format: .L8, colorSpace: colorSpace){
                 return confidenceMapData
             }else{
                 return nil
