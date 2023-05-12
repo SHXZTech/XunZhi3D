@@ -9,6 +9,10 @@ import Foundation
 import RealityKit
 import ARKit
 import SceneKit
+import os
+
+private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
+                            category: "lidarScannerDemoDelegate")
 
 class LidarMeshModel:NSObject, ARSessionDelegate {
     private(set) var sceneView : ARSCNView // The ARSCNView used to display the scene.
@@ -26,10 +30,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         
         case auto
         //case ar
-
+        
         /// The user has selected automatic capture mode, which captures one
         /// image every specified interval.
-       // case automatic(everySecs: Double)
+        // case automatic(everySecs: Double)
     }
     
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
@@ -71,10 +75,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     /**
      Init the class, configure and run the sceneView
      */
-     init(uuid_: UUID) {
+    init(uuid_: UUID) {
         status = "ready"
         sceneView = ARSCNView(frame: .zero)
-         uuid = uuid_
+        uuid = uuid_
         super.init()
         //sceneView.delegate = context.coordinator
         let config = ARWorldTrackingConfiguration()
@@ -110,24 +114,17 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         //new frame save
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
-            print("new frame check success")
             previousSavedFramePose = currentTransform
             //save timestamp
             let timeStamp = frame.timestamp
-            print("currentTimeStamp: \(timeStamp)")
             //save intrinsic
             let intrinsic = frame.camera.intrinsics
-            print("Intrinsic matrix: \(intrinsic)")
             //save pose
             let currentTransform = frame.camera.transform
-            print("currentTransform: \(currentTransform)")
             //save RGB image
             guard let jpegData = frame.capturedjpegData() else { return  }
             if(saveJpegData(jpegData: jpegData, uuid: uuid, timeStamp: timeStamp, type: "RGB") == false){return}
-            print("save success")
             //save lidar depth
-            if(frame.sceneDepth == nil){ print("frame.sceneDepth == nil")}
-            if(frame.smoothedSceneDepth == nil){ print("frame.smoothedSceneDepth == nil")}
             if(frame.sceneDepth != nil) || (frame.smoothedSceneDepth != nil) {
                 guard let depthImage = frame.lidarDepthData() else {
                     return}
@@ -138,24 +135,22 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                 if(saveTiffData(pngData: confidenceImage,uuid: uuid, timeStamp: timeStamp,type: "Confidence") == false){
                     return}
             }
-            //save true depth
-            
             //save GPS
             
             //save RTK
             
             
-           
+            
         }
-       
+        
     }
     
     /**
-    Check whether the new frame is accetable, it check whether the overlap/distance/angle between frames meet the threholds
+     Check whether the new frame is accetable, it check whether the overlap/distance/angle between frames meet the threholds
      
      @input: previousFrame pose and timestamp, newFrame pose and timestamp
      @output: Bool; true - the new frame meets the conditions, false - the new frame does not meet the conditions
-    */
+     */
     func newFrameCheck(currentFramePose: simd_float4x4, previousFramePose: simd_float4x4)-> Bool{
         // Overlap check
         
@@ -170,11 +165,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     }
     
     /**
-    Check whether the camera movement is too fast?
+     Check whether the camera movement is too fast?
      
      @input: previousFrame pose and timestamp, newFrame pose and timestamp
      @output: Bool; true - the new frame moves too fast, false - the new frame move smoothly
-    */
+     */
     func tooFastCheck(currentFramePose: simd_float4x4, currentTimeStamp: TimeInterval, previousFramePose: simd_float4x4, previousTimeStamp: TimeInterval)->Bool{
         let speed = calculateMovementSpeed(currentFramePose: currentFramePose, currentTimeStamp: currentTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousTimeStamp)
         print("speed is \(speed)")
@@ -215,7 +210,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if threshold > 0 && threshold < 100 {
             distanceThreshold = threshold
         } else {
-          
+            
         }
     }
     
@@ -224,16 +219,28 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             angleThreshold = threshold
         }
         else{
-           
+            
         }
     }
-
- 
+    
+    
     
     /**
      Start the lidar scan that enable meshing in the ARSCNView
      */
     func startScan(){
+        let config = createStartScanConfig()
+        //config.frameSemantics = .sceneDepth
+        sceneView.session.delegate = self
+        sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
+        status="scanning"
+        //creat project folder
+        createProjectFolder()
+        //creat Json file to record project info
+        createProjectJson()
+    }
+    
+    func createStartScanConfig() ->ARConfiguration{
         let config = ARWorldTrackingConfiguration()
         config.environmentTexturing = .automatic
         config.sceneReconstruction = .mesh
@@ -243,10 +250,36 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }else if(type(of: config).supportsFrameSemantics(.sceneDepth)){
             config.frameSemantics = .sceneDepth
         }
-        //config.frameSemantics = .sceneDepth
-        sceneView.session.delegate = self
-        sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
-        status="scanning"
+        return config
+    }
+    
+    func createProjectFolder(){
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+        do {
+            try FileManager.default.createDirectory(at: fileURL, withIntermediateDirectories: true, attributes: nil)
+            logger.info("CreateProjectFolder success at: \(fileURL)")
+        } catch let error {
+            logger.error("Error creating directory: \(error.localizedDescription)")
+        }
+    }
+    
+    func createProjectJson(){
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+        let jsonFileURL = fileURL.appendingPathComponent("info.json")
+        let projectInfo = [
+            "createDate": Date().description,
+            "owner": "default",
+            "uuid" : uuid.uuidString,
+            "frameCount" : "0",
+            "type" : mode
+        ]
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: projectInfo, options: .prettyPrinted)
+            try jsonData.write(to: jsonFileURL)
+            logger.info("create json file success at \(jsonFileURL)")
+        } catch let error {
+            logger.error("Error creating project JSON file: \(error.localizedDescription)")
+        }
     }
     
     
@@ -260,15 +293,34 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         
     }
     
-    func saveScanData(){
-        //save timestamp
-        //save camera instrinsic
-        //save camera extrinsic
-        //save rgb
-        //save rgbd/confidence
-        //save pose
-        //save gps/rtk
+    func saveScanData(frame: ARFrame) {
+        let timeStamp = frame.timestamp
+        let intrinsic = frame.camera.intrinsics
+        let extrinsic = frame.camera.transform
+        
+        let fileManager = FileManager.default
+        let fileURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+        let jsonFileURL = fileURL.appendingPathComponent("info.json")
+        
+        do {
+            // Load existing JSON data from file
+            var jsonData = try Data(contentsOf: jsonFileURL)
+            var projectInfo = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] ?? [:]
+            // Update with new data
+            let scanData = [
+                "timestamp": timeStamp.description,
+                "intrinsic": intrinsic,
+                "currentTransform": extrinsic
+            ] as [String : Any]
+            // Save updated JSON data back to file
+            jsonData = try JSONSerialization.data(withJSONObject: projectInfo, options: .prettyPrinted)
+            try jsonData.write(to: jsonFileURL)
+            logger.info("Successfully saved scan data to info.json")
+        } catch let error {
+            logger.error("Error saving scan data: \(error.localizedDescription)")
+        }
     }
+    
     
     func pauseScan(){
         sceneView.session.pause()
@@ -300,23 +352,23 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if(jpegData == nil || timeStamp == nil || uuid == nil){
             return false;
         }
-            
-            let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".jpeg"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try jpegData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
+        
+        let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".jpeg"
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
+        let directory = fileURL.deletingLastPathComponent()
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        } catch let error {
+            print("Error creating directory: \(error.localizedDescription)")
+            return false;
+        }
+        do {
+            try jpegData.write(to: fileURL)
+            return true;
+        } catch {
+            print("Error saving image: \(error.localizedDescription)")
+            return false;
+        }
     }
     
     func savePngData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
@@ -324,21 +376,21 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             return false;
         }
         let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".png"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try pngData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
+        let directory = fileURL.deletingLastPathComponent()
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        } catch let error {
+            print("Error creating directory: \(error.localizedDescription)")
+            return false;
+        }
+        do {
+            try pngData.write(to: fileURL)
+            return true;
+        } catch {
+            print("Error saving image: \(error.localizedDescription)")
+            return false;
+        }
     }
     
     func saveTiffData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
@@ -346,24 +398,22 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             return false;
         }
         let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".TIF"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try pngData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
+        let directory = fileURL.deletingLastPathComponent()
+        do {
+            try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
+        } catch let error {
+            print("Error creating directory: \(error.localizedDescription)")
+            return false;
+        }
+        do {
+            try pngData.write(to: fileURL)
+            return true;
+        } catch {
+            print("Error saving image: \(error.localizedDescription)")
+            return false;
+        }
     }
-    
-    
     
     func makeCoordinator() -> Coordinator { Coordinator(self) }
     
@@ -391,8 +441,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         print("export path:", fileURL.path)
         return fileURL
     }
-    
-    
     
     class Coordinator: NSObject, ARSCNViewDelegate {
         let parent : LidarMeshModel
