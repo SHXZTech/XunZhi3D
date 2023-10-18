@@ -104,6 +104,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let currentTransform = frame.camera.transform
         let currentFrameTimeStamp = frame.timestamp
         let currentFramePose = frame.camera.transform
+        print("currentTransform:", currentTransform);
+        print("currentFramePose:", currentFramePose);
         //too fast check
         if(status == "scanning" && tooFastCheck(currentFramePose: currentFramePose, currentTimeStamp: currentFrameTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousFrameTimeStamp)){
             //something to buzz
@@ -125,7 +127,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     }
     
     /**
-     Check whether the new frame is accetable, it check whether the overlap/distance/angle between frames meet the threholds
+     Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds
      
      @input: previousFrame pose and timestamp, newFrame pose and timestamp
      @output: Bool; true - the new frame meets the conditions, false - the new frame does not meet the conditions
@@ -213,7 +215,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
-    
     }
     
     
