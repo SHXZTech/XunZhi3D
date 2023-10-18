@@ -37,6 +37,11 @@
 		E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */ = {isa = PBXBuildFile; fileRef = E963F6AB29F776FC00CDE6E1 /* config.geojson */; };
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
+		E9F43E732ADFCEBF00C2B5CF /* LiteRTK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; };
+		E9F43E742ADFCEBF00C2B5CF /* LiteRTK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9F43E772ADFD12100C2B5CF /* RtkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E762ADFD12100C2B5CF /* RtkModel.swift */; };
+		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
+		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +60,20 @@
 			remoteInfo = LidarScannerDemo;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		E9F43E752ADFCEBF00C2B5CF /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				E9F43E742ADFCEBF00C2B5CF /* LiteRTK.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		E9325BF02A08F66300BD5A05 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -91,6 +110,10 @@
 		E963F6AB29F776FC00CDE6E1 /* config.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.geojson; sourceTree = "<group>"; };
 		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
+		E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiteRTK.framework; path = Framework/LiteRTK.framework; sourceTree = "<group>"; };
+		E9F43E762ADFD12100C2B5CF /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
+		E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
+		E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,6 +121,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9F43E732ADFCEBF00C2B5CF /* LiteRTK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,6 +151,7 @@
 				E963F66E29F23EB200CDE6E1 /* LidarScannerDemoTests */,
 				E963F67829F23EB200CDE6E1 /* LidarScannerDemoUITests */,
 				E963F65A29F23EB100CDE6E1 /* Products */,
+				E9F43E702ADFCCF900C2B5CF /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -205,6 +230,7 @@
 				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
 				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
+				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -218,8 +244,18 @@
 				E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */,
 				E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */,
 				E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */,
+				E9F43E762ADFD12100C2B5CF /* RtkModel.swift */,
+				E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		E9F43E702ADFCCF900C2B5CF /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -232,6 +268,7 @@
 				E963F65529F23EB100CDE6E1 /* Sources */,
 				E963F65629F23EB100CDE6E1 /* Frameworks */,
 				E963F65729F23EB100CDE6E1 /* Resources */,
+				E9F43E752ADFCEBF00C2B5CF /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -358,7 +395,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
+				E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */,
 				E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */,
+				E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */,
 				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
 				E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
@@ -368,6 +407,7 @@
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */,
+				E9F43E772ADFD12100C2B5CF /* RtkModel.swift in Sources */,
 				E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */,
 				E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */,
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
@@ -537,6 +577,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 98S6NS7JP3;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Framework",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SiteSight;
@@ -575,6 +619,10 @@
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
 				DEVELOPMENT_TEAM = 98S6NS7JP3;
 				ENABLE_PREVIEWS = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Framework",
+				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = SiteSight;
