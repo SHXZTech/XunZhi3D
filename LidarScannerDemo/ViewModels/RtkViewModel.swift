@@ -49,10 +49,18 @@ class RTKViewModel: ObservableObject {
     }
     
     func toSearch() {
+        print("Debug RtkViewModel_toSearch")
         rtkManager?.toSearch()
+    }
+    
+    func toConnect(index: Int){
+        rtkManager?.toConnect(itemIndex: index)
     }
     
     func toDisconnect() {
         rtkManager?.toDisconnect()
     }
+    
+//    func isConnectable(){
+//    }
 }

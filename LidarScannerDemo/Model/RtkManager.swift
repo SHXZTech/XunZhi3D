@@ -19,11 +19,13 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     @Published var diffDelay: String = ""
     @Published var longitude: String = ""
     @Published var latitude: String = ""
+    @Published var connectable: Bool = false
     
     var list: [String] = []
     var util: HCUtil?
     var currentDeviceIndex: Int = -1
     var deviceModel: HCDeviceInfoBaseModel?
+    
     
     override init() {
         super.init()
@@ -47,6 +49,7 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     
     // Search - Equivalent to the UIKit version
     func toSearch() {
+        print("RtkManager to search")
         list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
     }
@@ -58,6 +61,12 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
             util?.toDisconnect()
         }
     }
+    
+    func toConnect(itemIndex: Int){
+        util?.toConnectDevice(itemIndex)
+    }
+    
+
     
     // Mapping the data, similar to setData in UIKit
     func mapData() {
@@ -88,7 +97,13 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         if let devices = deviceNameList, devices.count > 0 {
             self.list = devices
             // You might also use some method to show a list in SwiftUI
+            print("search successfully")
+            print(devices.count)
+        }else{
+            print("search fail")
+            self.list.removeAll()
         }
+        
     }
     
     func hcDeviceConnected(_ index: Int) {
@@ -113,6 +128,14 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     
     func hcReceiveUBXData(_ data: Data!) {
         // Handle UBX data
+    }
+    
+    func isConnectable() -> Bool{
+        if list.isEmpty{
+            return false;
+        }else{
+            return true;
+        }
     }
 }
 
