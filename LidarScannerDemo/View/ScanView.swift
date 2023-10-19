@@ -69,7 +69,10 @@ struct ScanView: View{
                     })
                     .padding(.horizontal, 25)
                 }
-                LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
+                ZStack{
+                    LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
+                    GeoSensorView()
+                }
                 VStack{
                     HStack{
                         Button(action: {
