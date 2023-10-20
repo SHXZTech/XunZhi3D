@@ -8,11 +8,32 @@ import SwiftUI
 
 struct RtkSettingView: View {
     @ObservedObject var viewModel = RTKViewModel()
-    @State var msg = "ready"
+    
     
     var body: some View {
         VStack(spacing: 20) {
             // RTK Data Section
+            VStack(alignment: .leading, spacing: 10) {
+                List(viewModel.deviceList, id: \.self, selection: $viewModel.selectedDevice) { device in
+                    Text(device)
+                        .frame(maxWidth: .infinity, minHeight: 44)  // Take up full width of List and set minimum height
+                        .background(viewModel.selectedDevice == device ? Color.yellow : Color.clear)  // Highlight background
+                        .onTapGesture {
+                            // Toggle behavior: If the device is already selected, disconnect and deselect.
+                            if viewModel.selectedDevice == device {
+                                viewModel.toDisconnect()
+                                viewModel.selectedDevice = nil
+                            } else {
+                                if let index = viewModel.deviceList.firstIndex(of: device) {
+                                    viewModel.toConnect(index: index)
+                                }
+                                viewModel.selectedDevice = device
+                            }
+                        }
+                }
+            }
+            .padding()
+            
             GroupBox(label: Text("RTK Data")) {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Device Name: \(viewModel.deviceName)")
@@ -21,59 +42,14 @@ struct RtkSettingView: View {
                     Text("Diff Delay: \(viewModel.diffDelay)")
                     Text("Longitude: \(viewModel.longitude)")
                     Text("Latitude: \(viewModel.latitude)")
-                    Text("message:\(msg)")
                 }
                 .padding()
             }
-            
-            // Buttons Section
-            VStack(spacing: 15) {
-                Button("Start Listening") {
-                    viewModel.startListening()
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                
-                Button("End Listening") {
-                    viewModel.endListening()
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.red)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                
-                Button("Search") {
-                    viewModel.toSearch()
-                    msg = "search toggle"
-                    print("debug search toggle")
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                
-                Button("Connect") {
-                    viewModel.toConnect(index: 0)
-                    msg = "search toggle"
-                    print("debug search toggle")
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.green)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-                
-                Button("Disconnect") {
-                    viewModel.toDisconnect()
-                }
-                .frame(width: 200, height: 50)
-                .background(Color.red)
-                .foregroundColor(.white)
-                .cornerRadius(8)
-            }
         }
         .padding()
+        .onAppear {
+            viewModel.startListening()
+        }
     }
 }
 

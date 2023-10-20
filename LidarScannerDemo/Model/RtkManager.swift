@@ -20,8 +20,9 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     @Published var longitude: String = ""
     @Published var latitude: String = ""
     @Published var connectable: Bool = false
+    @Published var list: [String] = []
+    @Published var isConnected: Bool = false
     
-    var list: [String] = []
     var util: HCUtil?
     var currentDeviceIndex: Int = -1
     var deviceModel: HCDeviceInfoBaseModel?
@@ -66,7 +67,7 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         util?.toConnectDevice(itemIndex)
     }
     
-
+    
     
     // Mapping the data, similar to setData in UIKit
     func mapData() {
@@ -91,9 +92,26 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     // HCUtilDelegate methods
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
         // Handle error as needed
+        switch error {
+        case .BleUnauthorized:
+            print("蓝牙未授权")
+            break
+        case .UnsupportedDeviceType:
+            print("不支持该设备连接")
+            break
+        case .BlePoweredOff:
+            self.list.removeAll()
+            print("手机蓝牙未开启，请先开启后再连接设备")
+            break
+        case .Unknown:
+            break
+        default:
+            break
+        }
     }
     
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
+        print("Device Name List: \(deviceNameList ?? [])")
         if let devices = deviceNameList, devices.count > 0 {
             self.list = devices
             // You might also use some method to show a list in SwiftUI
@@ -108,7 +126,9 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     
     func hcDeviceConnected(_ index: Int) {
         currentDeviceIndex = index
+        isConnected = true
     }
+
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
         if currentDeviceIndex < 0 || currentDeviceIndex >= list.count {
@@ -120,6 +140,7 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     
     func hcDeviceDisconnected() {
         toDisconnect(isAuto: true)
+        isConnected = false
     }
     
     func hcReceiveRTCMData(_ data: Data!) {
@@ -138,5 +159,6 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         }
     }
 }
+
 
 
