@@ -19,9 +19,12 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     @Published var diffDelay: String = ""
     @Published var longitude: String = ""
     @Published var latitude: String = ""
+    @Published var horizontalAccuracy: String = ""
+    
     @Published var connectable: Bool = false
     @Published var list: [String] = []
     @Published var isConnected: Bool = false
+   
     
     var util: HCUtil?
     var currentDeviceIndex: Int = -1

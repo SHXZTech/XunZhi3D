@@ -8,7 +8,7 @@ import SwiftUI
 
 struct RtkSettingView: View {
     @ObservedObject var viewModel = RTKViewModel()
-    
+    @ObservedObject var ntripModel = NtripConfigViewModel()
     
     var body: some View {
         VStack(spacing: 20) {
@@ -26,6 +26,7 @@ struct RtkSettingView: View {
                             } else {
                                 if let index = viewModel.deviceList.firstIndex(of: device) {
                                     viewModel.toConnect(index: index)
+                                    ntripModel.toConnectDiff()
                                 }
                                 viewModel.selectedDevice = device
                             }
@@ -42,6 +43,17 @@ struct RtkSettingView: View {
                     Text("Diff Delay: \(viewModel.diffDelay)")
                     Text("Longitude: \(viewModel.longitude)")
                     Text("Latitude: \(viewModel.latitude)")
+                }
+                .padding()
+            }
+            
+            GroupBox(label: Text("Config Data")) {
+                VStack(alignment: .leading, spacing: 10) {
+                    Text("Ntrip IP: \(ntripModel.ntripConfigModel.ip)")
+                    Text("Ntrip Port: \(ntripModel.ntripConfigModel.port)")
+                    Text("Ntrip Account: \(ntripModel.ntripConfigModel.account)")
+                    Text("Ntrip Password: \(ntripModel.ntripConfigModel.password)")
+                    Text("Mount Point: \(ntripModel.ntripConfigModel.currentMountPoint)")
                 }
                 .padding()
             }

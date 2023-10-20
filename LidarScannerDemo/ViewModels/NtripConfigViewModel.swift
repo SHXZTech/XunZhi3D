@@ -21,7 +21,16 @@ class NtripConfigViewModel:NSObject, ObservableObject {
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
         //TEST, DEBUG: The following setting just for 1-time test, remove after test
-        ntripConfigModel.ip = ""
+        ntripConfigModel.ip = "203.107.45.154"
+        ntripConfigModel.port = 8002
+        ntripConfigModel.account = "qxxsrz001"
+        ntripConfigModel.password = "572a728"
+        ntripConfigModel.mountPointList = ["AUTO"]
+        ntripConfigModel.currentMountPoint = "AUTO"
+        //*****************************
+        //ntripConfigModel.loadFromLocal()
+        assertNtripToHCDiff()
+        
     }
 
     func toConnectDiff() {
@@ -42,6 +51,15 @@ class NtripConfigViewModel:NSObject, ObservableObject {
     func removeTimer() {
         timer?.invalidate()
         timer = nil
+    }
+    
+    func assertNtripToHCDiff(){
+        diffModel.ip = ntripConfigModel.ip
+        diffModel.port = ntripConfigModel.port
+        diffModel.account = ntripConfigModel.account
+        diffModel.password = ntripConfigModel.password
+        diffModel.mountPointList = ntripConfigModel.mountPointList
+        diffModel.currentMountPoint = ntripConfigModel.currentMountPoint
     }
 }
 
