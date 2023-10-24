@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Need Bluetooth permission for RTK connection</string>
+	<string>Need Bluetooth permission for RTK connection.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Need Bluetooth permission for RTK connection</string>
+	<string>Need Bluetooth permission for RTK connection.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
 </dict>
