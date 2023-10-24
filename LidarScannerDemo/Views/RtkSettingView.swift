@@ -1,9 +1,3 @@
-//
-//  RtkSettingView.swift
-//  LidarScannerDemo
-//
-//  Created by Tao Hu on 2023/10/19.
-//
 import SwiftUI
 
 struct RtkSettingView: View {
@@ -17,32 +11,37 @@ struct RtkSettingView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            // RTK Data Section
-            VStack(alignment: .leading, spacing: 10) {
-                List(selection: $viewModel.selectedDevice) {
+            ScrollView {
+                LazyVStack(alignment: .leading, spacing: 10) {
                     ForEach(viewModel.rtkData.list, id: \.self) { device in
                         Text(device)
                             .frame(maxWidth: .infinity, minHeight: 44)
+                            .padding()
                             .background(viewModel.selectedDevice == device ? Color.yellow : Color.clear)
-                            .tag(device) // This is necessary for selection to work properly
-                            .onAppear {
+                            .cornerRadius(5)
+                            .onTapGesture {
                                 if viewModel.selectedDevice == device {
+                                    print("Cancel selection")
+                                    viewModel.toDisconnect()
+                                    viewModel.selectedDevice = nil
+                                } else {
+                                    print("Selection or switch")
+                                    print("Device:", device)
+                                    print("Device list:", viewModel.rtkData.list)
                                     if let index = viewModel.rtkData.list.firstIndex(of: device) {
+                                        print("Connecting to index:", index)
+                                        viewModel.toDisconnect()
                                         viewModel.toConnect(index: index)
                                         ntripModel.toConnectDiff()
                                     }
-                                }
-                            }
-                            .onDisappear {
-                                if viewModel.selectedDevice == device {
-                                    viewModel.toDisconnect()
+                                    viewModel.selectedDevice = device
                                 }
                             }
                     }
                 }
-                .listStyle(PlainListStyle())
+                .padding()
             }
-            .padding()
+            .padding(.horizontal)
             
             GroupBox(label: Text("RTK Data")) {
                 VStack(alignment: .leading, spacing: 10) {
@@ -74,10 +73,9 @@ struct RtkSettingView: View {
     }
 }
 
-
-
 struct RtkSettingView_Previews: PreviewProvider {
     static var previews: some View {
         RtkSettingView()
     }
 }
+

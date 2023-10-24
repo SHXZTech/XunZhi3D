@@ -14,7 +14,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var rtkData: RtkModel = RtkModel()
     @Published var isConnected: Bool = false
     @Published var connectable: Bool = false
-    @Published var deviceList: [String] = []
+
     
     private var util: HCUtil?
     private var currentDeviceIndex: Int = -1
@@ -39,12 +39,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         toDisconnect(isAuto: true)
         currentDeviceIndex = -1
         util = nil
-        deviceList.removeAll()
+        rtkData.list.removeAll()
     }
     
     func toSearch() {
         print("RtkService is searching for devices")
-        deviceList.removeAll()
+        rtkData.list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
     }
     
@@ -60,9 +60,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func mapData() {
-        guard currentDeviceIndex >= 0, currentDeviceIndex < deviceList.count else { return }
+        print("mapData")
+        print("currentDeviceIndex=", currentDeviceIndex)
+        print("deviceList")
+        guard currentDeviceIndex >= 0, currentDeviceIndex < rtkData.list.count else { return }
         
-        rtkData.deviceName = deviceList[currentDeviceIndex]
+        rtkData.deviceName = rtkData.list[currentDeviceIndex]
         rtkData.electricity = "\(deviceModel?.electricity ?? "")%"
         rtkData.diffDelay = "\(deviceModel?.diffDelayTime ?? "")"
         rtkData.longitude = "\(deviceModel?.longitude ?? "")"
@@ -119,9 +122,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceConnected(_ index: Int) {
         currentDeviceIndex = index
         isConnected = true
+        print("RTK connected")
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
+        print("hcReceived")
+        print("receive data")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
         }
@@ -132,6 +138,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceDisconnected() {
         toDisconnect(isAuto: true)
         isConnected = false
+        print("RTK disconnected")
     }
     
     func hcReceiveRTCMData(_ data: Data!) {
@@ -143,7 +150,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func isConnectable() -> Bool {
-        return !deviceList.isEmpty
+        return !rtkData.list.isEmpty
     }
 }
 
