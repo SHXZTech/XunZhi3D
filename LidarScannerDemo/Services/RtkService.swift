@@ -1,8 +1,8 @@
 //
-//  RtkManager.swift
+//  RtkService.swift
 //  LidarScannerDemo
 //
-//  Created by Tao Hu on 2023/10/19.
+//  Created by Tao Hu on 2023/10/24.
 //
 
 import Foundation
@@ -10,55 +10,44 @@ import SwiftUI
 import Combine
 import LiteRTK
 
-class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
-    
-    // Properties for SwiftUI to observe
-    @Published var deviceName: String = ""
-    @Published var electricity: String = ""
-    @Published var diffStatus: String = ""
-    @Published var diffDelay: String = ""
-    @Published var longitude: String = ""
-    @Published var latitude: String = ""
-    @Published var horizontalAccuracy: String = ""
-    
-    @Published var connectable: Bool = false
-    @Published var list: [String] = []
+class RtkService: NSObject, ObservableObject, HCUtilDelegate {
+    @Published var rtkData: RtkModel = RtkModel()
     @Published var isConnected: Bool = false
-   
+    @Published var connectable: Bool = false
+    @Published var deviceList: [String] = []
     
-    var util: HCUtil?
-    var currentDeviceIndex: Int = -1
-    var deviceModel: HCDeviceInfoBaseModel?
-    
+    private var util: HCUtil?
+    private var currentDeviceIndex: Int = -1
+    private var deviceModel: HCDeviceInfoBaseModel?
     
     override init() {
         super.init()
+        setUpService()
+    }
+    
+    private func setUpService() {
         util = HCUtil(delegate: self)
     }
     
-    // Start Listening - Equivalent to the UIKit version
     func startListening() {
         endListening()
         util = HCUtil(delegate: self)
         toSearch()
     }
     
-    // End Listening - Equivalent to the UIKit version
     func endListening() {
         toDisconnect(isAuto: true)
         currentDeviceIndex = -1
         util = nil
-        list.removeAll()
+        deviceList.removeAll()
     }
     
-    // Search - Equivalent to the UIKit version
     func toSearch() {
-        print("RtkManager to search")
-        list.removeAll()
+        print("RtkService is searching for devices")
+        deviceList.removeAll()
         util?.toSearchDevice(with: .BleRTK)
     }
     
-    // Disconnect - Equivalent to the UIKit version
     func toDisconnect(isAuto: Bool = false) {
         currentDeviceIndex = -1
         if !isAuto {
@@ -66,33 +55,33 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         }
     }
     
-    func toConnect(itemIndex: Int){
+    func toConnect(itemIndex: Int) {
         util?.toConnectDevice(itemIndex)
     }
     
-    
-    
-    // Mapping the data, similar to setData in UIKit
     func mapData() {
-        deviceName = list[currentDeviceIndex]
-        electricity = "\(deviceModel?.electricity ?? "")%"
-        diffDelay = "\(deviceModel?.diffDelayTime ?? "")"
-        longitude = "\(deviceModel?.longitude ?? "")"
-        latitude = "\(deviceModel?.latitude ?? "")"
+        guard currentDeviceIndex >= 0, currentDeviceIndex < deviceList.count else { return }
+        
+        rtkData.deviceName = deviceList[currentDeviceIndex]
+        rtkData.electricity = "\(deviceModel?.electricity ?? "")%"
+        rtkData.diffDelay = "\(deviceModel?.diffDelayTime ?? "")"
+        rtkData.longitude = "\(deviceModel?.longitude ?? "")"
+        rtkData.latitude = "\(deviceModel?.latitude ?? "")"
         
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
-            diffStatus = "固定解"
+            rtkData.diffStatus = "固定解"
         case 2:
-            diffStatus = "码差分"
+            rtkData.diffStatus = "码差分"
         case 5:
-            diffStatus = "浮点解"
+            rtkData.diffStatus = "浮点解"
         default:
-            diffStatus = "单点解"
+            rtkData.diffStatus = "单点解"
         }
     }
     
     // HCUtilDelegate methods
+    // ... (Implement the delegate methods as before)
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
         // Handle error as needed
         switch error {
@@ -103,7 +92,7 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
             print("不支持该设备连接")
             break
         case .BlePoweredOff:
-            self.list.removeAll()
+            self.rtkData.list.removeAll()
             print("手机蓝牙未开启，请先开启后再连接设备")
             break
         case .Unknown:
@@ -116,13 +105,13 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
         print("Device Name List: \(deviceNameList ?? [])")
         if let devices = deviceNameList, devices.count > 0 {
-            self.list = devices
+            self.rtkData.list = devices
             // You might also use some method to show a list in SwiftUI
             print("search successfully")
             print(devices.count)
         }else{
             print("search fail")
-            self.list.removeAll()
+            self.rtkData.list.removeAll()
         }
         
     }
@@ -131,10 +120,9 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         currentDeviceIndex = index
         isConnected = true
     }
-
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
-        if currentDeviceIndex < 0 || currentDeviceIndex >= list.count {
+        if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
         }
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)
@@ -154,14 +142,8 @@ class RTKManager: NSObject, ObservableObject, HCUtilDelegate {
         // Handle UBX data
     }
     
-    func isConnectable() -> Bool{
-        if list.isEmpty{
-            return false;
-        }else{
-            return true;
-        }
+    func isConnectable() -> Bool {
+        return !deviceList.isEmpty
     }
 }
-
-
 

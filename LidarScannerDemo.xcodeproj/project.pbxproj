@@ -41,9 +41,9 @@
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
 		E9BE0D9A2AE794D9006269D7 /* NtripConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */; };
 		E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */; };
-		E9BE0D9E2AE79611006269D7 /* RtkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9D2AE79611006269D7 /* RtkManager.swift */; };
 		E9BE0DA02AE7A32A006269D7 /* LiteRTK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; };
 		E9BE0DA12AE7A32A006269D7 /* LiteRTK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0DA32AE7A552006269D7 /* RtkService.swift */; };
 		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
 		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 		E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */; };
@@ -119,7 +119,7 @@
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
-		E9BE0D9D2AE79611006269D7 /* RtkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkManager.swift; sourceTree = "<group>"; };
+		E9BE0DA32AE7A552006269D7 /* RtkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkService.swift; sourceTree = "<group>"; };
 		E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = LiteRTK.framework; path = Framework/LiteRTK.framework; sourceTree = "<group>"; };
 		E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
 		E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorModel.swift; sourceTree = "<group>"; };
@@ -178,9 +178,10 @@
 		E963F65B29F23EB100CDE6E1 /* LidarScannerDemo */ = {
 			isa = PBXGroup;
 			children = (
+				E9BE0DA22AE7A508006269D7 /* Services */,
 				E9BE0D962AE794D9006269D7 /* ViewModels */,
-				E963F6A829F3914600CDE6E1 /* Model */,
-				E963F6A729F3912900CDE6E1 /* View */,
+				E963F6A829F3914600CDE6E1 /* Models */,
+				E963F6A729F3912900CDE6E1 /* Views */,
 				E963F6A529F390FD00CDE6E1 /* Extention */,
 				E963F69C29F2526600CDE6E1 /* Info.plist */,
 				E963F68829F23F4C00CDE6E1 /* Earth.usdz */,
@@ -234,7 +235,7 @@
 			path = Extention;
 			sourceTree = "<group>";
 		};
-		E963F6A729F3912900CDE6E1 /* View */ = {
+		E963F6A729F3912900CDE6E1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
 				E963F6A129F25F1400CDE6E1 /* RawMeshView.swift */,
@@ -244,13 +245,12 @@
 				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
 				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
 			);
-			path = View;
+			path = Views;
 			sourceTree = "<group>";
 		};
-		E963F6A829F3914600CDE6E1 /* Model */ = {
+		E963F6A829F3914600CDE6E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E9BE0D9D2AE79611006269D7 /* RtkManager.swift */,
 				E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */,
 				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
 				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
@@ -261,7 +261,7 @@
 				E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */,
 				E9BE0D932AE7945B006269D7 /* RtkModel.swift */,
 			);
-			path = Model;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		E9BE0D962AE794D9006269D7 /* ViewModels */ = {
@@ -271,6 +271,14 @@
 				E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		E9BE0DA22AE7A508006269D7 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				E9BE0DA32AE7A552006269D7 /* RtkService.swift */,
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 		E9F43E702ADFCCF900C2B5CF /* Frameworks */ = {
@@ -422,9 +430,9 @@
 				E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */,
 				E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */,
 				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
-				E9BE0D9E2AE79611006269D7 /* RtkManager.swift in Sources */,
 				E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */,
 				E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */,
+				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
