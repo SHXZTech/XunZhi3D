@@ -32,7 +32,8 @@ struct RtkSettingView: View {
                                         print("Connecting to index:", index)
                                         viewModel.toDisconnect()
                                         viewModel.toConnect(index: index)
-                                        ntripModel.toConnectDiff()
+                                        //ntripModel.toConnectDiff()
+                                        //ntripModel.getMountPoint()
                                     }
                                     viewModel.selectedDevice = device
                                 }
@@ -46,11 +47,15 @@ struct RtkSettingView: View {
             GroupBox(label: Text("RTK Data")) {
                 VStack(alignment: .leading, spacing: 10) {
                     Text("Device Name: \(viewModel.rtkData.deviceName)")
-                    Text("Electricity: \(viewModel.rtkData.electricity)%")
+                    Text("Electricity: \(viewModel.rtkData.electricity)")
                     Text("Diff Status: \(viewModel.rtkData.diffStatus)")
-                    Text("Diff Delay: \(viewModel.rtkData.diffDelay)s")
                     Text("Longitude: \(viewModel.rtkData.longitude)")
                     Text("Latitude: \(viewModel.rtkData.latitude)")
+                    Text("Height: \(viewModel.rtkData.height)")
+                    Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
+                    Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
+                    Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
+                    
                 }
                 .padding()
             }
@@ -62,6 +67,8 @@ struct RtkSettingView: View {
                     Text("Ntrip Account: \(ntripModel.ntripConfigModel.account)")
                     Text("Ntrip Password: \(ntripModel.ntripConfigModel.password)")
                     Text("Mount Point: \(ntripModel.ntripConfigModel.currentMountPoint)")
+                    Button("Verify Ntrip"){ ntripModel.getMountPoint()}
+                    Button("Login Ntrip"){ntripModel.toConnectDiff()}
                 }
                 .padding()
             }

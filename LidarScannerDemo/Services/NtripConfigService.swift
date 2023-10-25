@@ -1,14 +1,14 @@
 //
-//  NtripConfigViewModel.swift
+//  NtripConfigService.swift
 //  LidarScannerDemo
 //
-//  Created by Tao Hu on 2023/10/20.
+//  Created by Tao Hu on 2023/10/25.
 //
 
 import Foundation
 import LiteRTK
 
-class NtripConfigViewModel:NSObject, ObservableObject {
+class NtripConfigService:NSObject, ObservableObject {
     @Published var diffModel = HCDiffModel()
     @Published var ntripConfigModel = NtripConfigModel()
     private var socketUtil: HCSocketUtil?
@@ -20,13 +20,6 @@ class NtripConfigViewModel:NSObject, ObservableObject {
         super.init()
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
-        //TEST, DEBUG: The following setting just for 1-time test, remove after test
-//        ntripConfigModel.ip = "203.107.45.154"
-//        ntripConfigModel.port = 8002
-//        ntripConfigModel.account = "qxxsrz001"
-//        ntripConfigModel.password = "572a728"
-//        ntripConfigModel.mountPointList = ["AUTO"]
-//        ntripConfigModel.currentMountPoint = "AUTO"
         ntripConfigModel.ip = "203.107.45.154"
         ntripConfigModel.port = 8002
         ntripConfigModel.account = "qxxsrz003"
@@ -85,15 +78,6 @@ class NtripConfigViewModel:NSObject, ObservableObject {
         timer?.fireDate = .distantPast
     }
     
-//    func loginSuccess(_ tcpUtil: HCSocketUtil) {
-//        print("loginSuccess")
-//            if timer == nil {
-//                timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
-//                    self?.getDiffData()
-//                }
-//            }
-//        }
-    
     func loginFailure(_ tcpUtil: HCSocketUtil, error: Error?) {
         print("Login failure")
         removeTimer()
@@ -127,7 +111,7 @@ class NtripConfigViewModel:NSObject, ObservableObject {
     }
 }
 
-extension NtripConfigViewModel: HCSocketUtilDelegate {
+extension NtripConfigService: HCSocketUtilDelegate {
     // Handle delegate methods here similar to your UIViewController
     // Update any necessary @Published properties to reflect changes
 }

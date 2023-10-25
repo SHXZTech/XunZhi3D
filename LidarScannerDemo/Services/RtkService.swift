@@ -12,8 +12,11 @@ import LiteRTK
 
 class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var rtkData: RtkModel = RtkModel()
+    @Published var ntripConfigData: NtripConfigModel = NtripConfigModel()
     @Published var isConnected: Bool = false
     @Published var connectable: Bool = false
+    
+    
 
     
     private var util: HCUtil?
@@ -60,9 +63,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func mapData() {
-        print("mapData")
-        print("currentDeviceIndex=", currentDeviceIndex)
-        print("deviceList")
         guard currentDeviceIndex >= 0, currentDeviceIndex < rtkData.list.count else { return }
         
         rtkData.deviceName = rtkData.list[currentDeviceIndex]
@@ -70,6 +70,10 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.diffDelay = "\(deviceModel?.diffDelayTime ?? "")"
         rtkData.longitude = "\(deviceModel?.longitude ?? "")"
         rtkData.latitude = "\(deviceModel?.latitude ?? "")"
+        rtkData.height = (deviceModel?.height)!
+        rtkData.verticalAccuracy = "\(deviceModel?.dz ?? "")"
+        rtkData.horizontalAccuracy = "\(deviceModel?.dxy ?? "")"
+        rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
         
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
@@ -81,6 +85,10 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         default:
             rtkData.diffStatus = "单点解"
         }
+    }
+    
+    func pushNMEAData(){
+        
     }
     
     // HCUtilDelegate methods
@@ -126,7 +134,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
-        print("hcReceived")
         print("receive data")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
