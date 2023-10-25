@@ -152,5 +152,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func isConnectable() -> Bool {
         return !rtkData.list.isEmpty
     }
+    
+    
 }
 

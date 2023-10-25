@@ -15,6 +15,7 @@ struct NtripConfigModel: Codable {
     var password: String = ""
     var mountPointList: [String] = []
     var currentMountPoint: String = ""
+    var isCertified: Bool = false
     
     
 }
