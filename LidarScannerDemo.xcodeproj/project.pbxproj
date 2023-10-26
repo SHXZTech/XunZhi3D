@@ -39,7 +39,6 @@
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
 		E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D932AE7945B006269D7 /* RtkModel.swift */; };
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
-		E9BE0D9A2AE794D9006269D7 /* NtripConfigViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */; };
 		E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */; };
 		E9BE0DA02AE7A32A006269D7 /* LiteRTK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; };
 		E9BE0DA12AE7A32A006269D7 /* LiteRTK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9F43E712ADFCCF900C2B5CF /* LiteRTK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -118,7 +117,6 @@
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 		E9BE0D932AE7945B006269D7 /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
-		E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
 		E9BE0DA32AE7A552006269D7 /* RtkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkService.swift; sourceTree = "<group>"; };
 		E9BE0DA52AE8F639006269D7 /* NtripConfigService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NtripConfigService.swift; sourceTree = "<group>"; };
@@ -270,7 +268,6 @@
 			isa = PBXGroup;
 			children = (
 				E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */,
-				E9BE0D982AE794D9006269D7 /* NtripConfigViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -451,7 +448,6 @@
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E963F6A229F25F1400CDE6E1 /* RawMeshView.swift in Sources */,
-				E9BE0D9A2AE794D9006269D7 /* NtripConfigViewModel.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
