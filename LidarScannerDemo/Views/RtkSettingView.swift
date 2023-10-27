@@ -3,10 +3,16 @@ import SwiftUI
 struct RtkSettingView: View {
     @ObservedObject var viewModel: RTKViewModel
     @Binding var isPresented: Bool
+    @State private var showingWarningAlert = false
+    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
-    @State private var rtkSearchToggle: Bool = false
-    let timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    enum WarningType {
+        case noDeviceConnected
+        case ntripConfigFail
+        case none
+    }
     
+    @State private var currentWarning: WarningType = .none
     
     init(viewModel: RTKViewModel = RTKViewModel(),isPresented: Binding<Bool>) {
         self.viewModel = viewModel
@@ -18,96 +24,9 @@ struct RtkSettingView: View {
     var body: some View {
         NavigationView {
             ScrollView {
-                GroupBox(label: Text("RTK BLUETOOTH DEVICE")) {
-                    VStack(spacing: 20) {
-                        if viewModel.rtkData.list.isEmpty {
-                            HStack {
-                                Text("None")
-                                Spacer()
-                                
-                                Text("Searching...") // Small "Searching..." text
-                                    .font(.footnote)
-                                    .foregroundColor(Color.gray)
-                                
-                                ProgressView() // Loading spinner
-                                    .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
-                            }
-                            .frame(height: 30)
-                            .padding(10)
-                            .background(Color.gray.opacity(0.2))
-                            .cornerRadius(5)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.gray, lineWidth: 1)
-                            )
-                        } else {
-                            LazyVStack(alignment: .leading, spacing: 0) {
-                                ForEach(viewModel.rtkData.list, id: \.self) { device in
-                                    Text(device)
-                                        .frame(maxWidth: .infinity, minHeight: 30)
-                                        .padding(10)  // Adjust padding as necessary
-                                        .background(viewModel.selectedDevice == device ? Color.blue : Color.gray.opacity(0.2))
-                                        .cornerRadius(5)
-                                        .overlay(
-                                            RoundedRectangle(cornerRadius: 5)
-                                                .stroke(Color.gray, lineWidth: 1)  // Adding a border
-                                        )
-                                        .onTapGesture {
-                                            if viewModel.selectedDevice == device {
-                                                print("Cancel selection")
-                                                viewModel.toDisconnect()
-                                                viewModel.selectedDevice = nil
-                                            } else {
-                                                print("Selection or switch")
-                                                print("Device:", device)
-                                                print("Device list:", viewModel.rtkData.list)
-                                                if let index = viewModel.rtkData.list.firstIndex(of: device) {
-                                                    print("Connecting to index:", index)
-                                                    viewModel.toDisconnect()
-                                                    viewModel.toConnect(index: index)
-                                                }
-                                                viewModel.selectedDevice = device
-                                            }
-                                        }
-                                }
-                            }
-                            .padding()
-
-                        }
-                    }
-                }
-                .padding(.horizontal)
-                
-                GroupBox(label: Text("RTK Data")) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Device Name: \(viewModel.rtkData.deviceName)")
-                        Text("Electricity: \(viewModel.rtkData.electricity)")
-                        Text("Diff Status: \(viewModel.rtkData.diffStatus)")
-                        Text("Longitude: \(viewModel.rtkData.longitude)")
-                        Text("Latitude: \(viewModel.rtkData.latitude)")
-                        Text("Height: \(viewModel.rtkData.height)")
-                        Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
-                        Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
-                        Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
-                        
-                    }
-                    .padding()
-                }
-                
-                GroupBox(label: Text("Config Data")) {
-                    VStack(alignment: .leading, spacing: 10) {
-                        Text("Ntrip IP: \(viewModel.ntripConfigData.ip)")
-                        Text("Ntrip Port: \(viewModel.ntripConfigData.port)")
-                        Text("Ntrip Account: \(viewModel.ntripConfigData.account)")
-                        Text("Ntrip Password: \(viewModel.ntripConfigData.password)")
-                        Text("Mount Point: \(viewModel.ntripConfigData.currentMountPoint)")
-                        Button("Verify Ntrip"){
-                            viewModel.connectDiff()
-                            viewModel.getMountPoint()}
-                        Button("Login Ntrip"){ viewModel.connectDiff()}
-                    }
-                    .padding()
-                }
+                rtkBluetoothDeviceSection()
+                rtkDataSection()
+                rtkNtripConfigSection()
             }
             .padding()
             .navigationTitle("RTK Device Settings")
@@ -116,9 +35,9 @@ struct RtkSettingView: View {
             .onAppear {
                 viewModel.startListening()
                 toggleRtkSearch()
+                startTimer()
             }
             .onDisappear {
-                // Invalidate the timer when the view disappears
                 self.timer.upstream.connect().cancel()
             }
             .onReceive(timer) { _ in
@@ -126,6 +45,109 @@ struct RtkSettingView: View {
             }
         }
         
+    }
+    
+    func rtkDataSection()-> some View{
+        GroupBox(label: Text("RTK Data")) {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Device Name: \(viewModel.rtkData.deviceName)")
+                Text("Electricity: \(viewModel.rtkData.electricity)")
+                Text("Diff Status: \(viewModel.rtkData.diffStatus)")
+                Text("Longitude: \(viewModel.rtkData.longitude)")
+                Text("Latitude: \(viewModel.rtkData.latitude)")
+                Text("Height: \(viewModel.rtkData.height)")
+                Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
+                Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
+                Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
+                
+            }
+            .padding()
+        }
+    }
+    
+    func rtkNtripConfigSection()-> some View{
+        GroupBox(label: Text("Ntrip Data")) {
+            VStack(alignment: .leading, spacing: 10) {
+                Text("Ntrip IP: \(viewModel.ntripConfigData.ip)")
+                Text("Ntrip Port: \(viewModel.ntripConfigData.port)")
+                Text("Ntrip Account: \(viewModel.ntripConfigData.account)")
+                Text("Ntrip Password: \(viewModel.ntripConfigData.password)")
+                Text("Mount Point: \(viewModel.ntripConfigData.currentMountPoint)")
+                Button("Verify Ntrip"){
+                    viewModel.connectDiff()
+                    viewModel.getMountPoint()}
+                Button("Login Ntrip"){ viewModel.connectDiff()}
+            }
+            .padding()
+        }
+        
+    }
+    
+    func rtkBluetoothDeviceSection() -> some View{
+        GroupBox(label: Text("RTK BLUETOOTH DEVICE")) {
+            VStack(spacing: 20) {
+                if viewModel.rtkData.list.isEmpty {
+                    rtkBluetoothSearchingDevice()
+                } else {
+                 rtkBluetoothSearchedDeviceList()
+                }
+            }
+        }
+        .padding(.horizontal)
+    }
+    
+    func rtkBluetoothSearchingDevice()-> some View{
+        HStack {
+            Text("None")
+            Spacer()
+            Text("Searching...") // Small "Searching..." text
+                .font(.footnote)
+                .foregroundColor(Color.gray)
+            ProgressView() // Loading spinner
+                .progressViewStyle(CircularProgressViewStyle(tint: Color.blue))
+        }
+        .frame(height: 30)
+        .padding(10)
+        .background(Color.gray.opacity(0.2))
+        .cornerRadius(5)
+        .overlay(
+            RoundedRectangle(cornerRadius: 5)
+                .stroke(Color.gray, lineWidth: 1)
+        )
+    }
+    
+    func rtkBluetoothSearchedDeviceList() -> some View{
+        LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(viewModel.rtkData.list, id: \.self) { device in
+                Text(device)
+                    .frame(maxWidth: .infinity, minHeight: 30)
+                    .padding(10)  // Adjust padding as necessary
+                    .background(viewModel.selectedDevice == device ? Color.blue : Color.gray.opacity(0.2))
+                    .cornerRadius(5)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 5)
+                            .stroke(Color.gray, lineWidth: 1)  // Adding a border
+                    )
+                    .onTapGesture {
+                        if viewModel.selectedDevice == device {
+                            print("Cancel selection")
+                            viewModel.toDisconnect()
+                            viewModel.selectedDevice = nil
+                        } else {
+                            print("Selection or switch")
+                            print("Device:", device)
+                            print("Device list:", viewModel.rtkData.list)
+                            if let index = viewModel.rtkData.list.firstIndex(of: device) {
+                                print("Connecting to index:", index)
+                                viewModel.toDisconnect()
+                                viewModel.toConnect(index: index)
+                            }
+                            viewModel.selectedDevice = device
+                        }
+                    }
+            }
+        }
+        .padding()
     }
     
     var cancelButton: some View {
@@ -140,25 +162,75 @@ struct RtkSettingView: View {
     
     var connectButton: some View {
         Button(action: {
-            print("Connect button tapped!")
-            // Implement any other actions you want for this button.
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                determineWarning()
+                if currentWarning != .none {
+                    self.timer.upstream.connect().cancel() // Cancel the timer immediately
+                    showingWarningAlert = true
+                } else {
+                    self.isPresented = false
+                }
+            }
         }) {
             Text("Connect")
         }
-    }
-    
-    func toggleRtkSearch() {
-        rtkSearchToggle.toggle()
-        // Call your RTK search function here based on the rtkSearchToggle state
-        if rtkSearchToggle {
-            // Call start or search RTK function
-            print("Searching RTK...")
-            viewModel.startListening()
-        } else {
-            // Call stop RTK function
-            print("Stopping RTK search...")
+        .alert(isPresented: $showingWarningAlert) {
+            Alert(title: Text("Warning"),
+                  message: Text(warningMessage(for: currentWarning)),
+                  dismissButton: .default(Text("OK")) {
+                //TODO there is a bug here, that toggle the OK need multi times
+                startTimer()  // Restart the timer once the alert is dismissed
+            })
         }
     }
+    
+    func startTimer() {
+        print("timer start")
+        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
+        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    }
+    
+    func stopTimer(){
+        self.timer.upstream.connect().cancel() // Cancel the timer immediately
+    }
+    
+    
+    func toggleRtkSearch() {
+        print("Searching RTK...")
+        print("viewModel.selectedDevice = ",viewModel.selectedDevice ?? "None")
+        if ((viewModel.selectedDevice?.isEmpty) == nil)
+        {
+            print("start listening")
+            viewModel.startListening()
+        }
+        else{
+            print("device connected, no listening")
+        }
+        //Auto connect
+    }
+    
+    func determineWarning() {
+        if viewModel.selectedDevice == nil {
+            currentWarning = .noDeviceConnected
+        } else if !viewModel.ntripConfigData.isCertified { // Assuming isCertified checks for Ntrip config
+            currentWarning = .ntripConfigFail
+        } else {
+            currentWarning = .none
+        }
+    }
+    
+    func warningMessage(for warningType: WarningType) -> String {
+        switch warningType {
+        case .noDeviceConnected:
+            return "Please select a connected device."
+        case .ntripConfigFail:
+            return "Ntrip config failed."
+        case .none:
+            return "" // This won't be shown, but it's good to handle all cases
+        }
+    }
+    
+    
 }
 
 struct RtkSettingView_Previews: PreviewProvider {

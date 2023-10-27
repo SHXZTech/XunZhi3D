@@ -130,14 +130,14 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
-        print("Device Name List: \(deviceNameList ?? [])")
+        //print("Device Name List: \(deviceNameList ?? [])")
         if let devices = deviceNameList, devices.count > 0 {
             self.rtkData.list = devices
             // You might also use some method to show a list in SwiftUI
-            print("search successfully")
-            print(devices.count)
+          //  print("search successfully")
+           // print(devices.count)
         }else{
-            print("search fail")
+            //print("search fail")
             self.rtkData.list.removeAll()
         }
         
