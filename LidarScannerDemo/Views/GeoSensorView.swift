@@ -21,7 +21,7 @@ struct GeoSensorView: View {
                 .foregroundColor(.white)
                 .cornerRadius(10)
                 .sheet(isPresented: $isShowingRtkPage) {
-                    RtkSettingView()
+                    RtkSettingView(isPresented: $isShowingRtkPage)
                 }
 
                 Spacer() // Pushes the button to the left
