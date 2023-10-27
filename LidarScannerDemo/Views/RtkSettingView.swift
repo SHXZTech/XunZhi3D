@@ -19,8 +19,6 @@ struct RtkSettingView: View {
         self._isPresented = isPresented
     }
     
-    
-    
     var body: some View {
         NavigationView {
             ScrollView {
@@ -44,7 +42,6 @@ struct RtkSettingView: View {
                 toggleRtkSearch()
             }
         }
-        
     }
     
     func rtkDataSection()-> some View{
@@ -65,23 +62,31 @@ struct RtkSettingView: View {
         }
     }
     
-    func rtkNtripConfigSection()-> some View{
-        GroupBox(label: Text("Ntrip Data")) {
+    func rtkNtripConfigSection() -> some View {
+        GroupBox(label:
+            HStack {
+                Text("Ntrip Data")
+                Spacer()
+                Text(viewModel.ntripConfigData.isCertified ? "认证成功" : "认证失败")
+                    .foregroundColor(viewModel.ntripConfigData.isCertified ? .green : .red)
+                    .fontWeight(.bold)
+            }
+        ) {
             VStack(alignment: .leading, spacing: 10) {
                 Text("Ntrip IP: \(viewModel.ntripConfigData.ip)")
                 Text("Ntrip Port: \(viewModel.ntripConfigData.port)")
                 Text("Ntrip Account: \(viewModel.ntripConfigData.account)")
                 Text("Ntrip Password: \(viewModel.ntripConfigData.password)")
                 Text("Mount Point: \(viewModel.ntripConfigData.currentMountPoint)")
-                Button("Verify Ntrip"){
+                Button("验证Ntrip服务") {
+                    viewModel.getMountPoint()
                     viewModel.connectDiff()
-                    viewModel.getMountPoint()}
-                Button("Login Ntrip"){ viewModel.connectDiff()}
+                }
             }
             .padding()
         }
-        
     }
+
     
     func rtkBluetoothDeviceSection() -> some View{
         GroupBox(label: Text("RTK BLUETOOTH DEVICE")) {

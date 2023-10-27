@@ -40,6 +40,10 @@ class RTKViewModel: ObservableObject {
         rtkService.toConnectDiff()
     }
     
+    func toVerifyNtrip(){
+        //TODO add code to verify Ntrip
+    }
+    
     func getMountPoint(){
         rtkService.getMountPoint()
     }

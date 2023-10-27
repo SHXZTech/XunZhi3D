@@ -8,34 +8,52 @@
 import SwiftUI
 
 struct GeoSensorView: View {
-    @State private var isShowingRtkPage = false
-    
-    var body: some View {
-        VStack {
-            HStack {
-                Button("RTK") {
-                    isShowingRtkPage.toggle()
-                }
-                .frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/, height: 75)
-                .background(Color.gray.opacity(0.5))
-                .foregroundColor(.white)
-                .cornerRadius(10)
-                .sheet(isPresented: $isShowingRtkPage) {
-                    RtkSettingView(isPresented: $isShowingRtkPage)
-                }
+    @StateObject var rtkViewModel = RTKViewModel()
+    @State private var isShowingRtkSettingPage = false // State to control the presentation of the sheet
 
-                Spacer() // Pushes the button to the left
+    var body: some View {
+        
+        VStack(alignment: .leading) {
+            if rtkViewModel.selectedDevice == nil {
+                noRtkConnected()
             }
-            .padding(.leading, 20)
-            Spacer() // Pushes the HStack to the top
+            Spacer()
         }
         .padding(.top, 20)
+        .padding(.leading, 20)
+    }
+
+    func noRtkConnected() -> some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Image(systemName: "location.slash.fill")
+                    .foregroundColor(.red)
+                    .frame(width: 20, height: 20)
+                Text("RTK")
+                Spacer()
+                Button(action: {
+                    isShowingRtkSettingPage.toggle()
+                }) {
+                    Image(systemName: "ellipsis")
+                        .frame(width: 20, height: 20)
+                }
+                .sheet(isPresented: $isShowingRtkSettingPage) {
+                    RtkSettingView(viewModel: rtkViewModel, isPresented: $isShowingRtkSettingPage)
+                }
+            }
+            Text("请连接RTK")
+                .font(.caption)
+                .foregroundColor(.white)
+                .padding(.top, 5)
+        }
+        .frame(maxWidth: 150, maxHeight: 60, alignment: .topLeading)
+        .background(Color.gray.opacity(0.6))
+        .cornerRadius(10)
     }
 }
 
-
-
-
-#Preview {
-    GeoSensorView()
+struct GeoSensorView_Previews: PreviewProvider {
+    static var previews: some View {
+        GeoSensorView()
+    }
 }
