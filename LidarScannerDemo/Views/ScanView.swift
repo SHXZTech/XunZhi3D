@@ -72,6 +72,8 @@ struct ScanView: View{
                 ZStack{
                     LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
                     GeoSensorView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(20)
                 }
                 VStack{
                     HStack{
