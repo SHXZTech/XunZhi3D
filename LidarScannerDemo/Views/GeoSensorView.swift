@@ -37,7 +37,7 @@ struct GeoSensorView: View {
                 Button(action: {
                     isShowingRtkSettingPage.toggle()
                 }) {
-                    Image(systemName: "ellipsis")
+                    Image(systemName: "ellipsis.circle")
                         .foregroundColor(.white)
                         .frame(width: 20, height: 20)
                 }
@@ -65,7 +65,7 @@ struct GeoSensorView: View {
     func rtkConnected() -> some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(systemName: "satellite")
+                Image(systemName: "antenna.radiowaves.left.and.right")
                     .foregroundColor(signalColor(signalStrength: rtkViewModel.rtkData.signalStrength))
                     .frame(width: 20, height: 20)
                     .padding(.leading, 10)
@@ -90,10 +90,19 @@ struct GeoSensorView: View {
             Text("RTK已连接")
                 .font(.system(size: 14))
                 .foregroundColor(.white)
-                .padding([.leading, .bottom], 10)
+                .padding(.leading, 10)
+                .padding(.bottom,1)
                 .frame(maxWidth: .infinity, alignment: .leading)
+            
+            AccuracyIndicatorView(accuracyString: rtkViewModel.rtkData.horizontalAccuracy, title: "水平精度")
+                .padding(.leading, 10)
+                //.padding(.top, 1)
+            AccuracyIndicatorView(accuracyString: rtkViewModel.rtkData.verticalAccuracy, title: "海拔精度")
+                .padding(.leading, 10)
+                //.padding(.top,1)
+            
         }
-        .frame(maxWidth: 150, maxHeight: 60)
+        .frame(maxWidth: 150, maxHeight: 100)
         .background(Color.gray.opacity(0.6))
         .cornerRadius(10)
     }
@@ -109,6 +118,46 @@ struct GeoSensorView: View {
         }
     }
 
+}
+
+struct AccuracyIndicatorView: View {
+    var accuracyString: String
+    var title: String
+    
+    var accuracyFloat: Float? {
+        return Float(accuracyString)
+    }
+    
+    var formattedAccuracyString: String {
+        if let accuracy = accuracyFloat {
+            return String(format: "%.2f米", accuracy)
+        } else {
+            return "-"
+        }
+    }
+    
+    var body: some View {
+        HStack {
+            Text("\(title): ")
+                .font(.system(size: 14))
+                .foregroundColor(.white)
+            
+            Text(formattedAccuracyString)
+                .font(.system(size: 14))
+                .foregroundColor(accuracyFloat != nil ? accuracyColor(accuracy: accuracyFloat!) : .white)
+        }
+    }
+    
+    func accuracyColor(accuracy: Float) -> Color {
+        switch accuracy {
+        case ..<1:
+            return .green
+        case 1..<2:
+            return .yellow
+        default:
+            return .red
+        }
+    }
 }
 
 struct GeoSensorView_Previews: PreviewProvider {
