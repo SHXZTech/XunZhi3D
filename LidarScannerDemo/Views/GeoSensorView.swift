@@ -42,6 +42,7 @@ struct GeoSensorView: View {
                         .frame(width: 20, height: 20)
                 }
                 .padding(.trailing, 10) // Add padding to the right of the ellipsis button
+                
             }
             .padding(.top, 5) // Add padding to the top of the HStack
 
