@@ -96,12 +96,16 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
             rtkData.diffStatus = "固定解"
+            rtkData.signalStrength = 3
         case 2:
             rtkData.diffStatus = "码差分"
+            rtkData.signalStrength = 2
         case 5:
             rtkData.diffStatus = "浮点解"
+            rtkData.signalStrength = 1
         default:
             rtkData.diffStatus = "单点解"
+            rtkData.signalStrength = 0
         }
     }
     
