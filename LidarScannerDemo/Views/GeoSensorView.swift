@@ -41,6 +41,9 @@ struct GeoSensorView: View {
                         .foregroundColor(.white)
                         .frame(width: 20, height: 20)
                 }
+                .sheet(isPresented: $isShowingRtkSettingPage) {
+                                    RtkSettingView(viewModel: rtkViewModel,isPresented: $isShowingRtkSettingPage)
+                                }
                 .padding(.trailing, 10) // Add padding to the right of the ellipsis button
                 
             }
@@ -77,6 +80,9 @@ struct GeoSensorView: View {
                         .foregroundColor(.white)
                         .frame(width: 20, height: 20)
                 }
+                .sheet(isPresented: $isShowingRtkSettingPage) {
+                                    RtkSettingView(viewModel: rtkViewModel,isPresented: $isShowingRtkSettingPage)
+                                }
                 .padding(.trailing, 10)
             }
             .padding(.top, 5)

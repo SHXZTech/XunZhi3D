@@ -240,9 +240,11 @@ struct RtkSettingView: View {
 
 struct RtkSettingView_Previews: PreviewProvider {
     static var previews: some View {
-        RtkSettingView(isPresented: .constant(true))
+        let viewModel = RTKViewModel()
+        RtkSettingView(viewModel: viewModel, isPresented: .constant(true))
     }
 }
+
 
 
 
