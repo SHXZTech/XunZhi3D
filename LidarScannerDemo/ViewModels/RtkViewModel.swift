@@ -22,9 +22,8 @@ class RTKViewModel: ObservableObject {
     private var cancellables_ntrip: Set<AnyCancellable> = []
     init(rtkService: RtkService = RtkService()) {
         self.rtkService = rtkService
-        print("rtkService.ntripConfigData.ip = ",self.rtkService.ntripConfigModel.ip)
         setupBindings()
-        print("rtkService.ntripConfigData.ip = ",self.rtkService.ntripConfigModel.ip)
+        print("init rtKservice")
     }
 
     private func setupBindings() {
