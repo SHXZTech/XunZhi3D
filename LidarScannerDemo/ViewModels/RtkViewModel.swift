@@ -17,6 +17,8 @@ class RTKViewModel: ObservableObject {
     @Published var selectedDevice: String?
     
     
+    
+    
     @Published var rtkService: RtkService
     private var cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
@@ -39,10 +41,13 @@ class RTKViewModel: ObservableObject {
         rtkService.toConnectDiff()
     }
     
-    func toVerifyNtrip(){
-        //TODO add code to verify Ntrip
+    public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
+        rtkService.toConnectDiff()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+            completion(self.rtkService.isLoninSuccessful)
+        }
     }
-    
+
     func getMountPoint(){
         rtkService.getMountPoint()
     }
@@ -66,4 +71,15 @@ class RTKViewModel: ObservableObject {
     func toDisconnect() {
         rtkService.toDisconnect()
     }
+    
+    var portString: String {
+            get {
+                return String(ntripConfigData.port)
+            }
+            set {
+                if let newPort = Int(newValue) {
+                    ntripConfigData.port = newPort
+                }
+            }
+        }
 }

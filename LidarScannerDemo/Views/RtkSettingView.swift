@@ -58,6 +58,7 @@ struct RtkSettingView: View {
                 Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
                 
             }
+            .frame(alignment: .leading)
             .padding()
         }
     }
@@ -73,22 +74,44 @@ struct RtkSettingView: View {
             }
         ) {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Ntrip IP: \(viewModel.ntripConfigData.ip)")
-                Text("Ntrip Port: \(viewModel.ntripConfigData.port)")
-                Text("Ntrip Account: \(viewModel.ntripConfigData.account)")
-                Text("Ntrip Password: \(viewModel.ntripConfigData.password)")
-                Text("Mount Point: \(viewModel.ntripConfigData.currentMountPoint)")
+                TextField("Ntrip IP", text: $viewModel.ntripConfigData.ip)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Ntrip Port", text: $viewModel.portString)  // Updated line
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .keyboardType(.numberPad)
+                TextField("Ntrip Account", text: $viewModel.ntripConfigData.account)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                SecureField("Ntrip Password", text: $viewModel.ntripConfigData.password)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                TextField("Mount Point", text: $viewModel.ntripConfigData.currentMountPoint)
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
                 Button("验证Ntrip服务") {
-                    viewModel.getMountPoint()
-                    viewModel.connectDiff()
+                    viewModel.toVerifyNtrip { isLoginSuccessful in
+                        if isLoginSuccessful {
+                            print("verify success")
+                            do {
+                                try viewModel.ntripConfigData.saveToLocal()
+                                print("save ntrip ConfiData")
+                            } catch {
+                                print("save to local fail: \(error)")
+                            }
+                        } else {
+                            print("verify fail")
+                        }
+                    }
                 }
             }
+            .frame(alignment: .leading)
             .padding()
         }
     }
 
     
+    
     func rtkBluetoothDeviceSection() -> some View{
+        //TODO change the rtkBluetoothSearchedDeviceList() to be fixed
         GroupBox(label: Text("RTK BLUETOOTH DEVICE")) {
             VStack(spacing: 20) {
                 if viewModel.rtkData.list.isEmpty {
@@ -98,6 +121,7 @@ struct RtkSettingView: View {
                 }
             }
         }
+        .frame(height: 200)
         .padding(.horizontal)
     }
     
@@ -201,17 +225,10 @@ struct RtkSettingView: View {
     
     
     func toggleRtkSearch() {
-        print("Searching RTK...")
-        print("viewModel.selectedDevice = ",viewModel.selectedDevice ?? "None")
         if ((viewModel.selectedDevice?.isEmpty) == nil)
         {
-            print("start listening")
             viewModel.startListening()
         }
-        else{
-            print("device connected, no listening")
-        }
-        //Auto connect
     }
     
     func determineWarning() {
