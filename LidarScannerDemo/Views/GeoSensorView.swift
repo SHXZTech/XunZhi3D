@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct GeoSensorView: View {
-    @StateObject var rtkViewModel = RTKViewModel()
+    @StateObject var rtkViewModel : RTKViewModel = RTKViewModel()
     @State private var isShowingRtkSettingPage = false // State to control the presentation of the sheet
     
     var body: some View {

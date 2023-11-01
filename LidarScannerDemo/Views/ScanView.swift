@@ -14,6 +14,7 @@ import SwiftUI
 struct ScanView: View{
     let uuid : UUID
     @ObservedObject var lidarMeshViewModel : LidarMeshViewModel
+    @StateObject var rtkViewModel = RTKViewModel()
     @State var scanStatus = "ready"
     @State var navigateToNextView = false
     @State private var isContextMenuVisible = false

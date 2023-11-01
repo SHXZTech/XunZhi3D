@@ -14,7 +14,7 @@ struct RtkSettingView: View {
     
     @State private var currentWarning: WarningType = .none
     
-    init(viewModel: RTKViewModel = RTKViewModel(),isPresented: Binding<Bool>) {
+    init(viewModel: RTKViewModel,isPresented: Binding<Bool>) {
         self.viewModel = viewModel
         self._isPresented = isPresented
     }
