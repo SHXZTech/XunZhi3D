@@ -30,10 +30,8 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
-        self.util = HCUtil()
-        self.util?.delegate = self
-        //self.util = HCUtil(delegate: self)
-        //util = HCUtil(delegate: self)
+        //self.util = HCUtil()
+        //self.util?.delegate = self
         
         Task {
             do {
@@ -85,7 +83,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func mapData() {
-        print("mapdata toggle")
         guard currentDeviceIndex >= 0, currentDeviceIndex < rtkData.list.count else { return }
         nmeaSourceText = deviceModel?.nmeaSourceText
         rtkData.deviceName = rtkData.list[currentDeviceIndex]

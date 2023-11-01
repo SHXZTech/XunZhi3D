@@ -44,6 +44,7 @@ class RTKViewModel: ObservableObject {
     }
     
     public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
+        print("toVerifyNtrip")
         rtkService.isLoninSuccessful = false
         rtkService.ntripConfigModel.isCertified = false
         rtkService.toConnectDiff()
