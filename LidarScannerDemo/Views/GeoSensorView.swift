@@ -229,7 +229,6 @@ struct RTKConnectionIndicatorView: View {
             }
             .padding(.trailing, 10)
             .sheet(isPresented: $isShowingRtkSettingPage) {
-                // Replace with your actual view or view model
                 RtkSettingView(viewModel: rtkViewModel, isPresented: $isShowingRtkSettingPage)
             }
         }

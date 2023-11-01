@@ -31,9 +31,12 @@ struct RtkSettingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: cancelButton, trailing: connectButton)
             .onAppear {
-                viewModel.startListening()
-                toggleRtkSearch()
-                startTimer()
+                print("On appear toggle")
+                if(!viewModel.rtkService.isConnected){
+                    viewModel.startListening()
+                    toggleRtkSearch()
+                    startTimer()
+                }
             }
             .onDisappear {
                 self.timer.upstream.connect().cancel()
@@ -170,6 +173,9 @@ struct RtkSettingView: View {
                                 print("Connecting to index:", index)
                                 viewModel.toDisconnect()
                                 viewModel.toConnect(index: index)
+                                if(viewModel.rtkService.ntripConfigModel.isCertified){
+                                    viewModel.rtkService.toConnectDiff()
+                                }
                             }
                             viewModel.selectedDevice = device
                         }
@@ -197,6 +203,8 @@ struct RtkSettingView: View {
                     self.timer.upstream.connect().cancel() // Cancel the timer immediately
                     showingWarningAlert = true
                 } else {
+                    
+                    viewModel.rtkService.toConnectDiff()
                     self.isPresented = false
                 }
             }
@@ -207,7 +215,7 @@ struct RtkSettingView: View {
             Alert(title: Text("Warning"),
                   message: Text(warningMessage(for: currentWarning)),
                   dismissButton: .default(Text("OK")) {
-                //TODO there is a bug here, that toggle the OK need multi times
+                //RtkService.
                 startTimer()  // Restart the timer once the alert is dismissed
             })
         }
