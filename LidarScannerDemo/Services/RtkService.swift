@@ -23,14 +23,17 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     private var nmeaSourceText: String?
     private var socketUtil: HCSocketUtil?
     private var timer: Timer?
+    private var util: HCUtil?
     
-    var util: HCUtil?
     override init() {
         super.init()
-        setUpService()
         
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
+        self.util = HCUtil()
+        self.util?.delegate = self
+        //self.util = HCUtil(delegate: self)
+        //util = HCUtil(delegate: self)
         
         Task {
             do {
@@ -49,11 +52,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         }
         
         assertNtripToHCDiff()
-    }
-    
-    
-    private func setUpService() {
-        util = HCUtil(delegate: self)
     }
     
     func startListening() {

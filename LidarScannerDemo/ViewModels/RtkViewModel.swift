@@ -22,8 +22,8 @@ class RTKViewModel: ObservableObject {
     @Published var rtkService: RtkService
     private var cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
-    init(rtkService: RtkService = RtkService()) {
-        self.rtkService = rtkService
+    init() {
+        self.rtkService = RtkService()
         setupBindings()
         print("init rtKservice")
     }
