@@ -32,7 +32,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         self.socketUtil?.delegate = self
         //self.util = HCUtil()
         //self.util?.delegate = self
-        
+        self.util = HCUtil(delegate: self)
         Task {
             do {
                 let loadedConfig = try NtripConfigModel.loadFromLocal()
@@ -54,14 +54,14 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func startListening() {
         endListening()
-        util = HCUtil(delegate: self)
+        //util = HCUtil(delegate: self)
         toSearch()
     }
     
     func endListening() {
         toDisconnect(isAuto: true)
         currentDeviceIndex = -1
-        util = nil
+        //util = nil
         rtkData.list.removeAll()
     }
     
@@ -146,9 +146,11 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
+        print("hcReceive toggle")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
         }
+        print(" deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel toggle")
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)
         mapData()
     }
@@ -220,6 +222,8 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func didReadOriginDiffDataSuccess(_ data: Data, socketUtil: HCSocketUtil) {
         print(" didReadOriginDiffDataSuccess")
+        print("data:", data)
+        print("is uitl == nil: ", self.util == nil)
         self.util?.toSend(data)
     }
     
