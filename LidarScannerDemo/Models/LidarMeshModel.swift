@@ -104,8 +104,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let currentTransform = frame.camera.transform
         let currentFrameTimeStamp = frame.timestamp
         let currentFramePose = frame.camera.transform
-        //print("currentTransform:", currentTransform);
-        //print("currentFramePose:", currentFramePose);
         //too fast check
         if(status == "scanning" && tooFastCheck(currentFramePose: currentFramePose, currentTimeStamp: currentFrameTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousFrameTimeStamp)){
             //something to buzz

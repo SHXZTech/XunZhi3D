@@ -34,7 +34,6 @@ struct NtripConfigModel: Codable {
         do {
             try data.write(to: url)
         } catch {
-            print("Error saving NtripConfig: \(error)")
             throw FileError.fileNotSaved
         }
     }
@@ -50,7 +49,6 @@ struct NtripConfigModel: Codable {
             let config = try JSONDecoder().decode(NtripConfigModel.self, from: data)
             return config
         } catch {
-            print("Error loading NtripConfig: \(error)")
             throw FileError.fileNotLoaded
         }
     }
