@@ -25,7 +25,6 @@ class RTKViewModel: ObservableObject {
     init() {
         self.rtkService = RtkService()
         setupBindings()
-        print("init rtKservice")
     }
 
     private func setupBindings() {
@@ -44,7 +43,6 @@ class RTKViewModel: ObservableObject {
     }
     
     public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
-        print("toVerifyNtrip")
         rtkService.isLoninSuccessful = false
         rtkService.ntripConfigModel.isCertified = false
         rtkService.toConnectDiff()

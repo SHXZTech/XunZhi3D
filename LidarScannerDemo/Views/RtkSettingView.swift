@@ -31,7 +31,6 @@ struct RtkSettingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: cancelButton, trailing: connectButton)
             .onAppear {
-                print("On appear toggle")
                 if(!viewModel.rtkService.isConnected){
                     viewModel.startListening()
                     toggleRtkSearch()
@@ -93,15 +92,11 @@ struct RtkSettingView: View {
                 Button("验证Ntrip服务") {
                     viewModel.toVerifyNtrip { isLoginSuccessful in
                         if isLoginSuccessful {
-                            print("verify success")
                             do {
                                 try viewModel.ntripConfigData.saveToLocal()
-                                print("save ntrip ConfiData")
                             } catch {
                                 print("save to local fail: \(error)")
                             }
-                        } else {
-                            print("verify fail")
                         }
                     }
                 }
@@ -162,15 +157,10 @@ struct RtkSettingView: View {
                     )
                     .onTapGesture {
                         if viewModel.selectedDevice == device {
-                            print("Cancel selection")
                             viewModel.toDisconnect()
                             viewModel.selectedDevice = nil
                         } else {
-                            print("Selection or switch")
-                            print("Device:", device)
-                            print("Device list:", viewModel.rtkData.list)
                             if let index = viewModel.rtkData.list.firstIndex(of: device) {
-                                print("Connecting to index:", index)
                                 viewModel.toDisconnect()
                                 viewModel.toConnect(index: index)
                                 if(viewModel.rtkService.ntripConfigModel.isCertified){
@@ -187,9 +177,7 @@ struct RtkSettingView: View {
     
     var cancelButton: some View {
         Button(action: {
-            print("Cancel button tapped!")
             self.isPresented = false
-            // Implement any other actions you want for this button.
         }) {
             Text("Cancel")
         }

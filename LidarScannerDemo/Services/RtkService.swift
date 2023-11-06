@@ -66,7 +66,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func toSearch() {
-        print("RtkService is searching for devices")
         rtkData.list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
     }
@@ -146,11 +145,9 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
-        print("hcReceive toggle")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
         }
-        print(" deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel toggle")
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)
         mapData()
     }
@@ -184,9 +181,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     @objc func getDiffData() {
-        print("toggle getDiffData")
         if let nmeaSourceText = nmeaSourceText, nmeaSourceText.count > 0 {
-            print("nmeaSourceText: ", nmeaSourceText)
             self.socketUtil?.sendData("\(nmeaSourceText)\r\n\r\n")
         }
     }
@@ -213,29 +208,19 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func didGetMountPointsSuccess(_ socketUtil: HCSocketUtil) {
         ntripConfigModel.mountPointList = socketUtil.diffModel.mountPointList
-        print("did getmountPointsSuccess:", ntripConfigModel.mountPointList)
         if ntripConfigModel.mountPointList.count > 0 {
             ntripConfigModel.currentMountPoint = ntripConfigModel.mountPointList.first!
-            print("currentMountPoint = ", ntripConfigModel.currentMountPoint)
         }
         self.socketUtil?.disconnect()
     }
     
     func didReadOriginDiffDataSuccess(_ data: Data, socketUtil: HCSocketUtil) {
-        print(" didReadOriginDiffDataSuccess")
-        print("data:", data)
-        print("is uitl == nil: ", self.util == nil)
         if self.util?.isNewBle() == true {
-            print(" isNewBle == true ")
             self.util?.toSend(data)
-        }
-        else{
-            print(" isNewBle == false")
         }
     }
     
     func didReadDiffDataSuccess(_ datas: [Data], socketUtil: HCSocketUtil) {
-        print("toggle didReadDiffDataSuccess")
         if let util = self.util{
             RTKController.send(datas, to: util)
         }
