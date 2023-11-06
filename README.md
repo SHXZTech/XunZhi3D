@@ -4,7 +4,7 @@
 "SiteSight" is an iOS APP for underground asset management.
 
 ## Development Guidance
-To develop this project, you must follow the development guidance [here](./Documentation/Develop_Guidance.md). You should read the guidance carefully before you start to develop.
+To develop this project, you must follow the development guidance [here](./Documentation/Develop_Guidance.md). You should read and follow the guidance carefully before you start to develop.
 
 
 ## Build/Run/Test/Publish
@@ -15,14 +15,16 @@ To develop this project, you must follow the development guidance [here](./Docum
       To run this project, you need to install Xcode 15.0 or later, and iOS 16.4 or later. Import the project into Xcode, and click the 'Run'.
 
     - How to test?
-
+        - CI
 
     - How to publish?
+        - CD
 
 ## Dependencies
 - [LiteRTK]()
 
 ## FAQs
+    - 
 
 ## Project Structure
 - `LidarScannerDemo/`
@@ -39,5 +41,5 @@ To develop this project, you must follow the development guidance [here](./Docum
 
 
 ## Developers
-- Thomas(thomas@graphopti.com): iOS APP developer, Algorithm Designer, System Architecturer, Product Manager;
+- Thomas(thomas@graphopti.com): iOS APP developer, Algorithm Designer, System Architecturer, Product/Project Manager;
  
