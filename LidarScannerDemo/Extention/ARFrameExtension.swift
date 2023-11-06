@@ -16,6 +16,7 @@ extension ARFrame {
         if let cgImage = context.createCGImage(ciImage, from: ciImage.extent) {
             let RGBimage = UIImage(cgImage: cgImage)
             let data = RGBimage.jpegData(compressionQuality: 1.0)
+            
             return data
         }
         return nil

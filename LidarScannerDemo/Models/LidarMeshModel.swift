@@ -9,6 +9,10 @@ import Foundation
 import RealityKit
 import ARKit
 import SceneKit
+import os
+
+private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
+                            category: "lidarScannerDemoDelegate")
 
 class LidarMeshModel:NSObject, ARSessionDelegate {
     private(set) var sceneView : ARSCNView // The ARSCNView used to display the scene.
@@ -26,10 +30,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         
         case auto
         //case ar
-
+        
         /// The user has selected automatic capture mode, which captures one
         /// image every specified interval.
-       // case automatic(everySecs: Double)
+        // case automatic(everySecs: Double)
     }
     
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
@@ -68,13 +72,18 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         case invalidAngleThrehold
     }
     
+    private var configJsonManager: ConfigJsonManager;
+    
     /**
      Init the class, configure and run the sceneView
      */
-     init(uuid_: UUID) {
+    init(uuid_: UUID) {
         status = "ready"
         sceneView = ARSCNView(frame: .zero)
-         uuid = uuid_
+        uuid = uuid_
+        configJsonManager = ConfigJsonManager(uuid_: uuid, owner_: "local")
+        configJsonManager.setLidarMode();
+        configJsonManager.writeJsonInfo();
         super.init()
         //sceneView.delegate = context.coordinator
         let config = ARWorldTrackingConfiguration()
@@ -95,6 +104,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let currentTransform = frame.camera.transform
         let currentFrameTimeStamp = frame.timestamp
         let currentFramePose = frame.camera.transform
+        //print("currentTransform:", currentTransform);
+        //print("currentFramePose:", currentFramePose);
         //too fast check
         if(status == "scanning" && tooFastCheck(currentFramePose: currentFramePose, currentTimeStamp: currentFrameTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousFrameTimeStamp)){
             //something to buzz
@@ -110,52 +121,17 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         //new frame save
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
-            print("new frame check success")
             previousSavedFramePose = currentTransform
-            //save timestamp
-            let timeStamp = frame.timestamp
-            print("currentTimeStamp: \(timeStamp)")
-            //save intrinsic
-            let intrinsic = frame.camera.intrinsics
-            print("Intrinsic matrix: \(intrinsic)")
-            //save pose
-            let currentTransform = frame.camera.transform
-            print("currentTransform: \(currentTransform)")
-            //save RGB image
-            guard let jpegData = frame.capturedjpegData() else { return  }
-            if(saveJpegData(jpegData: jpegData, uuid: uuid, timeStamp: timeStamp, type: "RGB") == false){return}
-            print("save success")
-            //save lidar depth
-            if(frame.sceneDepth == nil){ print("frame.sceneDepth == nil")}
-            if(frame.smoothedSceneDepth == nil){ print("frame.smoothedSceneDepth == nil")}
-            if(frame.sceneDepth != nil) || (frame.smoothedSceneDepth != nil) {
-                guard let depthImage = frame.lidarDepthData() else {
-                    return}
-                if(saveTiffData(pngData: depthImage, uuid: uuid, timeStamp: timeStamp, type: "Depth") == false){
-                    return}
-                guard let confidenceImage = frame.lidarConfidenceData() else {
-                    return}
-                if(saveTiffData(pngData: confidenceImage,uuid: uuid, timeStamp: timeStamp,type: "Confidence") == false){
-                    return}
-            }
-            //save true depth
-            
-            //save GPS
-            
-            //save RTK
-            
-            
-           
+            configJsonManager.updateFrameInfo(frame: frame)
         }
-       
     }
     
     /**
-    Check whether the new frame is accetable, it check whether the overlap/distance/angle between frames meet the threholds
+     Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds
      
      @input: previousFrame pose and timestamp, newFrame pose and timestamp
      @output: Bool; true - the new frame meets the conditions, false - the new frame does not meet the conditions
-    */
+     */
     func newFrameCheck(currentFramePose: simd_float4x4, previousFramePose: simd_float4x4)-> Bool{
         // Overlap check
         
@@ -170,11 +146,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     }
     
     /**
-    Check whether the camera movement is too fast?
+     Check whether the camera movement is too fast?
      
      @input: previousFrame pose and timestamp, newFrame pose and timestamp
      @output: Bool; true - the new frame moves too fast, false - the new frame move smoothly
-    */
+     */
     func tooFastCheck(currentFramePose: simd_float4x4, currentTimeStamp: TimeInterval, previousFramePose: simd_float4x4, previousTimeStamp: TimeInterval)->Bool{
         let speed = calculateMovementSpeed(currentFramePose: currentFramePose, currentTimeStamp: currentTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousTimeStamp)
         print("speed is \(speed)")
@@ -215,7 +191,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if threshold > 0 && threshold < 100 {
             distanceThreshold = threshold
         } else {
-          
+            
         }
     }
     
@@ -224,16 +200,25 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             angleThreshold = threshold
         }
         else{
-           
+            
         }
     }
-
- 
+    
+    
     
     /**
      Start the lidar scan that enable meshing in the ARSCNView
      */
     func startScan(){
+        let config = createStartScanConfig()
+        //config.frameSemantics = .sceneDepth
+        sceneView.session.delegate = self
+        sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
+        status="scanning"
+    }
+    
+    
+    func createStartScanConfig() ->ARConfiguration{
         let config = ARWorldTrackingConfiguration()
         config.environmentTexturing = .automatic
         config.sceneReconstruction = .mesh
@@ -243,32 +228,14 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }else if(type(of: config).supportsFrameSemantics(.sceneDepth)){
             config.frameSemantics = .sceneDepth
         }
-        //config.frameSemantics = .sceneDepth
-        sceneView.session.delegate = self
-        sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
-        status="scanning"
+        return config
     }
     
     
-    func saveScanProjectInfo(){
-        //save uuid
-        //save owner
-        //save data type
-        //save data count
-        
-        
-        
-    }
+ 
     
-    func saveScanData(){
-        //save timestamp
-        //save camera instrinsic
-        //save camera extrinsic
-        //save rgb
-        //save rgbd/confidence
-        //save pose
-        //save gps/rtk
-    }
+
+    
     
     func pauseScan(){
         sceneView.session.pause()
@@ -279,98 +246,45 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         status="finished"
     }
     
+   
+    
     func saveScan(uuid:UUID)-> Bool{
         guard let camera = sceneView.session.currentFrame?.camera else {
             print("guard camera fail")
             return false}
+       let arSession = sceneView.session
+        arSession.getCurrentWorldMap { worldMap, error in
+                if let error = error {
+                    // Handle the error
+                    print("Error retrieving current world map: \(error)")
+                    //return
+                }
+                if let worldMap = worldMap {
+                    let pointcloud = worldMap.rawFeaturePoints;
+                    do{
+                        try  self.configJsonManager.exportPointCloud(pointcloud: pointcloud);
+                    } catch {
+                        logger.error("exportPointCloud fail to \(self.configJsonManager.getPointCloudURL())")
+                    }
+                }
+            }
         if let meshAnchors = sceneView.session.currentFrame?.anchors.compactMap({ $0 as? ARMeshAnchor }),
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
-                let url = try exportAsset(asset: asset, uuid: uuid)
-                print("save successful at", url.path)
-                return true
+                try configJsonManager.exportRawMesh(asset: asset)
             } catch {
-                return false
+                logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")
             }
         }
         return true
     }
     
-    func saveJpegData(jpegData: Data,uuid:UUID,timeStamp:TimeInterval,type:String?)-> Bool{
-        if(jpegData == nil || timeStamp == nil || uuid == nil){
-            return false;
-        }
-            
-            let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".jpeg"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try jpegData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
-    }
+ 
     
-    func savePngData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
-        if(pngData == nil || timeStamp == nil || uuid == nil){
-            return false;
-        }
-        let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".png"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try pngData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
-    }
-    
-    func saveTiffData(pngData: Data,uuid:UUID,timeStamp:TimeInterval, type : String?)-> Bool{
-        if(pngData == nil || timeStamp == nil || uuid == nil){
-            return false;
-        }
-        let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".TIF"
-            let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString).appendingPathComponent(fileName)
-            let directory = fileURL.deletingLastPathComponent()
-            do {
-                try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
-            } catch let error {
-                print("Error creating directory: \(error.localizedDescription)")
-                return false;
-            }
-            do {
-                try pngData.write(to: fileURL)
-                return true;
-            } catch {
-                print("Error saving image: \(error.localizedDescription)")
-                return false;
-            }
-    }
-    
-    
+
     
     func makeCoordinator() -> Coordinator { Coordinator(self) }
     
-    func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
-    }
     
     
     func convertToAsset(meshAnchors: [ARMeshAnchor]) -> MDLAsset? {
@@ -384,15 +298,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         return asset
     }
     
-    func exportAsset(asset: MDLAsset, uuid: UUID) throws -> URL {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
-        let fileURL = documentsDirectory.appendingPathComponent(uuid.uuidString).appendingPathComponent("rawMesh.usd")
-        try asset.export(to: fileURL)
-        print("export path:", fileURL.path)
-        return fileURL
+
+    
+    func savePointCloud(){
+        
     }
-    
-    
     
     class Coordinator: NSObject, ARSCNViewDelegate {
         let parent : LidarMeshModel

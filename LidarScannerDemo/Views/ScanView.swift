@@ -19,9 +19,9 @@ struct ScanView: View{
     @State private var isContextMenuVisible = false
     
     init() {
-           uuid = UUID()
-           lidarMeshViewModel = LidarMeshViewModel(uuid: uuid)
-       }
+        uuid = UUID()
+        lidarMeshViewModel = LidarMeshViewModel(uuid: uuid)
+    }
     
     var body: some View {
         NavigationView {
@@ -33,8 +33,8 @@ struct ScanView: View{
                         Button("Cancel", action:{} )
                     }label: {
                         Image(systemName: "slider.vertical.3")
-                                .foregroundColor(.black)
-                                .font(.title)
+                            .foregroundColor(.black)
+                            .font(.title)
                     }
                     .padding(.horizontal,25)
                     Spacer()
@@ -61,15 +61,20 @@ struct ScanView: View{
                     }
                     Spacer()
                     Button(action: {
-                       
+                        
                     }, label: {
-                    Image(systemName: "xmark.circle.fill")
+                        Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.red)
                             .font(.title)
                     })
                     .padding(.horizontal, 25)
                 }
-                LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
+                ZStack{
+                    LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
+                    GeoSensorView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                        .padding(20)
+                }
                 VStack{
                     HStack{
                         Button(action: {
