@@ -20,5 +20,5 @@ struct RtkModel {
     var fixStatus: Int = 0
     var height: Double = 0.0
     var list: [String] = []
-    var signalStrength: UInt8 = 0; // 0 = 单点， 1 = 码查分， 2 = 浮点， 3 = 固定
+    var signalStrength: UInt8 = 0; // 0 = 单点， 1 = 码差分， 2 = 浮点， 3 = 固定
 }

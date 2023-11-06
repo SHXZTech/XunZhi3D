@@ -174,7 +174,7 @@ struct RTKStatusView: View {
         case 0:
             return "单点解"
         case 1:
-            return "码查分"
+            return "码差分"
         case 2:
             return "浮点解"
         case 3:

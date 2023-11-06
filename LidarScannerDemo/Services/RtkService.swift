@@ -174,6 +174,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func toConnectDiff() {
         assertNtripToHCDiff()
+        self.socketUtil?.enableMorePackages = !(self.util?.isNewBle() ?? false)
         self.socketUtil?.replaceDiffModel(diffModel)
         self.socketUtil?.toLogin()
     }
@@ -224,7 +225,20 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         print(" didReadOriginDiffDataSuccess")
         print("data:", data)
         print("is uitl == nil: ", self.util == nil)
-        self.util?.toSend(data)
+        if self.util?.isNewBle() == true {
+            print(" isNewBle == true ")
+            self.util?.toSend(data)
+        }
+        else{
+            print(" isNewBle == false")
+        }
+    }
+    
+    func didReadDiffDataSuccess(_ datas: [Data], socketUtil: HCSocketUtil) {
+        print("toggle didReadDiffDataSuccess")
+        if let util = self.util{
+            RTKController.send(datas, to: util)
+        }
     }
     
     func assertNtripToHCDiff(){
