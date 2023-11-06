@@ -14,6 +14,8 @@ import SwiftUI
 struct ScanView: View{
     let uuid : UUID
     @ObservedObject var lidarMeshViewModel : LidarMeshViewModel
+    @ObservedObject var rtkViewModel: RTKViewModel
+    //@StateObject var rtkViewModel = RTKViewModel()
     @State var scanStatus = "ready"
     @State var navigateToNextView = false
     @State private var isContextMenuVisible = false
@@ -21,6 +23,7 @@ struct ScanView: View{
     init() {
         uuid = UUID()
         lidarMeshViewModel = LidarMeshViewModel(uuid: uuid)
+        rtkViewModel = RTKViewModel()
     }
     
     var body: some View {
@@ -71,7 +74,7 @@ struct ScanView: View{
                 }
                 ZStack{
                     LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
-                    GeoSensorView()
+                    GeoSensorView(viewModel: rtkViewModel)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .padding(20)
                 }

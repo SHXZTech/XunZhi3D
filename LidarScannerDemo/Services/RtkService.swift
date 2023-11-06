@@ -23,15 +23,16 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     private var nmeaSourceText: String?
     private var socketUtil: HCSocketUtil?
     private var timer: Timer?
+    private var util: HCUtil?
     
-    var util: HCUtil?
     override init() {
         super.init()
-        setUpService()
         
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
-        
+        //self.util = HCUtil()
+        //self.util?.delegate = self
+        self.util = HCUtil(delegate: self)
         Task {
             do {
                 let loadedConfig = try NtripConfigModel.loadFromLocal()
@@ -51,21 +52,16 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         assertNtripToHCDiff()
     }
     
-    
-    private func setUpService() {
-        util = HCUtil(delegate: self)
-    }
-    
     func startListening() {
         endListening()
-        util = HCUtil(delegate: self)
+        //util = HCUtil(delegate: self)
         toSearch()
     }
     
     func endListening() {
         toDisconnect(isAuto: true)
         currentDeviceIndex = -1
-        util = nil
+        //util = nil
         rtkData.list.removeAll()
     }
     
@@ -115,10 +111,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         }
     }
     
-    
-    
-    // HCUtilDelegate methods
-    // ... (Implement the delegate methods as before)
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
         // Handle error as needed
         switch error {
@@ -140,14 +132,9 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
-        //print("Device Name List: \(deviceNameList ?? [])")
         if let devices = deviceNameList, devices.count > 0 {
             self.rtkData.list = devices
-            // You might also use some method to show a list in SwiftUI
-            //  print("search successfully")
-            // print(devices.count)
         }else{
-            //print("search fail")
             self.rtkData.list.removeAll()
         }
         
@@ -156,13 +143,14 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceConnected(_ index: Int) {
         currentDeviceIndex = index
         isConnected = true
-        print("RTK connected")
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
+        print("hcReceive toggle")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
             return
         }
+        print(" deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel toggle")
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)
         mapData()
     }
@@ -170,7 +158,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceDisconnected() {
         toDisconnect(isAuto: true)
         isConnected = false
-        print("RTK disconnected")
     }
     
     func hcReceiveRTCMData(_ data: Data!) {
@@ -187,18 +174,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func toConnectDiff() {
         assertNtripToHCDiff()
-        print("diffModel.ip = ", diffModel.ip)
-        print("diffModel.port = ", diffModel.port)
-        print("diffModel.account = ", diffModel.account)
-        print("diffModel.password = ", diffModel.password)
-        print("diffModel.mountPointList = ", diffModel.mountPointList)
-        print("diffModel.currentMountPoint = ", diffModel.currentMountPoint)
+        self.socketUtil?.enableMorePackages = !(self.util?.isNewBle() ?? false)
         self.socketUtil?.replaceDiffModel(diffModel)
         self.socketUtil?.toLogin()
     }
     
     func getMountPoint() {
-        print("toggle getMointPoint")
         self.socketUtil?.getMountPoints()
     }
     
@@ -216,7 +197,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func loginSuccess(_ tcpUtil: HCSocketUtil) {
-        print("toggle login success!")
         self.ntripConfigModel.isCertified = true;
         self.isLoninSuccessful = true
         if timer == nil {//差分登录成功后需要把获取到的差分数据发送到硬件设备
@@ -227,9 +207,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
     
     func loginFailure(_ tcpUtil: HCSocketUtil, error: Error?) {
-        print("Login failure")
-        self.ntripConfigModel.isCertified = false;
-        self.isLoninSuccessful = false
         removeTimer()
         self.socketUtil?.disconnect()
     }
@@ -238,7 +215,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         ntripConfigModel.mountPointList = socketUtil.diffModel.mountPointList
         print("did getmountPointsSuccess:", ntripConfigModel.mountPointList)
         if ntripConfigModel.mountPointList.count > 0 {
-            
             ntripConfigModel.currentMountPoint = ntripConfigModel.mountPointList.first!
             print("currentMountPoint = ", ntripConfigModel.currentMountPoint)
         }
@@ -247,9 +223,23 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func didReadOriginDiffDataSuccess(_ data: Data, socketUtil: HCSocketUtil) {
         print(" didReadOriginDiffDataSuccess")
-        self.util?.toSend(data)
+        print("data:", data)
+        print("is uitl == nil: ", self.util == nil)
+        if self.util?.isNewBle() == true {
+            print(" isNewBle == true ")
+            self.util?.toSend(data)
+        }
+        else{
+            print(" isNewBle == false")
+        }
     }
     
+    func didReadDiffDataSuccess(_ datas: [Data], socketUtil: HCSocketUtil) {
+        print("toggle didReadDiffDataSuccess")
+        if let util = self.util{
+            RTKController.send(datas, to: util)
+        }
+    }
     
     func assertNtripToHCDiff(){
         diffModel.ip = ntripConfigModel.ip

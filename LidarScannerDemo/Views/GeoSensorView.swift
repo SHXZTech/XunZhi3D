@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct GeoSensorView: View {
-    @StateObject var rtkViewModel = RTKViewModel()
+    //@StateObject var rtkViewModel : RTKViewModel = RTKViewModel()
+    @ObservedObject var rtkViewModel: RTKViewModel
     @State private var isShowingRtkSettingPage = false // State to control the presentation of the sheet
     
     var body: some View {
@@ -21,6 +22,10 @@ struct GeoSensorView: View {
             }
             Spacer()
         }
+    }
+    
+    init(viewModel: RTKViewModel) {
+        self.rtkViewModel = viewModel
     }
     
     func noRtkConnected() -> some View {
@@ -169,7 +174,7 @@ struct RTKStatusView: View {
         case 0:
             return "单点解"
         case 1:
-            return "码查分"
+            return "码差分"
         case 2:
             return "浮点解"
         case 3:
@@ -229,7 +234,6 @@ struct RTKConnectionIndicatorView: View {
             }
             .padding(.trailing, 10)
             .sheet(isPresented: $isShowingRtkSettingPage) {
-                // Replace with your actual view or view model
                 RtkSettingView(viewModel: rtkViewModel, isPresented: $isShowingRtkSettingPage)
             }
         }
@@ -270,6 +274,6 @@ struct RoundedCorner: Shape {
 
 struct GeoSensorView_Previews: PreviewProvider {
     static var previews: some View {
-        GeoSensorView()
+        GeoSensorView(viewModel: RTKViewModel())
     }
 }

@@ -22,17 +22,19 @@ class RTKViewModel: ObservableObject {
     @Published var rtkService: RtkService
     private var cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
-    init(rtkService: RtkService = RtkService()) {
-        self.rtkService = rtkService
+    init() {
+        self.rtkService = RtkService()
         setupBindings()
         print("init rtKservice")
     }
 
     private func setupBindings() {
         rtkService.$rtkData
+            .receive(on: DispatchQueue.main)
             .assign(to: \.rtkData, on: self)
             .store(in: &cancellables)
         rtkService.$ntripConfigModel
+            .receive(on: DispatchQueue.main)
             .assign(to: \.ntripConfigData, on: self)
             .store(in: &cancellables_ntrip)
     }
@@ -42,6 +44,9 @@ class RTKViewModel: ObservableObject {
     }
     
     public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
+        print("toVerifyNtrip")
+        rtkService.isLoninSuccessful = false
+        rtkService.ntripConfigModel.isCertified = false
         rtkService.toConnectDiff()
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             completion(self.rtkService.isLoninSuccessful)
