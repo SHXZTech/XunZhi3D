@@ -213,7 +213,8 @@ struct RTKConnectionIndicatorView: View {
     
     var body: some View {
         HStack {
-            Image(systemName: isConnected ? "antenna.radiowaves.left.and.right" : "location.slash.fill")
+            Image(systemName: isConnected ? "antenna.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
+                //.badge(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/) TODO add a badge liked effect to antenna, replace antenna with satellite and number badge
                 .foregroundColor(isConnected ? signalColor(signalStrength: rtkViewModel.rtkData.signalStrength) : .red)
                 .frame(width: 20, height: 20)
                 .padding(.leading, 10)

@@ -13,7 +13,8 @@ import ARKit
 struct ContentView : View {
    
     var body: some View {
-       ScanView()
+       //ScanView()
+        MainView()
     }
 }
 
