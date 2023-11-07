@@ -9,7 +9,17 @@ import SwiftUI
 
 struct MainTagView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationStack {
+            ZStack{
+                Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0)
+                VStack(spacing: 0) {
+                    Text("Home Content")
+                }
+            }
+            .navigationTitle("景视")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(Color.black,for: .navigationBar, .tabBar)
+        }
     }
 }
 

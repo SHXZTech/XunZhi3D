@@ -9,8 +9,19 @@ import SwiftUI
 
 struct testView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+            NavigationStack {
+                List {
+                    Text("Hello, SwiftUI!")
+                }
+                .navigationTitle("Navigation Title")
+                .toolbarBackground(
+
+                    // 1
+                    Color.pink,
+                    // 2
+                    for: .navigationBar)
+            }
+        }
 }
 
 #Preview {

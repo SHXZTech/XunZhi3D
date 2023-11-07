@@ -21,7 +21,7 @@ To develop this project, you must follow the development guidance [here](./Docum
         - CD
 
 ## Dependencies
-- [LiteRTK]()
+- [LiteRTK](./Frameworks/LiteRTK)
 
 ## FAQs
     - 
