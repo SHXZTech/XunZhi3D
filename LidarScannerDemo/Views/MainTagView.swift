@@ -16,7 +16,7 @@ struct MainTagView: View {
                     Text("Home Content")
                 }
             }
-            .navigationTitle("景视")
+            .navigationTitle("SiteSight")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black,for: .navigationBar, .tabBar)
         }

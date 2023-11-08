@@ -20,11 +20,16 @@ struct ScanView: View{
     @State var navigateToNextView = false
     @State private var isContextMenuVisible = false
     
-    init() {
+    var dismissAction: () -> Void
+    
+    init(dismissAction: @escaping () -> Void) {
         uuid = UUID()
         lidarMeshViewModel = LidarMeshViewModel(uuid: uuid)
         rtkViewModel = RTKViewModel()
+        self.dismissAction = dismissAction
     }
+    
+    
     
     var body: some View {
         NavigationView {
@@ -64,7 +69,7 @@ struct ScanView: View{
                     }
                     Spacer()
                     Button(action: {
-                        
+                        dismissAction()
                     }, label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.red)
@@ -73,7 +78,8 @@ struct ScanView: View{
                     .padding(.horizontal, 25)
                 }
                 ZStack{
-                    LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel).edgesIgnoringSafeArea(.all)
+                    LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
+                        //.edgesIgnoringSafeArea(.all)
                     GeoSensorView(viewModel: rtkViewModel)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .padding(20)

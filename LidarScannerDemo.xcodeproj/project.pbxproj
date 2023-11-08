@@ -55,6 +55,8 @@
 		E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */; };
 		E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */; };
 		E9E62AAF2AFA5916002DFB2C /* Develop_Guidance.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62AAE2AFA5916002DFB2C /* Develop_Guidance.md */; };
+		E9E62AB12AFB6E0E002DFB2C /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB02AFB6E0E002DFB2C /* SwiftUIView.swift */; };
+		E9E62AB32AFB876C002DFB2C /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */; };
 		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
 		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 		E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */; };
@@ -143,6 +145,8 @@
 		E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTagView.swift; sourceTree = "<group>"; };
 		E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		E9E62AAE2AFA5916002DFB2C /* Develop_Guidance.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Develop_Guidance.md; sourceTree = "<group>"; };
+		E9E62AB02AFB6E0E002DFB2C /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
+		E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperView.swift; sourceTree = "<group>"; };
 		E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
 		E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorModel.swift; sourceTree = "<group>"; };
 		E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
@@ -268,12 +272,14 @@
 				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
 				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
+				E9E62AB02AFB6E0E002DFB2C /* SwiftUIView.swift */,
 				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
 				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
 				E9E62AA02AF8D5F4002DFB2C /* MainView.swift */,
 				E9E62AA82AFA490D002DFB2C /* SettingTabpageView.swift */,
 				E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */,
 				E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */,
+				E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -520,6 +526,7 @@
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
+				E9E62AB32AFB876C002DFB2C /* DeveloperView.swift in Sources */,
 				E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */,
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
@@ -531,6 +538,7 @@
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
+				E9E62AB12AFB6E0E002DFB2C /* SwiftUIView.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
 				E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */,
