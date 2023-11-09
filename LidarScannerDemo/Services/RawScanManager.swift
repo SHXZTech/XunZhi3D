@@ -20,9 +20,11 @@ struct RawScanManager{
     var frameCount:Int = 0
     var rawMeshURL: URL?
     
-    
+    var raw_scan_model: RawScanModel
     
     init(uuid:UUID){
+        self.raw_scan_model = RawScanModel(id:uuid)
+        //TODO modift the data into scan_model
         self.uuid = uuid
         self.isExist = self.isExistCheck()
         self.isRawMeshExist = self.isRawMeshExistCheck()

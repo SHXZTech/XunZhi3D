@@ -12,64 +12,7 @@ import ARKit
 import SceneKit
 import os
 
-/*
- Description: Save scanning data to local with this struct.
- Example format:
- {
-   "uuid": 1232141234,
-   "frameCount": 10,
-   "name":"2021-01-03_10:43:00",
-   "owners": [{"owner":"local"},{"owner":"34234"}],
-   "configs":[
-     {"isImageEnable": true},
-     {"isTimeStampEnable": true},
-     {"isIntrinsicEnable": true},
-     {"isExtrinsicEnable": true},
-     {"isDepthEnable": true},
-     {"isConfidenceEnable": true},
-     {"isGPSEnable": false},
-     {"isRTKEnable": false},
-     {"isMeshModel": true},
-     {"MeshModelName": "rawMesh.usd"},
-     {"isPointCloud": false},
-     {"PointCloudName": "rawPointCloud.ply"}
-   ],
-   "frames":[{
-     "ImageName" : "94949.jpg",
-     "TimeStamp": 32342342.3234,
-     "Intrinsic": [
-             [[3121.992919921875,0,0],
-              [0,3121.992919921875,0],
-              [2031.5745849609375,1509.04443359375,1]
-             ]],
-     "Extrinsic": [[[1,0,0,0],
-               [0,1,0,0],
-               [0,0,1,0],
-               [0,0,0,1]]],
-     "DepthImageName": "abcd.jpeg",
-     "ConfidenceMapName":"abcd.TIF",
-     "GPS":{"lat": 121, "lon" :31.0},
-     "RTK":{"lat": 121, "lon" :31.0}
-   },{
-     "ImageName" : "94949.jpg",
-     "TimeStamp": 32342342.3234,
-     "Intrinsic": [
-             [[3121.992919921875,0,0],
-              [0,3121.992919921875,0],
-              [2031.5745849609375,1509.04443359375,1]
-             ]],
-     "Extrinsic": [[[1,0,0,0],
-               [0,1,0,0],
-               [0,0,1,0],
-               [0,0,0,1]]],
-     "DepthImageName": "abcd.jpeg",
-     "ConfidenceMapName":"abcd.TIF",
-     "GPS":{"lat": 121, "lon" :31.0},
-     "RTK":{"lat": 121, "lon" :31.0}
-   }]
- }
- 
- */
+
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
 
@@ -83,16 +26,15 @@ struct ConfigJsonManager{
     var rawMeshURL: URL
     var totalFrame: Int = 0
     var jsonInfoName: String
+    var coverName: String = ""
+    var coverURL: URL
     var name: String = ""
     var owners: [String] = []
-
     var frames: [FrameJsonInfo] = []
-
     var isMeshModel: Bool = false
     var meshModelName: String = ""
     var isPointCloud: Bool = false
     var pointCloudName: String = ""
-
     var isImageEnable: Bool = false
     var isTimeStampEnable: Bool = false
     var isIntrinsicEnable: Bool = false
@@ -102,7 +44,6 @@ struct ConfigJsonManager{
     var isGPSEnable: Bool = false
     var isRTKEnable: Bool = false
     var configs: [String: Any] = [:]
-
     var mode: String = "lidar"
     
     init(uuid_ : UUID, owner_: String){
@@ -110,18 +51,19 @@ struct ConfigJsonManager{
         dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
         pointCloudName = "rawPointCloud.ply";
         meshModelName = "rawMesh.usd";
-        jsonInfoName = "Info.json"
+        jsonInfoName = "info.json"
+        coverName = "cover.jpeg"
         infoJsonURL = dataFolder.appendingPathComponent(jsonInfoName);
         pointCloudURL = dataFolder.appendingPathComponent(pointCloudName);
         rawMeshURL = dataFolder.appendingPathComponent(meshModelName)
+        coverURL = dataFolder.appendingPathComponent(coverName)
         totalFrame = 0;
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
         name = formatter.string(from: Date())
         owners.append(owner_)
-        createProjectFolder();
-        createConfigFile();
     }
+    
     
     mutating func setLidarMode(){
         mode = "lidar";
@@ -173,7 +115,42 @@ struct ConfigJsonManager{
         }
     }
     
+    mutating func updateCover() {
+        print("start updating cover..")
+            // Read and parse the info.json file to find the first image name with the "RGB_" prefix
+            do {
+                let jsonData = try Data(contentsOf: infoJsonURL)
+                if let jsonDict = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+                   let framesArray = jsonDict["frames"] as? [[String: Any]] {
+                    // Find the first frame that contains an image name starting with "RGB_"
+                    if let firstRGBFrame = framesArray.first(where: { frame in
+                        guard let imageName = frame["imageName"] as? String else { return false }
+                        print("start updating cover.. 1 ")
+                        return imageName.hasPrefix("RGB_")
+                    }) {
+                        let rgbImageName = firstRGBFrame["imageName"] as! String
+                        let rgbImageURL = dataFolder.appendingPathComponent(rgbImageName)
+                        // Copy the found image to cover.jpeg
+                        if FileManager.default.fileExists(atPath: coverURL.path) {
+                            try FileManager.default.removeItem(at: coverURL)
+                        }
+                        print("try to cp ", rgbImageURL.path, " to ", coverURL.path)
+                        try FileManager.default.copyItem(at: rgbImageURL, to: coverURL)
+                        logger.info("Cover image updated successfully with \(rgbImageName)")
+                    } else {
+                        logger.error("No RGB image found in frames.")
+                    }
+                } else {
+                    logger.error("info.json format is incorrect or 'frames' key is missing.")
+                }
+            } catch {
+                logger.error("Failed to read or parse info.json: \(error.localizedDescription)")
+            }
+        }
+    
+    
     func createProjectFolder(){
+        print("create: project folder")
         do {
             try FileManager.default.createDirectory(at: dataFolder, withIntermediateDirectories: true, attributes: nil)
             logger.info("CreateProjectFolder success at: \(dataFolder)")
@@ -183,6 +160,7 @@ struct ConfigJsonManager{
     }
 
     func createConfigFile(){
+        print("create config file")
         do{
             try FileManager.default.createFile(atPath: infoJsonURL.path, contents: nil, attributes: nil)
             logger.info("CreateConfigFile success at: \(infoJsonURL)")
@@ -190,6 +168,7 @@ struct ConfigJsonManager{
             logger.error("Error creating file: \(error.localizedDescription)")
         }
     }
+    
     
     func getDataFoler()->URL{
         return dataFolder;
@@ -234,8 +213,10 @@ struct ConfigJsonManager{
     func exportRawMesh(asset: MDLAsset) throws {
         try asset.export(to: getRawMeshURL())
     }
+    
+    
 
-func writeJsonInfo() {
+    func writeJsonInfo() {
     let encoder = JSONEncoder()
     encoder.outputFormatting = .prettyPrinted
     var jsonData: Data?
@@ -257,7 +238,8 @@ func writeJsonInfo() {
                 ["isMeshModel": isMeshModel],
                 ["MeshModelName": meshModelName],
                 ["isPointCloud": isPointCloud],
-                ["PointCloudName": pointCloudName]
+                ["PointCloudName": pointCloudName],
+                ["coverName":coverName]
             ],
             "frames": []
         ]

@@ -15,7 +15,6 @@ struct ScanView: View{
     let uuid : UUID
     @ObservedObject var lidarMeshViewModel : LidarMeshViewModel
     @ObservedObject var rtkViewModel: RTKViewModel
-    //@StateObject var rtkViewModel = RTKViewModel()
     @State var scanStatus = "ready"
     @State var navigateToNextView = false
     @State private var isContextMenuVisible = false
@@ -35,16 +34,6 @@ struct ScanView: View{
         NavigationView {
             VStack {
                 HStack{
-                    Menu{
-                        Button("Overlap", action:{})
-                        Button("Scan Range", action:{} )
-                        Button("Cancel", action:{} )
-                    }label: {
-                        Image(systemName: "slider.vertical.3")
-                            .foregroundColor(.black)
-                            .font(.title)
-                    }
-                    .padding(.horizontal,25)
                     Spacer()
                     if(scanStatus == "ready")
                     {
@@ -79,7 +68,6 @@ struct ScanView: View{
                 }
                 ZStack{
                     LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
-                        //.edgesIgnoringSafeArea(.all)
                     GeoSensorView(viewModel: rtkViewModel)
                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                         .padding(20)
@@ -113,8 +101,6 @@ struct ScanView: View{
                         .frame(width: 70, height: 70)
                     }
                 }
-                
-                
             }
         }
     }
@@ -130,7 +116,7 @@ struct LidarMeshViewContainer: UIViewRepresentable {
         let config = ARWorldTrackingConfiguration()
         LidarViewModel.sceneView.session.run(config)
         LidarViewModel.sceneView.addCoaching()
-        LidarViewModel.sceneView.debugOptions = [SCNDebugOptions.showFeaturePoints, SCNDebugOptions.showCameras]
+        LidarViewModel.sceneView.debugOptions = []
         return LidarViewModel.sceneView
     }
     

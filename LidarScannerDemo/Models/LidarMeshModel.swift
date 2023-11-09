@@ -29,11 +29,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         case manual
         
         case auto
-        //case ar
         
-        /// The user has selected automatic capture mode, which captures one
-        /// image every specified interval.
-        // case automatic(everySecs: Double)
     }
     
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
@@ -83,7 +79,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         uuid = uuid_
         configJsonManager = ConfigJsonManager(uuid_: uuid, owner_: "local")
         configJsonManager.setLidarMode();
-        configJsonManager.writeJsonInfo();
+        //configJsonManager.writeJsonInfo();
         super.init()
         //sceneView.delegate = context.coordinator
         let config = ARWorldTrackingConfiguration()
@@ -132,7 +128,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
      */
     func newFrameCheck(currentFramePose: simd_float4x4, previousFramePose: simd_float4x4)-> Bool{
         // Overlap check
-        
         // Distance & angle check
         let distance = Int(calculatePoseDistance(currentFramePose: currentFramePose, previousFramePose: previousFramePose)*100);
         //trans distance in cm
@@ -209,7 +204,9 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
      */
     func startScan(){
         let config = createStartScanConfig()
-        //config.frameSemantics = .sceneDepth
+        configJsonManager.createProjectFolder()
+        configJsonManager.createConfigFile()
+        configJsonManager.writeJsonInfo();
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
@@ -244,12 +241,12 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         status="finished"
     }
     
-   
-    
     func saveScan(uuid:UUID)-> Bool{
         guard let camera = sceneView.session.currentFrame?.camera else {
             print("guard camera fail")
             return false}
+        self.configJsonManager.updateCover();
+        
        let arSession = sceneView.session
         arSession.getCurrentWorldMap { worldMap, error in
                 if let error = error {
@@ -266,6 +263,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                     }
                 }
             }
+        
         if let meshAnchors = sceneView.session.currentFrame?.anchors.compactMap({ $0 as? ARMeshAnchor }),
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
@@ -274,6 +272,9 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                 logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")
             }
         }
+        
+        
+        
         return true
     }
     

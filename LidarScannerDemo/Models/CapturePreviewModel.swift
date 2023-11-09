@@ -10,5 +10,5 @@ import Foundation
 struct CapturePreviewModel: Identifiable {
     var id: UUID
     var date: String
-    var previewImageName: String // String to store the image name
+    var previewImageURL: URL
 }
