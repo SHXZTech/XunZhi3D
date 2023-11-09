@@ -9,19 +9,24 @@ import SwiftUI
 
 struct CapturePreviewView: View {
     var capture: CapturePreviewModel
+
     var body: some View {
         VStack(spacing: 0){
-            Image(capture.previewImageName)
-                .resizable() // Make sure the image can be resized
-                .aspectRatio(contentMode: .fill)
-                .frame(maxWidth: .infinity, maxHeight: 140)
-                .cornerRadius(0) // make image bottom 90 angle
-                .clipped()
-            //Spacer()
+            // Load image from URL
+            AsyncImage(url: capture.previewImageURL) { image in
+                image.resizable() // Make sure the image can be resized
+            } placeholder: {
+                Color.gray // Show a placeholder when the image is loading
+            }
+            .aspectRatio(contentMode: .fill)
+            .frame(maxWidth: .infinity, maxHeight: 140)
+            .cornerRadius(0) // Make image bottom 90 angle
+            .clipped()
+
             HStack{
                 Text(capture.date.truncated(to: 20))
                     .font(.system(size: 15))
-                    .padding(.leading, 5)// Make the font a headline font
+                    .padding(.leading, 5) // Make the font a headline font
                 Spacer()
             }
             .frame(alignment: .bottom)
@@ -37,7 +42,8 @@ struct CapturePreviewView: View {
 
 struct CapturePreviewView_Previews: PreviewProvider {
     static var previews: some View {
-        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), date: "2023-11-07-13:30", previewImageName: "example_preview"))
+        // Update the preview to use a URL
+        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), date: "2023-11-07-13:30", previewImageURL: URL(fileURLWithPath: "path/to/example_preview")))
             .previewLayout(.sizeThatFits)
             .padding()
     }

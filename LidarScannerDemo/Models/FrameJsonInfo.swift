@@ -18,11 +18,6 @@ import os
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
 
-
-
-
-
-
 /*
  Description: Save arframe data to local with this struct.
  Details:
@@ -177,7 +172,6 @@ struct FrameJsonInfo{
             }
         }
     }
-    
 }
 
 

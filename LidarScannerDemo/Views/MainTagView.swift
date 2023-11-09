@@ -42,18 +42,7 @@ struct MainTagView: View {
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
         // Create a MainTagView with a predefined set of captures for preview purposes
-        MainTagView(viewModel: MainTagViewModel(captures: [
-            CapturePreviewModel(id: UUID(), date: "2023-11-07", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-            CapturePreviewModel(id: UUID(), date: "2023-11-08", previewImageName: "example_preview"),
-        ]))
+        MainTagView(viewModel: MainTagViewModel(captures: []))
     }
 }
 

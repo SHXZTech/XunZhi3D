@@ -60,6 +60,9 @@
 		E9E62AB72AFB9BAC002DFB2C /* MainTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */; };
 		E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */; };
 		E9E62ABB2AFC8AE4002DFB2C /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62ABA2AFC8AE4002DFB2C /* StringExtension.swift */; };
+		E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */; };
+		E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */; };
+		E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */; };
 		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
 		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 		E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */; };
@@ -153,6 +156,9 @@
 		E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTagViewModel.swift; sourceTree = "<group>"; };
 		E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewView.swift; sourceTree = "<group>"; };
 		E9E62ABA2AFC8AE4002DFB2C /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
+		E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawScanModel.swift; sourceTree = "<group>"; };
+		E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanService.swift; sourceTree = "<group>"; };
+		E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonModel.swift; sourceTree = "<group>"; };
 		E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
 		E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorModel.swift; sourceTree = "<group>"; };
 		E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
@@ -294,16 +300,17 @@
 		E963F6A829F3914600CDE6E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */,
 				E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */,
-				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
 				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
 				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
-				E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */,
 				E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */,
 				E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */,
 				E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */,
 				E9BE0D932AE7945B006269D7 /* RtkModel.swift */,
 				E9E62AA62AFA3278002DFB2C /* CapturePreviewModel.swift */,
+				E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */,
+				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -313,7 +320,6 @@
 			children = (
 				E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */,
 				E9E62AA22AF8E902002DFB2C /* MainViewModel.swift */,
-				E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */,
 				E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */,
 			);
 			path = ViewModels;
@@ -322,7 +328,10 @@
 		E9BE0DA22AE7A508006269D7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */,
+				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
 				E9BE0DA32AE7A552006269D7 /* RtkService.swift */,
+				E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -549,10 +558,13 @@
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
+				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
+				E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
 				E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */,
+				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
 			);
