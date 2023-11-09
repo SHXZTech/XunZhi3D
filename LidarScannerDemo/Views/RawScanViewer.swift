@@ -37,12 +37,12 @@ struct RawScanViewer: View {
             .frame(height: 20)
             .padding(.vertical,10)
             Spacer()
-            if(rawScanManager.isRawMeshExist)
+            if(rawScanManager.isRawMeshExist())
             {
                 ModelViewer(modelURL: rawScanManager.getRawMeshURL(),height: UIScreen.main.bounds.height*0.5)
             }
             else{
-                Text("unable to load file: \(rawScanManager.getRawMeshURL().path)")
+                Text("unable to load file mesh")
                     .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.5)
             }
             Spacer()

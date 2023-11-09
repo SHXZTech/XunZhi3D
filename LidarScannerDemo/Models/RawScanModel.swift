@@ -17,4 +17,64 @@ struct RawScanModel: Identifiable {
     var isRTK:Bool = false
     var frameCount:Int = 0
     var rawMeshURL: URL?
+    
+    init(id_:UUID)
+    {
+        id = id_
+        loadFromJson()
+    }
+    
+    mutating func loadFromJson() {
+        
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let jsonURL = documentsDirectory.appendingPathComponent("\(id.uuidString)/info.json")
+        
+        do {
+            let jsonData = try Data(contentsOf: jsonURL)
+            let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
+            if let jsonDict = jsonObject as? [String: Any] {
+                self.isExist = self.isExistCheck()
+                if let rawMeshName = (jsonDict["configs"] as? [[String: Any]])?.first(where: { $0["isMeshModel"] as? Bool == true })?["MeshModelName"] as? String {
+                    let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
+                    self.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
+                    if self.isRawMeshExist {
+                        self.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
+                    }
+                }
+                self.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
+                self.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
+                self.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false
+                self.isRTK = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isRTKEnable"] as? Bool == true }) ?? false
+                self.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
+            }
+        } catch {
+            print("Error reading JSON: \(error)")
+        }
+    }
+
+    
+    
+    func isExistCheck() -> Bool {
+         let fileManager = FileManager.default
+         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+         let folderURL = documentsDirectory.appendingPathComponent(id.uuidString)
+         var isDirectory: ObjCBool = false
+         let exists = fileManager.fileExists(atPath: folderURL.path, isDirectory: &isDirectory)
+         return exists && isDirectory.boolValue
+     }
+    
+    func isRawMeshExistCheck() -> Bool {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let folderURL = documentsDirectory.appendingPathComponent(id.uuidString)
+        let fileURL = folderURL.appendingPathComponent("rawMesh.usd")
+        return fileManager.fileExists(atPath: fileURL.path)
+    }
+    
+    func getRawMeshURL() -> URL {
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let rawMeshURL = documentsDirectory.appendingPathComponent(id.uuidString).appendingPathComponent("rawMesh.usd")
+        return rawMeshURL
+    }
 }
