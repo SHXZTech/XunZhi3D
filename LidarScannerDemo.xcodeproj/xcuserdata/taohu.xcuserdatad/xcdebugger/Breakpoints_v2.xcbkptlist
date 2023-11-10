@@ -20,5 +20,53 @@
             landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "1408CEF0-D506-4C7F-9212-5787AD3D52CF"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LidarScannerDemo/Models/RawScanModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "41"
+            endingLineNumber = "41"
+            landmarkName = "loadFromJson()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "1408CEF0-D506-4C7F-9212-5787AD3D52CF - b3fa912de8fccadc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.RawScanModel.loadFromJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Models/RawScanModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "1492">
+               </Location>
+               <Location
+                  uuid = "1408CEF0-D506-4C7F-9212-5787AD3D52CF - b3fa912de8fccadc"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.RawScanModel.loadFromJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Models/RawScanModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "41"
+                  endingLineNumber = "41"
+                  offsetFromSymbolStart = "1500">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

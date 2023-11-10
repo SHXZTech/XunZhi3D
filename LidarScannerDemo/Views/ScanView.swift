@@ -38,7 +38,7 @@ struct ScanView: View {
             scanButton
         }
         .fullScreenCover(isPresented: $navigateToRawScanViewer) {
-            RawScanViewer(uuid: uuid, isPresenting: $isPresenting)
+            RawScanView(uuid: uuid, isPresenting: $isPresenting)
         }
         .onChange(of: scanStatus) { newStatus in
             if newStatus == "finished" {
@@ -100,8 +100,6 @@ struct ScanView: View {
     }
 }
 
-
-
 struct LidarMeshViewContainer: UIViewRepresentable {
     var LidarViewModel: LidarMeshViewModel
     
@@ -119,16 +117,13 @@ struct LidarMeshViewContainer: UIViewRepresentable {
     
     class Coordinator: NSObject, ARSCNViewDelegate {
         let parent : LidarMeshViewContainer
-        
         init(_ parent: LidarMeshViewContainer) {
             self.parent = parent
         }
-        
         func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
             guard let meshAnchor = anchor as? ARMeshAnchor else { return }
             node.geometry = SCNGeometry.makeFromMeshAnchor(meshAnchor)
         }
     }
-    
     func makeCoordinator() -> Coordinator { Coordinator(self) }
 }
