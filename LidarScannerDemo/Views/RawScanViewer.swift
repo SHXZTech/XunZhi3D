@@ -12,6 +12,8 @@ import ARKit
 struct RawScanViewer: View {
     var uuid:UUID
     private var rawScanManager : RawScanManager
+    @Environment(\.presentationMode) var presentationMode
+
     
     init(uuid: UUID) {
         self.uuid = uuid
@@ -27,6 +29,7 @@ struct RawScanViewer: View {
                     Spacer()
                     Button(action: {
                         
+                        presentationMode.wrappedValue.dismiss()
                     }, label: {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(.red)

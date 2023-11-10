@@ -48,7 +48,7 @@ struct ScanView: View{
                                         RawScanViewer(uuid:uuid)
                             .navigationBarBackButtonHidden(true)
                             .navigationBarHidden(true)
-                            .ignoresSafeArea(.all)
+                            //.ignoresSafeArea(.all)
                                        , isActive: $navigateToNextView) {
                             Text("SAVING SCANS")
                         }
