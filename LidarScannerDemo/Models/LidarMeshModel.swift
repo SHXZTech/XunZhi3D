@@ -197,8 +197,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }
     }
     
-    
-    
     /**
      Start the lidar scan that enable meshing in the ARSCNView
      */
@@ -210,6 +208,14 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
+    }
+    
+    
+    func dropScan(){
+        if(status != "ready"){
+            sceneView.session.pause()
+            configJsonManager.deleteProjecFolder()
+        }
     }
     
     

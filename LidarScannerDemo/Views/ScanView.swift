@@ -11,100 +11,95 @@ import ARKit
 import SwiftUI
 
 
-struct ScanView: View{
-    let uuid : UUID
-    @ObservedObject var lidarMeshViewModel : LidarMeshViewModel
-    @ObservedObject var rtkViewModel: RTKViewModel
+struct ScanView: View {
+    let uuid: UUID //= UUID()
+    @StateObject var lidarMeshViewModel: LidarMeshViewModel// = LidarMeshViewModel(uuid: ScanView.uuid)
+    @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State var scanStatus = "ready"
-    @State var navigateToNextView = false
-    @State private var isContextMenuVisible = false
-    
-    var dismissAction: () -> Void
-    
-    init(dismissAction: @escaping () -> Void) {
-        uuid = UUID()
-        lidarMeshViewModel = LidarMeshViewModel(uuid: uuid)
-        rtkViewModel = RTKViewModel()
-        self.dismissAction = dismissAction
+    @State var navigateToRawScanViewer = false
+    @Binding var isPresenting: Bool
+
+    init(uuid: UUID,isPresenting: Binding<Bool>) {
+        self._isPresenting = isPresenting
+        self.uuid = uuid
+        self._lidarMeshViewModel = StateObject(wrappedValue: LidarMeshViewModel(uuid: uuid))
+         
     }
     
-    
-    
     var body: some View {
-        NavigationView {
-            VStack {
-                HStack{
-                    Spacer()
-                    if(scanStatus == "ready")
-                    {
-                        Text("READY TO SCAN")
-                    }
-                    if(scanStatus == "scanning"){
-                        Text("SCANING")
-                    }
-                    if(scanStatus == "finished"){
-                        Text("SAVING SCANS")
-                        NavigationLink(destination:
-                                        RawScanViewer(uuid:uuid)
-                            .navigationBarBackButtonHidden(true)
-                            .navigationBarHidden(true)
-                            //.ignoresSafeArea(.all)
-                                       , isActive: $navigateToNextView) {
-                            Text("SAVING SCANS")
-                        }
-                                       .onAppear {
-                                           self.navigateToNextView = true
-                                       }
-                    }
-                    Spacer()
-                    Button(action: {
-                        dismissAction()
-                    }, label: {
-                        Image(systemName: "xmark.circle.fill")
-                            .foregroundColor(.red)
-                            .font(.title)
-                    })
-                    .padding(.horizontal, 25)
-                }
-                ZStack{
-                    LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
-                    GeoSensorView(viewModel: rtkViewModel)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
-                        .padding(20)
-                }
-                VStack{
-                    HStack{
-                        Button(action: {
-                            if(scanStatus == "ready"){
-                                scanStatus = "scanning"
-                                lidarMeshViewModel.startScan()
-                            }else{
-                                if(scanStatus == "scanning"){
-                                    scanStatus = "finished"
-                                    lidarMeshViewModel.pauseScan()
-                                    lidarMeshViewModel.saveScan(uuid: uuid)
-                                }
-                            }
-                        }, label: {
-                            if(scanStatus == "ready")
-                            {
-                                Image(systemName: "circle.inset.filled")
-                                    .resizable()
-                                    .foregroundColor(.red)
-                            }
-                            if(scanStatus == "scanning"){
-                                Image(systemName: "stop.circle.fill")
-                                    .resizable()
-                                    .foregroundColor(.red)
-                            }
-                        })
+        VStack {
+            HStack {
+                Spacer()
+                statusText
+                Spacer()
+                closeButton
+            }
+            scanArea
+            scanButton
+        }
+        .fullScreenCover(isPresented: $navigateToRawScanViewer) {
+            RawScanViewer(uuid: uuid, isPresenting: $isPresenting)
+        }
+        .onChange(of: scanStatus) { newStatus in
+            if newStatus == "finished" {
+                navigateToRawScanViewer = true
+            }
+        }
+    }
+    
+    private var statusText: some View {
+        Text(scanStatus.uppercased())
+    }
+    
+    private var closeButton: some View {
+        Button(action: {
+            lidarMeshViewModel.dropScan()
+            isPresenting = false
+        }) {
+            Image(systemName: "xmark.circle.fill")
+                .foregroundColor(.red)
+                .font(.title)
+        }
+        .padding(.horizontal, 25)
+    }
+    
+    private var scanArea: some View {
+        ZStack {
+            LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
+            GeoSensorView(viewModel: rtkViewModel)
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+                .padding(20)
+        }
+    }
+    
+    private var scanButton: some View {
+        VStack {
+            HStack {
+                Button(action: scanAction) {
+                    Image(systemName: scanStatus == "ready" ? "circle.inset.filled" : "stop.circle.fill")
+                        .resizable()
+                        .foregroundColor(.red)
                         .frame(width: 70, height: 70)
-                    }
                 }
             }
         }
     }
+    
+    private func scanAction() {
+        switch scanStatus {
+            case "ready":
+                scanStatus = "scanning"
+                lidarMeshViewModel.startScan()
+            case "scanning":
+                scanStatus = "finished"
+                lidarMeshViewModel.pauseScan()
+                lidarMeshViewModel.saveScan(uuid: uuid)
+            default:
+                break
+        }
+    }
 }
+
 
 
 struct LidarMeshViewContainer: UIViewRepresentable {

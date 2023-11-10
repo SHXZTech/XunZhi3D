@@ -35,5 +35,9 @@ class LidarMeshViewModel: ObservableObject {
         return model.saveScan(uuid: uuid)
     }
     
+    func dropScan(){
+        model.dropScan()
+    }
+    
 }
 

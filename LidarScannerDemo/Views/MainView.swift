@@ -3,18 +3,15 @@ import SwiftUI
 struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
+    //@State private var isPresentingScanView = false
+
     
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
-
-            if showScanView {
-                ScanView() {
-                    self.showScanView = false
-                    self.selectedTab = 0
-                }
-                .edgesIgnoringSafeArea(.all)
-            }
+        }
+        .fullScreenCover(isPresented: $showScanView) {
+            ScanView(uuid: UUID(),isPresenting: $showScanView)
         }
     }
     
@@ -34,6 +31,7 @@ struct MainView: View {
                 .tag(1)
                 .onAppear {
                     self.showScanView = true
+                    self.selectedTab = 0
                 }
             SettingTabpageView()
                 .tabItem {
