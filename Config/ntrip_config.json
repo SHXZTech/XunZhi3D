@@ -1,0 +1,11 @@
+{
+    "ip": "203.107.45.154",
+    "port": 8002,
+    "account": "qxxsrz001",
+    "password": "572a728",
+    "mountPointList": ["AUTO"],
+    "currentMountPoint": "AUTO",
+    "isCertified": false
+    "author": "default"
+}
+

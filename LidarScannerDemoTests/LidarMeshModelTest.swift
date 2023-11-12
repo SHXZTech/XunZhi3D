@@ -118,6 +118,54 @@ class LidarMeshModelTests: XCTestCase {
         
         XCTAssertEqual(angleDiff, expectedAngleDiff, accuracy: 0.0001, "Angle calculation is incorrect")
     }
+    
+    func testCreateProjectFolder() throws {
+        // Call the function being tested
+        model.createProjectFolder()
+        
+        // Get a file manager and the expected file URL
+        let fileManager = FileManager.default
+        let fileURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(model.uuid.uuidString)
+        
+        // Check that the folder exists
+        var isDirectory: ObjCBool = false
+        let exists = fileManager.fileExists(atPath: fileURL.path, isDirectory: &isDirectory)
+        XCTAssertTrue(exists && isDirectory.boolValue)
+    }
+    
+    func testCreateProjectJson() throws{
+        model.createProjectFolder()
+        model.createProjectJson()
+        let fileManager = FileManager.default
+        let fileURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(model.uuid.uuidString)
+        let jsonFileURL = fileURL.appendingPathComponent("info.json")
+        XCTAssertTrue(fileManager.fileExists(atPath: jsonFileURL.path))
+        
+        // Check the contents of the JSON file
+            let jsonData = try Data(contentsOf: jsonFileURL)
+            guard let projectInfo = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] else {
+                XCTFail("Could not parse JSON data")
+                return
+            }
+            
+            // Check the "owner" key
+            guard let owner = projectInfo["owner"] as? String else {
+                XCTFail("Missing or invalid \"owner\" key in JSON data")
+                return
+            }
+            XCTAssertEqual(owner, "default")
+            
+            // Check the "frameCount" key
+            guard let frameCount = projectInfo["frameCount"] as? String else {
+                XCTFail("Missing or invalid \"frameCount\" key in JSON data")
+                return
+            }
+            XCTAssertEqual(frameCount, "0")
+    }
+        
+    
+    
+    
 
     
     
