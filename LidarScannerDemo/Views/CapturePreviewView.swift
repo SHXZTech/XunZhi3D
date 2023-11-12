@@ -25,7 +25,7 @@ struct CapturePreviewView: View {
             .clipped()
             
             HStack{
-                Text(capture.date.truncated(to: 20))
+                Text(capture.dateString.truncated(to: 20))
                     .font(.system(size: 15))
                     .padding(.leading, 5) // Make the font a headline font
                 Spacer()
@@ -47,7 +47,7 @@ struct CapturePreviewView: View {
 struct CapturePreviewView_Previews: PreviewProvider {
     static var previews: some View {
         // Update the preview to use a URL
-        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), date: "2023-11-07-13:30", previewImageURL: URL(fileURLWithPath: "path/to/example_preview")))
+        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), dateString: "2023-11-07-13:30", date: Date(), previewImageURL: URL(fileURLWithPath: "path/to/example_preview")))
             .previewLayout(.sizeThatFits)
             .padding()
     }

@@ -117,7 +117,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         {
             previousSavedFramePose = currentTransform
             configJsonManager.updateFrameInfo(frame: frame)
+            // Update RTK
         }
+        
+        //
     }
     
     /**
@@ -210,14 +213,12 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         status="scanning"
     }
     
-    
     func dropScan(){
         if(status != "ready"){
             sceneView.session.pause()
             configJsonManager.deleteProjecFolder()
         }
     }
-    
     
     func createStartScanConfig() ->ARConfiguration{
         let config = ARWorldTrackingConfiguration()
@@ -231,12 +232,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }
         return config
     }
-    
-    
- 
-    
-
-    
     
     func pauseScan(){
         sceneView.session.pause()

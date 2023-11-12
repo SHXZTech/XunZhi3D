@@ -45,6 +45,10 @@ struct MainTagView: View {
         }
     }
     
+    private var sortedCaptures: [CapturePreviewModel] {
+        viewModel.captures.sorted { $0.date > $1.date }
+    }
+    
     private var isNavigationActive: Binding<Bool> {
         Binding(
             get: { self.selectedCapture != nil },

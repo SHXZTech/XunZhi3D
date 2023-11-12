@@ -93,6 +93,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.verticalAccuracy = "\(deviceModel?.dz ?? "")"
         rtkData.horizontalAccuracy = "\(deviceModel?.dxy ?? "")"
         rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
+        rtkData.createTime = deviceModel?.createTime
         
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:

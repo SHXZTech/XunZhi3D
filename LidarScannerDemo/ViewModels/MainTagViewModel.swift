@@ -25,6 +25,8 @@ class MainTagViewModel: ObservableObject {
         let fileManager = FileManager.default
         guard let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
 
+        var tempCaptures = [CapturePreviewModel]()
+
         do {
             let directoryContents = try fileManager.contentsOfDirectory(at: documentsDirectory, includingPropertiesForKeys: nil)
             let directories = directoryContents.filter({ $0.hasDirectoryPath })
@@ -42,22 +44,27 @@ class MainTagViewModel: ObservableObject {
                     formatter.timeStyle = .short
                     let dateString = formatter.string(from: creationDate)
                     
-                    // Here, we're assuming a fixed image name (e.g., "preview.jpg"),
-                    // you will need to adjust this to your actual image retrieval logic.
+                    // Assuming a fixed image name "cover.jpeg"
                     let previewImageURL = directory.appendingPathComponent("cover.jpeg")
 
-                    
-                    // Create and append the new capture
-                    let newCapture = CapturePreviewModel(id: uuid, date: dateString, previewImageURL: previewImageURL)
-                    DispatchQueue.main.async {
-                        self.captures.append(newCapture)
-                    }
+                    // Create and append the new capture to the temporary list
+                    let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL)
+                    tempCaptures.append(newCapture)
                 }
+            }
+
+            // Sort the captures by date before updating the published property
+            let sortedCaptures = tempCaptures.sorted { $0.date > $1.date }
+            DispatchQueue.main.async {
+                self.captures = sortedCaptures
             }
         } catch {
             print("Error reading contents of documents directory: \(error)")
         }
     }
+
+    // ... other functions
+
 
     // ... other functions
 }

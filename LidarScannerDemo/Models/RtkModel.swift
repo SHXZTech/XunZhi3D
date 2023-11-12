@@ -21,4 +21,5 @@ struct RtkModel {
     var height: Double = 0.0
     var list: [String] = []
     var signalStrength: UInt8 = 0; // 0 = 单点， 1 = 码差分， 2 = 浮点， 3 = 固定
+    var createTime : Date? = nil
 }

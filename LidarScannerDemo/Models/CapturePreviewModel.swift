@@ -9,6 +9,7 @@ import Foundation
 
 struct CapturePreviewModel: Identifiable {
     var id: UUID
-    var date: String
+    var dateString: String
+    var date: Date
     var previewImageURL: URL
 }

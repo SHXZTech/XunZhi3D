@@ -15,10 +15,6 @@ class RTKViewModel: ObservableObject {
     @Published var ntripConfigData = NtripConfigModel()
     @Published var lastSelectedDevice: String? = nil
     @Published var selectedDevice: String?
-    
-    
-    
-    
     @Published var rtkService: RtkService
     private var cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []

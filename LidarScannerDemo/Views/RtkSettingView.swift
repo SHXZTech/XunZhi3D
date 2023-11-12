@@ -58,12 +58,14 @@ struct RtkSettingView: View {
                 Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
                 Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
                 Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
-                
+                Text("Create time: \(String(describing: viewModel.rtkData.createTime))")
             }
             .frame(alignment: .leading)
             .padding()
         }
     }
+    
+
     
     func rtkNtripConfigSection() -> some View {
         GroupBox(label:
