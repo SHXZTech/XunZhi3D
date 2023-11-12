@@ -29,7 +29,7 @@
 		E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */; };
 		E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */; };
 		E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */; };
-		E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */; };
+		E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69129F23F4C00CDE6E1 /* RawScanView.swift */; };
 		E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */; };
 		E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */ = {isa = PBXBuildFile; fileRef = E963F6A329F275C500CDE6E1 /* rawMesh.usd */; };
 		E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6A929F391C100CDE6E1 /* ScanView.swift */; };
@@ -125,7 +125,7 @@
 		E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelViewer.swift; sourceTree = "<group>"; };
 		E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanManager.swift; sourceTree = "<group>"; };
 		E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNMaterialExtention.swift; sourceTree = "<group>"; };
-		E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanViewer.swift; sourceTree = "<group>"; };
+		E963F69129F23F4C00CDE6E1 /* RawScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanView.swift; sourceTree = "<group>"; };
 		E963F69C29F2526600CDE6E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawScanManagerTests.swift; sourceTree = "<group>"; };
 		E963F6A329F275C500CDE6E1 /* rawMesh.usd */ = {isa = PBXFileReference; lastKnownFileType = file; path = rawMesh.usd; sourceTree = "<group>"; };
@@ -282,7 +282,7 @@
 		E963F6A729F3912900CDE6E1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E963F69129F23F4C00CDE6E1 /* RawScanViewer.swift */,
+				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
 				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
 				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
@@ -538,7 +538,7 @@
 				E9E62AA32AF8E902002DFB2C /* MainViewModel.swift in Sources */,
 				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
 				E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */,
-				E963F69B29F23F4C00CDE6E1 /* RawScanViewer.swift in Sources */,
+				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,

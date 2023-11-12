@@ -10,13 +10,15 @@ import SwiftUI
 struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
-
-   
+    @State private var selectedCapture: CapturePreviewModel? // State to track selected capture
+    
+    
+    
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
         GridItem(.flexible(), spacing: 16)
     ]
-
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -24,7 +26,9 @@ struct MainTagView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(viewModel.captures, id: \.id) { capture in
-                            CapturePreviewView(capture: capture)
+                            CapturePreviewView(capture: capture){
+                                self.selectedCapture = capture // Set the selected capture
+                            }
                         }
                     }
                     .padding() // Add padding around the grid
@@ -33,7 +37,27 @@ struct MainTagView: View {
             .navigationTitle("SiteSight")
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar)
+            .background(NavigationLink("", isActive: isNavigationActive) {
+                if let selected = selectedCapture {
+                    RawScanView(uuid: selected.id, isPresenting: .constant(true)) // Modify according to your RawScanView initializer
+                }
+            }.hidden())
         }
+    }
+    
+    private var sortedCaptures: [CapturePreviewModel] {
+        viewModel.captures.sorted { $0.date > $1.date }
+    }
+    
+    private var isNavigationActive: Binding<Bool> {
+        Binding(
+            get: { self.selectedCapture != nil },
+            set: { isActive in
+                if !isActive {
+                    self.selectedCapture = nil
+                }
+            }
+        )
     }
 }
 

@@ -55,6 +55,7 @@ struct FrameJsonInfo{
     var confidenceMapName: String = ""
     var GPS: CLLocation?
     var RTK: CLLocation?
+    var timeStampGlobal: Date = Date()
     
     /*
      Description: Init the struct with data folder, info json url and arframe. AutoSave images to local;
@@ -68,6 +69,7 @@ struct FrameJsonInfo{
         timeStamp = arFrame.timestamp
         intrinsic = arFrame.camera.intrinsics
         extrinsic = arFrame.camera.transform
+        timeStampGlobal = Date()
     }
     
     /*
@@ -135,8 +137,9 @@ struct FrameJsonInfo{
             "extrinsic": extrinsic?.arrayRepresentation() ?? [],
             "depthImageName": depthImageName,
             "confidenceMapName": confidenceMapName,
+            "timeStampGlobal" : timeStampGlobal.timeIntervalSince1970,
             "GPS": ["latitude": GPS?.coordinate.latitude ?? 0, "longitude": GPS?.coordinate.longitude ?? 0, "accuracy": GPS?.horizontalAccuracy],
-            "RTK": ["latitude": GPS?.coordinate.latitude ?? 0, "longitude": GPS?.coordinate.longitude ?? 0, "accuracy": GPS?.horizontalAccuracy]
+            "RTK": ["latitude": GPS?.coordinate.latitude ?? 0, "longitude": GPS?.coordinate.longitude ?? 0, "accuracy": GPS?.horizontalAccuracy],
         ]
         
         // Append the new frame info to the frames array

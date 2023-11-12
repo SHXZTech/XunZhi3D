@@ -76,23 +76,22 @@ struct ConfigJsonManager{
         isDepthEnable = true;
         isConfidenceEnable = true;
         isGPSEnable = false;
-        isRTKEnable = false;  
+        isRTKEnable = false;
     }
-
+    
     mutating func enableGPS(){
         isGPSEnable = true;
     }
-
+    
     mutating func enableRTK(){
         isRTKEnable = true;
     }
-
+    
     mutating func addOwner(newOwner: String){
         owners.append(newOwner);
     }
- 
-    mutating func updateFrameInfo(frame: ARFrame)
-    {
+    
+    mutating func updateFrameInfo(frame: ARFrame, rtkModel: RtkModel = RtkModel()){
         var jsonInfo = FrameJsonInfo(dataFolder_: dataFolder, arFrame_: frame);
         jsonInfo.updateJsonInfo();
         updateFrameCount();
@@ -117,36 +116,36 @@ struct ConfigJsonManager{
     
     mutating func updateCover() {
         print("start updating cover..")
-            // Read and parse the info.json file to find the first image name with the "RGB_" prefix
-            do {
-                let jsonData = try Data(contentsOf: infoJsonURL)
-                if let jsonDict = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
-                   let framesArray = jsonDict["frames"] as? [[String: Any]] {
-                    // Find the first frame that contains an image name starting with "RGB_"
-                    if let firstRGBFrame = framesArray.first(where: { frame in
-                        guard let imageName = frame["imageName"] as? String else { return false }
-                        print("start updating cover.. 1 ")
-                        return imageName.hasPrefix("RGB_")
-                    }) {
-                        let rgbImageName = firstRGBFrame["imageName"] as! String
-                        let rgbImageURL = dataFolder.appendingPathComponent(rgbImageName)
-                        // Copy the found image to cover.jpeg
-                        if FileManager.default.fileExists(atPath: coverURL.path) {
-                            try FileManager.default.removeItem(at: coverURL)
-                        }
-                        print("try to cp ", rgbImageURL.path, " to ", coverURL.path)
-                        try FileManager.default.copyItem(at: rgbImageURL, to: coverURL)
-                        logger.info("Cover image updated successfully with \(rgbImageName)")
-                    } else {
-                        logger.error("No RGB image found in frames.")
+        // Read and parse the info.json file to find the first image name with the "RGB_" prefix
+        do {
+            let jsonData = try Data(contentsOf: infoJsonURL)
+            if let jsonDict = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
+               let framesArray = jsonDict["frames"] as? [[String: Any]] {
+                // Find the first frame that contains an image name starting with "RGB_"
+                if let firstRGBFrame = framesArray.first(where: { frame in
+                    guard let imageName = frame["imageName"] as? String else { return false }
+                    print("start updating cover.. 1 ")
+                    return imageName.hasPrefix("RGB_")
+                }) {
+                    let rgbImageName = firstRGBFrame["imageName"] as! String
+                    let rgbImageURL = dataFolder.appendingPathComponent(rgbImageName)
+                    // Copy the found image to cover.jpeg
+                    if FileManager.default.fileExists(atPath: coverURL.path) {
+                        try FileManager.default.removeItem(at: coverURL)
                     }
+                    print("try to cp ", rgbImageURL.path, " to ", coverURL.path)
+                    try FileManager.default.copyItem(at: rgbImageURL, to: coverURL)
+                    logger.info("Cover image updated successfully with \(rgbImageName)")
                 } else {
-                    logger.error("info.json format is incorrect or 'frames' key is missing.")
+                    logger.error("No RGB image found in frames.")
                 }
-            } catch {
-                logger.error("Failed to read or parse info.json: \(error.localizedDescription)")
+            } else {
+                logger.error("info.json format is incorrect or 'frames' key is missing.")
             }
+        } catch {
+            logger.error("Failed to read or parse info.json: \(error.localizedDescription)")
         }
+    }
     
     
     func createProjectFolder(){
@@ -158,7 +157,7 @@ struct ConfigJsonManager{
             logger.error("Error creating directory: \(error.localizedDescription)")
         }
     }
-
+    
     func createConfigFile(){
         print("create config file")
         do{
@@ -169,6 +168,15 @@ struct ConfigJsonManager{
         }
     }
     
+    func deleteProjecFolder(){
+        do {
+            try FileManager.default.removeItem(at: dataFolder)
+            logger.info("Project folder deleted successfully at: \(dataFolder)")
+        } catch {
+            logger.error("Error deleting project folder: \(error.localizedDescription)")
+        }
+    }
+
     
     func getDataFoler()->URL{
         return dataFolder;
@@ -215,46 +223,46 @@ struct ConfigJsonManager{
     }
     
     
-
+    
     func writeJsonInfo() {
-    let encoder = JSONEncoder()
-    encoder.outputFormatting = .prettyPrinted
-    var jsonData: Data?
-    do {
-        let jsonDict: [String: Any] = [
-            "uuid": uuid.uuidString,
-            "frameCount": frames.count,
-            "name": name,
-            "owners": owners,
-            "configs": [
-                ["isImageEnable": isImageEnable],
-                ["isTimeStampEnable": isTimeStampEnable],
-                ["isIntrinsicEnable": isIntrinsicEnable],
-                ["isExtrinsicEnable": isExtrinsicEnable],
-                ["isDepthEnable": isDepthEnable],
-                ["isConfidenceEnable": isConfidenceEnable],
-                ["isGPSEnable": isGPSEnable],
-                ["isRTKEnable": isRTKEnable],
-                ["isMeshModel": isMeshModel],
-                ["MeshModelName": meshModelName],
-                ["isPointCloud": isPointCloud],
-                ["PointCloudName": pointCloudName],
-                ["coverName":coverName]
-            ],
-            "frames": []
-        ]
-        jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
-    } catch let error {
-        logger.error("Error encoding JSON: \(error.localizedDescription)")
-    }
-    if let jsonData = jsonData {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        var jsonData: Data?
         do {
-            try jsonData.write(to: infoJsonURL)
-            logger.info("WriteJsonInfo success at: \(infoJsonURL)")
+            let jsonDict: [String: Any] = [
+                "uuid": uuid.uuidString,
+                "frameCount": frames.count,
+                "name": name,
+                "owners": owners,
+                "configs": [
+                    ["isImageEnable": isImageEnable],
+                    ["isTimeStampEnable": isTimeStampEnable],
+                    ["isIntrinsicEnable": isIntrinsicEnable],
+                    ["isExtrinsicEnable": isExtrinsicEnable],
+                    ["isDepthEnable": isDepthEnable],
+                    ["isConfidenceEnable": isConfidenceEnable],
+                    ["isGPSEnable": isGPSEnable],
+                    ["isRTKEnable": isRTKEnable],
+                    ["isMeshModel": isMeshModel],
+                    ["MeshModelName": meshModelName],
+                    ["isPointCloud": isPointCloud],
+                    ["PointCloudName": pointCloudName],
+                    ["coverName":coverName]
+                ],
+                "frames": []
+            ]
+            jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
         } catch let error {
-            logger.error("Error writing file: \(error.localizedDescription)")
+            logger.error("Error encoding JSON: \(error.localizedDescription)")
+        }
+        if let jsonData = jsonData {
+            do {
+                try jsonData.write(to: infoJsonURL)
+                logger.info("WriteJsonInfo success at: \(infoJsonURL)")
+            } catch let error {
+                logger.error("Error writing file: \(error.localizedDescription)")
+            }
         }
     }
-}
-
+    
 }

@@ -116,9 +116,25 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
             previousSavedFramePose = currentTransform
+            if(isRTKEnable)
+            {
+                let currentRTKData = retrieveCurrentRTKData() ?? RtkModel()
+                configJsonManager.updateFrameInfo(frame: frame, rtkModel: currentRTKData)
+            }
             configJsonManager.updateFrameInfo(frame: frame)
         }
+        
+        //
     }
+    
+    func retrieveCurrentRTKData() -> RtkModel? {
+        // Access the RTKViewModel instance to get the latest RTK data.
+        // This could be an injected instance or a shared instance.
+        // Assuming `rtkViewModel` is the instance of `RTKViewModel`.
+        //
+        return RtkModel()
+    }
+
     
     /**
      Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds
@@ -197,8 +213,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }
     }
     
-    
-    
     /**
      Start the lidar scan that enable meshing in the ARSCNView
      */
@@ -212,6 +226,12 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         status="scanning"
     }
     
+    func dropScan(){
+        if(status != "ready"){
+            sceneView.session.pause()
+            configJsonManager.deleteProjecFolder()
+        }
+    }
     
     func createStartScanConfig() ->ARConfiguration{
         let config = ARWorldTrackingConfiguration()
@@ -225,12 +245,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }
         return config
     }
-    
-    
- 
-    
-
-    
     
     func pauseScan(){
         sceneView.session.pause()
