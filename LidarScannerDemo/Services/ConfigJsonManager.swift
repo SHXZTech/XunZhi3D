@@ -91,7 +91,7 @@ struct ConfigJsonManager{
         owners.append(newOwner);
     }
     
-    mutating func updateFrameInfo(frame: ARFrame){
+    mutating func updateFrameInfo(frame: ARFrame, rtkModel: RtkModel = RtkModel()){
         var jsonInfo = FrameJsonInfo(dataFolder_: dataFolder, arFrame_: frame);
         jsonInfo.updateJsonInfo();
         updateFrameCount();

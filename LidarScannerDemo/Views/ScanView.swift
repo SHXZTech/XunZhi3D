@@ -90,6 +90,7 @@ struct ScanView: View {
             case "ready":
                 scanStatus = "scanning"
                 lidarMeshViewModel.startScan()
+            rtkViewModel.startRecord(uuid: self.uuid)
             case "scanning":
                 scanStatus = "finished"
                 lidarMeshViewModel.pauseScan()

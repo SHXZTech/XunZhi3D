@@ -18,6 +18,8 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var connectable: Bool = false
     @Published var isLoninSuccessful: Bool = false;
     
+    private var uuid: UUID?
+    
     private var currentDeviceIndex: Int = -1
     private var deviceModel: HCDeviceInfoBaseModel?
     private var nmeaSourceText: String?
@@ -81,6 +83,11 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         util?.toConnectDevice(itemIndex)
     }
     
+    func startRecord(uuid_: UUID)
+    {
+        self.uuid = uuid_;
+    }
+    
     func mapData() {
         guard currentDeviceIndex >= 0, currentDeviceIndex < rtkData.list.count else { return }
         nmeaSourceText = deviceModel?.nmeaSourceText
@@ -93,8 +100,8 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.verticalAccuracy = "\(deviceModel?.dz ?? "")"
         rtkData.horizontalAccuracy = "\(deviceModel?.dxy ?? "")"
         rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
-        rtkData.createTime = deviceModel?.createTime
-        
+        rtkData.createTime = deviceModel?.createTime ?? Date()
+        rtkData.timeStamp = Date()
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
             rtkData.diffStatus = "固定解"
@@ -109,7 +116,15 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             rtkData.diffStatus = "单点解"
             rtkData.signalStrength = 0
         }
+        if let uuid = uuid {
+            print("saving rtk to uuid")
+            let dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+            let infoJsonURL = dataFolder.appendingPathComponent("info.json");
+                saveRtkDataToInfoJson(rtkData: rtkData, infoJsonURL: infoJsonURL)
+            }
     }
+    
+
     
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
         // Handle error as needed
@@ -242,4 +257,33 @@ extension RtkService: HCSocketUtilDelegate {
     // Handle delegate methods here similar to your UIViewController
     // Update any necessary @Published properties to reflect changes
 }
+
+extension RtkService {
+    func saveRtkDataToInfoJson(rtkData: RtkModel, infoJsonURL: URL) {
+        do {
+            var existingJson: [String: Any] = [:]
+            if let jsonData = try? Data(contentsOf: infoJsonURL),
+               let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
+                existingJson = json
+            }
+
+            // Serialize RTK data to a JSON-compatible format
+            let rtkJsonData = try JSONEncoder().encode(rtkData)
+            let rtkJson = try JSONSerialization.jsonObject(with: rtkJsonData) as? [String: Any] ?? [:]
+
+            // Add or update RTK data in the existing JSON
+            // Assuming you want to store an array of RTK data entries
+            var rtkDataArray = existingJson["rtkData"] as? [[String: Any]] ?? []
+            rtkDataArray.append(rtkJson)
+            existingJson["rtkData"] = rtkDataArray
+
+            // Write the updated JSON back to the file
+            let updatedJsonData = try JSONSerialization.data(withJSONObject: existingJson, options: .prettyPrinted)
+            try updatedJsonData.write(to: infoJsonURL)
+        } catch {
+            print("Error updating info.json with RTK data: \(error)")
+        }
+    }
+}
+
 

@@ -38,6 +38,11 @@ class RTKViewModel: ObservableObject {
         rtkService.toConnectDiff()
     }
     
+    func startRecord(uuid: UUID){
+        rtkService.startRecord(uuid_: uuid)
+        
+    }
+    
     public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
         rtkService.isLoninSuccessful = false
         rtkService.ntripConfigModel.isCertified = false

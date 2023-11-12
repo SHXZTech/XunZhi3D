@@ -116,12 +116,25 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
             previousSavedFramePose = currentTransform
+            if(isRTKEnable)
+            {
+                let currentRTKData = retrieveCurrentRTKData() ?? RtkModel()
+                configJsonManager.updateFrameInfo(frame: frame, rtkModel: currentRTKData)
+            }
             configJsonManager.updateFrameInfo(frame: frame)
-            // Update RTK
         }
         
         //
     }
+    
+    func retrieveCurrentRTKData() -> RtkModel? {
+        // Access the RTKViewModel instance to get the latest RTK data.
+        // This could be an injected instance or a shared instance.
+        // Assuming `rtkViewModel` is the instance of `RTKViewModel`.
+        //
+        return RtkModel()
+    }
+
     
     /**
      Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds

@@ -58,12 +58,20 @@ struct RtkSettingView: View {
                 Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
                 Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
                 Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
-                Text("Create time: \(String(describing: viewModel.rtkData.createTime))")
+                Text("Create time: \(formattedDate(with: viewModel.rtkData.createTime))")
             }
             .frame(alignment: .leading)
             .padding()
         }
     }
+    
+    func formattedDate(with date: Date) -> String {
+        let formatter = DateFormatter()
+        // Include milliseconds in the format - "yyyy-MM-dd HH:mm:ss.SSS"
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
+        return formatter.string(from: date)
+    }
+
     
 
     
