@@ -9,7 +9,8 @@ import SwiftUI
 
 struct CapturePreviewView: View {
     var capture: CapturePreviewModel
-
+    var onSelect: (() -> Void)? // Closure to handle selection
+    
     var body: some View {
         VStack(spacing: 0){
             // Load image from URL
@@ -22,7 +23,7 @@ struct CapturePreviewView: View {
             .frame(maxWidth: .infinity, maxHeight: 140)
             .cornerRadius(0) // Make image bottom 90 angle
             .clipped()
-
+            
             HStack{
                 Text(capture.date.truncated(to: 20))
                     .font(.system(size: 15))
@@ -35,6 +36,9 @@ struct CapturePreviewView: View {
         .background(Color(.secondarySystemBackground)) // A light gray background
         .cornerRadius(3) // Round the corners of the background
         .frame(width: 200, height: 150)
+        .onTapGesture {
+            onSelect?() // Call the closure when the view is tapped
+        }
     }
 }
 

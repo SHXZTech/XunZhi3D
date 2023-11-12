@@ -74,7 +74,7 @@ struct RawScanView: View {
     private var content: some View {
         Group {
             if rawScanManager.isRawMeshExist() {
-                ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: .infinity)
+                ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
             } else {
                 Text("无法加载模型")
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
