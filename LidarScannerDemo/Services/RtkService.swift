@@ -41,12 +41,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
                 self.ntripConfigModel = loadedConfig
             } catch {
                 print("Failed to load NtripConfig: \(error)")
-                ntripConfigModel.ip = "117.135.142.201"
+                ntripConfigModel.ip = "203.107.45.154"
                 ntripConfigModel.port = 8002
-                ntripConfigModel.account = "cdea113"
-                ntripConfigModel.password = "ktkryu39"
-                ntripConfigModel.mountPointList = ["RTCM33_GRCE"]
-                ntripConfigModel.currentMountPoint = "RTCM33_GRCE"
+                ntripConfigModel.account = "qxxsrz001"
+                ntripConfigModel.password = "572a728"
+                ntripConfigModel.mountPointList = ["AUTO"]
+                ntripConfigModel.currentMountPoint = "AUTO"
                 ntripConfigModel.isCertified = false
             }
         }

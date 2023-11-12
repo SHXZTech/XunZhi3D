@@ -1,10 +1,10 @@
 {
-    "ip": "117.135.142.201",
+    "ip": "203.107.45.154",
     "port": 8002,
-    "account": "cdea113",
-    "password": "ktkryu39",
-    "mountPointList": ["RTCM33_GRCE"],
-    "currentMountPoint": "RTCM33_GRCE",
+    "account": "qxxsrz001",
+    "password": "572a728",
+    "mountPointList": ["AUTO"],
+    "currentMountPoint": "AUTO",
     "isCertified": false
     "author": "default"
 }
