@@ -11,8 +11,7 @@ struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
     @State private var selectedCapture: CapturePreviewModel? // State to track selected capture
-    
-    
+    @Binding var shouldReload: Bool
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
@@ -43,6 +42,12 @@ struct MainTagView: View {
                 }
             }.hidden())
         }
+        .onChange(of: shouldReload) { newValue in
+            if newValue {
+                viewModel.loadCaptures()
+                shouldReload = false // Reset the flag after loading
+            }
+        }
     }
     
     private var sortedCaptures: [CapturePreviewModel] {
@@ -65,9 +70,10 @@ struct MainTagView: View {
 
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create a MainTagView with a predefined set of captures for preview purposes
-        MainTagView(viewModel: MainTagViewModel(captures: []))
+        let shouldReloadBinding = Binding.constant(false)
+        MainTagView(viewModel: MainTagViewModel(captures: []), shouldReload: shouldReloadBinding)
     }
 }
+
 
 
