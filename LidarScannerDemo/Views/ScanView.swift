@@ -28,11 +28,13 @@ struct ScanView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
+            ZStack{
                 statusText
-                Spacer()
-                closeButton
+                    .multilineTextAlignment(.center)
+                HStack {
+                    Spacer()
+                    closeButton
+                }
             }
             scanArea
             scanButton
