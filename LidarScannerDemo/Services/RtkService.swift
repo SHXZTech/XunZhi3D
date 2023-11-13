@@ -56,14 +56,12 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     
     func startListening() {
         endListening()
-        //util = HCUtil(delegate: self)
         toSearch()
     }
     
     func endListening() {
         toDisconnect(isAuto: true)
         currentDeviceIndex = -1
-        //util = nil
         rtkData.list.removeAll()
     }
     

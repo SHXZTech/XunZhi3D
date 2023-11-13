@@ -50,7 +50,7 @@ struct ScanView: View {
     }
     
     private var statusText: some View {
-        Text(scanStatus.uppercased())
+       Text(NSLocalizedString(scanStatus, comment: "ScanStatus"))
     }
     
     private var closeButton: some View {

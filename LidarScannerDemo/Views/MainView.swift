@@ -3,8 +3,6 @@ import SwiftUI
 struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
-    //@State private var isPresentingScanView = false
-
     
     var body: some View {
         ZStack(alignment: .bottom) {
@@ -20,13 +18,13 @@ struct MainView: View {
             MainTagView()
             .tabItem {
                 Image(systemName: "house")
-                Text("主页")
+                Text(NSLocalizedString("homeTitle", comment: "Home tab title"))
             }
             .tag(0)
             Color.clear
                 .tabItem {
                     Image(systemName: "plus.rectangle.fill")
-                    Text("扫描")
+                    Text(NSLocalizedString("scanTitle", comment: "Scan tab title"))
                 }
                 .tag(1)
                 .onAppear {
@@ -36,7 +34,7 @@ struct MainView: View {
             SettingTabpageView()
                 .tabItem {
                     Image(systemName: "gearshape")
-                    Text("设置")
+                    Text(NSLocalizedString("settingsTitle", comment: "Settings tab title"))
                 }
                 .tag(2)
         }
