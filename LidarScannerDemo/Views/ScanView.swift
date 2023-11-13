@@ -118,11 +118,6 @@ struct LidarMeshViewContainer: UIViewRepresentable {
     
     func updateUIView(_ uiView: ARSCNView, context: Context) {}
     
-//    var coachingOverlay: some View {
-//           CoachingOverlayView()
-//               .frame(maxHeight: .infinity, alignment: .bottom) // Adjust the frame as needed
-//       }
-    
     class Coordinator: NSObject, ARSCNViewDelegate {
         let parent : LidarMeshViewContainer
         init(_ parent: LidarMeshViewContainer) {
