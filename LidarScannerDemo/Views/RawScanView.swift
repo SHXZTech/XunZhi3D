@@ -48,14 +48,14 @@ struct RawScanView: View {
                 .padding(.horizontal, 25)
                 .actionSheet(isPresented: $showingExitConfirmation) {
                                     ActionSheet(
-                                        title: Text("确认退出?"),
-                                        message: Text("删除草稿将删除所有采集的数据"),
+                                        title: Text(NSLocalizedString("Confirm exit?", comment: "")),
+                                        message: Text(NSLocalizedString("Deleting the draft will delete all collected data", comment: "")),
                                         buttons: [
-                                            .destructive(Text("删除草稿")) {
+                                            .destructive(Text(NSLocalizedString("Delete draft", comment: ""))) {
                                                 isPresenting = false
                                                 rawScanManager.deleteProjectFolder()
                                             },
-                                            .default(Text("保存草稿")) {
+                                            .default(Text(NSLocalizedString("Save draft", comment: ""))) {
                                                 isPresenting = false
                                             },
                                             .cancel()
@@ -64,7 +64,7 @@ struct RawScanView: View {
                                 }
             }
             
-            Text("草稿")
+            Text(NSLocalizedString("Draft", comment: ""))
                 .multilineTextAlignment(.center)
         }
         .padding(.vertical, 10)
@@ -76,7 +76,7 @@ struct RawScanView: View {
             if rawScanManager.isRawMeshExist() {
                 ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
             } else {
-                Text("无法加载模型")
+                Text(NSLocalizedString("Can not load model", comment: ""))
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
             }
         }
@@ -86,7 +86,7 @@ struct RawScanView: View {
     private var controls: some View {
         VStack {
            
-            Button("上传并处理") {
+            Button(NSLocalizedString("Upload & Process", comment: "")) {
                 isPresenting = false
                 //TODO
                 // Handle upload and process action
@@ -101,10 +101,10 @@ struct RawScanView: View {
             .cornerRadius(13)
             
             HStack() {
-                Text("图像数量: \(rawScanManager.raw_scan_model.frameCount)")  
+                Text(NSLocalizedString("Image count", comment: "") + ": \(rawScanManager.raw_scan_model.frameCount)")
                     .font(.footnote)
                 Spacer()
-                Text("预计传输时间: 1min")
+                Text(NSLocalizedString("Estimated time", comment: "") + "126" + NSLocalizedString("s", comment: ""))
                     .font(.footnote)
                 // Future button to upload to cloud
             }

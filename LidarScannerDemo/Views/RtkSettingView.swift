@@ -27,7 +27,7 @@ struct RtkSettingView: View {
                 rtkNtripConfigSection()
             }
             .padding()
-            .navigationTitle("RTK Device Settings")
+            .navigationTitle(NSLocalizedString("RTK Device Setting", comment: "rtk device setting"))
             .navigationBarTitleDisplayMode(.inline)
             .navigationBarItems(leading: cancelButton, trailing: connectButton)
             .onAppear {
@@ -46,24 +46,25 @@ struct RtkSettingView: View {
         }
     }
     
-    func rtkDataSection()-> some View{
-        GroupBox(label: Text("RTK Data")) {
+    func rtkDataSection() -> some View {
+        GroupBox(label: Text(NSLocalizedString("RTK Data", comment: "Header for the section displaying RTK data"))) {
             VStack(alignment: .leading, spacing: 10) {
-                Text("Device Name: \(viewModel.rtkData.deviceName)")
-                Text("Electricity: \(viewModel.rtkData.electricity)")
-                Text("Diff Status: \(viewModel.rtkData.diffStatus)")
-                Text("Longitude: \(viewModel.rtkData.longitude)")
-                Text("Latitude: \(viewModel.rtkData.latitude)")
-                Text("Height: \(viewModel.rtkData.height)")
-                Text("HorizontalAccuracy: \(viewModel.rtkData.horizontalAccuracy)")
-                Text("verticalAccuracy: \(viewModel.rtkData.verticalAccuracy)")
-                Text("Satellite Num: \(viewModel.rtkData.satelliteCount)")
-                Text("Create time: \(formattedDate(with: viewModel.rtkData.createTime))")
+                Text(NSLocalizedString("Device Name", comment: "Label for displaying the device name") + " \(viewModel.rtkData.deviceName)")
+                Text(NSLocalizedString("Electricity", comment: "Label for displaying the electricity level of the device") + " \(viewModel.rtkData.electricity)")
+                Text(NSLocalizedString("Diff status", comment: "Label for displaying the differential status of the RTK") + " \(viewModel.rtkData.diffStatus)")
+                Text(NSLocalizedString("Longitude", comment: "Label for displaying longitude data") + " \(viewModel.rtkData.longitude)")
+                Text(NSLocalizedString("Latitude", comment: "Label for displaying latitude data") + " \(viewModel.rtkData.latitude)")
+                Text(NSLocalizedString("Height", comment: "Label for displaying height data") + " \(viewModel.rtkData.height)")
+                Text(NSLocalizedString("Horizontal accuracy", comment: "Label for displaying the horizontal accuracy of the RTK data") + " \(viewModel.rtkData.horizontalAccuracy)")
+                Text(NSLocalizedString("Vertical accuracy", comment: "Label for displaying the vertical accuracy of the RTK data") + " \(viewModel.rtkData.verticalAccuracy)")
+                Text(NSLocalizedString("Satellite count", comment: "Label for displaying the number of satellites connected") + " \(viewModel.rtkData.satelliteCount)")
+                Text(NSLocalizedString("Create time", comment: "Label for displaying the creation time of the data") + " \(formattedDate(with: viewModel.rtkData.createTime))")
             }
             .frame(alignment: .leading)
             .padding()
         }
     }
+
     
     func formattedDate(with date: Date) -> String {
         let formatter = DateFormatter()
@@ -71,41 +72,61 @@ struct RtkSettingView: View {
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         return formatter.string(from: date)
     }
-
-    
-
     
     func rtkNtripConfigSection() -> some View {
         GroupBox(label:
             HStack {
-                Text("Ntrip Data")
+                Text(NSLocalizedString("Ntrip Data", comment: ""))
                 Spacer()
-                Text(viewModel.ntripConfigData.isCertified ? "认证成功" : "认证失败")
+                Text(viewModel.ntripConfigData.isCertified ? NSLocalizedString("Certified", comment: "") : NSLocalizedString("Certification Failed", comment: ""))
                     .foregroundColor(viewModel.ntripConfigData.isCertified ? .green : .red)
                     .fontWeight(.bold)
             }
         ) {
             VStack(alignment: .leading, spacing: 10) {
-                TextField("Ntrip IP", text: $viewModel.ntripConfigData.ip)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("Ntrip Port", text: $viewModel.portString)  // Updated line
-                                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                                    .keyboardType(.numberPad)
+                HStack {
+                    Text(NSLocalizedString("IP", comment: ""))
+                        .frame(width: 100, alignment: .leading)
+                    TextField(NSLocalizedString("Ntrip IP", comment: ""), text: $viewModel.ntripConfigData.ip)
+                }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-                .keyboardType(.numberPad)
-                TextField("Ntrip Account", text: $viewModel.ntripConfigData.account)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                SecureField("Ntrip Password", text: $viewModel.ntripConfigData.password)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                TextField("Mount Point", text: $viewModel.ntripConfigData.currentMountPoint)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                Button("验证Ntrip服务") {
+
+                HStack {
+                    Text(NSLocalizedString("Port", comment: ""))
+                        .frame(width: 100, alignment: .leading)
+                    TextField(NSLocalizedString("Ntrip Port", comment: ""), text: $viewModel.portString)
+                        .keyboardType(.numberPad)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                HStack {
+                    Text(NSLocalizedString("Account", comment: ""))
+                        .frame(width: 100, alignment: .leading)
+                    TextField(NSLocalizedString("Ntrip Account", comment: ""), text: $viewModel.ntripConfigData.account)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                HStack {
+                    Text(NSLocalizedString("Password", comment: ""))
+                        .frame(width: 100, alignment: .leading)
+                    SecureField(NSLocalizedString("Ntrip Password", comment: ""), text: $viewModel.ntripConfigData.password)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                HStack {
+                    Text(NSLocalizedString("Mount Point", comment: ""))
+                        .frame(width: 100, alignment: .leading)
+                    TextField(NSLocalizedString("Mount Point", comment: ""), text: $viewModel.ntripConfigData.currentMountPoint)
+                }
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+
+                Button(NSLocalizedString("Validate Ntrip Service", comment: "")) {
                     viewModel.toVerifyNtrip { isLoginSuccessful in
                         if isLoginSuccessful {
                             do {
                                 try viewModel.ntripConfigData.saveToLocal()
                             } catch {
-                                print("save to local fail: \(error)")
+                                print(NSLocalizedString("Save to local fail:", comment: ""))
                             }
                         }
                     }
@@ -116,11 +137,13 @@ struct RtkSettingView: View {
         }
     }
 
+
+
     
     
     func rtkBluetoothDeviceSection() -> some View{
         //TODO change the rtkBluetoothSearchedDeviceList() to be fixed
-        GroupBox(label: Text("RTK BLUETOOTH DEVICE")) {
+        GroupBox(label: Text(NSLocalizedString("RTK BLUETOOTH DEVICE", comment: ""))) {
             VStack(spacing: 20) {
                 if viewModel.rtkData.list.isEmpty {
                     rtkBluetoothSearchingDevice()
@@ -135,9 +158,9 @@ struct RtkSettingView: View {
     
     func rtkBluetoothSearchingDevice()-> some View{
         HStack {
-            Text("None")
+            Text(NSLocalizedString("None", comment: ""))
             Spacer()
-            Text("Searching...") // Small "Searching..." text
+            Text(NSLocalizedString("Searching", comment: "")+" ...") // Small "Searching..." text
                 .font(.footnote)
                 .foregroundColor(Color.gray)
             ProgressView() // Loading spinner
@@ -189,7 +212,7 @@ struct RtkSettingView: View {
         Button(action: {
             self.isPresented = false
         }) {
-            Text("Cancel")
+            Text(NSLocalizedString("Cancel", comment: ""))
         }
     }
     
@@ -207,12 +230,12 @@ struct RtkSettingView: View {
                 }
             }
         }) {
-            Text("Connect")
+            Text(NSLocalizedString("Connect", comment: ""))
         }
         .alert(isPresented: $showingWarningAlert) {
-            Alert(title: Text("Warning"),
+            Alert(title: Text(NSLocalizedString("Warning", comment: "")),
                   message: Text(warningMessage(for: currentWarning)),
-                  dismissButton: .default(Text("OK")) {
+                  dismissButton: .default(Text(NSLocalizedString("OK", comment: ""))) {
                 //RtkService.
                 startTimer()  // Restart the timer once the alert is dismissed
             })
@@ -250,9 +273,9 @@ struct RtkSettingView: View {
     func warningMessage(for warningType: WarningType) -> String {
         switch warningType {
         case .noDeviceConnected:
-            return "Please select a connected device."
+            return NSLocalizedString("Please select a connected device.", comment: "")
         case .ntripConfigFail:
-            return "Ntrip config failed."
+            return NSLocalizedString("Ntrip config failed.", comment: "")
         case .none:
             return "" // This won't be shown, but it's good to handle all cases
         }

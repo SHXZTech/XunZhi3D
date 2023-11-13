@@ -34,7 +34,7 @@ struct MainTagView: View {
                     .padding() // Add padding around the grid
                 }
             }
-            .navigationTitle("SiteSight")
+            .navigationTitle(NSLocalizedString("SiteSight", comment: "Product Name"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar)
             .background(NavigationLink("", isActive: isNavigationActive) {

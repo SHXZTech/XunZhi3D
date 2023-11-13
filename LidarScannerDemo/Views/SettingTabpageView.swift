@@ -11,6 +11,17 @@ struct SettingTabpageView: View {
     let buildNumber = Bundle.main.object(forInfoDictionaryKey: "BundleVersionNumber") as? String ?? "Unknown"
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "BundleVersion") as? String ?? "Unknown"
     
+    @AppStorage("selectedLanguage") private var selectedLanguage = Locale.current.language.languageCode?.identifier ?? "en"
+       var supportedLanguages: [String: String] {
+           guard let languageCodes = Bundle.main.object(forInfoDictionaryKey: "CFBundleLocalizations") as? [String] else { return [:] }
+           var languages: [String: String] = [:]
+           languageCodes.forEach { code in
+               let locale = Locale(identifier: code)
+               let languageName = locale.localizedString(forLanguageCode: code) ?? code
+               languages[code] = languageName
+           }
+           return languages
+       }
     
     var body: some View {
         NavigationStack {
@@ -20,51 +31,52 @@ struct SettingTabpageView: View {
                     AccountSenction
                     RtkSection
                     AboutSection
-                    
                 }
             }
-            .navigationTitle("设置")
+            .navigationTitle(NSLocalizedString("Setting", comment: "Setting"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar, .tabBar)
         }
     }
     
     private var AccountSenction: some View {
-        Section(header: Text("账户")) {
+        Section(header: Text(NSLocalizedString("Account", comment: "Account"))) {
             Text("-")
         }
     }
     
     private var RtkSection: some View{
         Section(header: Text("RTK")) {
-            Text("RTK设置")
+            Text("RTK "+NSLocalizedString("Setting", comment: "CopyRight"))
         }
     }
     
     private var AboutSection: some View{
-        Section(header: Text("关于"),footer: HStack{ Text("SiteSight \(appVersion) \(buildNumber)")
+        Section(header: Text(NSLocalizedString("About", comment: "Setting")),footer: HStack{ Text("SiteSight \(appVersion) \(buildNumber)")
             Spacer()
             Text("Copyright © 2023 Shanghai Xunzhi")}){
                 HStack {
-                    Text("版本信息")
+                    Text(NSLocalizedString("Version", comment: "Version"))
                     Spacer()
                     Text("\(appVersion) \(buildNumber)")
                         .foregroundColor(.gray)
                         .font(.footnote)
                 }
                 NavigationLink(destination: LicenseView()) {
-                    Text("版权信息")
+                    Text(NSLocalizedString("Copyright", comment: "CopyRight"))
                 }
-                //TODO
-                //                        NavigationLink(destination: DeveloperView()) {
-                //                            Text("Third Party License")
-                //                        }
                 NavigationLink(destination: DeveloperView()) {
-                    Text("开发者")
+                    Text(NSLocalizedString("Developer", comment: "Developer"))
                 }
-                //TODO
-                //Text("第三方版权")
-                //TODO add thirdparty licenses
+//                Picker("Language", selection: $selectedLanguage) {
+//                    ForEach(supportedLanguages.keys.sorted(), id: \.self) { key in
+//                        Text(supportedLanguages[key] ?? key).tag(key)
+//                    }
+//                }
+//                .onChange(of: selectedLanguage) { newValue in
+//                    LocalizationManager.shared.setLanguage(newValue)
+//                    // Additional logic to refresh the UI
+//                }
             }
     }
     

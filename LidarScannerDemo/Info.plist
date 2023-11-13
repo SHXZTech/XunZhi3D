@@ -2,28 +2,23 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>BundleVersionNumber</key>
-	<string>0.1</string>
 	<key>BundleVersion</key>
 	<string>Alpha</string>
-	<key>CFBundleVersion</key>
-	<string>Alpha</string>
-	<key>CFBundleShortVersionString</key>
+	<key>BundleVersionNumber</key>
 	<string>0.1</string>
+	<key>CFBundleLocalizations</key>
+	<array>
+		<string>zh_CN</string>
+		<string>en</string>
+	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>com.apple.developer.networking.wifi-info</key>
-	<string>YES</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Need Bluetooth permission for RTK connection.</string>
-	<key>CFBundleIdentifier</key>
-	<string></string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Need Bluetooth permission for RTK connection.</string>
 	<key>UIFileSharingEnabled</key>
 	<true/>
+	<key>com.apple.developer.networking.wifi-info</key>
+	<string>YES</string>
 </dict>
 </plist>
