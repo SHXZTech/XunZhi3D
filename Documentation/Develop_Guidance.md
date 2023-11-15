@@ -9,6 +9,11 @@ This project is written in Swift
     
 
 ### Model - View - ViewModel (MVVM)
+1. Model
+
+2. ViewModel
+
+3. View
 
 ## Code Style
 - Class

@@ -40,12 +40,14 @@
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
 		E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */; };
 		E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0DA32AE7A552006269D7 /* RtkService.swift */; };
-		E9BE9B072B01F1B900C91715 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B052B01F1B900C91715 /* Model.xcdatamodeld */; };
 		E9BE9B0A2B01F20B00C91715 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9BE9B082B01F20B00C91715 /* Localizable.strings */; };
 		E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9BE9B0B2B01F21D00C91715 /* Localizable.strings */; };
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
 		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
+		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
+		E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8932B04BD1400400270 /* CaptureViewService.swift */; };
+		E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8952B04C2AE00400270 /* FileManagerService.swift */; };
 		E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */; };
 		E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */; };
 		E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */; };
@@ -143,12 +145,14 @@
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
 		E9BE0DA32AE7A552006269D7 /* RtkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkService.swift; sourceTree = "<group>"; };
-		E9BE9B062B01F1B900C91715 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		E9BE9B092B01F20B00C91715 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = Localizable.strings; sourceTree = "<group>"; };
 		E9BE9B0C2B01F21D00C91715 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
+		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
+		E9E2A8932B04BD1400400270 /* CaptureViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewService.swift; sourceTree = "<group>"; };
+		E9E2A8952B04C2AE00400270 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = develop_FAQs.md; sourceTree = "<group>"; };
 		E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@3x.png"; sourceTree = "<group>"; };
 		E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App.png"; sourceTree = "<group>"; };
@@ -205,7 +209,6 @@
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
-				E9BE9B052B01F1B900C91715 /* Model.xcdatamodeld */,
 				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
 				E9BE9B032B01F14800C91715 /* en.lproj */,
 				E9E62A8C2AF8A9F2002DFB2C /* Assets */,
@@ -327,6 +330,7 @@
 				E9E62AA62AFA3278002DFB2C /* CapturePreviewModel.swift */,
 				E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */,
 				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
+				E9E2A8912B04BBBC00400270 /* CaptureModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -349,6 +353,8 @@
 				E9BE0DA32AE7A552006269D7 /* RtkService.swift */,
 				E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */,
 				E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */,
+				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
+				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -557,8 +563,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
 				E9E62AA12AF8D5F4002DFB2C /* MainView.swift in Sources */,
+				E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */,
 				E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */,
 				E9E62AB72AFB9BAC002DFB2C /* MainTagViewModel.swift in Sources */,
 				E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */,
@@ -569,7 +577,6 @@
 				E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */,
 				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
-				E9BE9B072B01F1B900C91715 /* Model.xcdatamodeld in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
@@ -599,6 +606,7 @@
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
+				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,19 +986,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		E9BE9B052B01F1B900C91715 /* Model.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				E9BE9B062B01F1B900C91715 /* Model.xcdatamodel */,
-			);
-			currentVersion = E9BE9B062B01F1B900C91715 /* Model.xcdatamodel */;
-			path = Model.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = E963F65129F23EB100CDE6E1 /* Project object */;
 }

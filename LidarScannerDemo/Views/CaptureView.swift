@@ -9,15 +9,19 @@ import SwiftUI
 import SceneKit
 import ARKit
 
+
+
 struct CaptureView: View {
     var uuid: UUID
-    var rawScanManager: RawScanManager
+    var captureService: CaptureViewService
     @Binding var isPresenting: Bool
     @State private var showingExitConfirmation = false
+    @State private var cloudButtonState: CloudButtonState = .upload
 
+    
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
-        self.rawScanManager = RawScanManager(uuid: uuid)
+        self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
     }
     
@@ -27,8 +31,6 @@ struct CaptureView: View {
             Spacer()
             content
             Spacer()
-            controls
-                .padding(.vertical, 20)
         }
     }
     
@@ -38,75 +40,94 @@ struct CaptureView: View {
                 Spacer()
                 Button(action: {
                 }, label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.red)
-                        .font(.title)
+                    Image(systemName: "ellipsis")
+                        .foregroundColor(.white)
                 })
                 .padding(.horizontal, 25)
-                .actionSheet(isPresented: $showingExitConfirmation) {
-                                    ActionSheet(
-                                        title: Text(NSLocalizedString("Confirm exit?", comment: "")),
-                                        message: Text(NSLocalizedString("Deleting the draft will delete all collected data", comment: "")),
-                                        buttons: [
-                                            .destructive(Text(NSLocalizedString("Delete draft", comment: ""))) {
-                                                isPresenting = false
-                                                rawScanManager.deleteProjectFolder()
-                                            },
-                                            .default(Text(NSLocalizedString("Save draft", comment: ""))) {
-                                                isPresenting = false
-                                            },
-                                            .cancel()
-                                        ]
-                                    )
-                                }
             }
-            
-            Text(NSLocalizedString("Draft", comment: ""))
-                .multilineTextAlignment(.center)
+            HStack{
+                cloudButton
+            }
         }
         .padding(.vertical, 10)
     }
-
+    
     
     private var content: some View {
         Group {
-            if rawScanManager.isRawMeshExist() {
-                ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
+            if captureService.isRawMeshExist() {
+                ModelViewer(modelURL: captureService.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
             } else {
                 Text(NSLocalizedString("Can not load model", comment: ""))
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
             }
         }
     }
+    
+    enum CloudButtonState {
+        case upload, uploading, processing, download, downloading, downloaded
+    }
 
     
-    private var controls: some View {
-        VStack {
-           
-            Button(NSLocalizedString("Upload & Process", comment: "")) {
-                isPresenting = false
-                //TODO
-                // Handle upload and process action
+    private var cloudButton: some View {
+        Button(action: {
+            // Define actions for each state here
+        }) {
+            VStack(alignment: .center) {
+                VStack{
+                    HStack {
+                        Image(systemName: imageForState(cloudButtonState))
+                            .foregroundColor(.white)
+                        Text(textForState(cloudButtonState))
+                            .foregroundStyle(.white)
+                    }
+                    Text("\(formatBytes(captureService.getProjectSize()))")
+                        .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
+                }
             }
-            .frame(width: 360, height: 54, alignment: .center)
+            .padding()
+            .frame(width: 200, height: 60)
             .background(Color.blue)
-            .foregroundColor(Color.white)
-            .cornerRadius(13)
-            .frame(width: 360, height: 54, alignment: .center)
-            .background(Color.red)
-            .foregroundColor(Color.white)
-            .cornerRadius(13)
-            
-            HStack() {
-                Text(NSLocalizedString("Image count", comment: "") + ": \(rawScanManager.raw_scan_model.frameCount)")
-                    .font(.footnote)
-                Spacer()
-                Text(NSLocalizedString("Estimated time", comment: "") + "126" + NSLocalizedString("s", comment: ""))
-                    .font(.footnote)
-                // Future button to upload to cloud
-            }
-            .padding(.horizontal,40)
+            .cornerRadius(15.0)
         }
+    }
+
+    private func textForState(_ state: CloudButtonState) -> String {
+        switch state {
+            case .upload:
+                return "Upload"
+            case .uploading:
+                return "Uploading"
+            case .processing:
+                return "Processing"
+            case .download:
+                return "Download"
+            case .downloading:
+                return "Downloading"
+            case .downloaded:
+                return "Downloaded"
+        }
+    }
+
+    private func imageForState(_ state: CloudButtonState) -> String {
+        switch state {
+            case .upload, .uploading:
+                return "icloud.and.arrow.up"
+            case .processing:
+                return "arrow.triangle.2.circlepath.icloud"
+            case .download, .downloading:
+                return "icloud.and.arrow.down"
+            case .downloaded:
+                return "checkmark.icloud"
+        }
+    }
+
+    func formatBytes(_ bytes: Int64) -> String {
+        let formatter = ByteCountFormatter()
+        formatter.allowedUnits = [.useMB] // or [.useKB, .useGB] depending on the size you expect
+        formatter.countStyle = .file
+        return formatter.string(fromByteCount: bytes)
     }
 }
 

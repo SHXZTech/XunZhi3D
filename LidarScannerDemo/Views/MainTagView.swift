@@ -39,7 +39,7 @@ struct MainTagView: View {
             .toolbarBackground(Color.black, for: .navigationBar)
             .background(NavigationLink("", isActive: isNavigationActive) {
                 if let selected = selectedCapture {
-                    RawScanView(uuid: selected.id, isPresenting: .constant(true)) // Modify according to your RawScanView initializer
+                    CaptureView(uuid: selected.id, isPresenting: .constant(true)) // Modify according to your RawScanView initializer
                 }
             }.hidden())
         }
