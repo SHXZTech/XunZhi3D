@@ -15,28 +15,44 @@ struct CaptureView: View {
     var uuid: UUID
     var captureService: CaptureViewService
     @Binding var isPresenting: Bool
-    @State private var showingExitConfirmation = false
     @State private var cloudButtonState: CloudButtonState = .upload
 
     
     init(uuid: UUID, isPresenting: Binding<Bool>) {
+        print("init captureView with uuid:", uuid.uuidString)
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
     }
     
     var body: some View {
-        VStack {
-            header
-            Spacer()
-            content
-            Spacer()
+        ZStack{
+            Color.black
+            VStack {
+                header
+                Spacer()
+                content
+                Spacer()
+            }
         }
+        .navigationBarTitle("", displayMode: .inline)
+        .navigationBarHidden(true)
     }
     
     private var header: some View {
         ZStack {
             HStack {
+                Button(action: {
+                    self.isPresenting = false
+                }, label: {Image(systemName: "chevron.left").foregroundColor(.white)})
+                    .padding(.horizontal, 25)
+                Spacer()
+                VStack(alignment: .leading){
+                    Text("民生路1399号")
+                        .font(.system(size: 15))
+                    Text("10月7日，11:30")
+                        .font(.system(size: 12))
+                }
                 Spacer()
                 Button(action: {
                 }, label: {
@@ -46,7 +62,7 @@ struct CaptureView: View {
                 .padding(.horizontal, 25)
             }
             HStack{
-                cloudButton
+               // cloudButton
             }
         }
         .padding(.vertical, 10)
@@ -87,7 +103,7 @@ struct CaptureView: View {
                 }
             }
             .padding()
-            .frame(width: 200, height: 60)
+            .frame(width: 150, height: 50)
             .background(Color.blue)
             .cornerRadius(15.0)
         }

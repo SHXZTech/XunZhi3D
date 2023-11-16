@@ -8,16 +8,17 @@
 import SwiftUI
 import SceneKit
 
-import SwiftUI
-import SceneKit
 
 
 class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegate {
     @Published var isSceneLoaded: Bool = false
-
+    
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        DispatchQueue.main.async {
-            self.isSceneLoaded = true
+        if !isSceneLoaded {
+            DispatchQueue.main.async() {
+                self.isSceneLoaded = true
+                print("self.isSceneLoaded = true")
+            }
         }
     }
 }
@@ -28,17 +29,18 @@ struct ModelViewer: View {
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
     @ObservedObject var delegate = SceneRendererDelegate()
-
+    
     var body: some View {
         ZStack {
-            SceneView(scene: try? SCNScene(url: modelURL), options: [.autoenablesDefaultLighting, .allowsCameraControl], delegate: delegate)
-                .frame(width: width, height: height)
-                .scaledToFit()
-
-//            if !delegate.isSceneLoaded {
-//                LoadingView()
-//                    .frame(width: width, height: height)
-//            }
+            if let scene = try? SCNScene(url: modelURL) {
+                LoadingView()
+                    .frame(width: width, height: height) // this works while may contain error
+                SceneView(scene: scene, options: [.autoenablesDefaultLighting,.allowsCameraControl])
+                    .frame(width: width , height:  height)
+                    .scaledToFit()
+            } else {
+                Text("Error loading model")
+            }
         }
     }
 }
@@ -47,7 +49,7 @@ struct ModelViewer: View {
 struct LoadingView: View {
     var body: some View {
         VStack {
-            Text("Loading...")
+            Text(NSLocalizedString("Loading...", comment: "loading..."))
                 .font(.headline)
             ProgressView()
         }
@@ -60,5 +62,4 @@ struct ModelViewer_Previews: PreviewProvider {
         return ModelViewer(modelURL: modelURL)
     }
 }
-
 
