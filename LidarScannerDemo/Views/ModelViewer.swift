@@ -11,37 +11,38 @@ import SceneKit
 import SwiftUI
 import SceneKit
 
+
+class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegate {
+    @Published var isSceneLoaded: Bool = false
+
+    func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        DispatchQueue.main.async {
+            self.isSceneLoaded = true
+        }
+    }
+}
+
+
 struct ModelViewer: View {
     var modelURL: URL
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
-    @State private var isLoading = true
+    @ObservedObject var delegate = SceneRendererDelegate()
 
     var body: some View {
         ZStack {
-            // Display a loading view
-            if isLoading {
-                LoadingView()
-                    .frame(width: width, height: height)
-                    .onAppear {
-                        // After 3 seconds, hide the loading view
-                        DispatchQueue.main.asyncAfter(deadline: .now()+1) {
-                            self.isLoading = false
-                        }
-                    }
-            }
-            // Load SceneView in the background
-            if let scene = try? SCNScene(url: modelURL) {
-                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
-                    .frame(width: width, height: height)
-                    .scaledToFit()
-                    .opacity(isLoading ? 0 : 1) // Hide SceneView while loading
-            } else {
-                Text("Error loading model")
-            }
+            SceneView(scene: try? SCNScene(url: modelURL), options: [.autoenablesDefaultLighting, .allowsCameraControl], delegate: delegate)
+                .frame(width: width, height: height)
+                .scaledToFit()
+
+//            if !delegate.isSceneLoaded {
+//                LoadingView()
+//                    .frame(width: width, height: height)
+//            }
         }
     }
 }
+
 
 struct LoadingView: View {
     var body: some View {
