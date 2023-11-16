@@ -45,6 +45,7 @@
 		E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9BE9B0B2B01F21D00C91715 /* Localizable.strings */; };
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
+		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
 		E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */; };
 		E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */; };
 		E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */; };
@@ -147,6 +148,7 @@
 		E9BE9B0C2B01F21D00C91715 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = develop_FAQs.md; sourceTree = "<group>"; };
 		E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@3x.png"; sourceTree = "<group>"; };
 		E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App.png"; sourceTree = "<group>"; };
@@ -306,6 +308,7 @@
 				E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */,
 				E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */,
 				E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */,
+				E9E2A8892B049F8400400270 /* CaptureView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -577,6 +580,7 @@
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */,
+				E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */,
 				E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */,
 				E9E62ABB2AFC8AE4002DFB2C /* StringExtension.swift in Sources */,
 				E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */,

@@ -203,7 +203,7 @@ struct ConfigJsonManager{
             property float x
             property float y
             property float z
-            end_header
+            end_header\n
             """
         for point in points {
             plyContent += "\(point.x) \(point.y) \(point.z)\n"
