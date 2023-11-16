@@ -37,8 +37,6 @@ struct RawScanView: View {
             HStack {
                 Spacer()
                 Button(action: {
-                    //isPresenting = false  // This will dismiss the view and go back to MainView
-                    //rawScanManager.deleteProjectFolder()
                     self.showingExitConfirmation = true
                 }, label: {
                     Image(systemName: "xmark.circle.fill")
@@ -116,7 +114,6 @@ struct RawScanView: View {
 // Update your preview provider to pass a constant binding.
 struct RawScanViewer_Previews: PreviewProvider {
     static var previews: some View {
-        // Use constant binding for previews
         RawScanView(uuid: UUID(), isPresenting: .constant(true))
     }
 }
