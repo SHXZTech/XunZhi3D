@@ -16,6 +16,7 @@ struct CaptureView: View {
     var captureService: CaptureViewService
     @Binding var isPresenting: Bool
     @State private var cloudButtonState: CloudButtonState = .upload
+    @State private var showModel = false // 0 for 3dmodel, 1 for info
 
     
     init(uuid: UUID, isPresenting: Binding<Bool>) {
@@ -30,6 +31,7 @@ struct CaptureView: View {
             Color.black
             VStack {
                 header
+                modelOrInfo
                 Spacer()
                 content
                 Spacer()
@@ -68,6 +70,29 @@ struct CaptureView: View {
         .padding(.vertical, 10)
     }
     
+    private var modelOrInfo: some View {
+            VStack {
+                // Slider for toggling
+                HStack {
+                    Text("3D Model")
+                    Slider(value: Binding(
+                        get: { self.showModel ? 1 : 0 },
+                        set: { self.showModel = $0 >= 0.5 }
+                    ), in: 0...1)
+                    Text("Info")
+                }
+                .padding()
+
+                // Conditional content based on slider's value
+                if showModel {
+                    // Display 3D model
+                    // (Your code to display the 3D model goes here)
+                } else {
+                    // Display info
+                    // (Your code to display the info goes here)
+                }
+            }
+        }
     
     private var content: some View {
         Group {
