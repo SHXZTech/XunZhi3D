@@ -36,8 +36,6 @@ struct CapturePreviewView: View {
                 .clipped()
             }
             .edgesIgnoringSafeArea(.horizontal)
-
-           
             HStack{
                 Text(capture.dateString.truncated(to: 20))
                     .font(.system(size: 15))
@@ -52,8 +50,6 @@ struct CapturePreviewView: View {
         .onTapGesture {
             onSelect?() // Call the closure when the view is tapped
         }
-
-
     }
 }
 

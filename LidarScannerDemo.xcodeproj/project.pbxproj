@@ -36,6 +36,7 @@
 		E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */ = {isa = PBXBuildFile; fileRef = E963F6AB29F776FC00CDE6E1 /* config.geojson */; };
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
+		E97053AD2B07421900241635 /* MapMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97053AC2B07421900241635 /* MapMarkView.swift */; };
 		E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D932AE7945B006269D7 /* RtkModel.swift */; };
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
 		E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */; };
@@ -74,6 +75,8 @@
 		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
 		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 		E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */; };
+		E9F596812B06EDDD00899219 /* VersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F596802B06EDDD00899219 /* VersionView.swift */; };
+		E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F596822B06FE1D00899219 /* ModelInfoView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -141,6 +144,7 @@
 		E963F6AB29F776FC00CDE6E1 /* config.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.geojson; sourceTree = "<group>"; };
 		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
+		E97053AC2B07421900241635 /* MapMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
 		E9BE0D932AE7945B006269D7 /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
@@ -178,6 +182,8 @@
 		E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
 		E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoSensorModel.swift; sourceTree = "<group>"; };
 		E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
+		E9F596802B06EDDD00899219 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
+		E9F596822B06FE1D00899219 /* ModelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -312,6 +318,9 @@
 				E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */,
 				E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */,
 				E9E2A8892B049F8400400270 /* CaptureView.swift */,
+				E9F596802B06EDDD00899219 /* VersionView.swift */,
+				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
+				E97053AC2B07421900241635 /* MapMarkView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -563,6 +572,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */,
 				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
 				E9E62AA12AF8D5F4002DFB2C /* MainView.swift in Sources */,
@@ -583,6 +593,7 @@
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
 				E9E62AB32AFB876C002DFB2C /* DeveloperView.swift in Sources */,
+				E97053AD2B07421900241635 /* MapMarkView.swift in Sources */,
 				E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */,
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
@@ -597,6 +608,7 @@
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
 				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
+				E9F596812B06EDDD00899219 /* VersionView.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
 				E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,

@@ -11,17 +11,19 @@ struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
    
-    @Binding var selectedCaptureUUID: UUID // Add this line
-    @Binding var showCapture: Bool
+    @State var showCapture:Bool
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
         GridItem(.flexible(), spacing: 16)
     ]
     
-    init( selectedCapture: Binding<UUID> ,showCapture: Binding<Bool>) {
-        self._showCapture = showCapture
-        self._selectedCaptureUUID = selectedCapture
+    init() {
+        self.showCapture = false
+        //selectedCaptureUUID = UUID()
+        //self.viewModel = MainTagViewModel();
+        //self._showCapture = showCapture
+        //self._selectedCaptureUUID = selectedCapture
     }
     
     var body: some View {
@@ -32,34 +34,28 @@ struct MainTagView: View {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(viewModel.captures, id: \.id) { capture in
                             CapturePreviewView(capture: capture) {
-                                self.selectedCaptureUUID = capture.id
-                                self.showCapture = true
+                                viewModel.selectCapture(uuid: capture.id)
+                                showCapture = true
                             }
                         }
                     }
                     .padding() // Add padding around the grid
                 }
             }
-            .navigationTitle(NSLocalizedString("SiteSight", comment: "Product Name"))
+            .navigationTitle(Text("SiteSight"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar)
         }
+        .fullScreenCover(isPresented: $showCapture) {
+            CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+        }
+
     }
     
     private var sortedCaptures: [CapturePreviewModel] {
         viewModel.captures.sorted { $0.date > $1.date }
     }
-    
-//    private var isNavigationActive: Binding<Bool> {
-//        Binding(
-//            get: { self.selectedCapture != nil },
-//            set: { isActive in
-//                if !isActive {
-//                    self.selectedCapture = nil
-//                }
-//            }
-//        )
-//    }
+
 }
 
 // MARK: - Preview

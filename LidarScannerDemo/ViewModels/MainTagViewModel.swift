@@ -11,9 +11,24 @@ import Combine
 class MainTagViewModel: ObservableObject {
     @Published var captures = [CapturePreviewModel]()
 
+    var selectedCaptureUUID: UUID?
+    //@Binding var showCapture: Bool
+    
     init(captures: [CapturePreviewModel] = []) {
         self.captures = captures
         loadCaptures()
+    }
+    
+    func selectCapture(uuid: UUID){
+        print("selectedCapture")
+        print("self.selectedCaptureUUID", self.selectedCaptureUUID?.uuidString ?? "nil uuid")
+        print("uuid:", uuid)
+        self.selectedCaptureUUID = uuid
+        //showCapture = true
+        print("self.selectedCaptureUUID", self.selectedCaptureUUID!)
+        print("uuid:", uuid)
+        print()
+        
     }
 
     func loadCaptures() {

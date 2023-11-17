@@ -9,8 +9,20 @@ import SwiftUI
 
 struct VersionView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Section(header: VStack(alignment:.leading){Text("Alpha 0.1").font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/); Text("11月10日")
+            .font(.footnote)}){
+            VStack(alignment:.leading){
+                
+                Text("测试版首次发布。")
+                Spacer()
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .padding(.leading, 30)
+        .navigationTitle(NSLocalizedString("Version", comment: "Version"))
+        .navigationBarTitleDisplayMode(.inline)
     }
+    
 }
 
 #Preview {

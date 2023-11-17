@@ -4,29 +4,23 @@ struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
     @State private var showCaptureView = false
-    @State private var selectedCaptureUUID = UUID()
+    //@State private var selectedCaptureUUID = UUID()
     
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
-//            if let selectedCaptureUUID = selectedCaptureUUID {
-//                CaptureView(uuid: selectedCaptureUUID, isPresenting: $showCaptureView)
-//                    .fullScreenCover(isPresented: $showCaptureView, content: {
-//                        
-//                    })
-//            }
         }
-        .fullScreenCover(isPresented: $showCaptureView) {
-                 CaptureView(uuid: selectedCaptureUUID, isPresenting: $showCaptureView)
-        }
-        .fullScreenCover(isPresented: $showScanView) {
-            ScanView(uuid: UUID(),isPresenting: $showScanView)
-        }
+//        .fullScreenCover(isPresented: $showCaptureView) {
+//            CaptureView(uuid: selectedCaptureUUID, isPresenting: $showCaptureView)
+//        }
+//        .fullScreenCover(isPresented: $showScanView) {
+//            ScanView(uuid: UUID(),isPresenting: $showScanView)
+//        }
     }
     
     private var mainTabView: some View {
         TabView(selection: $selectedTab) {
-            MainTagView(selectedCapture: $selectedCaptureUUID, showCapture:$showCaptureView)
+            MainTagView()
                 .tabItem {
                     Image(systemName: "house")
                     Text(NSLocalizedString("homeTitle", comment: "Home tab title"))
@@ -55,6 +49,7 @@ struct MainView: View {
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
+        //Text("hello world")
         MainView()
     }
 }
