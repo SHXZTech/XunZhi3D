@@ -25,15 +25,15 @@ struct CaptureView: View {
     }
     
     @State private var selectedViewMode:ViewMode = ViewMode.info
-    
-    
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
-        self.modelView = ModelViewer(modelURL: captureService.getRawMeshURL(), height: UIScreen.main.bounds.height * 0.5)
-        self.modelInfoView = ModelInfoView()
+        self.modelView = ModelViewer(modelURL: captureService.getRawMeshURL(), width: UIScreen.main.bounds.width*1, height: UIScreen.main.bounds.height * 0.8)
+        let capturemodel = self.captureService.captureModel
+        self.modelInfoView = ModelInfoView(capturemodel_: capturemodel)
     }
+
     
     var body: some View {
         ZStack{
@@ -41,9 +41,7 @@ struct CaptureView: View {
             VStack {
                 header
                 modelInfoPicker
-                Spacer()
                 content
-                Spacer()
             }
         }
         .navigationBarTitle("", displayMode: .inline)
@@ -89,10 +87,15 @@ struct CaptureView: View {
             // Model Viewer View
             Group {
                 if captureService.isRawMeshExist() {
-                    modelView
+                    VStack{
+                        Spacer()
+                        modelView
+                            .cornerRadius(15)
+                        Spacer()
+                    }
                 } else {
                     Text(NSLocalizedString("Can not load model", comment: ""))
-                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.5)
+                        .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.6)
                 }
             }
             .opacity(selectedViewMode == .model ? 1 : 0)
@@ -119,7 +122,7 @@ struct CaptureView: View {
                     Text(textForState(cloudButtonState))
                         .foregroundStyle(.white)
                 }
-                Text("请上传云端处理")
+                Text("上传云端处理")
                     .font(.system(size: 10))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)

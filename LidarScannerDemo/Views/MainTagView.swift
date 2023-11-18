@@ -13,17 +13,16 @@ struct MainTagView: View {
    
     @State var showCapture:Bool
     
+    @Binding var shouldReload: Bool
+    
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
         GridItem(.flexible(), spacing: 16)
     ]
     
-    init() {
+    init(shouldReload: Binding<Bool>) {
+        self._shouldReload = shouldReload
         self.showCapture = false
-        //selectedCaptureUUID = UUID()
-        //self.viewModel = MainTagViewModel();
-        //self._showCapture = showCapture
-        //self._selectedCaptureUUID = selectedCapture
     }
     
     var body: some View {
@@ -39,7 +38,7 @@ struct MainTagView: View {
                             }
                         }
                     }
-                    .padding() // Add padding around the grid
+                    .padding()
                 }
             }
             .navigationTitle(Text("SiteSight"))
@@ -49,7 +48,11 @@ struct MainTagView: View {
         .fullScreenCover(isPresented: $showCapture) {
             CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
         }
-
+        .onChange(of: shouldReload){newValue in
+                print("MainTagView triggle shouldReloadMaintagView = true")
+                viewModel.loadCaptures()
+                showCapture = false
+        }
     }
     
     private var sortedCaptures: [CapturePreviewModel] {

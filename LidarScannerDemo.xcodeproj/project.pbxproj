@@ -12,6 +12,7 @@
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
 		E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */; };
 		E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */; };
+		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */; };
 		E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65E29F23EB100CDE6E1 /* ContentView.swift */; };
 		E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = E963F66029F23EB100CDE6E1 /* Experience.rcproject */; };
@@ -116,6 +117,7 @@
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
 		E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataManager.swift; sourceTree = "<group>"; };
+		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LidarScannerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E963F65E29F23EB100CDE6E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 				E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */,
 				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
 				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
+				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -599,6 +602,7 @@
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */,
 				E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */,
+				E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */,
 				E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */,
 				E9E62ABB2AFC8AE4002DFB2C /* StringExtension.swift in Sources */,
 				E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */,

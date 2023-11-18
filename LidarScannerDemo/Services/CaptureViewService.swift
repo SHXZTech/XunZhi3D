@@ -11,7 +11,7 @@ import SceneKit
 
 struct CaptureViewService{
     
-    private var captureModel: CaptureModel
+    public var captureModel: CaptureModel
     init(id_:UUID)
     {
         self.captureModel = CaptureModel(id:id_)
@@ -48,6 +48,25 @@ struct CaptureViewService{
                         }
                     }
                 }
+                if let rtkDataArray = jsonDict["rtkData"] as? [[String: Any]] {
+                       var rtkObjects = [RTKdata]()
+                       for rtkEntry in rtkDataArray {
+                           let longitude = Double(rtkEntry["longitude"] as? String ?? "") ?? 0.0
+                           let latitude = Double(rtkEntry["latitude"] as? String ?? "") ?? 0.0
+                           let rtkData = RTKdata(
+                               longitude: longitude,
+                               latitude: latitude,
+                               horizontalAccuracy: Double(rtkEntry["horizontalAccuracy"] as? String ?? "") ?? 0.0,
+                               verticalAccuracy: Double(rtkEntry["verticalAccuracy"] as? String ?? "") ?? 0.0,
+                               fixStatus: Int(rtkEntry["fixStatus"] as? Int ?? 0),
+                               height: rtkEntry["height"] as? Double ?? 0.0,
+                               timeStamp: convertUnixTimeStampToDate(rtkEntry["timeStamp"] as? Double),
+                               GpsLocations: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+                           )
+                           rtkObjects.append(rtkData)
+                       }
+                       captureModel.rtkDataArray = rtkObjects
+                   }
                 captureModel.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
                 captureModel.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
                 captureModel.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false
@@ -59,8 +78,23 @@ struct CaptureViewService{
         }
     }
     
+    private func convertUnixTimeStampToDate(_ timeStamp: Double?) -> Date {
+        guard let timeStamp = timeStamp else { return Date() }
+        return Date(timeIntervalSince1970: timeStamp)
+    }
+    
     private mutating func loadFolderSize(){
         captureModel.totalSize = calculateFolderSize(folderURL: captureModel.scanFolder!)
+    }
+    
+    
+    
+    private func convertStringToDate(_ string: String?) -> Date {
+        guard let string = string else { return Date() }
+        let formatter = DateFormatter()
+        // Adjust the date format according to the format used in your JSON
+        formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        return formatter.date(from: string) ?? Date()
     }
     
     func loadCloudStatus(){
