@@ -13,7 +13,7 @@ struct ModelInfoView: View {
     var captureModel: CaptureModel
     // Temporary mock data for preview purposes
     var date: String = "-"
-    var location: String = "-"
+    //var location: String = "-"
     var frameCount: String = "-"
     var folderSize: String = "-"
     var rtkEnable: String = "-"
@@ -26,12 +26,17 @@ struct ModelInfoView: View {
     var verticalAccuracy: String = "-"
     
     
-    
+    @State private var location: String
+
     
     
     // Call this function in the init
     init(capturemodel_: CaptureModel) {
         self.captureModel = capturemodel_
+        
+        _location = State(initialValue: captureModel.createLocation ?? "Fetching location...")
+          
+        
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
             let formatter = DateFormatter()
@@ -39,7 +44,7 @@ struct ModelInfoView: View {
             self.date = formatter.string(from: createDate)
         }
         // Location
-        self.location = captureModel.createLocation ?? "Unknown Location"
+        //self.location = captureModel.createLocation ?? "Unknown Location"
         // Frame Count
         self.frameCount = String(captureModel.frameCount)
         // Folder Size
@@ -69,6 +74,22 @@ struct ModelInfoView: View {
         }
     }
     
+    private func fetchLocationIfNeeded() {
+        if captureModel.createLocation == nil || captureModel.createLocation == "Unknown Location" {
+            if let firstRtkData = captureModel.rtkDataArray.first {
+                let convertedCoordinates = CoordinateService.wgs84ToGcj02(lat: firstRtkData.latitude, lng: firstRtkData.longitude)
+                
+                CoordinateService.fetchLocation(forLatitude: convertedCoordinates.latitude, longitude: convertedCoordinates.longitude) { fetchedLocation in
+                    DispatchQueue.main.async {
+                        self.location = fetchedLocation ?? "Unknown Location"
+                    }
+                }
+            }
+        }
+    }
+
+
+    
     private mutating func PreProcessCaptureModel() {
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
@@ -77,8 +98,6 @@ struct ModelInfoView: View {
             self.date = formatter.string(from: createDate)
         }
         
-        // Location
-        self.location = captureModel.createLocation ?? "Unknown Location"
         
         // Frame Count
         self.frameCount = String(captureModel.frameCount)
@@ -109,6 +128,11 @@ struct ModelInfoView: View {
         if let vAccuracy = captureModel.minVerticalAccuracy {
             self.verticalAccuracy = String(format: "%.3f 米", vAccuracy)
         }
+        
+        // Location - read the location from internet
+        //self.location = captureModel.createLocation ?? "Unknown Location"
+        
+        
     }
     
     
@@ -126,6 +150,7 @@ struct ModelInfoView: View {
                 Spacer()
             }
             .padding(.horizontal, 20)
+            .onAppear(perform: fetchLocationIfNeeded)
         }
     }
     
@@ -148,7 +173,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
                 Text(location)
-                    .font(.system(size: 18))
+                    .font(.system(size: 15))
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }

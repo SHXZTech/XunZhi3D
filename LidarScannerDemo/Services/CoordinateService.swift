@@ -7,6 +7,8 @@
 
 import Foundation
 import CoreLocation
+import CoreLocation
+
 
 struct CoordinateService {
 
@@ -53,6 +55,30 @@ struct CoordinateService {
         let mgLng = lng + (dLng * 180.0) / (a / sqrtMagic * cos(radLat) * pi)
         return CLLocationCoordinate2D(latitude: lat * 2 - mgLat, longitude: lng * 2 - mgLng)
     }
+    
+    static func fetchLocation(forLatitude latitude: Double, longitude: Double, completion: @escaping (String?) -> Void) {
+        let geocoder = CLGeocoder()
+        let location = CLLocation(latitude: latitude, longitude: longitude)
+
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Geocoding error: \(error)")
+                completion(nil)
+                return
+            }
+            if let placemark = placemarks?.first {
+                let city = placemark.locality ?? ""
+                let district = placemark.subLocality ?? ""
+                let road = placemark.thoroughfare ?? ""
+                let number = placemark.subThoroughfare ?? ""
+                let shortAddress = "\(city) \(district) \(road) \(number)".trimmingCharacters(in: .whitespaces)
+                completion(shortAddress)
+            } else {
+                completion("Unknown Location")
+            }
+        }
+    }
+
 }
 
 
