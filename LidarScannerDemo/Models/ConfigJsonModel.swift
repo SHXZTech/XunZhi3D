@@ -34,4 +34,5 @@ struct ConfigJsonModel {
     var isRTKEnable: Bool = false
     var configs: [String: Any] = [:]
     var mode: String = "lidar"
+
 }

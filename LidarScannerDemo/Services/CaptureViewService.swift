@@ -67,6 +67,15 @@ struct CaptureViewService{
                        }
                        captureModel.rtkDataArray = rtkObjects
                    }
+                
+                if let configs = jsonDict["configs"] as? [[String: Any]] {
+                    for config in configs {
+                        if let createDateStr = config["createDate"] as? String {
+                            captureModel.createDate = convertStringToDate(createDateStr)
+                            break // Assuming only one createDate in configs
+                        }
+                    }
+                }
                 captureModel.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
                 captureModel.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
                 captureModel.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false
