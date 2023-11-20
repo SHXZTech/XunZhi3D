@@ -13,7 +13,6 @@ struct MainTagView: View {
    
     @State var showCapture:Bool
     
-    @State private var selectedCapture: CapturePreviewModel? // State to track selected capture
     @Binding var shouldReload: Bool
     
     let columns: [GridItem] = [
