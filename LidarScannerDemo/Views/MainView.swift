@@ -5,10 +5,7 @@ struct MainView: View {
     @State private var showScanView = false
     @State private var showCaptureView = false
     @State var shouldReloadMaintagView = false
-    //@State private var selectedCaptureUUID = UUID()
     
-    @State private var shouldReloadMainTagView = false // State to trigger reload in MainTagView
-
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
@@ -17,8 +14,8 @@ struct MainView: View {
             ScanView(uuid: UUID(),isPresenting: $showScanView)
         }
         .onChange(of: showScanView) { newValue in
-                    if !newValue {
-                        shouldReloadMainTagView = true // Set this to true when showScanView changes to false
+                    if (!newValue) {
+                        shouldReloadMaintagView = true;
                     }
                 }
     }
