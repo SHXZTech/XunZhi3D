@@ -24,7 +24,7 @@ struct ModelInfoView: View {
     var coordinateSystem: String = "-"
     var horizontalAccuracy: String = "-"
     var verticalAccuracy: String = "-"
-    
+    let half_scrren_width = UIScreen.main.bounds.width / 2 - 10
     
     @State private var location: String
 
@@ -33,19 +33,15 @@ struct ModelInfoView: View {
     // Call this function in the init
     init(capturemodel_: CaptureModel) {
         self.captureModel = capturemodel_
-        
+
         _location = State(initialValue: captureModel.createLocation ?? NSLocalizedString("Unknown location",comment: ""))
           
-        
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
             let formatter = DateFormatter()
             formatter.dateFormat = NSLocalizedString("date_format", comment: "")
-            //"MM月dd日 HH:mm" // Adjust the date format as needed
             self.date = formatter.string(from: createDate)
         }
-        // Location
-        //self.location = captureModel.createLocation ?? "Unknown Location"
         // Frame Count
         self.frameCount = String(captureModel.frameCount)
         // Folder Size
@@ -167,7 +163,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text(NSLocalizedString("create_location", comment: ""))
                     .font(.system(size: 15))
@@ -178,7 +174,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }
@@ -195,7 +191,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text(NSLocalizedString("folder_size", comment: ""))
                     .font(.system(size: 15))
@@ -206,7 +202,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }
@@ -223,7 +219,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text("GPS")
                     .font(.system(size: 15))
@@ -234,7 +230,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }
@@ -251,7 +247,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text(NSLocalizedString("Longitute", comment: ""))
                     .font(.system(size: 15))
@@ -262,7 +258,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }
@@ -279,7 +275,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text(NSLocalizedString("Vertical_accuracy", comment: ""))
                     .font(.system(size: 15))
@@ -290,7 +286,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }
@@ -307,7 +303,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
             VStack(alignment: .leading){
                 Text(NSLocalizedString("Coordinate", comment: ""))
                     .font(.system(size: 15))
@@ -318,7 +314,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }
-            .frame(width: 200,alignment: .leading)
+            .frame(width: half_scrren_width,alignment: .leading)
         }
         .padding(.vertical,2)
     }

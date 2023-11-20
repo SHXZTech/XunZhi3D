@@ -16,7 +16,7 @@ struct CaptureView: View {
     var captureService: CaptureViewService
     @Binding var isPresenting: Bool
     @State private var cloudButtonState: CloudButtonState = .upload
-    
+    @State private var showDeleteAlert = false
     private var modelView: ModelViewer
     private var modelInfoView: ModelInfoView
     
@@ -34,11 +34,12 @@ struct CaptureView: View {
         } else {
             self.modelView = ModelViewer(modelURL: nil, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
         }
-
-        let capturemodel = self.captureService.captureModel
+        var capturemodel = self.captureService.captureModel
+        if let createDate = self.captureService.getProjectCreationDate(){
+            capturemodel.createDate = createDate
+        }
         self.modelInfoView = ModelInfoView(capturemodel_: capturemodel)
     }
-
     
     var body: some View {
         ZStack{
@@ -55,22 +56,48 @@ struct CaptureView: View {
     
     private var header: some View {
         ZStack {
+            HStack{
+                cloudButton
+            }
             HStack {
                 Button(action: {
                     self.isPresenting = false
                 }, label: {Image(systemName: "chevron.left").foregroundColor(.white)})
-                .padding([.horizontal,.leading], 5)
+                .padding([.horizontal,.leading], 20)
                 Spacer()
-                Button(action: {
-                }, label: {
-                    Image(systemName: "ellipsis")
+                Menu {
+                    //                    Button(action: {
+                    //                        // Action for renaming
+                    //                    }) {
+                    //                        Label("Rename", systemImage: "pencil")
+                    //                    }
+                    Button(role: .destructive,action: {
+                        self.showDeleteAlert = true
+                    }) {
+                        Label("Delete", systemImage: "trash")
+                            .foregroundStyle(.red)
+                    }
+                } label: {
+                    Image(systemName: "ellipsis.circle")
+                        .imageScale(.large)
                         .foregroundColor(.white)
-                })
+                }
+                .padding([.horizontal, .trailing], 20)
+                .alert(isPresented: $showDeleteAlert) {
+                    Alert(
+                        title: Text(NSLocalizedString("Delete Confirmation", comment: "") ),
+                        message: Text(NSLocalizedString("Are you sure you want to delete this?", comment: "")),
+                        primaryButton: .destructive(Text(NSLocalizedString("Sure", comment: ""))) {
+                            captureService.deleteScanFolder()
+                            showDeleteAlert = false;
+                            isPresenting = false;
+                        },
+                        secondaryButton: .cancel()
+                    )
+                }
             }
-            .padding(.horizontal, 5)
-            HStack{
-                cloudButton
-            }
+            .frame(width: UIScreen.main.bounds.width)
+            
         }
         .padding(.vertical, 5)
     }
@@ -104,8 +131,6 @@ struct CaptureView: View {
                 }
             }
             .opacity(selectedViewMode == .model ? 1 : 0)
-            
-            // Model Info View
             modelInfoView
                 .opacity(selectedViewMode == .info ? 1 : 0)
         }
@@ -141,17 +166,17 @@ struct CaptureView: View {
     private func textForState(_ state: CloudButtonState) -> String {
         switch state {
         case .upload:
-            return "Upload"
+            return NSLocalizedString("Upload", comment: "")
         case .uploading:
-            return "Uploading"
+            return NSLocalizedString("Uploading", comment: "")
         case .processing:
-            return "Processing"
+            return NSLocalizedString("Processing", comment: "")
         case .download:
-            return "Download"
+            return NSLocalizedString("Download", comment: "")
         case .downloading:
-            return "Downloading"
+            return NSLocalizedString("Downloading", comment: "")
         case .downloaded:
-            return "Downloaded"
+            return NSLocalizedString("Downloaded", comment: "")
         }
     }
     
@@ -179,7 +204,6 @@ struct CaptureView: View {
 // Update your preview provider to pass a constant binding.
 struct CaptureView_Previews: PreviewProvider {
     static var previews: some View {
-        // Use constant binding for previews
         CaptureView(uuid: UUID(), isPresenting: .constant(true))
     }
 }

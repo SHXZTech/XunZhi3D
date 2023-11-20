@@ -80,3 +80,13 @@
 "height" = "Height";
 "Coordinate" = "Coordinate System";
 "Error loading model" = "Can not load 3D model";
+"Upload" = "Upload";
+"Uploading" = "Uploading";
+"Processing" = "Processing";
+"Download" = "Download";
+"Downloading" = "Downloading";
+"Downloaded" = "Downloaded";
+"Can not load the image." = "Can not load the image.";
+"Delete Confirmation" = "Delete Confirmation";
+"Are you sure you want to delete this?" = "Are you sure you want to delete this project?";
+"Sure" = "Sure";

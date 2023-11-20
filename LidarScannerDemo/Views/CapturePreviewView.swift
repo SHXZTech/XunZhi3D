@@ -10,10 +10,8 @@ import SwiftUI
 struct CapturePreviewView: View {
     var capture: CapturePreviewModel
     var onSelect: (() -> Void)? // Closure to handle selection
-    
     var body: some View {
         VStack(spacing: 0){
-            // Load image from URL
             ZStack {
                 Rectangle().foregroundColor(.clear)
                 AsyncImage(url: capture.previewImageURL) { phase in
@@ -23,7 +21,10 @@ struct CapturePreviewView: View {
                             .rotationEffect(Angle(degrees: 90))
                             .scaledToFill() // Change this to .scaledToFit()
                     } else if phase.error != nil {
-                        Text("There was an error loading the image.")
+                        ZStack{
+                            Color.gray
+                            Text(NSLocalizedString("Can not load the image.", comment: "")  )
+                        }
                     } else {
                         ZStack{
                             Color.gray

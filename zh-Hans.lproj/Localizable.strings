@@ -80,3 +80,13 @@
 "height" = "高程";
 "Coordinate" = "坐标系";
 "Error loading model" = "无法加载三维模型";
+"Upload" = "上传";
+"Uploading" = "上传中";
+"Processing" = "处理中";
+"Download" = "下载";
+"Downloading" = "下载中";
+"Downloaded" = "已下载";
+"Can not load the image." = "无法加载图像";
+"Delete Confirmation" = "确认删除？";
+"Are you sure you want to delete this?" = "数据将彻底删除且无法恢复";
+"Sure" = "确认";

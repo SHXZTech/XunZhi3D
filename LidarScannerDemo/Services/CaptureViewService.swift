@@ -96,8 +96,6 @@ struct CaptureViewService{
         captureModel.totalSize = calculateFolderSize(folderURL: captureModel.scanFolder!)
     }
     
-    
-    
     private func convertStringToDate(_ string: String?) -> Date {
         guard let string = string else { return Date() }
         let formatter = DateFormatter()
@@ -121,16 +119,11 @@ struct CaptureViewService{
         
         // downloaded // decide local
     }
-    
-    func deleteProjectFolder(){
-        self.deleteScanFolder()
-    }
-    
+
     func getProjectSize() -> Int64? {
         return captureModel.totalSize
     }
 
-    
     private func isExistCheck() -> Bool {
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -151,8 +144,15 @@ struct CaptureViewService{
     func getRawMeshURL() -> URL? {
         return captureModel.rawMeshURL
     }
+    
+    func getProjectCreationDate() -> Date? {
+        if let createDate = captureModel.createDate {
+            return createDate
+        } else if let folderURL = captureModel.scanFolder {
+            return getFolderCreateDate(folderURL: folderURL)
+        } else {
+            return nil
+        }
+    }
 
-    
-    
-    
 }

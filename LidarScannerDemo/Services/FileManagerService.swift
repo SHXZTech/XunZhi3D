@@ -30,6 +30,17 @@ func calculateFolderSize(folderURL:URL) -> Int64? {
     return totalSize
 }
 
+func getFolderCreateDate(folderURL: URL) -> Date? {
+    let fileManager = FileManager.default
+    do {
+        let attributes = try fileManager.attributesOfItem(atPath: folderURL.path)
+        return attributes[.creationDate] as? Date
+    } catch {
+        print("Error retrieving folder creation date: \(error.localizedDescription)")
+        return nil
+    }
+}
+
 
 func deleteFolder(folderURL: URL) {
     let fileManager = FileManager.default
