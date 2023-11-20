@@ -12,7 +12,6 @@ class MainTagViewModel: ObservableObject {
     @Published var captures = [CapturePreviewModel]()
 
     var selectedCaptureUUID: UUID?
-    //@Binding var showCapture: Bool
     
     init(captures: [CapturePreviewModel] = []) {
         self.captures = captures
@@ -24,7 +23,6 @@ class MainTagViewModel: ObservableObject {
         print("self.selectedCaptureUUID", self.selectedCaptureUUID?.uuidString ?? "nil uuid")
         print("uuid:", uuid)
         self.selectedCaptureUUID = uuid
-        //showCapture = true
         print("self.selectedCaptureUUID", self.selectedCaptureUUID!)
         print("uuid:", uuid)
         print()
@@ -46,8 +44,7 @@ class MainTagViewModel: ObservableObject {
                     let attributes = try fileManager.attributesOfItem(atPath: directory.path)
                     let creationDate = attributes[.creationDate] as? Date ?? Date()
                     let formatter = DateFormatter()
-                    formatter.dateStyle = .short
-                    formatter.timeStyle = .short
+                    formatter.dateFormat = NSLocalizedString("capture_preview_date_fromat", comment: "")
                     let dateString = formatter.string(from: creationDate)
                     let previewImageURL = directory.appendingPathComponent("cover.jpeg")
                     let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL)
@@ -62,12 +59,5 @@ class MainTagViewModel: ObservableObject {
             print("Error reading contents of documents directory: \(error)")
         }
     }
-
-    // ... other functions
-    private func sortCaptureByDate(){
-        
-    }
-
-    // ... other functions
 }
 
