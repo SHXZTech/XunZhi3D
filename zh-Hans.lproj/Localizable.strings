@@ -1,7 +1,7 @@
 "homeTitle" = "主页";
 "scanTitle" = "扫描";
 "settingsTitle" = "设置";
-"SiteSight" = "景视";
+//"SiteSight" = "景视";
 "Setting" = "设置";
 "setting" = "设置";
 "Account" = "账户";
@@ -61,7 +61,32 @@
 "Upload & Process" = "上传并处理";
 "Image count" = "图像数量";
 "Estimated time" = "预估处理时间";
-
-
-
-
+"Loading..." = "加载中...";
+"3D Model" = "三维模型";
+"Info" = "详细信息";
+"Unknown location" = "未知地点";
+"date_format" = "yyyy年MM月dd日 HH:mm"; // Example date format for Chinese
+"open" = "开启";
+"close" = "关闭";
+"height_format" = "%.2f 米";
+"create_format" = "创建时间";
+"create_location" = "创建地点";
+"image_count" = "图片数量";
+"folder_size" = "文件大小";
+"Latitude" = "纬度";
+"Longitute" = "经度";
+"horizontal_accuracy" = "水平精度";
+"Vertical_accuracy" = "垂直精度";
+"height" = "高程";
+"Coordinate" = "坐标系";
+"Error loading model" = "无法加载三维模型";
+"Upload" = "上传";
+"Uploading" = "上传中";
+"Processing" = "处理中";
+"Download" = "下载";
+"Downloading" = "下载中";
+"Downloaded" = "已下载";
+"Can not load the image." = "无法加载图像";
+"Delete Confirmation" = "确认删除？";
+"Are you sure you want to delete this?" = "数据将彻底删除且无法恢复";
+"Sure" = "确认";

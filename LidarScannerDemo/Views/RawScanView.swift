@@ -14,7 +14,7 @@ struct RawScanView: View {
     var rawScanManager: RawScanManager
     @Binding var isPresenting: Bool
     @State private var showingExitConfirmation = false
-
+    
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
         self.rawScanManager = RawScanManager(uuid: uuid)
@@ -45,21 +45,21 @@ struct RawScanView: View {
                 })
                 .padding(.horizontal, 25)
                 .actionSheet(isPresented: $showingExitConfirmation) {
-                                    ActionSheet(
-                                        title: Text(NSLocalizedString("Confirm exit?", comment: "")),
-                                        message: Text(NSLocalizedString("Deleting the draft will delete all collected data", comment: "")),
-                                        buttons: [
-                                            .destructive(Text(NSLocalizedString("Delete draft", comment: ""))) {
-                                                isPresenting = false
-                                                rawScanManager.deleteProjectFolder()
-                                            },
-                                            .default(Text(NSLocalizedString("Save draft", comment: ""))) {
-                                                isPresenting = false
-                                            },
-                                            .cancel()
-                                        ]
-                                    )
-                                }
+                    ActionSheet(
+                        title: Text(NSLocalizedString("Confirm exit?", comment: "")),
+                        message: Text(NSLocalizedString("Deleting the draft will delete all collected data", comment: "")),
+                        buttons: [
+                            .destructive(Text(NSLocalizedString("Delete draft", comment: ""))) {
+                                rawScanManager.deleteProjectFolder()
+                                isPresenting = false
+                            },
+                            .default(Text(NSLocalizedString("Save draft", comment: ""))) {
+                                isPresenting = false
+                            },
+                            .cancel()
+                        ]
+                    )
+                }
             }
             
             Text(NSLocalizedString("Draft", comment: ""))
@@ -67,7 +67,7 @@ struct RawScanView: View {
         }
         .padding(.vertical, 10)
     }
-
+    
     
     private var content: some View {
         Group {
@@ -79,15 +79,14 @@ struct RawScanView: View {
             }
         }
     }
-
+    
     
     private var controls: some View {
         VStack {
-           
             Button(NSLocalizedString("Upload & Process", comment: "")) {
                 isPresenting = false
                 //TODO
-                // Handle upload and process action
+                //Handle upload and process action
             }
             .frame(width: 360, height: 54, alignment: .center)
             .background(Color.blue)

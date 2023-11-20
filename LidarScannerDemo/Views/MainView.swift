@@ -3,13 +3,17 @@ import SwiftUI
 struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
+    @State private var showCaptureView = false
+    @State var shouldReloadMaintagView = false
+    //@State private var selectedCaptureUUID = UUID()
+    
     @State private var shouldReloadMainTagView = false // State to trigger reload in MainTagView
 
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
         }
-        .fullScreenCover(isPresented: $showScanView) {
+       .fullScreenCover(isPresented: $showScanView) {
             ScanView(uuid: UUID(),isPresenting: $showScanView)
         }
         .onChange(of: showScanView) { newValue in
@@ -21,12 +25,12 @@ struct MainView: View {
     
     private var mainTabView: some View {
         TabView(selection: $selectedTab) {
-            MainTagView(shouldReload: $shouldReloadMainTagView) // Pass the binding to MainTagView
-            .tabItem {
-                Image(systemName: "house")
-                Text(NSLocalizedString("homeTitle", comment: "Home tab title"))
-            }
-            .tag(0)
+            MainTagView(shouldReload: $shouldReloadMaintagView)
+                .tabItem {
+                    Image(systemName: "house")
+                    Text(NSLocalizedString("homeTitle", comment: "Home tab title"))
+                }
+                .tag(0)
             Color.clear
                 .tabItem {
                     Image(systemName: "plus.rectangle.fill")
@@ -50,8 +54,9 @@ struct MainView: View {
 }
 
 struct MainView_Previews: PreviewProvider {
-  static var previews: some View {
-    MainView()
-  }
+    static var previews: some View {
+        //Text("hello world")
+        MainView()
+    }
 }
 

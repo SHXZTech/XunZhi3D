@@ -55,12 +55,14 @@ struct SettingTabpageView: View {
         Section(header: Text(NSLocalizedString("About", comment: "Setting")),footer: HStack{ Text("SiteSight \(appVersion) \(buildNumber)")
             Spacer()
             Text("Copyright © 2023 Shanghai Xunzhi")}){
-                HStack {
-                    Text(NSLocalizedString("Version", comment: "Version"))
-                    Spacer()
-                    Text("\(appVersion) \(buildNumber)")
-                        .foregroundColor(.gray)
-                        .font(.footnote)
+                NavigationLink(destination: VersionView()) {
+                    HStack {
+                        Text(NSLocalizedString("Version", comment: "Version"))
+                        Spacer()
+                        Text("\(appVersion) \(buildNumber)")
+                            .foregroundColor(.gray)
+                            .font(.footnote)
+                    }
                 }
                 NavigationLink(destination: LicenseView()) {
                     Text(NSLocalizedString("Copyright", comment: "CopyRight"))

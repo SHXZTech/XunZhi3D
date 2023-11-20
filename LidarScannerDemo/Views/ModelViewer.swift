@@ -8,18 +8,50 @@
 import SwiftUI
 import SceneKit
 
+
+
+class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegate {
+    @Published var isSceneLoaded: Bool = false
+    
+    func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        if !isSceneLoaded {
+            DispatchQueue.main.async() {
+                self.isSceneLoaded = true
+                print("self.isSceneLoaded = true")
+            }
+        }
+    }
+}
+
+
 struct ModelViewer: View {
-    var modelURL: URL
+    var modelURL: URL?
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
+    @ObservedObject var delegate = SceneRendererDelegate()
     
     var body: some View {
-        if let scene = try? SCNScene(url: modelURL) {
-            SceneView(scene: scene, options: [.autoenablesDefaultLighting,.allowsCameraControl])
-                .frame(width: width , height:  height)
-                .scaledToFit()
-        } else {
-            Text("Error loading model")
+        ZStack {
+            if let url = modelURL, let scene = try? SCNScene(url: url) {
+                LoadingView()
+                    .frame(width: width, height: height)
+                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
+                    .frame(width: width, height: height)
+                    .scaledToFit()
+            } else {
+                Text(NSLocalizedString("No model to display", comment: ""))
+            }
+        }
+    }
+}
+
+
+struct LoadingView: View {
+    var body: some View {
+        VStack {
+            Text(NSLocalizedString("Loading...", comment: "loading..."))
+                .font(.headline)
+            ProgressView()
         }
     }
 }
@@ -30,3 +62,4 @@ struct ModelViewer_Previews: PreviewProvider {
         return ModelViewer(modelURL: modelURL)
     }
 }
+

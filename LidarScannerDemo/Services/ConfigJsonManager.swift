@@ -46,6 +46,9 @@ struct ConfigJsonManager{
     var configs: [String: Any] = [:]
     var mode: String = "lidar"
     
+    // adding
+    var createDate: Date = Date()
+    
     init(uuid_ : UUID, owner_: String){
         uuid = uuid_;
         dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
@@ -62,6 +65,7 @@ struct ConfigJsonManager{
         formatter.dateFormat = "yyyy-MM-dd_HH:mm:ss"
         name = formatter.string(from: Date())
         owners.append(owner_)
+        createDate = Date()
     }
     
     
@@ -228,6 +232,7 @@ struct ConfigJsonManager{
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         var jsonData: Data?
+        let createDateTimestamp = createDate.timeIntervalSince1970
         do {
             let jsonDict: [String: Any] = [
                 "uuid": uuid.uuidString,
@@ -247,7 +252,8 @@ struct ConfigJsonManager{
                     ["MeshModelName": meshModelName],
                     ["isPointCloud": isPointCloud],
                     ["PointCloudName": pointCloudName],
-                    ["coverName":coverName]
+                    ["coverName":coverName],
+                    ["createDate": createDateTimestamp]
                 ],
                 "frames": []
             ]
