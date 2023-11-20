@@ -13,6 +13,7 @@ struct MainTagView: View {
    
     @State var showCapture:Bool
     
+    @State private var selectedCapture: CapturePreviewModel? // State to track selected capture
     @Binding var shouldReload: Bool
     
     let columns: [GridItem] = [
@@ -58,6 +59,12 @@ struct MainTagView: View {
                 shouldReload = true;
             }
         }
+        .onChange(of: shouldReload) { newValue in
+            if newValue {
+                viewModel.loadCaptures()
+                shouldReload = false // Reset the flag after loading
+            }
+        }
     }
     
     private var sortedCaptures: [CapturePreviewModel] {
@@ -75,5 +82,6 @@ struct MainTagView_Previews: PreviewProvider {
         Text("Hello world")
     }
 }
+
 
 

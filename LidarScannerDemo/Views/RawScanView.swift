@@ -113,7 +113,6 @@ struct RawScanView: View {
 // Update your preview provider to pass a constant binding.
 struct RawScanViewer_Previews: PreviewProvider {
     static var previews: some View {
-        // Use constant binding for previews
         RawScanView(uuid: UUID(), isPresenting: .constant(true))
     }
 }

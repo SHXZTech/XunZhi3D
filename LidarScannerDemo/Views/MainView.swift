@@ -7,6 +7,8 @@ struct MainView: View {
     @State var shouldReloadMaintagView = false
     //@State private var selectedCaptureUUID = UUID()
     
+    @State private var shouldReloadMainTagView = false // State to trigger reload in MainTagView
+
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
@@ -14,13 +16,11 @@ struct MainView: View {
        .fullScreenCover(isPresented: $showScanView) {
             ScanView(uuid: UUID(),isPresenting: $showScanView)
         }
-       .onChange(of: showScanView){newValue in
-           if (!newValue){
-               print("MainView triggle shouldReloadMaintagView = true")
-               print("newValue", newValue)
-               shouldReloadMaintagView = true
-           }
-       }
+        .onChange(of: showScanView) { newValue in
+                    if !newValue {
+                        shouldReloadMainTagView = true // Set this to true when showScanView changes to false
+                    }
+                }
     }
     
     private var mainTabView: some View {
@@ -40,6 +40,7 @@ struct MainView: View {
                 .onAppear {
                     self.showScanView = true
                     self.selectedTab = 0
+                    
                 }
             SettingTabpageView()
                 .tabItem {
