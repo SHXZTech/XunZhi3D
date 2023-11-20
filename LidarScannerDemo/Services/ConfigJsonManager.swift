@@ -232,6 +232,7 @@ struct ConfigJsonManager{
         let encoder = JSONEncoder()
         encoder.outputFormatting = .prettyPrinted
         var jsonData: Data?
+        let createDateTimestamp = createDate.timeIntervalSince1970
         do {
             let jsonDict: [String: Any] = [
                 "uuid": uuid.uuidString,
@@ -252,7 +253,7 @@ struct ConfigJsonManager{
                     ["isPointCloud": isPointCloud],
                     ["PointCloudName": pointCloudName],
                     ["coverName":coverName],
-                    ["createDate": createDate]
+                    ["createDate": createDateTimestamp]
                 ],
                 "frames": []
             ]

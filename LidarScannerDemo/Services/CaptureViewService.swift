@@ -126,10 +126,10 @@ struct CaptureViewService{
         self.deleteScanFolder()
     }
     
-    func getProjectSize()->Int64{
-        return captureModel.totalSize!
+    func getProjectSize() -> Int64? {
+        return captureModel.totalSize
     }
-    
+
     
     private func isExistCheck() -> Bool {
         let fileManager = FileManager.default
@@ -148,9 +148,10 @@ struct CaptureViewService{
         return captureModel.isRawMeshExist
     }
     
-    func getRawMeshURL()-> URL{
-        return captureModel.rawMeshURL!
+    func getRawMeshURL() -> URL? {
+        return captureModel.rawMeshURL
     }
+
     
     
     

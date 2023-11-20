@@ -64,6 +64,19 @@
 "Loading..." = "加载中...";
 "3D Model" = "三维模型";
 "Info" = "详细信息";
-
-
-
+"Unknown location" = "未知地点";
+"date_format" = "yyyy年MM月dd日 HH:mm"; // Example date format for Chinese
+"open" = "开启";
+"close" = "关闭";
+"height_format" = "%.2f 米";
+"create_format" = "创建时间";
+"create_location" = "创建地点";
+"image_count" = "图片数量";
+"folder_size" = "文件大小";
+"Latitude" = "纬度";
+"Longitute" = "经度";
+"horizontal_accuracy" = "水平精度";
+"Vertical_accuracy" = "垂直精度";
+"height" = "高程";
+"Coordinate" = "坐标系";
+"Error loading model" = "无法加载三维模型";

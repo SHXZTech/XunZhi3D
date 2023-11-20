@@ -34,13 +34,14 @@ struct ModelInfoView: View {
     init(capturemodel_: CaptureModel) {
         self.captureModel = capturemodel_
         
-        _location = State(initialValue: captureModel.createLocation ?? "Fetching location...")
+        _location = State(initialValue: captureModel.createLocation ?? NSLocalizedString("Unknown location",comment: ""))
           
         
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
             let formatter = DateFormatter()
-            formatter.dateFormat = "MM月dd日 HH:mm" // Adjust the date format as needed
+            formatter.dateFormat = NSLocalizedString("date_format", comment: "")
+            //"MM月dd日 HH:mm" // Adjust the date format as needed
             self.date = formatter.string(from: createDate)
         }
         // Location
@@ -52,13 +53,13 @@ struct ModelInfoView: View {
             self.folderSize = String(format: "%.2f MB", Double(totalSize) / 1_000_000.0)
         }
         // RTK and GPS Enable
-        self.rtkEnable = captureModel.isRTK ? "开启" : "关闭"
-        self.gpsEnable = captureModel.isGPS ? "开启" : "关闭"
+        self.rtkEnable = captureModel.isRTK ? NSLocalizedString("open", comment: "") : NSLocalizedString("关闭", comment: "")
+        self.gpsEnable = captureModel.isGPS ? NSLocalizedString("open", comment: "") : NSLocalizedString("关闭", comment: "")
         // Initial Latitude, Longitude, and Height
         if let firstRtkData = captureModel.rtkDataArray.first {
             self.initLat = String(firstRtkData.latitude)
             self.initLon = String(firstRtkData.longitude)
-            self.initHeight = String(format: "%.2f 米", firstRtkData.height)
+            self.initHeight = String(format: NSLocalizedString("height_format", comment: ""), firstRtkData.height)
         }
         // Coordinate System
         self.coordinateSystem = captureModel.gpsCoordinate
@@ -67,21 +68,21 @@ struct ModelInfoView: View {
         let minVertical = captureModel.rtkDataArray.min(by: { $0.verticalAccuracy < $1.verticalAccuracy })?.verticalAccuracy
         
         if let minHAcc = minHorizontal {
-            self.horizontalAccuracy = String(format: "%.3f 米", minHAcc)
+            self.horizontalAccuracy = String(format: NSLocalizedString("height_format", comment: ""), minHAcc)
         }
         if let minVAcc = minVertical {
-            self.verticalAccuracy = String(format: "%.3f 米", minVAcc)
+            self.verticalAccuracy = String(format: NSLocalizedString("height_format", comment: ""), minVAcc)
         }
     }
     
     private func fetchLocationIfNeeded() {
-        if captureModel.createLocation == nil || captureModel.createLocation == "Unknown Location" {
+        if captureModel.createLocation == nil || captureModel.createLocation == NSLocalizedString("unknown location", comment: "") {
             if let firstRtkData = captureModel.rtkDataArray.first {
                 let convertedCoordinates = CoordinateService.wgs84ToGcj02(lat: firstRtkData.latitude, lng: firstRtkData.longitude)
                 
                 CoordinateService.fetchLocation(forLatitude: convertedCoordinates.latitude, longitude: convertedCoordinates.longitude) { fetchedLocation in
                     DispatchQueue.main.async {
-                        self.location = fetchedLocation ?? "Unknown Location"
+                        self.location = fetchedLocation ?? NSLocalizedString("unknown location", comment: "")
                     }
                 }
             }
@@ -94,7 +95,7 @@ struct ModelInfoView: View {
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
             let formatter = DateFormatter()
-            formatter.dateFormat = "MM月dd日 HH:mm" // Adjust the date format as needed
+            formatter.dateFormat = NSLocalizedString("date_format", comment: "") // Adjust the date format as needed
             self.date = formatter.string(from: createDate)
         }
         
@@ -108,14 +109,14 @@ struct ModelInfoView: View {
         }
         
         // RTK and GPS Enable
-        self.rtkEnable = captureModel.isRTK ? "开启" : "关闭"
-        self.gpsEnable = captureModel.isGPS ? "开启" : "关闭"
+        self.rtkEnable = captureModel.isRTK ? NSLocalizedString("open", comment: "") : NSLocalizedString("关闭", comment: "")
+        self.gpsEnable = captureModel.isGPS ? NSLocalizedString("open", comment: "") : NSLocalizedString("关闭", comment: "")
         
         // Initial Latitude, Longitude, and Height
         if let firstRtkData = captureModel.rtkDataArray.first {
             self.initLat = String(firstRtkData.latitude)
             self.initLon = String(firstRtkData.longitude)
-            self.initHeight = String(format: "%.2f 米", firstRtkData.height)
+            self.initHeight = String(format: NSLocalizedString("height_format", comment: ""), firstRtkData.height)
         }
         
         // Coordinate System
@@ -123,10 +124,10 @@ struct ModelInfoView: View {
         
         // Horizontal and Vertical Accuracy
         if let hAccuracy = captureModel.minHorizontalAccuracy {
-            self.horizontalAccuracy = String(format: "%.3f 米", hAccuracy)
+            self.horizontalAccuracy = String(format: NSLocalizedString("height_format", comment: ""), hAccuracy)
         }
         if let vAccuracy = captureModel.minVerticalAccuracy {
-            self.verticalAccuracy = String(format: "%.3f 米", vAccuracy)
+            self.verticalAccuracy = String(format: NSLocalizedString("height_format", comment: ""), vAccuracy)
         }
         
         // Location - read the location from internet
@@ -157,7 +158,7 @@ struct ModelInfoView: View {
     private var createDateAndLocation: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading){
-                Text("创建时间")
+                Text(NSLocalizedString("create_format", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -168,7 +169,7 @@ struct ModelInfoView: View {
             }
             .frame(width: 200,alignment: .leading)
             VStack(alignment: .leading){
-                Text("创建地点")
+                Text(NSLocalizedString("create_location", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -185,7 +186,7 @@ struct ModelInfoView: View {
     private var ImageCountAndSize: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading){
-                Text("图片数量")
+                Text(NSLocalizedString("image_count", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -196,7 +197,7 @@ struct ModelInfoView: View {
             }
             .frame(width: 200,alignment: .leading)
             VStack(alignment: .leading){
-                Text("文件大小")
+                Text(NSLocalizedString("folder_size", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -241,7 +242,7 @@ struct ModelInfoView: View {
     private var LatitudeAndLongitude: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading){
-                Text("经度")
+                Text(NSLocalizedString("Latitude", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -252,7 +253,7 @@ struct ModelInfoView: View {
             }
             .frame(width: 200,alignment: .leading)
             VStack(alignment: .leading){
-                Text("纬度")
+                Text(NSLocalizedString("Longitute", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -269,7 +270,7 @@ struct ModelInfoView: View {
     private var HorizontalAndVerticalAccuracy: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading){
-                Text("水平精度")
+                Text(NSLocalizedString("horizontal_accuracy", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -280,7 +281,7 @@ struct ModelInfoView: View {
             }
             .frame(width: 200,alignment: .leading)
             VStack(alignment: .leading){
-                Text("垂直精度")
+                Text(NSLocalizedString("Vertical_accuracy", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -297,7 +298,7 @@ struct ModelInfoView: View {
     private var HeightAndCoordinator: some View {
         HStack(alignment: .top) {
             VStack(alignment: .leading){
-                Text("高程")
+                Text(NSLocalizedString("height", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
@@ -308,7 +309,7 @@ struct ModelInfoView: View {
             }
             .frame(width: 200,alignment: .leading)
             VStack(alignment: .leading){
-                Text("坐标系")
+                Text(NSLocalizedString("Coordinate", comment: ""))
                     .font(.system(size: 15))
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)

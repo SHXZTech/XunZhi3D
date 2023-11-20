@@ -25,21 +25,21 @@ class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegat
 
 
 struct ModelViewer: View {
-    var modelURL: URL
+    var modelURL: URL?
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
     @ObservedObject var delegate = SceneRendererDelegate()
     
     var body: some View {
         ZStack {
-            if let scene = try? SCNScene(url: modelURL) {
+            if let url = modelURL, let scene = try? SCNScene(url: url) {
                 LoadingView()
-                    .frame(width: width, height: height) // this works while may contain error
-                SceneView(scene: scene, options: [.autoenablesDefaultLighting,.allowsCameraControl])
-                    .frame(width: width , height:  height)
+                    .frame(width: width, height: height)
+                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
+                    .frame(width: width, height: height)
                     .scaledToFit()
             } else {
-                Text("Error loading model")
+                Text(NSLocalizedString("No model to display", comment: ""))
             }
         }
     }
