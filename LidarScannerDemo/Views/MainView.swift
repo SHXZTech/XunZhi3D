@@ -4,7 +4,7 @@ struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
     @State private var showCaptureView = false
-    @State private var shouldReloadMaintagView = false
+    @State var shouldReloadMaintagView = false
     //@State private var selectedCaptureUUID = UUID()
     
     var body: some View {
@@ -31,9 +31,6 @@ struct MainView: View {
                     Text(NSLocalizedString("homeTitle", comment: "Home tab title"))
                 }
                 .tag(0)
-                .onAppear(){
-                    self.shouldReloadMaintagView = true
-                }
             Color.clear
                 .tabItem {
                     Image(systemName: "plus.rectangle.fill")

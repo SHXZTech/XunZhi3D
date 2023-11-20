@@ -159,7 +159,7 @@ struct ModelInfoView: View {
                     .foregroundColor(.gray)
                     .padding(.horizontal,10)
                 Text(date)
-                    .font(.system(size: 18))
+                    .font(.system(size: 15))
                     .foregroundColor(.white)
                     .padding(.horizontal,10)
             }

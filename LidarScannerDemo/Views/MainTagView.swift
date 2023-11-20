@@ -51,7 +51,12 @@ struct MainTagView: View {
         .onChange(of: shouldReload){newValue in
                 print("MainTagView triggle shouldReloadMaintagView = true")
                 viewModel.loadCaptures()
-                showCapture = false
+                shouldReload = false
+        }
+        .onChange(of: showCapture){newValue in
+            if(showCapture == false){
+                shouldReload = true;
+            }
         }
     }
     
