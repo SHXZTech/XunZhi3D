@@ -48,20 +48,15 @@ struct MainTagView: View {
         .fullScreenCover(isPresented: $showCapture) {
             CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
         }
-        .onChange(of: shouldReload){newValue in
-                print("MainTagView triggle shouldReloadMaintagView = true")
-                viewModel.loadCaptures()
-                shouldReload = false
-        }
-        .onChange(of: showCapture){newValue in
-            if(showCapture == false){
-                shouldReload = true;
-            }
-        }
         .onChange(of: shouldReload) { newValue in
             if newValue {
                 viewModel.loadCaptures()
                 shouldReload = false // Reset the flag after loading
+            }
+        }
+        .onChange(of: showCapture){newValue in
+            if(showCapture == false){
+                shouldReload = true;
             }
         }
     }
