@@ -46,7 +46,7 @@ struct CapturePreviewView: View {
             .padding(.vertical, 5)
         }
         .background(Color(.secondarySystemBackground))
-        .cornerRadius(3)
+        .cornerRadius(5)
         .frame(width: 180, height: 200)
         .onTapGesture {
             onSelect?() // Call the closure when the view is tapped
