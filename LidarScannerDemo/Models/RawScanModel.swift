@@ -23,6 +23,7 @@ struct RawScanModel: Identifiable {
     var rawMeshURL: URL?
     var scanFolder: URL?
     
+    
     init(id_:UUID)
     {
         id = id_

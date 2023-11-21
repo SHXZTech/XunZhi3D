@@ -28,11 +28,13 @@ struct ScanView: View {
     
     var body: some View {
         VStack {
-            HStack {
-                Spacer()
+            ZStack{
                 statusText
-                Spacer()
-                closeButton
+                    .multilineTextAlignment(.center)
+                HStack {
+                    Spacer()
+                    closeButton
+                }
             }
             scanArea
             scanButton
@@ -48,7 +50,7 @@ struct ScanView: View {
     }
     
     private var statusText: some View {
-        Text(scanStatus.uppercased())
+       Text(NSLocalizedString(scanStatus, comment: "ScanStatus"))
     }
     
     private var closeButton: some View {

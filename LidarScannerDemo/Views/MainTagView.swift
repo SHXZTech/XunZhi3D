@@ -10,14 +10,20 @@ import SwiftUI
 struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
-    @State private var selectedCapture: CapturePreviewModel? // State to track selected capture
+   
+    @State var showCapture:Bool
     
-    
+    @Binding var shouldReload: Bool
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
         GridItem(.flexible(), spacing: 16)
     ]
+    
+    init(shouldReload: Binding<Bool>) {
+        self._shouldReload = shouldReload
+        self.showCapture = false
+    }
     
     var body: some View {
         NavigationStack {
@@ -26,39 +32,39 @@ struct MainTagView: View {
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(viewModel.captures, id: \.id) { capture in
-                            CapturePreviewView(capture: capture){
-                                self.selectedCapture = capture // Set the selected capture
+                            CapturePreviewView(capture: capture) {
+                                viewModel.selectCapture(uuid: capture.id)
+                                showCapture = true
                             }
                         }
                     }
-                    .padding() // Add padding around the grid
+                    .padding()
                 }
             }
-            .navigationTitle("SiteSight")
+            .navigationTitle(Text("SiteSight"))
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar)
-            .background(NavigationLink("", isActive: isNavigationActive) {
-                if let selected = selectedCapture {
-                    RawScanView(uuid: selected.id, isPresenting: .constant(true)) // Modify according to your RawScanView initializer
-                }
-            }.hidden())
+        }
+        .fullScreenCover(isPresented: $showCapture) {
+            CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+        }
+        .onChange(of: shouldReload) { newValue in
+            if newValue {
+                viewModel.loadCaptures()
+                shouldReload = false // Reset the flag after loading
+            }
+        }
+        .onChange(of: showCapture){newValue in
+            if(showCapture == false){
+                shouldReload = true;
+            }
         }
     }
     
     private var sortedCaptures: [CapturePreviewModel] {
         viewModel.captures.sorted { $0.date > $1.date }
     }
-    
-    private var isNavigationActive: Binding<Bool> {
-        Binding(
-            get: { self.selectedCapture != nil },
-            set: { isActive in
-                if !isActive {
-                    self.selectedCapture = nil
-                }
-            }
-        )
-    }
+
 }
 
 // MARK: - Preview
@@ -66,8 +72,10 @@ struct MainTagView: View {
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
         // Create a MainTagView with a predefined set of captures for preview purposes
-        MainTagView(viewModel: MainTagViewModel(captures: []))
+        //MainTagView(viewModel: MainTagViewModel(captures: []))
+        Text("Hello world")
     }
 }
+
 
 
