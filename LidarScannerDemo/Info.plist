@@ -5,7 +5,7 @@
 	<key>BundleVersion</key>
 	<string>Alpha</string>
 	<key>BundleVersionNumber</key>
-	<string>0.1</string>
+	<string>0.2</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>zh_CN</string>
