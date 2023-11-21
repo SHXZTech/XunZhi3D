@@ -9,7 +9,7 @@ struct VersionView: View {
                 Text("-完善项目查看功能，增加详细信息查看;\n- 增加RTK数据采集功能;\n- UI调整;\n- Bug修复.\n ")
                     .padding([.horizontal,.vertical],10)
             }
-            .padding(.horizontal,10)
+            .padding(.horizontal,20)
             .padding(.bottom, 8)
 
             Divider()
