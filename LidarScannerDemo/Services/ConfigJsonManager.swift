@@ -223,7 +223,6 @@ struct ConfigJsonManager{
     }
     
     func exportRawMesh(asset: MDLAsset) throws {
-        //asset.loadTextures()
         try asset.export(to: getRawMeshURL())
     }
     
