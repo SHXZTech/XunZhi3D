@@ -9,20 +9,30 @@ import Foundation
 import RealityKit
 import SceneKit
 import ARKit
-
+import SwiftUI
+import Combine
 
 class LidarMeshViewModel: ObservableObject {
     //@Published private var model : LidarMeshModel = LidarMeshModel(uuid_: uuid)
     @Published private var model: LidarMeshModel
-    
+    @Published var isTooFast: Bool = false
+    private var cancellables = Set<AnyCancellable>()
+     
     init(uuid: UUID) {
-           model = LidarMeshModel(uuid_: uuid)
-       }
+        //model = LidarMeshModel(uuid_: uuid, tooFastFlag: tooFastCheck)
+        model = LidarMeshModel(uuid_: uuid)
+        
+        // Observe changes to isTooFast in the model
+        model.$isTooFast
+                   .receive(on: RunLoop.main)
+                   .assign(to: \.isTooFast, on: self)
+                   .store(in: &cancellables)
+    }
     
     deinit {
         print("deinit LidarMeshViewModel: ObservableObject")
-           // Stop any work and release resources
-       }
+        // Stop any work and release resources
+    }
     
     var sceneView : ARSCNView {
         model.sceneView

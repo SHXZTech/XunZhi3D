@@ -10,6 +10,7 @@ import RealityKit
 import ARKit
 import SceneKit
 import os
+import SwiftUI
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
@@ -18,6 +19,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     private(set) var sceneView : ARSCNView // The ARSCNView used to display the scene.
     
     var uuid:UUID // The UUID of the scan.
+    
+    @Published var isTooFast:Bool = false
     
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
@@ -89,6 +92,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
 #endif
         setAngleThreshold(threshold: 10) // set to 10cm
         setDistanceThreshold(threshold: 10) // set to 10 degree
+        isTooFast = false
     }
     
     /**
@@ -100,24 +104,19 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let currentFramePose = frame.camera.transform
         //too fast check
         if(status == "scanning" && tooFastCheck(currentFramePose: currentFramePose, currentTimeStamp: currentFrameTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousFrameTimeStamp)){
-            //something to buzz
             print("too fast!! check success")
-            //update previousFrameTimeStamp and previopusFramePose
-            previousFrameTimeStamp = frame.timestamp
-            previousFramePose = frame.camera.transform
-            return
+            isTooFast = true;
         }
-        //update previousFrameTimeStamp and previopusFramePose
+        else{
+            isTooFast = false;
+        }
         previousFrameTimeStamp = frame.timestamp
         previousFramePose = frame.camera.transform
-        //new frame save
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
             previousSavedFramePose = currentTransform
             configJsonManager.updateFrameInfo(frame: frame)
         }
-        
-        //
     }
     
     /**
