@@ -28,8 +28,8 @@ struct SettingTabpageView: View {
             ZStack{
                 Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0)
                 Form {
-                    AccountSenction
-                    RtkSection
+                    //AccountSenction
+                    //RtkSection
                     AboutSection
                 }
             }
@@ -67,9 +67,9 @@ struct SettingTabpageView: View {
                 NavigationLink(destination: LicenseView()) {
                     Text(NSLocalizedString("Copyright", comment: "CopyRight"))
                 }
-                NavigationLink(destination: DeveloperView()) {
-                    Text(NSLocalizedString("Developer", comment: "Developer"))
-                }
+//                NavigationLink(destination: DeveloperView()) {
+//                    Text(NSLocalizedString("Developer", comment: "Developer"))
+//                }
 //                Picker("Language", selection: $selectedLanguage) {
 //                    ForEach(supportedLanguages.keys.sorted(), id: \.self) { key in
 //                        Text(supportedLanguages[key] ?? key).tag(key)

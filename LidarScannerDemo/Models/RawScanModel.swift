@@ -22,6 +22,7 @@ struct RawScanModel: Identifiable {
     var frameCount:Int = 0
     var rawMeshURL: URL?
     var scanFolder: URL?
+    var estimatedProcessingTime:Int = 0;
     
     
     init(id_:UUID)
@@ -29,6 +30,7 @@ struct RawScanModel: Identifiable {
         id = id_
         scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
         loadFromJson()
+        estimatedProcessingTime = frameCount*30;
     }
     
     mutating func loadFromJson() {
@@ -40,13 +42,10 @@ struct RawScanModel: Identifiable {
             let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
             if let jsonDict = jsonObject as? [String: Any] {
                 self.isExist = self.isExistCheck()
-                
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
                     if configs.contains(where: { $0["isMeshModel"] as? Bool == true }) {
                         let meshModelDict = configs.first(where: { $0.keys.contains("MeshModelName") })
                         if let rawMeshName = meshModelDict?["MeshModelName"] as? String {
-                            // Now rawMeshName contains "rawMesh.usd" if everything is correct
-                            // Your code for when condition is met goes here
                             let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
                             self.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                             if self.isRawMeshExist {
@@ -55,7 +54,6 @@ struct RawScanModel: Identifiable {
                         }
                     }
                 }
-
                 self.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
                 self.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
                 self.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false
