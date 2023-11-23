@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E919CBA22B0EF4640073AE77 /* StartRecordButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E919CBA12B0EF4640073AE77 /* StartRecordButtonView.swift */; };
 		E9325BF22A08F66300BD5A05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF02A08F66300BD5A05 /* LICENSE */; };
 		E9325BF32A08F66300BD5A05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF12A08F66300BD5A05 /* README.md */; };
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
@@ -115,7 +114,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		E919CBA12B0EF4640073AE77 /* StartRecordButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartRecordButtonView.swift; sourceTree = "<group>"; };
 		E9325BF02A08F66300BD5A05 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E9325BF12A08F66300BD5A05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
@@ -329,7 +327,6 @@
 				E9F596802B06EDDD00899219 /* VersionView.swift */,
 				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
 				E97053AC2B07421900241635 /* MapMarkView.swift */,
-				E919CBA12B0EF4640073AE77 /* StartRecordButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -630,7 +627,6 @@
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
 				E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */,
 				E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */,
-				E919CBA22B0EF4640073AE77 /* StartRecordButtonView.swift in Sources */,
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
