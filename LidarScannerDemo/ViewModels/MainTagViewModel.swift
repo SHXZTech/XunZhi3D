@@ -19,14 +19,7 @@ class MainTagViewModel: ObservableObject {
     }
     
     func selectCapture(uuid: UUID){
-        print("selectedCapture")
-        print("self.selectedCaptureUUID", self.selectedCaptureUUID?.uuidString ?? "nil uuid")
-        print("uuid:", uuid)
         self.selectedCaptureUUID = uuid
-        print("self.selectedCaptureUUID", self.selectedCaptureUUID!)
-        print("uuid:", uuid)
-        print()
-        
     }
 
     func loadCaptures() {
@@ -56,7 +49,6 @@ class MainTagViewModel: ObservableObject {
                 self.captures = sortedCaptures
             }
         } catch {
-            print("Error reading contents of documents directory: \(error)")
         }
     }
 }

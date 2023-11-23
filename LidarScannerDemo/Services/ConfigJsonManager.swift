@@ -119,7 +119,6 @@ struct ConfigJsonManager{
     }
     
     mutating func updateCover() {
-        print("start updating cover..")
         // Read and parse the info.json file to find the first image name with the "RGB_" prefix
         do {
             let jsonData = try Data(contentsOf: infoJsonURL)
@@ -128,7 +127,6 @@ struct ConfigJsonManager{
                 // Find the first frame that contains an image name starting with "RGB_"
                 if let firstRGBFrame = framesArray.first(where: { frame in
                     guard let imageName = frame["imageName"] as? String else { return false }
-                    print("start updating cover.. 1 ")
                     return imageName.hasPrefix("RGB_")
                 }) {
                     let rgbImageName = firstRGBFrame["imageName"] as! String
@@ -137,7 +135,6 @@ struct ConfigJsonManager{
                     if FileManager.default.fileExists(atPath: coverURL.path) {
                         try FileManager.default.removeItem(at: coverURL)
                     }
-                    print("try to cp ", rgbImageURL.path, " to ", coverURL.path)
                     try FileManager.default.copyItem(at: rgbImageURL, to: coverURL)
                     logger.info("Cover image updated successfully with \(rgbImageName)")
                 } else {
@@ -153,7 +150,6 @@ struct ConfigJsonManager{
     
     
     func createProjectFolder(){
-        print("create: project folder")
         do {
             try FileManager.default.createDirectory(at: dataFolder, withIntermediateDirectories: true, attributes: nil)
             logger.info("CreateProjectFolder success at: \(dataFolder)")
@@ -163,7 +159,6 @@ struct ConfigJsonManager{
     }
     
     func createConfigFile(){
-        print("create config file")
         do{
             try FileManager.default.createFile(atPath: infoJsonURL.path, contents: nil, attributes: nil)
             logger.info("CreateConfigFile success at: \(infoJsonURL)")
@@ -215,9 +210,8 @@ struct ConfigJsonManager{
         do {
             let filePath = getPointCloudURL();
             try plyContent.write(to: filePath, atomically: true, encoding: .utf8)
-            print("Point cloud saved successfully at \(filePath.path)")
         } catch {
-            print("Error saving point cloud: \(error)")
+            
         }
         
     }

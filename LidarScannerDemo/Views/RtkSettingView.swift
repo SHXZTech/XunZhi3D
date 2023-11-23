@@ -64,7 +64,7 @@ struct RtkSettingView: View {
             .padding()
         }
     }
-
+    
     
     func formattedDate(with date: Date) -> String {
         let formatter = DateFormatter()
@@ -75,13 +75,13 @@ struct RtkSettingView: View {
     
     func rtkNtripConfigSection() -> some View {
         GroupBox(label:
-            HStack {
-                Text(NSLocalizedString("Ntrip Data", comment: ""))
-                Spacer()
-                Text(viewModel.ntripConfigData.isCertified ? NSLocalizedString("Certified", comment: "") : NSLocalizedString("Certification Failed", comment: ""))
-                    .foregroundColor(viewModel.ntripConfigData.isCertified ? .green : .red)
-                    .fontWeight(.bold)
-            }
+                    HStack {
+            Text(NSLocalizedString("Ntrip Data", comment: ""))
+            Spacer()
+            Text(viewModel.ntripConfigData.isCertified ? NSLocalizedString("Certified", comment: "") : NSLocalizedString("Certification Failed", comment: ""))
+                .foregroundColor(viewModel.ntripConfigData.isCertified ? .green : .red)
+                .fontWeight(.bold)
+        }
         ) {
             VStack(alignment: .leading, spacing: 10) {
                 HStack {
@@ -90,7 +90,7 @@ struct RtkSettingView: View {
                     TextField(NSLocalizedString("Ntrip IP", comment: ""), text: $viewModel.ntripConfigData.ip)
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 HStack {
                     Text(NSLocalizedString("Port", comment: ""))
                         .frame(width: 100, alignment: .leading)
@@ -98,35 +98,34 @@ struct RtkSettingView: View {
                         .keyboardType(.numberPad)
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 HStack {
                     Text(NSLocalizedString("Account", comment: ""))
                         .frame(width: 100, alignment: .leading)
                     TextField(NSLocalizedString("Ntrip Account", comment: ""), text: $viewModel.ntripConfigData.account)
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 HStack {
                     Text(NSLocalizedString("Password", comment: ""))
                         .frame(width: 100, alignment: .leading)
                     SecureField(NSLocalizedString("Ntrip Password", comment: ""), text: $viewModel.ntripConfigData.password)
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 HStack {
                     Text(NSLocalizedString("Mount Point", comment: ""))
                         .frame(width: 100, alignment: .leading)
                     TextField(NSLocalizedString("Mount Point", comment: ""), text: $viewModel.ntripConfigData.currentMountPoint)
                 }
                 .textFieldStyle(RoundedBorderTextFieldStyle())
-
+                
                 Button(NSLocalizedString("Validate Ntrip Service", comment: "")) {
                     viewModel.toVerifyNtrip { isLoginSuccessful in
                         if isLoginSuccessful {
                             do {
                                 try viewModel.ntripConfigData.saveToLocal()
                             } catch {
-                                print(NSLocalizedString("Save to local fail:", comment: ""))
                             }
                         }
                     }
@@ -136,9 +135,9 @@ struct RtkSettingView: View {
             .padding()
         }
     }
-
-
-
+    
+    
+    
     
     
     func rtkBluetoothDeviceSection() -> some View{
@@ -148,7 +147,7 @@ struct RtkSettingView: View {
                 if viewModel.rtkData.list.isEmpty {
                     rtkBluetoothSearchingDevice()
                 } else {
-                 rtkBluetoothSearchedDeviceList()
+                    rtkBluetoothSearchedDeviceList()
                 }
             }
         }
@@ -243,7 +242,6 @@ struct RtkSettingView: View {
     }
     
     func startTimer() {
-        print("timer start")
         self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
         self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     }

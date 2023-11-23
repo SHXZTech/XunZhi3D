@@ -20,12 +20,12 @@ struct ScanView: View {
     @StateObject var lidarMeshViewModel: LidarMeshViewModel// = LidarMeshViewModel(uuid: ScanView.uuid)
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State private var showTooFastWarning: Bool = false
-    
+    @State private var showTooFastWarning_mutex: Bool = false
     @State var scanStatus = "ready"
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
-    //@State var tooFastFlag: Bool = false
-    //@State var tooFastFlag: Bool = false
+    
+    
     init(uuid: UUID,isPresenting: Binding<Bool>) {
         self._isPresenting = isPresenting
         self.uuid = uuid
@@ -33,11 +33,8 @@ struct ScanView: View {
     }
     
     private func playWarningFeedback() {
-        // Play system sound
         let systemSoundID: SystemSoundID = 1103
         AudioServicesPlayAlertSound(systemSoundID)
-
-        // Trigger a light impact vibration
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
@@ -80,8 +77,10 @@ struct ScanView: View {
             }
         }
         .onReceive(lidarMeshViewModel.$isTooFast) { isTooFast in
-            if isTooFast {
-                showTooFastWarning = true
+            if (isTooFast) {
+                if(!showTooFastWarning_mutex){
+                    showTooFastWarning = true
+                }
             }
         }
     }
@@ -96,16 +95,21 @@ struct ScanView: View {
                 .foregroundColor(.yellow)
             Text(NSLocalizedString("slow_down_warnning_message", comment: "slow down"))
                 .foregroundColor(.yellow)
+                .font(.system(size: 15))
         }
         .padding(10)  // Reduced padding
         .background(Color.gray.opacity(0.6)) // Semi-transparent background
         .cornerRadius(8)
-        .frame(maxWidth: 150, maxHeight: 50) // Limit the maximum width of the box
+        .frame(maxWidth: 160, maxHeight: 50) // Limit the maximum width of the box
         .onAppear {
+            showTooFastWarning_mutex = true
             playWarningFeedback()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                 showTooFastWarning = false
             }
+        }
+        .onDisappear{
+            showTooFastWarning_mutex = false
         }
     }
 

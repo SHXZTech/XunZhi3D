@@ -40,7 +40,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
                 let loadedConfig = try NtripConfigModel.loadFromLocal()
                 self.ntripConfigModel = loadedConfig
             } catch {
-                print("Failed to load NtripConfig: \(error)")
                 ntripConfigModel.ip = "203.107.45.154"
                 ntripConfigModel.port = 8002
                 ntripConfigModel.account = "qxxsrz001"
@@ -115,7 +114,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             rtkData.signalStrength = 0
         }
         if let uuid = uuid {
-            print("saving rtk to uuid")
             let dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
             let infoJsonURL = dataFolder.appendingPathComponent("info.json");
                 saveRtkDataToInfoJson(rtkData: rtkData, infoJsonURL: infoJsonURL)
@@ -128,14 +126,11 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         // Handle error as needed
         switch error {
         case .BleUnauthorized:
-            print("蓝牙未授权")
             break
         case .UnsupportedDeviceType:
-            print("不支持该设备连接")
             break
         case .BlePoweredOff:
             self.rtkData.list.removeAll()
-            print("手机蓝牙未开启，请先开启后再连接设备")
             break
         case .Unknown:
             break
@@ -279,7 +274,6 @@ extension RtkService {
             let updatedJsonData = try JSONSerialization.data(withJSONObject: existingJson, options: .prettyPrinted)
             try updatedJsonData.write(to: infoJsonURL)
         } catch {
-            print("Error updating info.json with RTK data: \(error)")
         }
     }
 }

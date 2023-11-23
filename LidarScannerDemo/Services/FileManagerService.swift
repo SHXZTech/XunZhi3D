@@ -14,7 +14,6 @@ func calculateFolderSize(folderURL:URL) -> Int64? {
     do {
         let resourceKeys : [URLResourceKey] = [.fileSizeKey]
         let enumerator = try fileManager.enumerator(at: folderURL, includingPropertiesForKeys: resourceKeys, options: [], errorHandler: { (url, error) -> Bool in
-            print("Error while enumerating files \(url.path): \(error.localizedDescription)")
             return true
         })
         for case let fileURL as URL in enumerator! {
@@ -24,7 +23,6 @@ func calculateFolderSize(folderURL:URL) -> Int64? {
             }
         }
     } catch {
-        print(error)
         return nil
     }
     return totalSize
@@ -36,7 +34,6 @@ func getFolderCreateDate(folderURL: URL) -> Date? {
         let attributes = try fileManager.attributesOfItem(atPath: folderURL.path)
         return attributes[.creationDate] as? Date
     } catch {
-        print("Error retrieving folder creation date: \(error.localizedDescription)")
         return nil
     }
 }

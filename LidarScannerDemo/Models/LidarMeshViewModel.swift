@@ -30,8 +30,7 @@ class LidarMeshViewModel: ObservableObject {
     }
     
     deinit {
-        print("deinit LidarMeshViewModel: ObservableObject")
-        // Stop any work and release resources
+        
     }
     
     var sceneView : ARSCNView {

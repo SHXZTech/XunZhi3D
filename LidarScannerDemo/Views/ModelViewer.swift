@@ -17,7 +17,6 @@ class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegat
         if !isSceneLoaded {
             DispatchQueue.main.async() {
                 self.isSceneLoaded = true
-                print("self.isSceneLoaded = true")
             }
         }
     }
