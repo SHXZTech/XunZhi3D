@@ -9,22 +9,37 @@ import Foundation
 import SceneKit
 import ARKit
 import SwiftUI
+import AudioToolbox
+import UIKit
+
+
 
 
 struct ScanView: View {
     let uuid: UUID //= UUID()
     @StateObject var lidarMeshViewModel: LidarMeshViewModel// = LidarMeshViewModel(uuid: ScanView.uuid)
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
+    @State private var showTooFastWarning: Bool = false
+    @State private var showTooFastWarning_mutex: Bool = false
     @State var scanStatus = "ready"
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
-
+    
+    
     init(uuid: UUID,isPresenting: Binding<Bool>) {
         self._isPresenting = isPresenting
         self.uuid = uuid
         self._lidarMeshViewModel = StateObject(wrappedValue: LidarMeshViewModel(uuid: uuid))
-         
     }
+    
+    private func playWarningFeedback() {
+        let systemSoundID: SystemSoundID = 1103
+        AudioServicesPlayAlertSound(systemSoundID)
+        let generator = UIImpactFeedbackGenerator(style: .light)
+        generator.impactOccurred()
+    }
+
+
     
     var body: some View {
         VStack {
@@ -36,8 +51,22 @@ struct ScanView: View {
                     closeButton
                 }
             }
-            scanArea
-            scanButton
+            ZStack{
+                ZStack{
+                    scanArea
+                    VStack{
+                        Spacer()
+                        scanButton
+                    }
+                }
+                VStack{
+                    if showTooFastWarning {
+                        tooFastWarning
+                            .padding(.vertical, 200)
+                    }
+                    Spacer()
+                }
+            }
         }
         .fullScreenCover(isPresented: $navigateToRawScanViewer) {
             RawScanView(uuid: uuid, isPresenting: $isPresenting)
@@ -47,11 +76,44 @@ struct ScanView: View {
                 navigateToRawScanViewer = true
             }
         }
+        .onReceive(lidarMeshViewModel.$isTooFast) { isTooFast in
+            if (isTooFast) {
+                if(!showTooFastWarning_mutex){
+                    showTooFastWarning = true
+                }
+            }
+        }
     }
     
     private var statusText: some View {
-       Text(NSLocalizedString(scanStatus, comment: "ScanStatus"))
+        Text(NSLocalizedString(scanStatus, comment: "ScanStatus"))
     }
+    
+    private var tooFastWarning: some View {
+        HStack {
+            Image(systemName: "exclamationmark.triangle")
+                .foregroundColor(.yellow)
+            Text(NSLocalizedString("slow_down_warnning_message", comment: "slow down"))
+                .foregroundColor(.yellow)
+                .font(.system(size: 15))
+        }
+        .padding(10)  // Reduced padding
+        .background(Color.gray.opacity(0.6)) // Semi-transparent background
+        .cornerRadius(8)
+        .frame(maxWidth: 160, maxHeight: 50) // Limit the maximum width of the box
+        .onAppear {
+            showTooFastWarning_mutex = true
+            playWarningFeedback()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                showTooFastWarning = false
+            }
+        }
+        .onDisappear{
+            showTooFastWarning_mutex = false
+        }
+    }
+
+
     
     private var closeButton: some View {
         Button(action: {
@@ -89,16 +151,16 @@ struct ScanView: View {
     
     private func scanAction() {
         switch scanStatus {
-            case "ready":
-                scanStatus = "scanning"
-                lidarMeshViewModel.startScan()
+        case "ready":
+            scanStatus = "scanning"
+            lidarMeshViewModel.startScan()
             rtkViewModel.startRecord(uuid: self.uuid)
-            case "scanning":
-                scanStatus = "finished"
-                lidarMeshViewModel.pauseScan()
-                lidarMeshViewModel.saveScan(uuid: uuid)
-            default:
-                break
+        case "scanning":
+            scanStatus = "finished"
+            lidarMeshViewModel.pauseScan()
+            lidarMeshViewModel.saveScan(uuid: uuid)
+        default:
+            break
         }
     }
 }

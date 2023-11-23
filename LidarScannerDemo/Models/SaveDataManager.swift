@@ -22,14 +22,12 @@ func savePngData(pngData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Strin
     do {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     } catch let error {
-        print("Error creating directory: \(error.localizedDescription)")
         return "";
     }
     do {
         try pngData.write(to: fileURL)
         return fileName;
     } catch {
-        print("Error saving image: \(error.localizedDescription)")
         return "";
     }
 }
@@ -41,14 +39,12 @@ func saveTiffData(tiffData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Str
     do {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     } catch let error {
-        print("Error creating directory: \(error.localizedDescription)")
         return "";
     }
     do {
         try tiffData.write(to: fileURL)
         return fileName;
     } catch {
-        print("Error saving image: \(error.localizedDescription)")
         return "";
     }
 }
@@ -68,7 +64,6 @@ func saveJpegData(jpegData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Str
         try jpegData.write(to: fileURL)
         return fileName;
     } catch {
-        print("Error saving image: \(error.localizedDescription)")
         return "";
     }
 }
@@ -88,7 +83,6 @@ func saveJpegImage(jpegData: Data,fileFolder: URL,name: String)-> String{
         try jpegData.write(to: fileURL)
         return fileName;
     } catch {
-        print("Error saving image: \(error.localizedDescription)")
         return "";
     }
 }

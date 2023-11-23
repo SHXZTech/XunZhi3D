@@ -29,9 +29,6 @@ struct RawScanModel: Identifiable {
         id = id_
         scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
         loadFromJson()
-        print("init RawScanModel--")
-        print("RawScanModel.isExist: ", isExist)
-        print("RawScanModel.rawMeshURL: ", rawMeshURL?.path ?? "No rawMeshURL")
     }
     
     mutating func loadFromJson() {
@@ -54,7 +51,6 @@ struct RawScanModel: Identifiable {
                             self.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                             if self.isRawMeshExist {
                                 self.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
-                                print("self.rawMeshURL = URL(fileURLWithPath: rawMeshPath)", rawMeshURL?.path)
                             }
                         }
                     }
@@ -67,7 +63,6 @@ struct RawScanModel: Identifiable {
                 self.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
             }
         } catch {
-            print("Error reading JSON: \(error)")
         }
     }
 

@@ -43,7 +43,6 @@ struct CaptureViewService{
                             captureModel.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                             if captureModel.isRawMeshExist {
                                 captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
-                                print("self.rawMeshURL = URL(fileURLWithPath: rawMeshPath)", captureModel.rawMeshURL?.path ?? "nil")
                             }
                         }
                     }
@@ -83,7 +82,6 @@ struct CaptureViewService{
                 captureModel.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
             }
         } catch {
-            print("Error reading JSON: \(error)")
         }
     }
     

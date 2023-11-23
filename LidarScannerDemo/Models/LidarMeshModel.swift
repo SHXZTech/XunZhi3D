@@ -10,6 +10,7 @@ import RealityKit
 import ARKit
 import SceneKit
 import os
+import SwiftUI
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
@@ -18,6 +19,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     private(set) var sceneView : ARSCNView // The ARSCNView used to display the scene.
     
     var uuid:UUID // The UUID of the scan.
+    
+    @Published var isTooFast:Bool = false
     
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
@@ -89,6 +92,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
 #endif
         setAngleThreshold(threshold: 10) // set to 10cm
         setDistanceThreshold(threshold: 10) // set to 10 degree
+        isTooFast = false
     }
     
     /**
@@ -98,26 +102,19 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let currentTransform = frame.camera.transform
         let currentFrameTimeStamp = frame.timestamp
         let currentFramePose = frame.camera.transform
-        //too fast check
         if(status == "scanning" && tooFastCheck(currentFramePose: currentFramePose, currentTimeStamp: currentFrameTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousFrameTimeStamp)){
-            //something to buzz
-            print("too fast!! check success")
-            //update previousFrameTimeStamp and previopusFramePose
-            previousFrameTimeStamp = frame.timestamp
-            previousFramePose = frame.camera.transform
-            return
+            isTooFast = true;
         }
-        //update previousFrameTimeStamp and previopusFramePose
+        else{
+            isTooFast = false;
+        }
         previousFrameTimeStamp = frame.timestamp
         previousFramePose = frame.camera.transform
-        //new frame save
         if(status == "scanning" && newFrameCheck(currentFramePose: currentTransform, previousFramePose: previousSavedFramePose))
         {
             previousSavedFramePose = currentTransform
             configJsonManager.updateFrameInfo(frame: frame)
         }
-        
-        //
     }
     
     /**
@@ -146,7 +143,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
      */
     func tooFastCheck(currentFramePose: simd_float4x4, currentTimeStamp: TimeInterval, previousFramePose: simd_float4x4, previousTimeStamp: TimeInterval)->Bool{
         let speed = calculateMovementSpeed(currentFramePose: currentFramePose, currentTimeStamp: currentTimeStamp, previousFramePose: previousFramePose, previousTimeStamp: previousTimeStamp)
-        print("speed is \(speed)")
         if(speed >= speedThreshold){
             return true;
         }
@@ -241,16 +237,13 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     func saveScan(uuid:UUID)-> Bool{
         guard let camera = sceneView.session.currentFrame?.camera else {
-            print("guard camera fail")
             return false}
         self.configJsonManager.updateCover();
         
        let arSession = sceneView.session
         arSession.getCurrentWorldMap { worldMap, error in
                 if let error = error {
-                    // Handle the error
-                    print("Error retrieving current world map: \(error)")
-                    //return
+                    
                 }
                 if let worldMap = worldMap {
                     let pointcloud = worldMap.rawFeaturePoints;

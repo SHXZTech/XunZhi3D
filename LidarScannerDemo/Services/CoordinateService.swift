@@ -62,7 +62,6 @@ struct CoordinateService {
 
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
             if let error = error {
-                print("Geocoding error: \(error)")
                 completion(nil)
                 return
             }
