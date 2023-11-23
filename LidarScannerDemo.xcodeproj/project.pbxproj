@@ -12,7 +12,6 @@
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
 		E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */; };
 		E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */; };
-		E950595C2B0F2FC8002312CB /* CapturedFrameCountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E950595B2B0F2FC8002312CB /* CapturedFrameCountView.swift */; };
 		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */; };
 		E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */; };
@@ -119,7 +118,6 @@
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
 		E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataManager.swift; sourceTree = "<group>"; };
-		E950595B2B0F2FC8002312CB /* CapturedFrameCountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturedFrameCountView.swift; sourceTree = "<group>"; };
 		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewModel.swift; sourceTree = "<group>"; };
 		E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfo.swift; sourceTree = "<group>"; };
@@ -315,7 +313,6 @@
 				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
 				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
-				E950595B2B0F2FC8002312CB /* CapturedFrameCountView.swift */,
 				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
 				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
 				E9E62AA02AF8D5F4002DFB2C /* MainView.swift */,
@@ -598,7 +595,6 @@
 				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
 				E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
-				E950595C2B0F2FC8002312CB /* CapturedFrameCountView.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
