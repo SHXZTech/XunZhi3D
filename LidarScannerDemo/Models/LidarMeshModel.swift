@@ -21,6 +21,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     var uuid:UUID // The UUID of the scan.
     
     @Published var isTooFast:Bool = false
+    @Published var captureFrameCount:Int = 0
     
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
@@ -93,6 +94,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         setAngleThreshold(threshold: 10) // set to 10cm
         setDistanceThreshold(threshold: 10) // set to 10 degree
         isTooFast = false
+        captureFrameCount = 0;
     }
     
     /**
@@ -114,6 +116,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         {
             previousSavedFramePose = currentTransform
             configJsonManager.updateFrameInfo(frame: frame)
+            captureFrameCount+=1
         }
     }
     
@@ -254,7 +257,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                     }
                 }
             }
-        
         if let meshAnchors = sceneView.session.currentFrame?.anchors.compactMap({ $0 as? ARMeshAnchor }),
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
@@ -263,9 +265,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                 logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")
             }
         }
-        
-        
-        
         return true
     }
     

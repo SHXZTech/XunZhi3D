@@ -22,6 +22,7 @@ struct RawScanModel: Identifiable {
     var frameCount:Int = 0
     var rawMeshURL: URL?
     var scanFolder: URL?
+    var estimatedProcessingTime:Int = 0;
     
     
     init(id_:UUID)
@@ -29,6 +30,7 @@ struct RawScanModel: Identifiable {
         id = id_
         scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
         loadFromJson()
+        estimatedProcessingTime = frameCount*30;
     }
     
     mutating func loadFromJson() {

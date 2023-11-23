@@ -101,12 +101,24 @@ struct RawScanView: View {
                 Text(NSLocalizedString("Image count", comment: "") + ": \(rawScanManager.raw_scan_model.frameCount)")
                     .font(.footnote)
                 Spacer()
-                Text(NSLocalizedString("Estimated time", comment: "") + "126" + NSLocalizedString("s", comment: ""))
+                Text(NSLocalizedString("Estimated time", comment: "") + formatTime(seconds: rawScanManager.raw_scan_model.estimatedProcessingTime))
                     .font(.footnote)
                 // Future button to upload to cloud
             }
             .padding(.horizontal,40)
         }
+    }
+    
+    private func formatTime(seconds: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        if seconds >= 3600 { // 3600 seconds in an hour
+            formatter.allowedUnits = [.hour, .minute]
+        } else {
+            formatter.allowedUnits = [.minute]
+        }
+        formatter.unitsStyle = .abbreviated
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: TimeInterval(seconds)) ?? "0"
     }
 }
 

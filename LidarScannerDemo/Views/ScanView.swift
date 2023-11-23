@@ -25,6 +25,8 @@ struct ScanView: View {
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
     
+    @State var frameNumber: Int = 0;
+    
     
     init(uuid: UUID,isPresenting: Binding<Bool>) {
         self._isPresenting = isPresenting
@@ -38,8 +40,8 @@ struct ScanView: View {
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
-
-
+    
+    
     
     var body: some View {
         VStack {
@@ -56,6 +58,10 @@ struct ScanView: View {
                     scanArea
                     VStack{
                         Spacer()
+                        if(scanStatus == "scanning"){
+                            capturedFrameNumerView
+                                .padding(20)
+                        }
                         scanButton
                     }
                 }
@@ -83,6 +89,9 @@ struct ScanView: View {
                 }
             }
         }
+        .onReceive(lidarMeshViewModel.$capturedFrameCount) { capturedFrameCount in
+            self.frameNumber = capturedFrameCount
+        }
     }
     
     private var statusText: some View {
@@ -95,7 +104,8 @@ struct ScanView: View {
                 .foregroundColor(.yellow)
             Text(NSLocalizedString("slow_down_warnning_message", comment: "slow down"))
                 .foregroundColor(.yellow)
-                .font(.system(size: 15))
+                .font(.system(size: 17))
+                .bold()
         }
         .padding(10)  // Reduced padding
         .background(Color.gray.opacity(0.6)) // Semi-transparent background
@@ -112,8 +122,16 @@ struct ScanView: View {
             showTooFastWarning_mutex = false
         }
     }
-
-
+    
+    private var capturedFrameNumerView: some View {
+        Text("\(frameNumber)")
+            .foregroundColor(.white)
+            .font(.system(size: 20))
+            .frame(width: 50, height: 30)
+            .background(Color.gray.opacity(0.6))
+            .cornerRadius(8)
+    }
+    
     
     private var closeButton: some View {
         Button(action: {
@@ -164,7 +182,7 @@ struct ScanView: View {
             }
         }
     }
-
+    
     
     private func scanAction() {
         switch scanStatus {

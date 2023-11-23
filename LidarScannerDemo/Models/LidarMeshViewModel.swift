@@ -13,24 +13,21 @@ import SwiftUI
 import Combine
 
 class LidarMeshViewModel: ObservableObject {
-    //@Published private var model : LidarMeshModel = LidarMeshModel(uuid_: uuid)
     @Published private var model: LidarMeshModel
     @Published var isTooFast: Bool = false
+    @Published var capturedFrameCount: Int = 0;
     private var cancellables = Set<AnyCancellable>()
      
     init(uuid: UUID) {
-        //model = LidarMeshModel(uuid_: uuid, tooFastFlag: tooFastCheck)
         model = LidarMeshModel(uuid_: uuid)
-        
-        // Observe changes to isTooFast in the model
         model.$isTooFast
                    .receive(on: RunLoop.main)
                    .assign(to: \.isTooFast, on: self)
                    .store(in: &cancellables)
-    }
-    
-    deinit {
-        
+        model.$captureFrameCount
+            .receive(on: RunLoop.main)
+            .assign(to: \.capturedFrameCount, on: self)
+            .store(in: &cancellables)
     }
     
     var sceneView : ARSCNView {
