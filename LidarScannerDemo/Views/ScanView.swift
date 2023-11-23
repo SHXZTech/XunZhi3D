@@ -140,14 +140,31 @@ struct ScanView: View {
         VStack {
             HStack {
                 Button(action: scanAction) {
-                    Image(systemName: scanStatus == "ready" ? "circle.inset.filled" : "stop.circle.fill")
-                        .resizable()
-                        .foregroundColor(.red)
-                        .frame(width: 70, height: 70)
+                    if scanStatus == "ready" {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.white, lineWidth: 2) // Adjust lineWidth for ring thickness
+                                .frame(width: 68, height: 68) // Adjust frame size as needed
+                            Circle()
+                                .fill(Color.red)
+                                .frame(width: 60, height: 60) // Adjust frame size for the red circle
+                        }
+                    } else {
+                        ZStack {
+                            Circle()
+                                .stroke(Color.white, lineWidth: 2)
+                                .frame(width: 68, height: 68)
+                            Rectangle()
+                                .fill(Color.red)
+                                .cornerRadius(5)
+                                .frame(width: 30, height: 30)
+                        }
+                    }
                 }
             }
         }
     }
+
     
     private func scanAction() {
         switch scanStatus {
