@@ -11,9 +11,7 @@ struct VersionView: View {
             }
             .padding(.horizontal,20)
             .padding(.bottom, 8)
-
             Divider()
-
             VStack(alignment: .leading, spacing: 0) {
                 Text("Alpha 0.1").font(.title)
                 Text("11月10日，thomas").font(.footnote)
