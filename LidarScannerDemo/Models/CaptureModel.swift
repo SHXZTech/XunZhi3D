@@ -35,6 +35,7 @@ struct CaptureModel: Identifiable {
     var isRTK:Bool = false              //is rtk enable
     var frameCount:Int = 0              //image frame count
     var rawMeshURL: URL?                //raw mesh url
+    var objModelURL: URL?               //obj file url
     var scanFolder: URL?                //scan folder url
     var totalSize: Int64?               //total size of folder in ""
     var cloudStatus:CloudButtonState?   // is updated to cloud

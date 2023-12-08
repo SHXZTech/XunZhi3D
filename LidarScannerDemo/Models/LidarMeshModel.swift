@@ -82,7 +82,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView = ARSCNView(frame: .zero)
         uuid = uuid_
         configJsonManager = ConfigJsonManager(uuid_: uuid, owner_: "local")
-        configJsonManager.setLidarMode();
+        configJsonManager.setLidarModel();
         super.init()
         let config = ARWorldTrackingConfiguration()
         sceneView.session.delegate = self
@@ -261,6 +261,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
                 try configJsonManager.exportRawMesh(asset: asset)
+                try configJsonManager.exportRawMeshToObj(asset: asset)
             } catch {
                 logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")
             }

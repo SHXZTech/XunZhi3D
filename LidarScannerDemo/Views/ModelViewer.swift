@@ -31,15 +31,16 @@ struct ModelViewer: View {
     
     var body: some View {
         ZStack {
-            if let url = modelURL, let scene = try? SCNScene(url: url) {
+//            if let url = modelURL, let scene = try? SCNScene(url: url) {
                 LoadingView()
                     .frame(width: width, height: height)
-                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
-                    .frame(width: width, height: height)
-                    .scaledToFit()
-            } else {
-                Text(NSLocalizedString("No model to display", comment: ""))
-            }
+//                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
+//                    .frame(width: width, height: height)
+//                    .scaledToFit()
+            ObjModelView(objURL: modelURL!)
+//            } else {
+//                Text(NSLocalizedString("No model to display", comment: ""))
+//            }
         }
     }
 }

@@ -45,8 +45,7 @@ struct ConfigJsonManager{
     var isRTKEnable: Bool = false
     var configs: [String: Any] = [:]
     var mode: String = "lidar"
-    
-    // adding
+    var rawMeshObjURL: URL
     var createDate: Date = Date()
     
     init(uuid_ : UUID, owner_: String){
@@ -66,10 +65,11 @@ struct ConfigJsonManager{
         name = formatter.string(from: Date())
         owners.append(owner_)
         createDate = Date()
+        rawMeshObjURL = dataFolder.appendingPathComponent("mesh.obj")
     }
     
     
-    mutating func setLidarMode(){
+    mutating func setLidarModel(){
         mode = "lidar";
         isMeshModel = true;
         isPointCloud = false;
@@ -220,7 +220,10 @@ struct ConfigJsonManager{
         try asset.export(to: getRawMeshURL())
     }
     
-    
+
+    func exportRawMeshToObj(asset: MDLAsset) throws{
+        try asset.export(to: rawMeshObjURL)
+    }
     
     func writeJsonInfo() {
         let encoder = JSONEncoder()

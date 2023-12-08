@@ -44,6 +44,8 @@ struct CaptureViewService{
                             if captureModel.isRawMeshExist {
                                 captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
                             }
+                            
+                            
                         }
                     }
                 }
@@ -141,6 +143,10 @@ struct CaptureViewService{
     
     func getRawMeshURL() -> URL? {
         return captureModel.rawMeshURL
+    }
+    
+    func getObjModelURL() -> URL?{
+        return captureModel.objModelURL
     }
     
     func getProjectCreationDate() -> Date? {

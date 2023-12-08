@@ -68,6 +68,7 @@ struct FrameJsonInfo{
         arFrame = arFrame_;
         timeStamp = arFrame.timestamp
         intrinsic = arFrame.camera.intrinsics
+        //test = arFrame.camera.ex
         extrinsic = arFrame.camera.transform
         timeStampGlobal = Date()
     }
@@ -130,6 +131,9 @@ struct FrameJsonInfo{
         // Fetch existing frames array from info.json if it exists
         var framesArray: [[String: Any]] = existingJson["frames"] as? [[String: Any]] ?? []
         // Create the new frame info
+        
+        print("Debug:  extrinsic = \n", extrinsic ?? [])
+        print("Debug: extrinsic array representation: \n", extrinsic?.arrayRepresentation() ?? [])
         let jsonContent: [String: Any] = [
             "imageName": ImageName,
             "timeStamp": timeStamp,
@@ -164,6 +168,8 @@ struct FrameJsonInfo{
     mutating func writeImages(){
         if let jpegData = arFrame.capturedjpegData(){
             ImageName = saveJpegData(jpegData: jpegData, fileFolder: dataFolder, timeStamp: timeStamp, type: "RGB")
+            let exifData = arFrame.exifData;
+            print("exif: \n:", exifData)
         }
         if(arFrame.sceneDepth != nil) || (arFrame.smoothedSceneDepth != nil) {
             if let depthImage = arFrame.lidarDepthData()
