@@ -194,6 +194,7 @@ struct ScanView: View {
             scanStatus = "finished"
             lidarMeshViewModel.pauseScan()
             lidarMeshViewModel.saveScan(uuid: uuid)
+            rtkViewModel.toDisconnect()
         default:
             break
         }

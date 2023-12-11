@@ -203,7 +203,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let config = createStartScanConfig()
         configJsonManager.createProjectFolder()
         configJsonManager.createConfigFile()
-        configJsonManager.writeJsonInfo();
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
@@ -242,21 +241,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         guard let camera = sceneView.session.currentFrame?.camera else {
             return false}
         self.configJsonManager.updateCover();
-        
        let arSession = sceneView.session
-        arSession.getCurrentWorldMap { worldMap, error in
-                if let error = error {
-                    
-                }
-                if let worldMap = worldMap {
-                    let pointcloud = worldMap.rawFeaturePoints;
-                    do{
-                        try  self.configJsonManager.exportPointCloud(pointcloud: pointcloud);
-                    } catch {
-                        logger.error("exportPointCloud fail to \(self.configJsonManager.getPointCloudURL())")
-                    }
-                }
-            }
         if let meshAnchors = sceneView.session.currentFrame?.anchors.compactMap({ $0 as? ARMeshAnchor }),
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
@@ -265,6 +250,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
                 logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")
             }
         }
+        configJsonManager.writeJsonInfo();
+        
         return true
     }
     

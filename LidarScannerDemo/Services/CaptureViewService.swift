@@ -100,7 +100,6 @@ struct CaptureViewService{
     }
     
     func loadCloudStatus(){
-        //TODO
         //case upload, uploading, processing, download, downloading, downloaded
         // upload? // getfrom remote
         

@@ -9,7 +9,7 @@ struct ObjModelView: UIViewRepresentable {
         let scnView = SCNView()
         scnView.scene = createScene()
         scnView.allowsCameraControl = true
-        scnView.autoenablesDefaultLighting = false // Automatically adds a light source
+        scnView.autoenablesDefaultLighting = true // Automatically adds a light source
         return scnView
     }
 
