@@ -66,15 +66,10 @@ struct CaptureView: View {
                 .padding([.horizontal,.leading], 20)
                 Spacer()
                 Menu {
-                    //                    Button(action: {
-                    //                        // Action for renaming
-                    //                    }) {
-                    //                        Label("Rename", systemImage: "pencil")
-                    //                    }
                     Button(role: .destructive,action: {
                         self.showDeleteAlert = true
                     }) {
-                        Label("Delete", systemImage: "trash")
+                        Label(NSLocalizedString("Delete", comment: ""), systemImage: "trash")
                             .foregroundStyle(.red)
                     }
                 } label: {
