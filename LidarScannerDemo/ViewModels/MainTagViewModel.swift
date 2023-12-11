@@ -39,7 +39,7 @@ class MainTagViewModel: ObservableObject {
                     let formatter = DateFormatter()
                     formatter.dateFormat = NSLocalizedString("capture_preview_date_fromat", comment: "")
                     let dateString = formatter.string(from: creationDate)
-                    let previewImageURL = directory.appendingPathComponent("cover.jpeg")
+                    let previewImageURL = directory.appendingPathComponent("cover.png")
                     let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL)
                     tempCaptures.append(newCapture)
                 }

@@ -114,9 +114,9 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             rtkData.signalStrength = 0
         }
         if let uuid = uuid {
-            let dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
-            let infoJsonURL = dataFolder.appendingPathComponent("info.json");
-                saveRtkDataToInfoJson(rtkData: rtkData, infoJsonURL: infoJsonURL)
+            let dataFolder =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+            let rtkFolder = dataFolder.appendingPathComponent("rtk")
+                saveRtkDataToInfoJson(rtkData: rtkData, DataFolder: rtkFolder)
             }
     }
     
@@ -252,30 +252,30 @@ extension RtkService: HCSocketUtilDelegate {
 }
 
 extension RtkService {
-    func saveRtkDataToInfoJson(rtkData: RtkModel, infoJsonURL: URL) {
+    func saveRtkDataToInfoJson(rtkData: RtkModel, DataFolder: URL) {
+        
+        let timeStampSince1970 = rtkData.timeStamp.timeIntervalSince1970
+        let timeStampString = String(format: "%.15f", timeStampSince1970) + ".json" // For an integer representation
+        let infoJsonURL = DataFolder.appendingPathComponent(timeStampString)
         do {
-            var existingJson: [String: Any] = [:]
-            if let jsonData = try? Data(contentsOf: infoJsonURL),
-               let json = try? JSONSerialization.jsonObject(with: jsonData) as? [String: Any] {
-                existingJson = json
+            if !FileManager.default.fileExists(atPath: DataFolder.path) {
+                try FileManager.default.createDirectory(at: DataFolder, withIntermediateDirectories: true, attributes: nil)
             }
-
-            // Serialize RTK data to a JSON-compatible format
+            var existingJson: [String: Any] = [:]
             let rtkJsonData = try JSONEncoder().encode(rtkData)
             let rtkJson = try JSONSerialization.jsonObject(with: rtkJsonData) as? [String: Any] ?? [:]
-
-            // Add or update RTK data in the existing JSON
-            // Assuming you want to store an array of RTK data entries
             var rtkDataArray = existingJson["rtkData"] as? [[String: Any]] ?? []
             rtkDataArray.append(rtkJson)
             existingJson["rtkData"] = rtkDataArray
-
             // Write the updated JSON back to the file
             let updatedJsonData = try JSONSerialization.data(withJSONObject: existingJson, options: .prettyPrinted)
             try updatedJsonData.write(to: infoJsonURL)
         } catch {
+            // Handle any errors
         }
     }
+
+    
 }
 
 

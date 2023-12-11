@@ -15,13 +15,15 @@ import os
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
 
-func savePngData(pngData: Data,fileFolder: URL,timeStamp:TimeInterval,type:String?)-> String{
-    let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".png"
+func savePngData(pngData: Data,fileFolder: URL,timeStamp:String,type:String?)-> String{
+    //let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".png"
+    let fileName = timeStamp + ".png"
     let fileURL = fileFolder.appendingPathComponent(fileName)
     let directory = fileURL.deletingLastPathComponent()
     do {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     } catch let error {
+        print("save png data fail at:", fileURL.absoluteString)
         return "";
     }
     do {
@@ -32,13 +34,15 @@ func savePngData(pngData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Strin
     }
 }
 
-func saveTiffData(tiffData: Data,fileFolder: URL,timeStamp:TimeInterval,type:String?)-> String{
-    let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".TIF"
+func saveTiffData(tiffData: Data,fileFolder: URL,timeStamp:String,type:String?)-> String{
+    //let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".TIF"
+    let fileName = timeStamp + ".TIF"
     let fileURL = fileFolder.appendingPathComponent(fileName)
     let directory = fileURL.deletingLastPathComponent()
     do {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     } catch let error {
+        
         return "";
     }
     do {
@@ -50,8 +54,8 @@ func saveTiffData(tiffData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Str
 }
 
 
-func saveJpegData(jpegData: Data,fileFolder: URL,timeStamp:TimeInterval,type:String?)-> String{
-    let fileName = (type ?? "IMG") + "_" + String(format: "%.5f", timeStamp) + ".jpeg"
+func saveJpegData(jpegData: Data,fileFolder: URL,timeStamp:String,type:String?)-> String{
+    let fileName = timeStamp + ".jpeg"
     let fileURL = fileFolder.appendingPathComponent(fileName)
     let directory = fileURL.deletingLastPathComponent()
     do {
@@ -69,8 +73,8 @@ func saveJpegData(jpegData: Data,fileFolder: URL,timeStamp:TimeInterval,type:Str
 }
 
 
-func saveJpegImage(jpegData: Data,fileFolder: URL,name: String)-> String{
-    let fileName = name
+func saveJpgData(jpegData: Data,fileFolder: URL,timeStamp:String,type:String?)-> String{
+    let fileName = timeStamp + ".jpg"
     let fileURL = fileFolder.appendingPathComponent(fileName)
     let directory = fileURL.deletingLastPathComponent()
     do {

@@ -141,7 +141,6 @@ struct RtkSettingView: View {
     
     
     func rtkBluetoothDeviceSection() -> some View{
-        //TODO change the rtkBluetoothSearchedDeviceList() to be fixed
         GroupBox(label: Text(NSLocalizedString("RTK BLUETOOTH DEVICE", comment: ""))) {
             VStack(spacing: 20) {
                 if viewModel.rtkData.list.isEmpty {

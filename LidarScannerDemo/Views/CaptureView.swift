@@ -24,7 +24,7 @@ struct CaptureView: View {
         case model, info
     }
     
-    @State private var selectedViewMode:ViewMode = ViewMode.info
+    @State private var selectedViewMode:ViewMode = ViewMode.model
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)

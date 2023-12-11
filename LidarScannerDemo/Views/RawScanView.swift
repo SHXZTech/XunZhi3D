@@ -54,6 +54,7 @@ struct RawScanView: View {
                                 isPresenting = false
                             },
                             .default(Text(NSLocalizedString("Save draft", comment: ""))) {
+                                rawScanManager.moveScanFromCacheToDist()
                                 isPresenting = false
                             },
                             .cancel()
@@ -83,8 +84,8 @@ struct RawScanView: View {
     private var controls: some View {
         VStack {
             Button(NSLocalizedString("Upload & Process", comment: "")) {
+                rawScanManager.moveScanFromCacheToDist()
                 isPresenting = false
-                //TODO
                 //Handle upload and process action
             }
             .frame(width: 360, height: 54, alignment: .center)

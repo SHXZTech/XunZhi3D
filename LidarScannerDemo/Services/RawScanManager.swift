@@ -33,4 +33,8 @@ struct RawScanManager{
     func getRawMeshURL()-> URL{
         return raw_scan_model.rawMeshURL ?? raw_scan_model.getRawMeshURL()
     }
+    
+    func moveScanFromCacheToDist(){
+        raw_scan_model.moveFileFromCacheToDestination()
+    }
 }
