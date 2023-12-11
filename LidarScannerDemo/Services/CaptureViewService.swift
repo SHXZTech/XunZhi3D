@@ -143,6 +143,10 @@ struct CaptureViewService{
         return captureModel.rawMeshURL
     }
     
+    func getObjModelURL() -> URL?{
+        return captureModel.objModelURL
+    }
+    
     func getProjectCreationDate() -> Date? {
         if let createDate = captureModel.createDate {
             return createDate

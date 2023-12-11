@@ -141,13 +141,10 @@ struct FrameJsonInfo{
             "GPS": ["latitude": GPS?.coordinate.latitude ?? 0, "longitude": GPS?.coordinate.longitude ?? 0, "accuracy": GPS?.horizontalAccuracy],
             "RTK": ["latitude": GPS?.coordinate.latitude ?? 0, "longitude": GPS?.coordinate.longitude ?? 0, "accuracy": GPS?.horizontalAccuracy],
         ]
-        
         // Append the new frame info to the frames array
         framesArray.append(jsonContent)
         // Update the frames array in the existing JSON
         existingJson["frames"] = framesArray;
-        
-        
         return existingJson;
     }
 
