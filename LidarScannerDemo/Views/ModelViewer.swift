@@ -34,6 +34,7 @@ struct ModelViewer: View {
             if let url = modelURL{
                 LoadingView()
                 ObjModelView(objURL: modelURL!)
+                    .frame(width: width, height: height)
             }
             else{
                 Text(NSLocalizedString("No model to display", comment: ""))

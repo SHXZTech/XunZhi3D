@@ -3,6 +3,7 @@ import SceneKit
 
 struct ObjModelView: UIViewRepresentable {
     var objURL: URL
+    
 
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView()
