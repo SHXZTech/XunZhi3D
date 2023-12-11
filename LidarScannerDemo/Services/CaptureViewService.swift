@@ -44,8 +44,6 @@ struct CaptureViewService{
                             if captureModel.isRawMeshExist {
                                 captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
                             }
-                            
-                            
                         }
                     }
                 }
