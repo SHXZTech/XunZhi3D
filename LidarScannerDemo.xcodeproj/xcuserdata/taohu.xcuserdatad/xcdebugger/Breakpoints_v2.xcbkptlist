@@ -20,5 +20,131 @@
             landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C23993F1-A894-4FC6-B7F5-7A4C6309AB50"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LidarScannerDemo/Models/RawScanModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "loadFromJson()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "C23993F1-A894-4FC6-B7F5-7A4C6309AB50 - b3fa912de8fcca35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.RawScanModel.loadFromJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Models/RawScanModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "2628">
+               </Location>
+               <Location
+                  uuid = "C23993F1-A894-4FC6-B7F5-7A4C6309AB50 - b3fa912de8fcca35"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.RawScanModel.loadFromJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Models/RawScanModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "2284">
+               </Location>
+               <Location
+                  uuid = "C23993F1-A894-4FC6-B7F5-7A4C6309AB50 - b3fa912de8fcca16"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.RawScanModel.loadFromJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Models/RawScanModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "47"
+                  endingLineNumber = "47"
+                  offsetFromSymbolStart = "2124">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "57D0E836-DAE1-4299-8385-6B3D6508627D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "LidarScannerDemo/Services/CaptureViewService.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "loadCaptureJson()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "57D0E836-DAE1-4299-8385-6B3D6508627D - 47aa758132c44a88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.CaptureViewService.loadCaptureJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Services/CaptureViewService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "4032">
+               </Location>
+               <Location
+                  uuid = "57D0E836-DAE1-4299-8385-6B3D6508627D - 47aa758132c44a88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.CaptureViewService.loadCaptureJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Services/CaptureViewService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "3860">
+               </Location>
+               <Location
+                  uuid = "57D0E836-DAE1-4299-8385-6B3D6508627D - 47aa758132c44a88"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "LidarScannerDemo.CaptureViewService.loadCaptureJson() -&gt; ()"
+                  moduleName = "LidarScannerDemo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/LidarScannerDemo/Services/CaptureViewService.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "48"
+                  endingLineNumber = "48"
+                  offsetFromSymbolStart = "4096">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

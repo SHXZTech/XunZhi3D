@@ -61,7 +61,6 @@ struct RawScanView: View {
                     )
                 }
             }
-            
             Text(NSLocalizedString("Draft", comment: ""))
                 .multilineTextAlignment(.center)
         }
@@ -72,7 +71,7 @@ struct RawScanView: View {
     private var content: some View {
         Group {
             if rawScanManager.isRawMeshExist() {
-                ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
+                ModelViewer(modelURL: rawScanManager.getRawObjURL(), height: UIScreen.main.bounds.height*0.5)
             } else {
                 Text(NSLocalizedString("Can not load model", comment: ""))
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
