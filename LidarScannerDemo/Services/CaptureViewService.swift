@@ -36,16 +36,13 @@ struct CaptureViewService{
             if let jsonDict = jsonObject as? [String: Any] {
                 captureModel.isExist = isExistCheck()
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
-                    if configs.contains(where: { $0["isMeshModel"] as? Bool == true }) {
-                        let meshModelDict = configs.first(where: { $0.keys.contains("MeshModelName") })
-                        if let rawMeshName = meshModelDict?["MeshModelName"] as? String {
+                        let rawMeshName = "mesh.obj"
                             let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
                             captureModel.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                             if captureModel.isRawMeshExist {
                                 captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
+                                captureModel.objModelURL = URL(fileURLWithPath: rawMeshPath)
                             }
-                        }
-                    }
                 }
                 if let rtkDataArray = jsonDict["rtkData"] as? [[String: Any]] {
                        var rtkObjects = [RTKdata]()

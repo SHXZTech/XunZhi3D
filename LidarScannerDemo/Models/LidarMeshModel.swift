@@ -260,7 +260,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         if let meshAnchors = sceneView.session.currentFrame?.anchors.compactMap({ $0 as? ARMeshAnchor }),
            let asset = convertToAsset(meshAnchors: meshAnchors) {
             do {
-                try configJsonManager.exportRawMesh(asset: asset)
                 try configJsonManager.exportRawMeshToObj(asset: asset)
             } catch {
                 logger.error("exportRawMesh fail to \(self.configJsonManager.getRawMeshURL())")

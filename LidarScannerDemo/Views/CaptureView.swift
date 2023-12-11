@@ -29,7 +29,7 @@ struct CaptureView: View {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
-        if let modelURL = captureService.getRawMeshURL() {
+        if let modelURL = captureService.getObjModelURL() {
             self.modelView = ModelViewer(modelURL: modelURL, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
         } else {
             self.modelView = ModelViewer(modelURL: nil, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
