@@ -50,5 +50,9 @@ class LidarMeshViewModel: ObservableObject {
         model.dropScan()
     }
     
+    func setRtkConfigInfo(rtk_data: RtkModel){
+        model.setRtkConfigInfo(rtk_data: rtk_data)
+    }
+    
 }
 

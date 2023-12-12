@@ -14,10 +14,10 @@ import UIKit
 
 
 
-
+  
 struct ScanView: View {
     let uuid: UUID //= UUID()
-    @StateObject var lidarMeshViewModel: LidarMeshViewModel// = LidarMeshViewModel(uuid: ScanView.uuid)
+    @StateObject var lidarMeshViewModel: LidarMeshViewModel
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State private var showTooFastWarning: Bool = false
     @State private var showTooFastWarning_mutex: Bool = false
@@ -190,6 +190,9 @@ struct ScanView: View {
             scanStatus = "scanning"
             lidarMeshViewModel.startScan()
             rtkViewModel.startRecord(uuid: self.uuid)
+            if rtkViewModel.isConnected(){
+                lidarMeshViewModel.setRtkConfigInfo(rtk_data: rtkViewModel.rtkData)
+            }
         case "scanning":
             scanStatus = "finished"
             lidarMeshViewModel.pauseScan()

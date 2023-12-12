@@ -49,10 +49,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     private var isDepthEnable:Bool=false // Whether depth is enabled.
     
-    private var isGPSEnable:Bool=false // Whether GPS is enabled.
-    
-    private var isRTKEnable:Bool=false // Whether RTK is enabled.
-    
     private var previousFrameTimeStamp:TimeInterval = 0.0
     private var previousFramePose:simd_float4x4 =  simd_float4x4([
         simd_float4(1, 0, 0, 0),
@@ -255,12 +251,12 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         return true
     }
     
- 
-    
-
-    
     func makeCoordinator() -> Coordinator { Coordinator(self) }
     
+    func setRtkConfigInfo(rtk_data: RtkModel){
+        configJsonManager.enableRTK()
+        configJsonManager.setRtkConfiInfo(rtk_data: rtk_data)
+    }
     
     
     func convertToAsset(meshAnchors: [ARMeshAnchor]) -> MDLAsset? {
