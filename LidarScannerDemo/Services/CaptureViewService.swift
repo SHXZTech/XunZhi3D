@@ -26,6 +26,7 @@ struct CaptureViewService{
     }
     
     private mutating func loadCaptureJson(){
+        // change load the capture.rtkdataarray from rtk folder
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let jsonURL = documentsDirectory.appendingPathComponent("\(captureModel.id.uuidString)/info.json")
@@ -36,46 +37,42 @@ struct CaptureViewService{
             if let jsonDict = jsonObject as? [String: Any] {
                 captureModel.isExist = isExistCheck()
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
-                        let rawMeshName = "mesh.obj"
-                            let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
-                            captureModel.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
-                            if captureModel.isRawMeshExist {
-                                captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
-                                captureModel.objModelURL = URL(fileURLWithPath: rawMeshPath)
-                            }
+                    let rawMeshName = "mesh.obj"
+                    let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
+                    captureModel.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
+                    if captureModel.isRawMeshExist {
+                        captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
+                        captureModel.objModelURL = URL(fileURLWithPath: rawMeshPath)
+                    }
                 }
-                if let rtkDataArray = jsonDict["rtkData"] as? [[String: Any]] {
-                       var rtkObjects = [RTKdata]()
-                       for rtkEntry in rtkDataArray {
-                           let longitude = Double(rtkEntry["longitude"] as? String ?? "") ?? 0.0
-                           let latitude = Double(rtkEntry["latitude"] as? String ?? "") ?? 0.0
-                           let rtkData = RTKdata(
-                               longitude: longitude,
-                               latitude: latitude,
-                               horizontalAccuracy: Double(rtkEntry["horizontalAccuracy"] as? String ?? "") ?? 0.0,
-                               verticalAccuracy: Double(rtkEntry["verticalAccuracy"] as? String ?? "") ?? 0.0,
-                               fixStatus: Int(rtkEntry["fixStatus"] as? Int ?? 0),
-                               height: rtkEntry["height"] as? Double ?? 0.0,
-                               timeStamp: convertUnixTimeStampToDate(rtkEntry["timeStamp"] as? Double),
-                               GpsLocations: CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-                           )
-                           rtkObjects.append(rtkData)
-                       }
-                       captureModel.rtkDataArray = rtkObjects
-                   }
-                
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
                     for config in configs {
                         if let createDateStr = config["createDate"] as? String {
                             captureModel.createDate = convertStringToDate(createDateStr)
-                            break // Assuming only one createDate in configs
+                        }
+                        if let latitude = config["latitude"] as? Double, latitude > 0 {
+                            captureModel.createLat = String(latitude)
+                        }
+                        if let longitude = config["longitude"] as? Double, longitude > 0 {
+                            captureModel.createLon = String(longitude)
+                        }
+                        if let height = config["height"] as? Double, height > 0 && height < 10000 {
+                            captureModel.createHeight = String(height)
+                        }
+                        if let horizontalAccuracy = config["horizontalAccuracy"] as? Double,
+                           horizontalAccuracy > 0 && horizontalAccuracy < 100 {
+                            captureModel.minHorizontalAccuracy = Float(horizontalAccuracy)
+                        }
+                        if let verticalAccuracy = config["verticalAccuracy"] as? Double,
+                           verticalAccuracy > 0 && verticalAccuracy < 100 {
+                            captureModel.minHorizontalAccuracy = Float(verticalAccuracy) // Should this be minVerticalAccuracy?
                         }
                     }
                 }
                 captureModel.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
                 captureModel.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
-                captureModel.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false
-                captureModel.isRTK = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isRTKEnable"] as? Bool == true }) ?? false
+                captureModel.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGpsEnable"] as? Bool == true }) ?? false
+                captureModel.isRTK = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isRtkEnable"] as? Bool == true }) ?? false
                 captureModel.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
             }
         } catch {
@@ -113,11 +110,11 @@ struct CaptureViewService{
         
         // downloaded // decide local
     }
-
+    
     func getProjectSize() -> Int64? {
         return captureModel.totalSize
     }
-
+    
     private func isExistCheck() -> Bool {
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -152,5 +149,5 @@ struct CaptureViewService{
             return nil
         }
     }
-
+    
 }

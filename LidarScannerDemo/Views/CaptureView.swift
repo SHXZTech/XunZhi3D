@@ -19,12 +19,11 @@ struct CaptureView: View {
     @State private var showDeleteAlert = false
     private var modelView: ModelViewer
     private var modelInfoView: ModelInfoView
-    
     enum ViewMode {
         case model, info
     }
-    
     @State private var selectedViewMode:ViewMode = ViewMode.model
+    
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
@@ -147,7 +146,7 @@ struct CaptureView: View {
                     Text(textForState(cloudButtonState))
                         .foregroundStyle(.white)
                 }
-                Text("上传云端处理")
+                Text(NSLocalizedString("Not Upload yet", comment: ""))
                     .font(.system(size: 10))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)

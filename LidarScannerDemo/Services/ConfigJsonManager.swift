@@ -42,13 +42,18 @@ struct ConfigJsonManager{
     var isExtrinsicEnable: Bool = false
     var isDepthEnable: Bool = false
     var isConfidenceEnable: Bool = false
-    var isGPSEnable: Bool = false
-    var isRTKEnable: Bool = false
     var configs: [String: Any] = [:]
     var mode: String = "lidar"
     var rawMeshObjURL: URL
     var createDate: Date = Date()
     var dataDestinationFolder:URL
+    var isRtkEnable = false
+    var isGpsEnable = false
+    var lat: String = ""
+    var lon: String = ""
+    var height: String = ""
+    var vertical_accuracy: String = ""
+    var horizontal_accuracy: String = ""
     
     init(uuid_ : UUID, owner_: String){
         uuid = uuid_;
@@ -86,19 +91,11 @@ struct ConfigJsonManager{
         isConfidenceEnable = true;
     }
     
-    mutating func enableGPS(){
-        isGPSEnable = true;
-    }
-    
-    mutating func enableRTK(){
-        isRTKEnable = true;
-    }
-    
     mutating func addOwner(newOwner: String){
         owners.append(newOwner);
     }
     
-    mutating func updateFrameInfo(frame: ARFrame, rtkModel: RtkModel = RtkModel()){
+    mutating func updateFrameInfo(frame: ARFrame){
         var jsonInfo = FrameJsonInfo(dataFolder_: dataFolder, arFrame_: frame);
         jsonInfo.saveFrameInfo();
         totalFrame = totalFrame+1;
@@ -264,6 +261,17 @@ struct ConfigJsonManager{
         try asset.export(to: rawMeshObjURL)
     }
 
+    mutating func enableRTK(){
+        isRtkEnable = true
+    }
+    
+    mutating func setRtkConfiInfo(rtk_data: RtkModel){
+        lat = rtk_data.latitude;
+        lon = rtk_data.longitude;
+        height = String(rtk_data.height);
+        horizontal_accuracy = rtk_data.horizontalAccuracy;
+        vertical_accuracy = rtk_data.verticalAccuracy;
+    }
     
     func writeJsonInfo() {
         let encoder = JSONEncoder()
@@ -283,14 +291,19 @@ struct ConfigJsonManager{
                     ["isExtrinsicEnable": isExtrinsicEnable],
                     ["isDepthEnable": isDepthEnable],
                     ["isConfidenceEnable": isConfidenceEnable],
-                    ["isGPSEnable": isGPSEnable],
-                    ["isRTKEnable": isRTKEnable],
                     ["isMeshModel": isMeshModel],
                     ["MeshModelName": meshModelName],
                     ["isPointCloud": isPointCloud],
                     ["PointCloudName": pointCloudName],
                     ["coverName":coverName],
-                    ["createDate": createDateTimestamp]
+                    ["createDate": createDateTimestamp],
+                    ["isGpsEnable": isGpsEnable],
+                    ["isRtkEnable": isRtkEnable],
+                    ["latitude": lat],
+                    ["longitude": lon],
+                    ["height": height],
+                    ["horizontalAccuracy": horizontal_accuracy],
+                    ["verticalAccuracy": vertical_accuracy]
                 ]
             ]
             jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
@@ -306,8 +319,4 @@ struct ConfigJsonManager{
             }
         }
     }
-    
-    
-  
-
 }

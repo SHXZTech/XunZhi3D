@@ -13,7 +13,6 @@ import LiteRTK
 class RTKViewModel: ObservableObject {
     @Published var rtkData: RtkModel = RtkModel()
     @Published var ntripConfigData = NtripConfigModel()
-    @Published var lastSelectedDevice: String? = nil
     @Published var selectedDevice: String?
     @Published var rtkService: RtkService
     private var cancellables: Set<AnyCancellable> = []
@@ -40,7 +39,6 @@ class RTKViewModel: ObservableObject {
     
     func startRecord(uuid: UUID){
         rtkService.startRecord(uuid_: uuid)
-        
     }
     
     public func toVerifyNtrip(completion: @escaping (Bool) -> Void) {
@@ -50,6 +48,10 @@ class RTKViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
             completion(self.rtkService.isLoninSuccessful)
         }
+    }
+    
+    func getRtkData()-> RtkModel{
+        return rtkData
     }
 
     func getMountPoint(){
@@ -74,6 +76,10 @@ class RTKViewModel: ObservableObject {
     
     func toDisconnect() {
         rtkService.toDisconnect()
+    }
+    
+    func isConnected()-> Bool{
+        return rtkService.isConnected
     }
     
     var portString: String {

@@ -43,9 +43,10 @@ struct CaptureModel: Identifiable {
     var createLocation: String?         //creation location
     var createLat: String?
     var createLon: String?
+    var createHeight: String?
     var minHorizontalAccuracy: Float?
     var minVerticalAccuracy: Float?
-    var averateHeigh: Float?
+    var averateHeight: Float?
     var gpsCoordinate: String = "WGS84"
     var rtkDataArray : [RTKdata] = []
 }

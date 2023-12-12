@@ -52,6 +52,7 @@
 		E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9BE9B0B2B01F21D00C91715 /* Localizable.strings */; };
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
+		E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */; };
 		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
 		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
 		E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8932B04BD1400400270 /* CaptureViewService.swift */; };
@@ -168,6 +169,7 @@
 		E9BE9B0C2B01F21D00C91715 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
 		E9E2A8932B04BD1400400270 /* CaptureViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewService.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
 				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
 				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
+				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
+				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
 				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
 				E9F596812B06EDDD00899219 /* VersionView.swift in Sources */,
