@@ -12,6 +12,7 @@ import ARKit
 struct RawScanView: View {
     var uuid: UUID
     var rawScanManager: RawScanManager
+    var cloud_service: CloudService
     @Binding var isPresenting: Bool
     @State private var showingExitConfirmation = false
     
@@ -19,6 +20,7 @@ struct RawScanView: View {
         self.uuid = uuid
         self.rawScanManager = RawScanManager(uuid: uuid)
         self._isPresenting = isPresenting
+        self.cloud_service = CloudService()
     }
     
     var body: some View {
@@ -87,6 +89,20 @@ struct RawScanView: View {
                 rawScanManager.moveScanFromCacheToDist()
                 isPresenting = false
                 //Handle upload and process action
+                // create capture
+                cloud_service.createCapture(uuid: uuid) { result in
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(let response):
+                                print("Capture created successfully: \(response)")
+                            case .failure(let error):
+                                print("Error creating capture: \(error)")
+                            }
+                        }
+                    }
+                // upload
+                
+                
             }
             .frame(width: 360, height: 54, alignment: .center)
             .background(Color.blue)

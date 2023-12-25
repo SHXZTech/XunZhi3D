@@ -8,6 +8,7 @@
 import Foundation
 import ARKit
 import SceneKit
+import Zip
 
 struct CaptureViewService{
     
@@ -21,6 +22,7 @@ struct CaptureViewService{
     
     private mutating func loadCaptureModel(){
         captureModel.scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(captureModel.id.uuidString)
+        captureModel.zipFileURL = captureModel.scanFolder?.appendingPathComponent(captureModel.id.uuidString+".zip")
         loadFolderSize()
         loadCaptureJson()
     }
@@ -30,6 +32,7 @@ struct CaptureViewService{
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
         let jsonURL = documentsDirectory.appendingPathComponent("\(captureModel.id.uuidString)/info.json")
+        
         let id = captureModel.id
         do {
             let jsonData = try Data(contentsOf: jsonURL)
@@ -149,5 +152,40 @@ struct CaptureViewService{
             return nil
         }
     }
-    
+}
+
+extension String {
+    func removingPrefix(_ prefix: String) -> String? {
+        guard self.hasPrefix(prefix) else { return self }
+        return String(self.dropFirst(prefix.count))
+    }
+}
+
+extension CaptureViewService {
+    func zipCapture(completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let scan_folder = captureModel.scanFolder else {
+            completion(.failure(CaptureViewServiceError.folderNotFound))
+            return
+        }
+        guard let zipFileURL = captureModel.zipFileURL else{
+            completion(.failure(CaptureViewServiceError.folderNotFound))
+            return
+        }
+        do {
+            let fileManager = FileManager.default
+            if fileManager.fileExists(atPath: zipFileURL.path) {
+                try fileManager.removeItem(at: zipFileURL)
+            }
+            try Zip.zipFiles(paths: [scan_folder], zipFilePath: zipFileURL, password: nil, progress: nil)
+            completion(.success(zipFileURL))
+        } catch {
+            completion(.failure(error))
+        }
+    }
+
+}
+
+enum CaptureViewServiceError: Error {
+    case folderNotFound
+    // Define other errors as needed
 }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1A99B8553617C81B9A0857C0 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F06D2FA63F50911232B4B5FF /* Pods_LidarScannerDemo.framework */; };
+		95AAEBED554696297442E4C2 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35042DA716BD4D7164C2567 /* Pods_LidarScannerDemoTests.framework */; };
+		9E0B1AF52880F94E7E244FA1 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */; };
 		E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E920AEBE2B22F94900B06C30 /* ObjModelView.swift */; };
 		E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0B2B26A9EC006D64B2 /* textured.mtl */; };
 		E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0C2B26A9EC006D64B2 /* Earth.usdz */; };
@@ -18,6 +21,10 @@
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
 		E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */; };
 		E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */; };
+		E94FB8762B34060B00807E86 /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8752B34060B00807E86 /* CloudService.swift */; };
+		E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8772B34071D00807E86 /* ServerConfig.swift */; };
+		E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E94FB8792B3409A100807E86 /* ServerConfig.plist */; };
+		E94FB87C2B3472D600807E86 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E94FB87B2B3472D600807E86 /* Podfile */; };
 		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */; };
 		E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */; };
@@ -118,6 +125,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		250C9DB5868D8BBD244972B8 /* Pods-LidarScannerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		4DBD99B49FE4A4F97BAFF7C4 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		67CCFD64DFBFE8159D499E96 /* Pods-LidarScannerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo_LidarScannerDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CA35C5D6EF0BE8A83CC4F058 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E920AEBE2B22F94900B06C30 /* ObjModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
 		E9212A0B2B26A9EC006D64B2 /* textured.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = textured.mtl; sourceTree = "<group>"; };
 		E9212A0C2B26A9EC006D64B2 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
@@ -130,6 +143,10 @@
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
 		E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataManager.swift; sourceTree = "<group>"; };
+		E94FB8752B34060B00807E86 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
+		E94FB8772B34071D00807E86 /* ServerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfig.swift; sourceTree = "<group>"; };
+		E94FB8792B3409A100807E86 /* ServerConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ServerConfig.plist; path = LidarScannerDemo/ServerConfig.plist; sourceTree = SOURCE_ROOT; };
+		E94FB87B2B3472D600807E86 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
 		E950595D2B10AC8F002312CB /* Data_format.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Data_format.md; sourceTree = "<group>"; };
 		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewModel.swift; sourceTree = "<group>"; };
@@ -200,6 +217,9 @@
 		E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
 		E9F596802B06EDDD00899219 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		E9F596822B06FE1D00899219 /* ModelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoView.swift; sourceTree = "<group>"; };
+		EC6EBF2C16940004CAE976CD /* Pods-LidarScannerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		F06D2FA63F50911232B4B5FF /* Pods_LidarScannerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F35042DA716BD4D7164C2567 /* Pods_LidarScannerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -208,6 +228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */,
+				1A99B8553617C81B9A0857C0 /* Pods_LidarScannerDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -215,6 +236,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95AAEBED554696297442E4C2 /* Pods_LidarScannerDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,15 +244,31 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9E0B1AF52880F94E7E244FA1 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C3F0DB811AB823832C1FAD48 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				250C9DB5868D8BBD244972B8 /* Pods-LidarScannerDemo.debug.xcconfig */,
+				67CCFD64DFBFE8159D499E96 /* Pods-LidarScannerDemo.release.xcconfig */,
+				CA35C5D6EF0BE8A83CC4F058 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */,
+				4DBD99B49FE4A4F97BAFF7C4 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */,
+				EC6EBF2C16940004CAE976CD /* Pods-LidarScannerDemoTests.debug.xcconfig */,
+				D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
+				E94FB87B2B3472D600807E86 /* Podfile */,
 				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
 				E9BE9B032B01F14800C91715 /* en.lproj */,
 				E9E62A8C2AF8A9F2002DFB2C /* Assets */,
@@ -244,6 +282,7 @@
 				E963F67829F23EB200CDE6E1 /* LidarScannerDemoUITests */,
 				E963F65A29F23EB100CDE6E1 /* Products */,
 				E9F43E702ADFCCF900C2B5CF /* Frameworks */,
+				C3F0DB811AB823832C1FAD48 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -266,6 +305,7 @@
 				E963F6A729F3912900CDE6E1 /* Views */,
 				E963F6A529F390FD00CDE6E1 /* Extention */,
 				E963F69C29F2526600CDE6E1 /* Info.plist */,
+				E94FB8792B3409A100807E86 /* ServerConfig.plist */,
 				E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */,
 				E963F65E29F23EB100CDE6E1 /* ContentView.swift */,
 				E963F66029F23EB100CDE6E1 /* Experience.rcproject */,
@@ -360,6 +400,7 @@
 				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
 				E9E2A8912B04BBBC00400270 /* CaptureModel.swift */,
 				E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */,
+				E94FB8772B34071D00807E86 /* ServerConfig.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -387,6 +428,7 @@
 				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
 				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
 				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
+				E94FB8752B34060B00807E86 /* CloudService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -441,6 +483,9 @@
 			isa = PBXGroup;
 			children = (
 				E9E62A952AF8A9F2002DFB2C /* LiteRTK.framework */,
+				F06D2FA63F50911232B4B5FF /* Pods_LidarScannerDemo.framework */,
+				7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */,
+				F35042DA716BD4D7164C2567 /* Pods_LidarScannerDemoTests.framework */,
 			);
 			path = Frameworks;
 			sourceTree = "<group>";
@@ -459,10 +504,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F67F29F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemo" */;
 			buildPhases = (
+				9E4B1A0492839D33D5CBBA14 /* [CP] Check Pods Manifest.lock */,
 				E963F65529F23EB100CDE6E1 /* Sources */,
 				E963F65629F23EB100CDE6E1 /* Frameworks */,
 				E963F65729F23EB100CDE6E1 /* Resources */,
 				E9E62A892AF235CA002DFB2C /* Embed Frameworks */,
+				FA4D3EE05FF3D7AF3C29A268 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -477,6 +524,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F68229F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemoTests" */;
 			buildPhases = (
+				7C4A6DE535F3AF5363E91F4B /* [CP] Check Pods Manifest.lock */,
 				E963F66729F23EB200CDE6E1 /* Sources */,
 				E963F66829F23EB200CDE6E1 /* Frameworks */,
 				E963F66929F23EB200CDE6E1 /* Resources */,
@@ -495,9 +543,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F68529F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemoUITests" */;
 			buildPhases = (
+				1B0E970D15A40158AF0C321B /* [CP] Check Pods Manifest.lock */,
 				E963F67129F23EB200CDE6E1 /* Sources */,
 				E963F67229F23EB200CDE6E1 /* Frameworks */,
 				E963F67329F23EB200CDE6E1 /* Resources */,
+				7AA7E67B9229FCE98B0DB451 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -562,12 +612,14 @@
 				E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */,
 				E9E62A992AF8A9F2002DFB2C /* iPhone App@2x.png in Resources */,
 				E9212A142B26A9EC006D64B2 /* rawMesh.usd in Resources */,
+				E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */,
 				E9212A132B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg in Resources */,
 				E9E62AAF2AFA5916002DFB2C /* Develop_Guidance.md in Resources */,
 				E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */,
 				E9325BF32A08F66300BD5A05 /* README.md in Resources */,
 				E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */,
 				E9212A122B26A9EC006D64B2 /* textured.obj in Resources */,
+				E94FB87C2B3472D600807E86 /* Podfile in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
 				E9E62A9B2AF8A9F2002DFB2C /* ntrip_config.json in Resources */,
 				E9BE9B0A2B01F20B00C91715 /* Localizable.strings in Resources */,
@@ -595,12 +647,116 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1B0E970D15A40158AF0C321B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemo-LidarScannerDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7AA7E67B9229FCE98B0DB451 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C4A6DE535F3AF5363E91F4B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9E4B1A0492839D33D5CBBA14 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FA4D3EE05FF3D7AF3C29A268 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E963F65529F23EB100CDE6E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */,
+				E94FB8762B34060B00807E86 /* CloudService.swift in Sources */,
 				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
 				E9E62AA12AF8D5F4002DFB2C /* MainView.swift in Sources */,
@@ -635,6 +791,7 @@
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
+				E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
@@ -824,6 +981,7 @@
 		};
 		E963F68029F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 250C9DB5868D8BBD244972B8 /* Pods-LidarScannerDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -872,6 +1030,7 @@
 		};
 		E963F68129F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 67CCFD64DFBFE8159D499E96 /* Pods-LidarScannerDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -920,6 +1079,7 @@
 		};
 		E963F68329F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = EC6EBF2C16940004CAE976CD /* Pods-LidarScannerDemoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -940,6 +1100,7 @@
 		};
 		E963F68429F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -960,6 +1121,7 @@
 		};
 		E963F68629F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CA35C5D6EF0BE8A83CC4F058 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -978,6 +1140,7 @@
 		};
 		E963F68729F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4DBD99B49FE4A4F97BAFF7C4 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

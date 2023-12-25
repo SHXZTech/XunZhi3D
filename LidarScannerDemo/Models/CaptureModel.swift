@@ -49,5 +49,7 @@ struct CaptureModel: Identifiable {
     var averateHeight: Float?
     var gpsCoordinate: String = "WGS84"
     var rtkDataArray : [RTKdata] = []
+    var zipFileURL: URL?
+    var isZipFileExist: Bool = false;
 }
 

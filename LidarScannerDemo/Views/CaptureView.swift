@@ -19,10 +19,14 @@ struct CaptureView: View {
     @State private var showDeleteAlert = false
     private var modelView: ModelViewer
     private var modelInfoView: ModelInfoView
+    var cloud_service: CloudService
     enum ViewMode {
         case model, info
     }
     @State private var selectedViewMode:ViewMode = ViewMode.model
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
+    
     
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
@@ -38,6 +42,7 @@ struct CaptureView: View {
             capturemodel.createDate = createDate
         }
         self.modelInfoView = ModelInfoView(capturemodel_: capturemodel)
+        self.cloud_service = CloudService()
     }
     
     var body: some View {
@@ -128,6 +133,9 @@ struct CaptureView: View {
             modelInfoView
                 .opacity(selectedViewMode == .info ? 1 : 0)
         }
+        .alert(isPresented: $showErrorAlert) {
+            Alert(title: Text(NSLocalizedString("Error", comment: "")), message: Text(errorMessage), dismissButton: .default(Text(NSLocalizedString("OK", comment: ""))))
+        }
         .animation(.easeInOut, value: selectedViewMode)
     }
     
@@ -137,6 +145,47 @@ struct CaptureView: View {
     
     private var cloudButton: some View {
         Button(action: {
+            cloudButtonState = .uploading
+            cloud_service.createCapture(uuid: uuid) { createResult in
+                DispatchQueue.main.async {
+                    switch createResult {
+                    case .success(let createResponse):
+                        print("Capture created successfully: \(createResponse)")
+                        captureService.zipCapture { zipResult in
+                            switch zipResult {
+                            case .success(let zipFileURL):
+                                print("Zip created successfully at: \(zipFileURL)")
+                                cloud_service.uploadCapture(uuid: uuid, fileURL: zipFileURL) { uploadResult in
+                                    switch uploadResult {
+                                    case .success(let uploadResponse):
+                                        print("Upload successful: \(uploadResponse)")
+                                        cloudButtonState = .processing
+                                    case .failure(let uploadError):
+                                        print("Error uploading capture: \(uploadError)")
+                                        self.errorMessage = NSLocalizedString("Error uploading capture", comment: "")
+                                        self.showErrorAlert = true
+                                        cloudButtonState = .upload
+                                    }
+                                }
+                            case .failure(let zipError):
+                                print("Error creating zip: \(zipError)")
+                                self.errorMessage = NSLocalizedString("Error creating zip file for capture", comment: "")
+                                self.showErrorAlert = true
+                            }
+                        }
+                        
+                    case .failure(let createError):
+                        print("Error creating capture: \(createError)")
+                        self.errorMessage = NSLocalizedString("Connect server fail in create capture", comment: "")
+                        self.showErrorAlert = true
+                        cloudButtonState = .upload
+                    }
+                }
+            }
+            
+            
+            
+            
             // Define actions for each state here
         }) {
             VStack(alignment: .center) {
@@ -146,7 +195,7 @@ struct CaptureView: View {
                     Text(textForState(cloudButtonState))
                         .foregroundStyle(.white)
                 }
-                Text(NSLocalizedString("Not Upload yet", comment: ""))
+                Text(textForStateMention(cloudButtonState))
                     .font(.system(size: 10))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
@@ -154,6 +203,23 @@ struct CaptureView: View {
             .frame(width: 120, height: 40)
             .background(Color.blue)
             .cornerRadius(15.0)
+        }
+    }
+    
+    private func textForStateMention(_ state: CloudButtonState)-> String{
+        switch state {
+        case .upload:
+            return NSLocalizedString("Not Upload yet", comment: "")
+        case .uploading:
+            return NSLocalizedString("Uploading to cloud", comment: "")
+        case .processing:
+            return NSLocalizedString("Cloud processing", comment: "")
+        case .download:
+            return NSLocalizedString("Cloud processed", comment: "")
+        case .downloading:
+            return NSLocalizedString("Downloading", comment: "")
+        case .downloaded:
+            return NSLocalizedString("Downloaded", comment: "")
         }
     }
     
