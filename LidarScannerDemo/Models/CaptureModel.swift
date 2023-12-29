@@ -11,7 +11,7 @@ import MapKit
 import os
 
 enum CloudButtonState {
-    case upload, uploading, processing, download, downloading, downloaded
+    case wait_upload, uploading, uploaded, wait_process, processing, processed, downloading, downloaded, process_failed, not_created
 }
 
 struct RTKdata{
@@ -29,6 +29,7 @@ struct CaptureModel: Identifiable {
     var id:UUID                         //UUID
     var isExist:Bool = false            // is folder exist
     var isRawMeshExist:Bool = false     // is rawmesh enable
+    var isTexturedMeshExist:Bool = false; // check whether textured exist
     var isDepth:Bool = false            // is depth enable
     var isPose:Bool = false             // is pose enable
     var isGPS:Bool = false              //is gps enable
@@ -36,6 +37,7 @@ struct CaptureModel: Identifiable {
     var frameCount:Int = 0              //image frame count
     var rawMeshURL: URL?                //raw mesh url
     var objModelURL: URL?               //obj file url
+    var texturedObjURL: URL?
     var scanFolder: URL?                //scan folder url
     var totalSize: Int64?               //total size of folder in ""
     var cloudStatus:CloudButtonState?   // is updated to cloud

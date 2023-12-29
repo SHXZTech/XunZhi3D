@@ -10,24 +10,28 @@ import ARKit
 import SceneKit
 import Zip
 
-struct CaptureViewService{
+class CaptureViewService: ObservableObject{
     
-    public var captureModel: CaptureModel
+    @Published var captureModel: CaptureModel
+    var cloud_service: CloudService
     init(id_:UUID)
     {
         self.captureModel = CaptureModel(id:id_)
+        self.cloud_service = CloudService()
         captureModel.id = id_
         loadCaptureModel()
+        loadCloudStatus()
+        print("cloud status:", captureModel.cloudStatus)
     }
     
-    private mutating func loadCaptureModel(){
+    private func loadCaptureModel(){
         captureModel.scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(captureModel.id.uuidString)
         captureModel.zipFileURL = captureModel.scanFolder?.appendingPathComponent(captureModel.id.uuidString+".zip")
         loadFolderSize()
         loadCaptureJson()
     }
     
-    private mutating func loadCaptureJson(){
+    private func loadCaptureJson(){
         // change load the capture.rtkdataarray from rtk folder
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -47,6 +51,14 @@ struct CaptureViewService{
                         captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
                         captureModel.objModelURL = URL(fileURLWithPath: rawMeshPath)
                     }
+                    let texturedMeshName = "textured.obj"
+                    let texturedMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/\(texturedMeshName)").path
+                    print("texturedMeshPath:",texturedMeshPath)
+                    captureModel.isTexturedMeshExist = fileManager.fileExists(atPath: texturedMeshPath)
+                    if captureModel.isTexturedMeshExist{
+                        captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
+                    }
+                    
                 }
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
                     for config in configs {
@@ -87,7 +99,7 @@ struct CaptureViewService{
         return Date(timeIntervalSince1970: timeStamp)
     }
     
-    private mutating func loadFolderSize(){
+    private func loadFolderSize(){
         captureModel.totalSize = calculateFolderSize(folderURL: captureModel.scanFolder!)
     }
     
@@ -97,21 +109,6 @@ struct CaptureViewService{
         // Adjust the date format according to the format used in your JSON
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
         return formatter.date(from: string) ?? Date()
-    }
-    
-    func loadCloudStatus(){
-        //case upload, uploading, processing, download, downloading, downloaded
-        // upload? // getfrom remote
-        
-        // uploading? // decide local
-        
-        //processing? // getfrom remote
-        
-        // download? // getfrom remote
-        
-        // downloading? // decide local
-        
-        // downloaded // decide local
     }
     
     func getProjectSize() -> Int64? {
@@ -140,8 +137,12 @@ struct CaptureViewService{
     }
     
     func getObjModelURL() -> URL?{
-        return captureModel.objModelURL
+        if self.captureModel.isTexturedMeshExist{
+            return captureModel.texturedObjURL
+        }else{
+            return captureModel.objModelURL}
     }
+    
     
     func getProjectCreationDate() -> Date? {
         if let createDate = captureModel.createDate {
@@ -152,7 +153,142 @@ struct CaptureViewService{
             return nil
         }
     }
+    
+    func loadCloudStatus() {
+        if self.captureModel.isTexturedMeshExist{
+            self.captureModel.cloudStatus = .downloaded
+            return
+        }
+        cloud_service.getCaptureStatus(uuid: captureModel.id) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let statusResponse):
+                    switch statusResponse.status{
+                    case 0:
+                        self.captureModel.cloudStatus = .wait_upload
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 1:
+                        self.captureModel.cloudStatus = .uploading
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 2:
+                        self.captureModel.cloudStatus = .uploaded
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 3:
+                        self.captureModel.cloudStatus = .wait_process
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 4:
+                        self.captureModel.cloudStatus = .processing
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 5:
+                        self.captureModel.cloudStatus = .processed
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 6:
+                        self.captureModel.cloudStatus = .downloading
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 7:
+                        self.captureModel.cloudStatus = .downloaded
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case 100:
+                        self.captureModel.cloudStatus = .not_created
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    case -1:
+                        self.captureModel.cloudStatus = .process_failed
+                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        break;
+                    default:
+                        self.captureModel.cloudStatus = nil
+                        print("cloudstatus catch default:", self.captureModel.cloudStatus)
+                        break
+                    }
+                    
+                case .failure(let error):
+                    print()
+                    self.captureModel.cloudStatus = nil
+                    print("cloudstatus catch fail:", self.captureModel.cloudStatus)
+                }
+            }
+        }
+    }
+    
+    
+    func createCloudCapture(completion: @escaping (Bool) -> Void) {
+        cloud_service.createCapture(uuid: self.captureModel.id) { createResult in
+            DispatchQueue.main.async {
+                switch createResult {
+                case .success(let createResponse):
+                    print("Capture created successfully: \(createResponse)")
+                    completion(true)
+                case .failure(let createError):
+                    print("Error creating capture: \(createError)")
+                    completion(false)
+                }
+            }
+        }
+    }
+    
+    
+    
+    func downloadTexture(completion: @escaping (Bool, String) -> Void) {
+        
+        guard let scanFolder = captureModel.scanFolder else {
+            completion(false, "scanFolder not exist")
+            return
+        }
+        let destinationFileURL = scanFolder.appendingPathComponent("textured.zip")
+        let textureExtractDestinationURL = scanFolder.appendingPathComponent("textured")
+        cloud_service.downloadTexture(uuid: self.captureModel.id, to: destinationFileURL) { result in
+            switch result {
+            case .success(_):
+                do {
+                    try FileManager.default.createDirectory(at: textureExtractDestinationURL, withIntermediateDirectories: true, attributes: nil)
+                    try Zip.unzipFile(destinationFileURL, destination: textureExtractDestinationURL, overwrite: true, password: nil, progress: nil)
+                    completion(true, "File downloaded and extracted successfully: \(textureExtractDestinationURL.path)")
+                } catch {
+                    completion(false, "Failed to extract file: \(error.localizedDescription)")
+                }
+            case .failure(let error):
+                completion(false, "Error downloading file: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    
+    func uploadCapture(completion: @escaping(Bool, String)->Void){
+        zipCapture{ zipResult in
+            switch zipResult {
+            case .success(let zipFileURL):
+                print("Zip created successfully at: \(zipFileURL)")
+                self.cloud_service.uploadCapture(uuid: self.captureModel.id, fileURL: zipFileURL) { uploadResult in
+                    switch uploadResult {
+                    case .success(let uploadResponse):
+                        print("Upload successful: \(uploadResponse)")
+                        self.captureModel.cloudStatus = .processing
+                        completion(true, "Upload success")
+                    case .failure(let uploadError):
+                        print("Error uploading capture: \(uploadError)")
+                        completion(false, "Upload fail")
+                    }
+                }
+            case .failure(let zipError):
+                print("Error creating zip: \(zipError)")
+                completion(false, "Upload fail")
+            }
+        }
+    }
+    
 }
+
+
+
 
 extension String {
     func removingPrefix(_ prefix: String) -> String? {
@@ -182,8 +318,10 @@ extension CaptureViewService {
             completion(.failure(error))
         }
     }
-
+    
 }
+
+
 
 enum CaptureViewServiceError: Error {
     case folderNotFound

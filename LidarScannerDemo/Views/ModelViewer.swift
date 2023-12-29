@@ -12,7 +12,6 @@ import SceneKit
 
 class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegate {
     @Published var isSceneLoaded: Bool = false
-    
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         if !isSceneLoaded {
             DispatchQueue.main.async() {
@@ -33,7 +32,7 @@ struct ModelViewer: View {
         ZStack {
             if let url = modelURL{
                 LoadingView()
-                ObjModelView(objURL: modelURL!)
+                ObjModelView(objURL: url)
                     .frame(width: width, height: height)
             }
             else{

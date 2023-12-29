@@ -31,10 +31,61 @@ struct CloudService {
             }
         }.resume()
     }
-    
+ 
 }
 
+extension CloudService {
+    func downloadTexture(uuid: UUID, to destinationURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+        guard let url = serverConfig.getDownloadTextureURL else {
+            completion(.failure(CloudServiceError.invalidURL))
+            return
+        }
 
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = [URLQueryItem(name: "uuid", value: uuid.uuidString)]
+
+        guard let queryURL = urlComponents?.url else {
+            completion(.failure(CloudServiceError.invalidURL))
+            return
+        }
+
+        var request = URLRequest(url: queryURL)
+        request.httpMethod = "GET"
+
+        let task = URLSession.shared.downloadTask(with: request) { localURL, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+
+            guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                completion(.failure(CloudServiceError.unknown))
+                return
+            }
+
+            guard let tempLocalURL = localURL else {
+                completion(.failure(CloudServiceError.unknown))
+                return
+            }
+
+            // Use the provided destination URL to save the file
+            let permanentURL = destinationURL
+            do {
+                // Move the file from the temporary location to the permanent location
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: permanentURL.path) {
+                    try fileManager.removeItem(at: permanentURL)
+                }
+                try fileManager.moveItem(at: tempLocalURL, to: permanentURL)
+                completion(.success(permanentURL))
+            } catch {
+                completion(.failure(error))
+            }
+        }
+
+        task.resume()
+    }
+}
 
 extension CloudService {
     
@@ -127,6 +178,53 @@ extension CloudService {
         return "application/octet-stream"
     }
 }
+
+extension CloudService {
+    func getCaptureStatus(uuid: UUID, completion: @escaping (Result<CaptureStatusResponse, Error>) -> Void) {
+        guard let url = serverConfig.getCaptureStatusURL else {
+            completion(.failure(CloudServiceError.invalidURL))
+            return
+        }
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        // Assuming the UUID is sent as a query parameter
+        var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        urlComponents?.queryItems = [URLQueryItem(name: "uuid", value: uuid.uuidString)]
+
+        guard let queryURL = urlComponents?.url else {
+            completion(.failure(CloudServiceError.invalidURL))
+            return
+        }
+        request.url = queryURL
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(CloudServiceError.unknown))
+                return
+            }
+            do {
+                let responseObj = try JSONDecoder().decode(CaptureStatusResponse.self, from: data)
+                completion(.success(responseObj))
+            } catch {
+                completion(.failure(error))
+            }
+        }.resume()
+    }
+}
+
+
+
+struct CaptureStatusResponse: Codable {
+    var message: String
+    var status: Int
+    // Add other fields based on your server's response
+}
+
 
 
 enum CloudServiceError: Error {

@@ -64,6 +64,7 @@
 		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
 		E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8932B04BD1400400270 /* CaptureViewService.swift */; };
 		E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8952B04C2AE00400270 /* FileManagerService.swift */; };
+		E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E318952B3D0E3500927519 /* CloudButtonView.swift */; };
 		E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */; };
 		E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */; };
 		E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */; };
@@ -191,6 +192,7 @@
 		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
 		E9E2A8932B04BD1400400270 /* CaptureViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewService.swift; sourceTree = "<group>"; };
 		E9E2A8952B04C2AE00400270 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
+		E9E318952B3D0E3500927519 /* CloudButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudButtonView.swift; sourceTree = "<group>"; };
 		E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = develop_FAQs.md; sourceTree = "<group>"; };
 		E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@3x.png"; sourceTree = "<group>"; };
 		E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App.png"; sourceTree = "<group>"; };
@@ -261,7 +263,6 @@
 				EC6EBF2C16940004CAE976CD /* Pods-LidarScannerDemoTests.debug.xcconfig */,
 				D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -380,6 +381,7 @@
 				E9F596802B06EDDD00899219 /* VersionView.swift */,
 				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
 				E97053AC2B07421900241635 /* MapMarkView.swift */,
+				E9E318952B3D0E3500927519 /* CloudButtonView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -807,6 +809,7 @@
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
+				E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */,
 				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
