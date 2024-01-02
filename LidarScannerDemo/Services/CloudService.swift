@@ -13,7 +13,6 @@ struct CloudService {
     // Function to create a capture
     func createCapture(uuid: UUID, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = serverConfig.captureCreateURL else {
-            print("Invalid URL for capture creation")
             return
         }
         var request = URLRequest(url: url)

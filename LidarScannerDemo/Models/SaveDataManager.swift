@@ -23,7 +23,6 @@ func savePngData(pngData: Data,fileFolder: URL,timeStamp:String,type:String?)-> 
     do {
         try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true, attributes: nil)
     } catch let error {
-        print("save png data fail at:", fileURL.absoluteString)
         return "";
     }
     do {

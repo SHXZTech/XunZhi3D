@@ -21,6 +21,7 @@
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
 		E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */; };
 		E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */; };
+		E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */; };
 		E94FB8762B34060B00807E86 /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8752B34060B00807E86 /* CloudService.swift */; };
 		E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8772B34071D00807E86 /* ServerConfig.swift */; };
 		E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E94FB8792B3409A100807E86 /* ServerConfig.plist */; };
@@ -144,6 +145,7 @@
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
 		E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataManager.swift; sourceTree = "<group>"; };
+		E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModelViewer.swift; sourceTree = "<group>"; };
 		E94FB8752B34060B00807E86 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
 		E94FB8772B34071D00807E86 /* ServerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfig.swift; sourceTree = "<group>"; };
 		E94FB8792B3409A100807E86 /* ServerConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ServerConfig.plist; path = LidarScannerDemo/ServerConfig.plist; sourceTree = SOURCE_ROOT; };
@@ -366,6 +368,7 @@
 		E963F6A729F3912900CDE6E1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */,
 				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
 				E920AEBE2B22F94900B06C30 /* ObjModelView.swift */,
@@ -809,6 +812,7 @@
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
+				E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */,
 				E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */,
 				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);

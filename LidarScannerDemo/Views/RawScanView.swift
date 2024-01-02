@@ -88,8 +88,6 @@ struct RawScanView: View {
             Button(NSLocalizedString("Upload & Process", comment: "")) {
                 rawScanManager.moveScanFromCacheToDist()
                 isPresenting = false
-                //Handle upload and process action
-                // create capture
                 cloud_service.createCapture(uuid: uuid) { result in
                         DispatchQueue.main.async {
                             switch result {
@@ -100,9 +98,6 @@ struct RawScanView: View {
                             }
                         }
                     }
-                // upload
-                
-                
             }
             .frame(width: 360, height: 54, alignment: .center)
             .background(Color.blue)

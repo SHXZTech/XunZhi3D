@@ -13,25 +13,49 @@ struct CloudButtonView: View {
     @Binding var cloudButtonState: CloudButtonState
     var uploadAction: () -> Void
     var body: some View {
-        Button(action: uploadAction) {
-            VStack(alignment: .center) {
-                HStack {
-                    Image(systemName: imageForState(cloudButtonState))
-                        .foregroundColor(.white)
-                    Text(textForState(cloudButtonState))
+            Button(action: uploadAction) {
+                VStack(alignment: .center) {
+                    HStack {
+                        if cloudButtonState == .downloading || cloudButtonState == .uploading {
+                            ProgressView()
+                                .progressViewStyle(CircularProgressViewStyle(tint: .white))
+                                .scaleEffect(0.8)
+                        } else {
+                            Image(systemName: imageForState(cloudButtonState))
+                                .foregroundColor(.white)
+                        }
+                        Text(textForState(cloudButtonState))
+                            .foregroundStyle(.white)
+                    }
+                    Text(textForStateMention(cloudButtonState))
+                        .font(.system(size: 12))
                         .foregroundStyle(.white)
+                        .multilineTextAlignment(.center)
                 }
-                Text(textForStateMention(cloudButtonState))
-                    .font(.system(size: 10))
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
+                .frame(width: 140, height: 50)
+                .background(colorForButton(cloudButtonState))
+                .cornerRadius(15.0)
             }
-            .frame(width: 120, height: 40)
-            .background(Color.blue)
-            .cornerRadius(15.0)
+        }
+    private func colorForButton(_ state: CloudButtonState)-> Color{
+        switch state{
+        case .wait_upload, .not_created:
+            return Color.blue
+        case .uploading:
+            return Color.blue
+        case .uploaded, .wait_process, .processing:
+            return Color.blue
+        case .processed:
+            return Color.blue
+        case .downloading:
+            return Color.blue
+        case .downloaded:
+            return Color.green
+        case .process_failed:
+            return Color.red
         }
     }
-
+    
     private func textForStateMention(_ state: CloudButtonState)-> String{
         switch state {
         case .wait_upload, .not_created:
@@ -45,7 +69,7 @@ struct CloudButtonView: View {
         case .downloading:
             return NSLocalizedString("Downloading", comment: "")
         case .downloaded:
-            return NSLocalizedString("Downloaded", comment: "")
+            return NSLocalizedString("Sync cloud", comment: "")
         case .process_failed:
             return NSLocalizedString("Processed failed", comment: "")
         }
@@ -92,7 +116,6 @@ struct CloudButtonView: View {
 struct CloudButtonView_Previews: PreviewProvider {
     static var previews: some View {
         CloudButtonView(cloudButtonState: .constant(.uploading), uploadAction: {
-            print("Upload action triggered")
         })
         .previewLayout(.sizeThatFits) // Optionally, set a layout size for the preview
     }

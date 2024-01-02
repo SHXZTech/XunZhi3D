@@ -49,13 +49,9 @@ struct ServerConfigModel {
     
     // Static method to load the server configuration from a plist file.
     static func loadFromPlist(named plistName: String) -> ServerConfigModel? {
-        print("loadFromPlist")
-        print("plistName:", plistName)
-        
         guard let url = Bundle.main.url(forResource: plistName, withExtension: "plist"),
               let data = try? Data(contentsOf: url),
               let dictionary = try? PropertyListSerialization.propertyList(from: data, options: [], format: nil) as? [String: Any] else {
-            print("Failed to load plist")
             return nil
         }
         
@@ -66,13 +62,8 @@ struct ServerConfigModel {
               let getCaptureStatusEndpoint = dictionary["getCaptureStatusEndpoint"] as? String,
               let downloadTextureEndpoing = dictionary["downloadTextureEndpoint"] as? String,
               let getUploadRouteEndpoint = dictionary["getUploadRouteEndpoint"] as? String else {
-            print("Invalid or missing data in plist")
             return nil
         }
-        
-        print("serverAddress", serverAddress)
-        print("serverAddress", serverPort)
-        print("captureCreateEndpoint",captureCreateEndpoint)
         return ServerConfigModel(serverAddress: serverAddress, serverPort: serverPort, captureCreateEndpoint: captureCreateEndpoint, getUploadRouteEndpoint: getUploadRouteEndpoint, uploadCaptureEndPoint: uploadCaptureEndpoint, getCaptureStatusEndpoint: getCaptureStatusEndpoint, downloadTextureEndpoing: downloadTextureEndpoing, additionalConfig: dictionary)
     }
     

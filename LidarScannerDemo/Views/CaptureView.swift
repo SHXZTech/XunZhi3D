@@ -24,7 +24,7 @@ struct CaptureView: View {
     @State private var selectedViewMode:ViewMode = ViewMode.model
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
-    private var modelURL: URL?;
+    @State var modelURL: URL?;
     
     
     
@@ -32,15 +32,20 @@ struct CaptureView: View {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
-
-        if let modelURL = captureService.getObjModelURL() {
-            print("captureService.getObjModelURL():", captureService.getObjModelURL())
-            self.modelURL = modelURL
-        } else {
-            self.modelURL = nil
-        }
-        print("self.modelUR:", self.modelURL)
-        self._isPresenting = isPresenting
+//        DispatchQueue.main.async {
+//                if let modelURL_ = self.captureService.getObjModelURL() {
+//                    self.modelURL = modelURL_
+//                    print("midelURL:", modelURL_)
+//                    print("init self.modelURL:", self.modelURL)
+//                }
+//            }
+//        if let modelURL_ = captureService.getObjModelURL() {
+//            self.modelURL = modelURL_
+//            print("midelURL:", modelURL_)
+//            print("init self.modelURL:", self.modelURL)
+//        } else {
+//           // self.modelURL = nil
+//        }
         self.cloudButtonState = .wait_upload
         self.showDeleteAlert = false
         self.selectedViewMode = .model
@@ -104,8 +109,26 @@ struct CaptureView: View {
         .onReceive(captureService.$captureModel) { updatedModel in
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
         }
+        .onReceive(captureService.$updateSyncedModel) { updated in
+            if updated {
+                print("onReceive(captureService.$updateSyncedModel) { updated in TOGGLE")
+                if captureService.checkTexturedExist(){
+                    cloudButtonState = .downloaded
+                }
+                if let modelURL_ = captureService.getObjModelURL() {
+                    self.modelURL = modelURL_
+                    print("updating the modelURL to:", self.modelURL)
+                }
+            }
+        }
+        .onAppear {
+                    if let modelURL_ = captureService.getObjModelURL() {
+                        self.modelURL = modelURL_
+                    }
+                }
         .padding(.vertical, 5)
     }
+    
     
     private func CloudButtonAction() {
         switch cloudButtonState {
@@ -192,7 +215,7 @@ struct CaptureView: View {
                 if captureService.isRawMeshExist() {
                     VStack{
                         Spacer()
-                        ModelViewer(modelURL: self.modelURL, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
+                        StateModelViewer(modelURL: self.$modelURL, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
                             .cornerRadius(15)
                         Spacer()
                     }

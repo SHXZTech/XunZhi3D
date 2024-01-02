@@ -13,15 +13,43 @@ import Zip
 class CaptureViewService: ObservableObject{
     
     @Published var captureModel: CaptureModel
+    @Published var updateSyncedModel: Bool
+    var loadCloudStatus_lock:Bool
+    var cloudStatusCheckTimer: Timer?
     var cloud_service: CloudService
     init(id_:UUID)
     {
         self.captureModel = CaptureModel(id:id_)
         self.cloud_service = CloudService()
+        self.updateSyncedModel = false;
+        self.loadCloudStatus_lock = false;
         captureModel.id = id_
         loadCaptureModel()
         loadCloudStatus()
-        print("cloud status:", captureModel.cloudStatus)
+        startCloudStatusCheckTimer()
+    }
+    
+    private func startCloudStatusCheckTimer() {
+        print("Starting Timer")
+        cloudStatusCheckTimer?.invalidate() // Invalidate any existing timer
+        cloudStatusCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
+            print("Timer triggered")
+            if(self.captureModel.cloudStatus == .downloaded)
+            {
+                print("stop for elf.captureModel.cloudStatus == .downloaded")
+                self.stopCloudStatusCheckTimer()
+            }
+            if(!self.loadCloudStatus_lock){
+                self.loadCloudStatus_lock=true;
+                self.loadCloudStatus()
+                self.loadCloudStatus_lock=false;
+            }
+        }
+    }
+    
+    private func stopCloudStatusCheckTimer() {
+        cloudStatusCheckTimer?.invalidate()
+        cloudStatusCheckTimer = nil
     }
     
     private func loadCaptureModel(){
@@ -53,7 +81,6 @@ class CaptureViewService: ObservableObject{
                     }
                     let texturedMeshName = "textured.obj"
                     let texturedMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/\(texturedMeshName)").path
-                    print("texturedMeshPath:",texturedMeshPath)
                     captureModel.isTexturedMeshExist = fileManager.fileExists(atPath: texturedMeshPath)
                     if captureModel.isTexturedMeshExist{
                         captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
@@ -92,6 +119,18 @@ class CaptureViewService: ObservableObject{
             }
         } catch {
         }
+    }
+    
+    func checkTexturedExist()-> Bool{
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let texturedMeshPath = documentsDirectory.appendingPathComponent("\(self.captureModel.id.uuidString)/textured/textured.obj").path
+        captureModel.isTexturedMeshExist = fileManager.fileExists(atPath: texturedMeshPath)
+        if captureModel.isTexturedMeshExist{
+            captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
+            return true;
+        }
+        else{ return false;}
     }
     
     private func convertUnixTimeStampToDate(_ timeStamp: Double?) -> Date {
@@ -137,6 +176,9 @@ class CaptureViewService: ObservableObject{
     }
     
     func getObjModelURL() -> URL?{
+        
+        checkTexturedExist()
+        print("getObjModelURL:", self.captureModel.isTexturedMeshExist, captureModel.texturedObjURL)
         if self.captureModel.isTexturedMeshExist{
             return captureModel.texturedObjURL
         }else{
@@ -166,54 +208,101 @@ class CaptureViewService: ObservableObject{
                     switch statusResponse.status{
                     case 0:
                         self.captureModel.cloudStatus = .wait_upload
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        self.captureModel.cloudStatus = .uploading
+                        print("stop for uploading for case  0")
+                        self.stopCloudStatusCheckTimer()
+                        print("uploading for case  0")
+                        self.uploadCapture(completion: { success, message in
+                            if success {
+                                self.captureModel.cloudStatus = .uploaded
+                                self.startCloudStatusCheckTimer()
+                            }
+                            else{
+                                self.captureModel.cloudStatus = .wait_upload
+                                print("stop for uploading for case  0 fail")
+                                self.stopCloudStatusCheckTimer()
+                            }
+                        })
                         break;
                     case 1:
                         self.captureModel.cloudStatus = .uploading
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
                         break;
                     case 2:
                         self.captureModel.cloudStatus = .uploaded
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
                         break;
                     case 3:
                         self.captureModel.cloudStatus = .wait_process
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        self.startCloudStatusCheckTimer()
                         break;
                     case 4:
                         self.captureModel.cloudStatus = .processing
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        self.startCloudStatusCheckTimer()
                         break;
                     case 5:
                         self.captureModel.cloudStatus = .processed
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        if self.checkTexturedExist(){
+                            self.captureModel.cloudStatus = .downloaded
+                            self.loadCloudStatus()
+                            print("stop for uploading for case  5, textured")
+                            self.stopCloudStatusCheckTimer()
+                            break;
+                        }
+                        self.captureModel.cloudStatus = .downloading
+                        self.downloadTexture(completion: { success, message in
+                            if success {
+                                print("downloading finish, switch to downloaded")
+                                self.captureModel.cloudStatus = .downloaded
+                                print("stop for uploading for  self.captureModel.cloudStatus = .downloading")
+                                self.stopCloudStatusCheckTimer()
+                                self.updateSyncedModel = true;
+                            } else {
+                                self.captureModel.cloudStatus = .processed
+                                self.stopCloudStatusCheckTimer()
+                                print("stop for uploading for  self.captureModel.cloudStatus = .downloading fail")
+                            }
+                        })
                         break;
                     case 6:
                         self.captureModel.cloudStatus = .downloading
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
                         break;
                     case 7:
                         self.captureModel.cloudStatus = .downloaded
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        print("stop for uploading for  self.captureModel.cloudStatus = .downloaded")
+                        self.stopCloudStatusCheckTimer()
                         break;
                     case 100:
                         self.captureModel.cloudStatus = .not_created
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        self.captureModel.cloudStatus = .uploading
+                        self.createCloudCapture(completion: { success in
+                            if success {
+                                self.captureModel.cloudStatus = .uploaded
+                                print("uploading for case  100")
+                                self.uploadCapture(completion: { success, message in
+                                    if success {
+                                        self.captureModel.cloudStatus = .uploaded
+                                    } else {
+                                        self.captureModel.cloudStatus = .wait_upload
+                                        print("stop for uploading for  case =100")
+                                        self.stopCloudStatusCheckTimer()
+                                    }
+                                })
+                            }
+                        })
                         break;
                     case -1:
                         self.captureModel.cloudStatus = .process_failed
-                        print("cloudstatus catch:", self.captureModel.cloudStatus)
+                        self.stopCloudStatusCheckTimer()
+                        print("stop for uploading for  self.captureModel.cloudStatus = .process_failed")
                         break;
                     default:
                         self.captureModel.cloudStatus = nil
-                        print("cloudstatus catch default:", self.captureModel.cloudStatus)
                         break
                     }
                     
                 case .failure(let error):
-                    print()
                     self.captureModel.cloudStatus = nil
-                    print("cloudstatus catch fail:", self.captureModel.cloudStatus)
+                    self.stopCloudStatusCheckTimer()
+                    print("stop for uploading for  self.captureModel.cloudStatus = failure")
                 }
             }
         }
@@ -225,10 +314,8 @@ class CaptureViewService: ObservableObject{
             DispatchQueue.main.async {
                 switch createResult {
                 case .success(let createResponse):
-                    print("Capture created successfully: \(createResponse)")
                     completion(true)
                 case .failure(let createError):
-                    print("Error creating capture: \(createError)")
                     completion(false)
                 }
             }
@@ -266,20 +353,16 @@ class CaptureViewService: ObservableObject{
         zipCapture{ zipResult in
             switch zipResult {
             case .success(let zipFileURL):
-                print("Zip created successfully at: \(zipFileURL)")
                 self.cloud_service.uploadCapture(uuid: self.captureModel.id, fileURL: zipFileURL) { uploadResult in
                     switch uploadResult {
                     case .success(let uploadResponse):
-                        print("Upload successful: \(uploadResponse)")
                         self.captureModel.cloudStatus = .processing
                         completion(true, "Upload success")
                     case .failure(let uploadError):
-                        print("Error uploading capture: \(uploadError)")
                         completion(false, "Upload fail")
                     }
                 }
             case .failure(let zipError):
-                print("Error creating zip: \(zipError)")
                 completion(false, "Upload fail")
             }
         }
