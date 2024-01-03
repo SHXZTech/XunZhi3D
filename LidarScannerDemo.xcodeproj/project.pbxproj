@@ -10,6 +10,7 @@
 		1A99B8553617C81B9A0857C0 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F06D2FA63F50911232B4B5FF /* Pods_LidarScannerDemo.framework */; };
 		95AAEBED554696297442E4C2 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35042DA716BD4D7164C2567 /* Pods_LidarScannerDemoTests.framework */; };
 		9E0B1AF52880F94E7E244FA1 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */; };
+		E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9175A032B44108F00843379 /* ObjModelMeasureView.swift */; };
 		E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E920AEBE2B22F94900B06C30 /* ObjModelView.swift */; };
 		E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0B2B26A9EC006D64B2 /* textured.mtl */; };
 		E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0C2B26A9EC006D64B2 /* Earth.usdz */; };
@@ -133,6 +134,7 @@
 		7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo_LidarScannerDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA35C5D6EF0BE8A83CC4F058 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		E9175A032B44108F00843379 /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
 		E920AEBE2B22F94900B06C30 /* ObjModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
 		E9212A0B2B26A9EC006D64B2 /* textured.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = textured.mtl; sourceTree = "<group>"; };
 		E9212A0C2B26A9EC006D64B2 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
@@ -385,6 +387,7 @@
 				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
 				E97053AC2B07421900241635 /* MapMarkView.swift */,
 				E9E318952B3D0E3500927519 /* CloudButtonView.swift */,
+				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -797,6 +800,7 @@
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */,
+				E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,

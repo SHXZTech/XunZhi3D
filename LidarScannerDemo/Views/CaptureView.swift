@@ -233,8 +233,6 @@ struct CaptureView: View {
         }
         .animation(.easeInOut, value: selectedViewMode)
     }
-    
-
 
     func formatBytes(_ bytes: Int64) -> String {
         let formatter = ByteCountFormatter()

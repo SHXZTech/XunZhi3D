@@ -21,7 +21,7 @@ struct StateModelViewer: View {
         ZStack {
             if let url = modelURL{
                 LoadingView()
-                ObjModelView(objURL: url)
+                ObjModelMeasureView(objURL: url)
                     .frame(width: width, height: height)
             }
             else{
