@@ -14,7 +14,7 @@ class CaptureViewService: ObservableObject{
     
     @Published var captureModel: CaptureModel
     @Published var updateSyncedModel: Bool
-    var loadCloudStatus_lock:Bool
+    var uploadcapture_lock:Bool
     var cloudStatusCheckTimer: Timer?
     var cloud_service: CloudService
     init(id_:UUID)
@@ -22,7 +22,7 @@ class CaptureViewService: ObservableObject{
         self.captureModel = CaptureModel(id:id_)
         self.cloud_service = CloudService()
         self.updateSyncedModel = false;
-        self.loadCloudStatus_lock = false;
+        self.uploadcapture_lock = false;
         captureModel.id = id_
         loadCaptureModel()
         loadCloudStatus()
@@ -30,27 +30,26 @@ class CaptureViewService: ObservableObject{
     }
     
     private func startCloudStatusCheckTimer() {
-        print("Starting Timer")
-        cloudStatusCheckTimer?.invalidate() // Invalidate any existing timer
-        cloudStatusCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { _ in
-            print("Timer triggered")
-            if(self.captureModel.cloudStatus == .downloaded)
-            {
-                print("stop for elf.captureModel.cloudStatus == .downloaded")
+        // Check if the timer already exists. If it does, return and do not create a new one.
+        guard cloudStatusCheckTimer == nil else { return }
+        // Create and schedule a new timer
+        cloudStatusCheckTimer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: true) { [weak self] _ in
+            guard let self = self else { return }
+            // Check if the current cloud status is .downloaded, in which case the timer can be stopped
+            if self.captureModel.cloudStatus == .downloaded {
                 self.stopCloudStatusCheckTimer()
+                return
             }
-            if(!self.loadCloudStatus_lock){
-                self.loadCloudStatus_lock=true;
                 self.loadCloudStatus()
-                self.loadCloudStatus_lock=false;
-            }
         }
     }
-    
+
     private func stopCloudStatusCheckTimer() {
         cloudStatusCheckTimer?.invalidate()
         cloudStatusCheckTimer = nil
     }
+
+    
     
     private func loadCaptureModel(){
         captureModel.scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(captureModel.id.uuidString)
@@ -176,9 +175,7 @@ class CaptureViewService: ObservableObject{
     }
     
     func getObjModelURL() -> URL?{
-        
         checkTexturedExist()
-        print("getObjModelURL:", self.captureModel.isTexturedMeshExist, captureModel.texturedObjURL)
         if self.captureModel.isTexturedMeshExist{
             return captureModel.texturedObjURL
         }else{
@@ -209,18 +206,20 @@ class CaptureViewService: ObservableObject{
                     case 0:
                         self.captureModel.cloudStatus = .wait_upload
                         self.captureModel.cloudStatus = .uploading
-                        print("stop for uploading for case  0")
-                        self.stopCloudStatusCheckTimer()
-                        print("uploading for case  0")
+                        if (self.uploadcapture_lock == true){
+                            return
+                        }
+                        self.uploadcapture_lock = true
                         self.uploadCapture(completion: { success, message in
                             if success {
                                 self.captureModel.cloudStatus = .uploaded
                                 self.startCloudStatusCheckTimer()
+                                self.uploadcapture_lock = false
                             }
                             else{
                                 self.captureModel.cloudStatus = .wait_upload
-                                print("stop for uploading for case  0 fail")
                                 self.stopCloudStatusCheckTimer()
+                                self.uploadcapture_lock = false
                             }
                         })
                         break;
@@ -229,6 +228,7 @@ class CaptureViewService: ObservableObject{
                         break;
                     case 2:
                         self.captureModel.cloudStatus = .uploaded
+                       
                         break;
                     case 3:
                         self.captureModel.cloudStatus = .wait_process
@@ -243,22 +243,18 @@ class CaptureViewService: ObservableObject{
                         if self.checkTexturedExist(){
                             self.captureModel.cloudStatus = .downloaded
                             self.loadCloudStatus()
-                            print("stop for uploading for case  5, textured")
                             self.stopCloudStatusCheckTimer()
                             break;
                         }
                         self.captureModel.cloudStatus = .downloading
                         self.downloadTexture(completion: { success, message in
                             if success {
-                                print("downloading finish, switch to downloaded")
                                 self.captureModel.cloudStatus = .downloaded
-                                print("stop for uploading for  self.captureModel.cloudStatus = .downloading")
                                 self.stopCloudStatusCheckTimer()
                                 self.updateSyncedModel = true;
                             } else {
                                 self.captureModel.cloudStatus = .processed
                                 self.stopCloudStatusCheckTimer()
-                                print("stop for uploading for  self.captureModel.cloudStatus = .downloading fail")
                             }
                         })
                         break;
@@ -267,7 +263,6 @@ class CaptureViewService: ObservableObject{
                         break;
                     case 7:
                         self.captureModel.cloudStatus = .downloaded
-                        print("stop for uploading for  self.captureModel.cloudStatus = .downloaded")
                         self.stopCloudStatusCheckTimer()
                         break;
                     case 100:
@@ -276,13 +271,12 @@ class CaptureViewService: ObservableObject{
                         self.createCloudCapture(completion: { success in
                             if success {
                                 self.captureModel.cloudStatus = .uploaded
-                                print("uploading for case  100")
                                 self.uploadCapture(completion: { success, message in
                                     if success {
                                         self.captureModel.cloudStatus = .uploaded
+                                        self.startCloudStatusCheckTimer()
                                     } else {
                                         self.captureModel.cloudStatus = .wait_upload
-                                        print("stop for uploading for  case =100")
                                         self.stopCloudStatusCheckTimer()
                                     }
                                 })
@@ -292,17 +286,15 @@ class CaptureViewService: ObservableObject{
                     case -1:
                         self.captureModel.cloudStatus = .process_failed
                         self.stopCloudStatusCheckTimer()
-                        print("stop for uploading for  self.captureModel.cloudStatus = .process_failed")
                         break;
                     default:
                         self.captureModel.cloudStatus = nil
                         break
                     }
                     
-                case .failure(let error):
+                case .failure(_):
                     self.captureModel.cloudStatus = nil
                     self.stopCloudStatusCheckTimer()
-                    print("stop for uploading for  self.captureModel.cloudStatus = failure")
                 }
             }
         }
@@ -321,8 +313,6 @@ class CaptureViewService: ObservableObject{
             }
         }
     }
-    
-    
     
     func downloadTexture(completion: @escaping (Bool, String) -> Void) {
         
@@ -348,7 +338,6 @@ class CaptureViewService: ObservableObject{
         }
     }
     
-    
     func uploadCapture(completion: @escaping(Bool, String)->Void){
         zipCapture{ zipResult in
             switch zipResult {
@@ -358,6 +347,7 @@ class CaptureViewService: ObservableObject{
                     case .success(let uploadResponse):
                         self.captureModel.cloudStatus = .processing
                         completion(true, "Upload success")
+                        
                     case .failure(let uploadError):
                         completion(false, "Upload fail")
                     }
@@ -369,9 +359,6 @@ class CaptureViewService: ObservableObject{
     }
     
 }
-
-
-
 
 extension String {
     func removingPrefix(_ prefix: String) -> String? {
@@ -403,8 +390,6 @@ extension CaptureViewService {
     }
     
 }
-
-
 
 enum CaptureViewServiceError: Error {
     case folderNotFound

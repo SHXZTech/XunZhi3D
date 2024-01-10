@@ -91,10 +91,8 @@ struct RawScanView: View {
                 cloud_service.createCapture(uuid: uuid) { result in
                         DispatchQueue.main.async {
                             switch result {
-                            case .success(let response):
-                                print("Capture created successfully: \(response)")
-                            case .failure(let error):
-                                print("Error creating capture: \(error)")
+                            case .success(_): break
+                            case .failure(_): break
                             }
                         }
                     }

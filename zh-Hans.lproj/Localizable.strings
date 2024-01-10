@@ -104,3 +104,9 @@
 "Synced" = "已同步";
 "Process failed" = "处理失败";
 "Sync cloud" ="已同步云端";
+"Measure" = "测量";
+"Pipeline" = "管道绘制";
+"tap anywhere to measure" = "请点击模型中两个测量点";
+"Meters" = "米";
+"Centimeters" = "厘米";
+
