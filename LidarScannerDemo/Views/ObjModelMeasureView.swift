@@ -15,6 +15,8 @@ struct ObjModelMeasureView: UIViewRepresentable {
         // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
+
+
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = context.coordinator
