@@ -51,7 +51,6 @@ struct RawScanModel: Identifiable {
                 if self.isRawMeshExist {
                     self.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
                 }
-                print("rawMeshURL:", self.rawMeshURL)
                 self.isDepth = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isDepthEnable"] as? Bool == true }) ?? false
                 self.isPose = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { ($0["isIntrinsicEnable"] as? Bool == true) || ($0["isExtrinsicEnable"] as? Bool == true) }) ?? false
                 self.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGPSEnable"] as? Bool == true }) ?? false

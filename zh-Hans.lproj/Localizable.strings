@@ -94,3 +94,13 @@
 "slow_down_warnning_message" = "减速";
 "Delete" = "删除";
 "Not Upload yet" = "暂未上传云端";
+"Uploading to cloud" = "正在上传...";
+"Cloud processing" = "云端处理中...";
+"Cloud processed"="云端处理已完成";
+"Downloading" = "下载中";
+"Downloaded" = "已下载";
+"Connect server fail" = "连接服务器失败";
+"Error" = "错误";
+"Synced" = "已同步";
+"Process failed" = "处理失败";
+"Sync cloud" ="已同步云端";

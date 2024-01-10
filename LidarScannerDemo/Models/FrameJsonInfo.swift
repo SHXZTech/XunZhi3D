@@ -122,21 +122,21 @@ struct FrameJsonInfo{
             "cy": intrinsic[2][1],
             "fx": intrinsic[0][0],
             "fy": intrinsic[1][1],
-            "neighbors": [], // use other algorithm to decide the neighbors.
+            "neighbors": [], //TODO use other algorithm to decide the neighbors.
             "t_00": extrinsic[0][0],
-            "t_01": extrinsic[0][1],
-            "t_02": extrinsic[0][2],
-            "t_03": extrinsic[0][3],
-            "t_10": extrinsic[1][0],
+            "t_01": extrinsic[1][0],
+            "t_02": extrinsic[2][0],
+            "t_03": extrinsic[3][0],
+            "t_10": extrinsic[0][1],
             "t_11": extrinsic[1][1],
-            "t_12": extrinsic[1][2],
-            "t_13": extrinsic[1][3],
-            "t_20": extrinsic[2][0],
-            "t_21": extrinsic[2][1],
+            "t_12": extrinsic[2][1],
+            "t_13": extrinsic[3][1],
+            "t_20": extrinsic[0][2],
+            "t_21": extrinsic[1][2],
             "t_22": extrinsic[2][2],
-            "t_23": extrinsic[2][3]
+            "t_23": extrinsic[3][2]
         ]
-        
+    
         // Write the JSON content to the file
         do {
             let jsonData = try JSONSerialization.data(withJSONObject: cameraInfo, options: .prettyPrinted)
