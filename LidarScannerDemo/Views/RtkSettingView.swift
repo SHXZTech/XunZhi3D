@@ -136,10 +136,6 @@ struct RtkSettingView: View {
         }
     }
     
-    
-    
-    
-    
     func rtkBluetoothDeviceSection() -> some View{
         GroupBox(label: Text(NSLocalizedString("RTK BLUETOOTH DEVICE", comment: ""))) {
             VStack(spacing: 20) {

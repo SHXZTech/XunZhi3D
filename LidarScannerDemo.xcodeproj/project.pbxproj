@@ -11,6 +11,7 @@
 		95AAEBED554696297442E4C2 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F35042DA716BD4D7164C2567 /* Pods_LidarScannerDemoTests.framework */; };
 		9E0B1AF52880F94E7E244FA1 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B7CCCB665E8BC5FFA1983FD /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */; };
 		E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9175A032B44108F00843379 /* ObjModelMeasureView.swift */; };
+		E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */; };
 		E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E920AEBE2B22F94900B06C30 /* ObjModelView.swift */; };
 		E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0B2B26A9EC006D64B2 /* textured.mtl */; };
 		E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0C2B26A9EC006D64B2 /* Earth.usdz */; };
@@ -135,6 +136,7 @@
 		CA35C5D6EF0BE8A83CC4F058 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D0E8271052B33AB0B1421421 /* Pods-LidarScannerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
 		E9175A032B44108F00843379 /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
+		E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureSheetView.swift; sourceTree = "<group>"; };
 		E920AEBE2B22F94900B06C30 /* ObjModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
 		E9212A0B2B26A9EC006D64B2 /* textured.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = textured.mtl; sourceTree = "<group>"; };
 		E9212A0C2B26A9EC006D64B2 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
@@ -388,6 +390,7 @@
 				E97053AC2B07421900241635 /* MapMarkView.swift */,
 				E9E318952B3D0E3500927519 /* CloudButtonView.swift */,
 				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
+				E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -807,6 +810,7 @@
 				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
 				E9F596812B06EDDD00899219 /* VersionView.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
+				E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */,
 				E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
@@ -1022,7 +1026,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1071,7 +1075,7 @@
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

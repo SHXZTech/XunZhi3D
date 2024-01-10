@@ -3,6 +3,10 @@ import SceneKit
 
 struct ObjModelMeasureView: UIViewRepresentable {
     var objURL: URL
+    @Binding var isMeasureActive: Bool
+    @Binding var measuredDistance: Double
+    @Binding var isMeasuredFirstPoint: Bool
+    @Binding var isReturnToInit: Bool
     
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView()
@@ -11,12 +15,21 @@ struct ObjModelMeasureView: UIViewRepresentable {
         // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
-        
-        
+
+
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = context.coordinator
         return scnView
+    }
+    
+    func updateUIView(_ uiView: SCNView, context: Context) {
+        if !isMeasureActive {
+            context.coordinator.clearMeasurements()
+        }
+        if isReturnToInit{
+            context.coordinator.clearMeasurements()
+        }
     }
     
     private func createScene() -> SCNScene {
@@ -32,17 +45,19 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return scene
     }
     
-    func updateUIView(_ uiView: SCNView, context: Context) {}
+    //func updateUIView(_ uiView: SCNView, context: Context) {}
     
     class Coordinator: NSObject , SCNSceneRendererDelegate {
         var parent: ObjModelMeasureView
         var firstPoint: SCNVector3?
         var secondPoint: SCNVector3?
+        var measurementNodes: [SCNNode] = []
         init(_ parent: ObjModelMeasureView) {
             self.parent = parent
         }
         @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-            guard let scnView = gestureRecognize.view as? SCNView,
+            guard parent.isMeasureActive,
+                  let scnView = gestureRecognize.view as? SCNView,
                   let scene = scnView.scene else { return }
             let point = gestureRecognize.location(in: scnView)
             let hitResults = scnView.hitTest(point, options: [:])
@@ -53,6 +68,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 if firstPoint == nil {
                     firstPoint = tappedPoint
                     addPoint(at: tappedPoint, to: scene)
+                    self.parent.isMeasuredFirstPoint = true;
                 } else if secondPoint == nil {
                     secondPoint = tappedPoint
                     addPoint(at: tappedPoint, to: scene)
@@ -60,10 +76,8 @@ struct ObjModelMeasureView: UIViewRepresentable {
                         addLineBetween(firstPoint, secondPoint!, to: scene)
                     }
                 } else {
-                    // Reset points if two are already selected
                     firstPoint = nil
                     secondPoint = nil
-                    // Optionally, clear existing points and lines from the scene
                 }
             }
         }
@@ -82,6 +96,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
             sphereNode.renderingOrder = 999
             sphereNode.geometry?.firstMaterial?.writesToDepthBuffer = false
             scene.rootNode.addChildNode(sphereNode)
+            measurementNodes.append(sphereNode)
         }
         
         private func addLineBetween(_ start: SCNVector3, _ end: SCNVector3, to scene: SCNScene) {
@@ -104,8 +119,13 @@ struct ObjModelMeasureView: UIViewRepresentable {
             scene.rootNode.addChildNode(lineNode)
             let midpoint = (start + end) / 2
             let distance = (end - start).length()
+            DispatchQueue.main.async {
+                self.parent.measuredDistance = Double(distance)
+                self.parent.isMeasuredFirstPoint = true
+            }
             let distanceText = String(format: "%.3f 米", distance) // Format as needed
             addLabel(text: distanceText, at: midpoint, to: scene)
+            measurementNodes.append(lineNode)
         }
         
         private func addLabel(text: String, at position: SCNVector3, to scene: SCNScene) {
@@ -131,8 +151,27 @@ struct ObjModelMeasureView: UIViewRepresentable {
             textNode.renderingOrder = 1000
             labelNode.geometry?.firstMaterial?.writesToDepthBuffer = false
             scene.rootNode.addChildNode(labelNode)
+            measurementNodes.append(labelNode)
+            measurementNodes.append(textNode)
         }
-
+        
+        func clearMeasurements() {
+            DispatchQueue.main.async {
+                       // Clear the measurement nodes
+                       for node in self.measurementNodes {
+                           node.removeFromParentNode()
+                       }
+                       self.measurementNodes.removeAll()
+                       // Reset the points and state
+                       self.firstPoint = nil
+                       self.secondPoint = nil
+                       self.parent.measuredDistance = 0.0
+                       self.parent.isMeasuredFirstPoint = false
+                        self.parent.isReturnToInit = false
+                   }
+        }
+        
+        
         
         func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
             adjustNodeSizes(renderer: renderer)

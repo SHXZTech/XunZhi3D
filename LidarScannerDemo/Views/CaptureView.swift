@@ -32,20 +32,6 @@ struct CaptureView: View {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
-//        DispatchQueue.main.async {
-//                if let modelURL_ = self.captureService.getObjModelURL() {
-//                    self.modelURL = modelURL_
-//                    print("midelURL:", modelURL_)
-//                    print("init self.modelURL:", self.modelURL)
-//                }
-//            }
-//        if let modelURL_ = captureService.getObjModelURL() {
-//            self.modelURL = modelURL_
-//            print("midelURL:", modelURL_)
-//            print("init self.modelURL:", self.modelURL)
-//        } else {
-//           // self.modelURL = nil
-//        }
         self.cloudButtonState = .wait_upload
         self.showDeleteAlert = false
         self.selectedViewMode = .model
@@ -111,13 +97,11 @@ struct CaptureView: View {
         }
         .onReceive(captureService.$updateSyncedModel) { updated in
             if updated {
-                print("onReceive(captureService.$updateSyncedModel) { updated in TOGGLE")
                 if captureService.checkTexturedExist(){
                     cloudButtonState = .downloaded
                 }
                 if let modelURL_ = captureService.getObjModelURL() {
                     self.modelURL = modelURL_
-                    print("updating the modelURL to:", self.modelURL)
                 }
             }
         }
