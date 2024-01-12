@@ -14,11 +14,18 @@ struct StateModelViewer: View {
     @State var isMeasuredFirstPoint = false
     @State var isReturnToInit = false
     
+    @State var showPipelineSheet = false
+    @State var isPipelineDrawFirstPoint = false
+    @State var isPipelineReturnOneStep = false
+    @State var pipelineExportedImage:Image?
+    @State var isExportImage = false
+    
+    
     @State private var viewKey = UUID()
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit)
+                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
@@ -37,9 +44,29 @@ struct StateModelViewer: View {
                 .presentationCornerRadius(0)
                 .presentationBackgroundInteraction(.enabled(upThrough: .height(130)))
         }
+        .sheet(isPresented: $showPipelineSheet) {
+            PipelineSheetView(
+                isPresented: $showPipelineSheet,
+                isDrawFirstPoint: $isPipelineDrawFirstPoint,
+                isReturnOneStep: $isPipelineReturnOneStep,
+                exportedImage: $pipelineExportedImage,
+                isExportImage: $isExportImage
+            )
+            .presentationDetents(Set(determineSheetHeight()))
+            .presentationCornerRadius(0)
+            .presentationBackgroundInteraction(.enabled(upThrough: determineSheetHeight().first!))
+        }
     }
     
-   
+    private func determineSheetHeight() -> [PresentationDetent] {
+        if pipelineExportedImage != nil {
+            // Return a larger height when there is an exported image
+            return [.large] // Adjust the height as needed
+        } else {
+            // Return the default height when there is no image
+            return [.height(130)] // Default height
+        }
+    }
     
     
     private func ToolBarView() -> some View{
@@ -76,7 +103,7 @@ struct StateModelViewer: View {
     private func pipelineButtonView() -> some View {
         VStack {
             Button(action: {
-                showMeasureSheet.toggle()
+                showPipelineSheet.toggle()
             }) {
                 Image(systemName: "skew") // or 􁤓
                     .font(.title)

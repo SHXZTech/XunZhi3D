@@ -8,15 +8,20 @@ struct ObjModelMeasureView: UIViewRepresentable {
     @Binding var isMeasuredFirstPoint: Bool
     @Binding var isReturnToInit: Bool
     
+    @Binding var isPipelineActive: Bool
+    @Binding var isPipelineDrawFirstPoint: Bool
+    @Binding var isPipelineReturnOneStep: Bool
+    @Binding var isExportImage:Bool
+    @Binding var exportedImage: Image?
+    
+    var pipelineNodes: [SCNNode] = []
+    
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView()
         scnView.scene = createScene()
-        
         // Add tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
-
-
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = context.coordinator
@@ -30,7 +35,55 @@ struct ObjModelMeasureView: UIViewRepresentable {
         if isReturnToInit{
             context.coordinator.clearMeasurements()
         }
+        if isPipelineActive {
+            context.coordinator.handlePipelineMode()
+        } else {
+            context.coordinator.clearPipelineNodes()
+        }
+        if isPipelineReturnOneStep {
+               context.coordinator.removeLastPipelineNode()
+               isPipelineReturnOneStep = false
+           }
+        if isExportImage {
+               let snapshot = context.coordinator.exportCurrentView(uiView)
+               DispatchQueue.main.async {
+                   if let snapshot = snapshot {
+                       self.exportedImage = Image(uiImage: snapshot)
+                   }
+                   self.isExportImage = false
+               }
+           }
     }
+    
+    func createPipelineScene(with pipelineNodes: [SCNNode]) -> SCNScene {
+        let scene = SCNScene()
+        let cameraNode = SCNNode()
+        cameraNode.camera = SCNCamera()
+        // Adjust camera position and orientation
+        cameraNode.position = SCNVector3(x: 10, y: 10, z: 10)
+        cameraNode.look(at: SCNVector3(0, 0, 0))
+
+        scene.rootNode.addChildNode(cameraNode)
+
+        for node in pipelineNodes {
+            // Clone each node to avoid modifying the original scene
+            let clonedNode = node.clone()
+            scene.rootNode.addChildNode(clonedNode)
+        }
+
+        return scene
+    }
+
+    func capturePipelineImage(from pipelineNodes: [SCNNode]) -> UIImage? {
+        let pipelineScene = createPipelineScene(with: pipelineNodes)
+        let scnView = SCNView()
+        scnView.scene = pipelineScene
+        scnView.pointOfView = pipelineScene.rootNode.childNodes.first(where: { $0.camera != nil })
+        // Capture the current frame of the scene
+        let renderer = scnView.snapshot()
+        return renderer
+    }
+
     
     private func createScene() -> SCNScene {
         let scene = SCNScene()
@@ -45,51 +98,110 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return scene
     }
     
-    //func updateUIView(_ uiView: SCNView, context: Context) {}
-    
     class Coordinator: NSObject , SCNSceneRendererDelegate {
         var parent: ObjModelMeasureView
         var firstPoint: SCNVector3?
         var secondPoint: SCNVector3?
         var measurementNodes: [SCNNode] = []
+        var pipelinePoints: [SCNVector3] = []
+        
         init(_ parent: ObjModelMeasureView) {
             self.parent = parent
         }
+        
         @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
-            guard parent.isMeasureActive,
-                  let scnView = gestureRecognize.view as? SCNView,
+            guard let scnView = gestureRecognize.view as? SCNView,
                   let scene = scnView.scene else { return }
+
             let point = gestureRecognize.location(in: scnView)
             let hitResults = scnView.hitTest(point, options: [:])
-            // Check if the tap was on the model
+
             if let hitResult = hitResults.first {
                 let tappedPoint = hitResult.worldCoordinates
-                
-                if firstPoint == nil {
-                    firstPoint = tappedPoint
-                    addPoint(at: tappedPoint, to: scene)
-                    self.parent.isMeasuredFirstPoint = true;
-                } else if secondPoint == nil {
-                    secondPoint = tappedPoint
-                    addPoint(at: tappedPoint, to: scene)
-                    if let firstPoint = firstPoint {
-                        addLineBetween(firstPoint, secondPoint!, to: scene)
+
+                // Handle measure mode
+                if parent.isMeasureActive {
+                    if firstPoint == nil {
+                        firstPoint = tappedPoint
+                        addPoint(at: tappedPoint, to: scene)
+                        self.parent.isMeasuredFirstPoint = true
+                    } else if secondPoint == nil {
+                        secondPoint = tappedPoint
+                        addPoint(at: tappedPoint, to: scene)
+                        if let firstPoint = firstPoint {
+                            addLineBetween(firstPoint, secondPoint!, to: scene)
+                        }
+                    } else {
+                        firstPoint = nil
+                        secondPoint = nil
                     }
-                } else {
-                    firstPoint = nil
-                    secondPoint = nil
+                }
+
+                // Handle pipeline mode
+                if parent.isPipelineActive {
+                    pipelinePoints.append(tappedPoint)
+                    addPoint(at: tappedPoint, to: scene)
+                    
+                    if pipelinePoints.count > 1 {
+                        let start = pipelinePoints[pipelinePoints.count - 2]
+                        let end = tappedPoint
+                        addLineBetween(start, end, to: scene)
+                    }
+                    DispatchQueue.main.async {
+                                       self.parent.isPipelineDrawFirstPoint = true
+                                   }
                 }
             }
+        }
+
+        func handlePipelineMode() {
+            // Logic to handle pipeline mode
+        }
+        
+        func exportCurrentView(_ scnView: SCNView) -> UIImage? {
+               // Take a snapshot of the current view, including the 3D model and pipeline
+               let snapshot = scnView.snapshot()
+               return snapshot
+           }
+        
+        func removeLastPipelineNode() {
+                guard !pipelinePoints.isEmpty else { return }
+                
+                // Remove the last point
+                let lastPointIndex = pipelinePoints.count - 1
+                pipelinePoints.removeLast()
+                
+                // Also remove the corresponding node from the scene, if it exists
+                if lastPointIndex < measurementNodes.count {
+                    let lastNode = measurementNodes[lastPointIndex]
+                    lastNode.removeFromParentNode()
+                    measurementNodes.removeLast()
+                }
+
+                // If there's a line connected to the last point, remove it as well
+                if lastPointIndex > 0 && lastPointIndex - 1 < measurementNodes.count {
+                    let lineNodeIndex = lastPointIndex - 1
+                    let lineNode = measurementNodes[lineNodeIndex]
+                    lineNode.removeFromParentNode()
+                    measurementNodes.remove(at: lineNodeIndex)
+                }
+            }
+        
+        
+        func clearPipelineNodes() {
+            for node in parent.pipelineNodes {
+                node.removeFromParentNode()
+            }
+            parent.pipelineNodes.removeAll()
+            pipelinePoints.removeAll()
         }
         
         private func addPoint(at position: SCNVector3, to scene: SCNScene) {
             let sphere = SCNSphere(radius: 0.01) // Adjust size as needed
-            // Create a material for the sphere
             let material = SCNMaterial()
             material.diffuse.contents = UIColor.systemRed // Choose your desired color here
             material.shininess = 1.0 // Adjust for shininess, range is typically 0.0 to 1.0
             material.lightingModel = .constant // Use a constant lighting model for no reflections
-            // Assign the material to the sphere
             sphere.materials = [material]
             let sphereNode = SCNNode(geometry: sphere)
             sphereNode.position = position
@@ -138,8 +250,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             // Set the scale for the text
             let textScale: CGFloat = 0.02
             textNode.scale = SCNVector3(textScale, textScale, textScale)
-            // Calculate the text's size
-            // Adjust text node position to center
             textNode.position = SCNVector3(0, 0, 0)
             labelNode.addChildNode(textNode)
             // Position the label node
@@ -157,18 +267,18 @@ struct ObjModelMeasureView: UIViewRepresentable {
         
         func clearMeasurements() {
             DispatchQueue.main.async {
-                       // Clear the measurement nodes
-                       for node in self.measurementNodes {
-                           node.removeFromParentNode()
-                       }
-                       self.measurementNodes.removeAll()
-                       // Reset the points and state
-                       self.firstPoint = nil
-                       self.secondPoint = nil
-                       self.parent.measuredDistance = 0.0
-                       self.parent.isMeasuredFirstPoint = false
-                        self.parent.isReturnToInit = false
-                   }
+                // Clear the measurement nodes
+                for node in self.measurementNodes {
+                    node.removeFromParentNode()
+                }
+                self.measurementNodes.removeAll()
+                // Reset the points and state
+                self.firstPoint = nil
+                self.secondPoint = nil
+                self.parent.measuredDistance = 0.0
+                self.parent.isMeasuredFirstPoint = false
+                self.parent.isReturnToInit = false
+            }
         }
         
         
@@ -201,8 +311,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             // Adjust the formula as needed to achieve the desired effect
             return max(1.0, desiredSize / max(distance, 1))
         }
-        
-        
     }
     
     func makeCoordinator() -> Coordinator {
