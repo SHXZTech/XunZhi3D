@@ -197,7 +197,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
         }
         
         private func addPoint(at position: SCNVector3, to scene: SCNScene) {
-            let sphere = SCNSphere(radius: 0.01) // Adjust size as needed
+            let sphere = SCNSphere(radius: 0.02) // Adjust size as needed
             let material = SCNMaterial()
             material.diffuse.contents = UIColor.systemRed // Choose your desired color here
             material.shininess = 1.0 // Adjust for shininess, range is typically 0.0 to 1.0
@@ -205,7 +205,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
             sphere.materials = [material]
             let sphereNode = SCNNode(geometry: sphere)
             sphereNode.position = position
-            sphereNode.renderingOrder = 999
+            sphereNode.renderingOrder = 1000
             sphereNode.geometry?.firstMaterial?.writesToDepthBuffer = false
             scene.rootNode.addChildNode(sphereNode)
             measurementNodes.append(sphereNode)
@@ -214,7 +214,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
         private func addLineBetween(_ start: SCNVector3, _ end: SCNVector3, to scene: SCNScene) {
             let vector = end - start
             let length = vector.length()
-            let cylinder = SCNCylinder(radius: 0.006, height: CGFloat(length)) // Adjust radius for line thickness
+            let cylinder = SCNCylinder(radius: 0.01, height: CGFloat(length)) // Adjust radius for line thickness
             cylinder.radialSegmentCount = 100 // Can be increased for smoother appearance
             // Set the material of the cylinder
             let material = SCNMaterial()
@@ -226,7 +226,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
             let lineNode = SCNNode(geometry: cylinder)
             // Position and rotate the cylinder
             lineNode.position = (start + end) / 2
-            lineNode.renderingOrder = 999
+            lineNode.renderingOrder = 1000
             lineNode.look(at: end, up: scene.rootNode.worldUp, localFront: lineNode.worldUp)
             scene.rootNode.addChildNode(lineNode)
             let midpoint = (start + end) / 2
@@ -235,7 +235,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 self.parent.measuredDistance = Double(distance)
                 self.parent.isMeasuredFirstPoint = true
             }
-            let distanceText = String(format: "%.3f 米", distance) // Format as needed
+            let distanceText = String(format: "%.2f 米", distance) // Format as needed
             addLabel(text: distanceText, at: midpoint, to: scene)
             measurementNodes.append(lineNode)
         }
@@ -243,27 +243,43 @@ struct ObjModelMeasureView: UIViewRepresentable {
         private func addLabel(text: String, at position: SCNVector3, to scene: SCNScene) {
             // Create a node to hold the text and background
             let labelNode = SCNNode()
-            // Create the text geometry
+
+            // Create the text geometry with specified font size
             let textGeometry = SCNText(string: text, extrusionDepth: 0.1)
-            textGeometry.font = UIFont.systemFont(ofSize: 1) // Adjust font size
+            textGeometry.font = UIFont.systemFont(ofSize: 5) // Set your desired font size here
+
+            // Set the color of the text
+            let textMaterial = SCNMaterial()
+            textMaterial.diffuse.contents = UIColor.red // Set your desired text color here
+            textGeometry.materials = [textMaterial]
+
             let textNode = SCNNode(geometry: textGeometry)
-            // Set the scale for the text
+
+            // Set the scale for the text - adjust as needed
             let textScale: CGFloat = 0.02
             textNode.scale = SCNVector3(textScale, textScale, textScale)
             textNode.position = SCNVector3(0, 0, 0)
+
             labelNode.addChildNode(textNode)
+
             // Position the label node
             labelNode.position = position
+
             // Apply a billboard constraint to make the label always face the camera
             labelNode.constraints = [SCNBillboardConstraint()]
+
             // Set rendering order
             labelNode.renderingOrder = 1000
             textNode.renderingOrder = 1000
+
+            // Ensure the label is always rendered on top
             labelNode.geometry?.firstMaterial?.writesToDepthBuffer = false
+
             scene.rootNode.addChildNode(labelNode)
             measurementNodes.append(labelNode)
             measurementNodes.append(textNode)
         }
+
         
         func clearMeasurements() {
             DispatchQueue.main.async {
@@ -281,21 +297,20 @@ struct ObjModelMeasureView: UIViewRepresentable {
             }
         }
         
-        
-        
         func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-            adjustNodeSizes(renderer: renderer)
+            //adjustNodeSizes(renderer: renderer)
         }
         
         private func adjustNodeSizes(renderer: SCNSceneRenderer) {
             guard let cameraNode = renderer.pointOfView else { return }
             // Define the desired screen size for points and lines
-            let desiredScreenSize: CGFloat = 30.0 // Adjust as needed
+            let desiredScreenSize: CGFloat = 50.0 // Adjust as needed
             for node in renderer.scene?.rootNode.childNodes ?? [] {
                 guard let geometry = node.geometry else { continue }
                 if geometry is SCNSphere || geometry is SCNCylinder {
                     let distance = distanceFromCamera(node: node, cameraNode: cameraNode, renderer: renderer)
                     let scale = scaleForDistance(distance, desiredSize: desiredScreenSize)
+                    print("current scale = ", scale)
                     node.scale = SCNVector3(scale, scale, scale)
                 }
             }
