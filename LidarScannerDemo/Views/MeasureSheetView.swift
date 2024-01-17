@@ -16,10 +16,18 @@ struct MeasureSheetView: View {
     @Binding var isReturnToInit: Bool
     
     var formattedDistance: String {
-           let meters = Int(measuredDistance)
-           let centimeters = Int((measuredDistance - Double(meters)) * 100)
-           return "\(meters) \(NSLocalizedString("Meters", comment: "")) \(centimeters) \(NSLocalizedString("Centimeters", comment: ""))"
-       }
+        let meters = Int(measuredDistance)
+        let centimeters = Int((measuredDistance - Double(meters)) * 100)
+
+        if meters == 0 {
+            // When meters are 0, only show centimeters
+            return "\(centimeters) \(NSLocalizedString("Centimeters", comment: ""))"
+        } else {
+            // When meters are more than 0, show both meters and centimeters
+            return "\(meters) \(NSLocalizedString("Meters", comment: "")) \(centimeters) \(NSLocalizedString("Centimeters", comment: ""))"
+        }
+    }
+
     
     var body: some View {
         VStack {
