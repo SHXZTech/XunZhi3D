@@ -130,9 +130,9 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     // Calculate the new position of the camera
                     // Adjust the translation scale factor (100.0 in this case) as needed for sensitivity
                     let newCameraPosition = SCNVector3(
-                        cameraNode.position.x - Float(translation.x) / 100.0,
-                        cameraNode.position.y,
-                        cameraNode.position.z - Float(translation.y) / 100.0
+                        cameraNode.position.x-Float(translation.x) / 100.0,
+                        cameraNode.position.y+Float(translation.y) / 100.0,
+                        cameraNode.position.z
                     )
                     // Apply new position to camera node
                     cameraNode.position = newCameraPosition
