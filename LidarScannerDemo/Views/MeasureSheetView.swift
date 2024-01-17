@@ -17,7 +17,7 @@ struct MeasureSheetView: View {
     
     var formattedDistance: String {
         let meters = Int(measuredDistance)
-        let centimeters = Int((measuredDistance - Double(meters)) * 100)
+        let centimeters = Int(ceil((measuredDistance - Double(meters)) * 100))
 
         if meters == 0 {
             // When meters are 0, only show centimeters
