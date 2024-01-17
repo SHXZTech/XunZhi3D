@@ -130,9 +130,9 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     // Calculate the new position of the camera
                     // Adjust the translation scale factor (100.0 in this case) as needed for sensitivity
                     let newCameraPosition = SCNVector3(
-                        cameraNode.position.x - Float(translation.x) / 100.0,
-                        cameraNode.position.y,
-                        cameraNode.position.z - Float(translation.y) / 100.0
+                        cameraNode.position.x-Float(translation.x) / 100.0,
+                        cameraNode.position.y+Float(translation.y) / 100.0,
+                        cameraNode.position.z
                     )
                     // Apply new position to camera node
                     cameraNode.position = newCameraPosition
@@ -223,9 +223,19 @@ struct ObjModelMeasureView: UIViewRepresentable {
         }
         
         private func addPoint(at position: SCNVector3, to scene: SCNScene) {
-            let sphere = SCNSphere(radius: 0.04) // Adjust size as needed
+            var radius_ = 0.02
+            var color_ = UIColor.systemRed
+            if self.parent.isMeasureActive{
+                radius_ = 0.02
+                color_ = UIColor.systemRed
+            }
+            if self.parent.isPipelineActive{
+                radius_ = 0.04
+                color_ = UIColor.systemYellow
+            }
+            let sphere = SCNSphere(radius: radius_) // Adjust size as needed
             let material = SCNMaterial()
-            material.diffuse.contents = UIColor.systemYellow // Choose your desired color here
+            material.diffuse.contents = color_// Choose your desired color here
             material.shininess = 1.0 // Adjust for shininess, range is typically 0.0 to 1.0
             material.lightingModel = .constant // Use a constant lighting model for no reflections
             sphere.materials = [material]
@@ -246,11 +256,21 @@ struct ObjModelMeasureView: UIViewRepresentable {
         private func addLineBetween(_ start: SCNVector3, _ end: SCNVector3, to scene: SCNScene) {
             let vector = end - start
             let length = vector.length()
-            let cylinder = SCNCylinder(radius: 0.02, height: CGFloat(length)) // Adjust radius for line thickness
+            var radius_ = 0.01
+            var color_ = UIColor.systemRed
+            if self.parent.isMeasureActive{
+                radius_ = 0.01
+                color_ = UIColor.systemRed
+            }
+            if self.parent.isPipelineActive{
+                radius_ = 0.02
+                color_ = UIColor.systemYellow
+            }
+            let cylinder = SCNCylinder(radius: radius_, height: CGFloat(length)) // Adjust radius for line thickness
             cylinder.radialSegmentCount = 100 // Can be increased for smoother appearance
             // Set the material of the cylinder
             let material = SCNMaterial()
-            material.diffuse.contents = UIColor.systemYellow // Set the line color here
+            material.diffuse.contents = color_ // Set the line color here
             material.specular.contents = UIColor.white
             material.shininess = 10.0
             material.lightingModel = .constant
@@ -279,14 +299,24 @@ struct ObjModelMeasureView: UIViewRepresentable {
         private func addLabel(text: String, at position: SCNVector3, to scene: SCNScene) {
             // Create a node to hold the text and background
             let labelNode = SCNNode()
+            var label_size: CGFloat = 5
+            var color_ = UIColor.systemRed
+            if self.parent.isMeasureActive{
+                label_size = 5
+                color_ = UIColor.systemRed
+            }
+            if self.parent.isPipelineActive{
+                label_size = 10
+                color_ = UIColor.systemYellow
+            }
             
             // Create the text geometry with specified font size
             let textGeometry = SCNText(string: text, extrusionDepth: 0.1)
-            textGeometry.font = UIFont.systemFont(ofSize: 10) // Set your desired font size here
+            textGeometry.font = UIFont.systemFont(ofSize: label_size) // Set your desired font size here
             
             // Set the color of the text
             let textMaterial = SCNMaterial()
-            textMaterial.diffuse.contents = UIColor.systemYellow // Set your desired text color here
+            textMaterial.diffuse.contents = color_ // Set your desired text color here
             textGeometry.materials = [textMaterial]
             
             let textNode = SCNNode(geometry: textGeometry)
