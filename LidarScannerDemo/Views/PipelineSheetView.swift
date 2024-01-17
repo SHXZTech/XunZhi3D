@@ -1,4 +1,5 @@
 import SwiftUI
+import UIKit
 
 struct PipelineSheetView: View {
     @Binding var isPresented: Bool
@@ -13,10 +14,30 @@ struct PipelineSheetView: View {
             Spacer()
             // Image display area
             if let image = exportedImage {
-                            image
-                                .resizable()
-                                .scaledToFit()
-                                .frame(maxWidth: .infinity, maxHeight: 600)
+                VStack{
+                    image
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity, maxHeight: 600)
+                    Button(action: {
+                        if let uiImage = convertToUIImage(image) {
+                            ImageSaver.shared.saveToPhotoLibrary(image: uiImage)
+                        }
+                        isPresented = false
+                    }) {
+                        HStack {
+                                Image(systemName: "square.and.arrow.down.fill")
+                                    .font(.title2)
+                                Text("保存至相册")
+                                    .font(.title2)
+                        }
+                        .frame(maxWidth: 200)
+                            .foregroundColor(.white)
+                            .padding(.vertical,20)
+                            .background(Color.green)
+                            .cornerRadius(16)
+                    }
+                }
             } else if(isDrawFirstPoint) {
                 Button(action: {
                     isExportImage = true;
@@ -70,6 +91,48 @@ struct PipelineSheetView: View {
             .padding(.horizontal, 10)
         }
     }
+    
+    private func convertToUIImage(_ image: Image) -> UIImage? {
+        // Create a UIHostingController with the Image
+        let controller = UIHostingController(rootView: image.resizable())
+        let view = controller.view
+
+        // Set the size to the screen size
+        let targetSize = UIScreen.main.bounds.size
+        view?.bounds = CGRect(origin: .zero, size: targetSize)
+        view?.backgroundColor = .clear
+
+        // Create the renderer with the target size
+        let renderer = UIGraphicsImageRenderer(size: targetSize)
+        return renderer.image { context in
+            view?.drawHierarchy(in: controller.view.bounds, afterScreenUpdates: true)
+        }
+    }
+
+    
 }
+
+class ImageSaver: NSObject {
+    static let shared = ImageSaver()
+    
+    private override init() {}
+    
+    func saveToPhotoLibrary(image: UIImage) {
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+    
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            // Handle the error case
+            print("Error saving image: \(error.localizedDescription)")
+        } else {
+            // Image was saved successfully
+            print("Image saved successfully")
+        }
+    }
+}
+
+
+
 
 

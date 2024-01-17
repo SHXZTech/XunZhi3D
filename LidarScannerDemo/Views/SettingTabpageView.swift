@@ -67,6 +67,9 @@ struct SettingTabpageView: View {
                 NavigationLink(destination: LicenseView()) {
                     Text(NSLocalizedString("Copyright", comment: "CopyRight"))
                 }
+                Link(destination: URL(string: "mailto:cs@xztech.xyz;cx@xztech.xyz")!) {
+                            Text(NSLocalizedString("Feedback", comment: "Feedback"))
+                        }
 //                NavigationLink(destination: DeveloperView()) {
 //                    Text(NSLocalizedString("Developer", comment: "Developer"))
 //                }
