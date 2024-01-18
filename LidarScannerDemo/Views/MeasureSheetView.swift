@@ -26,7 +26,6 @@ struct MeasureSheetView: View {
         }
     }
 
-    
     var body: some View {
         VStack {
             HStack {
