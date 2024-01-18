@@ -9,20 +9,26 @@ import Foundation
 import RealityKit
 import SceneKit
 import ARKit
-
+import SwiftUI
+import Combine
 
 class LidarMeshViewModel: ObservableObject {
-    //@Published private var model : LidarMeshModel = LidarMeshModel(uuid_: uuid)
     @Published private var model: LidarMeshModel
-    
+    @Published var isTooFast: Bool = false
+    @Published var capturedFrameCount: Int = 0;
+    private var cancellables = Set<AnyCancellable>()
+     
     init(uuid: UUID) {
-           model = LidarMeshModel(uuid_: uuid)
-       }
-    
-    deinit {
-        print("deinit LidarMeshViewModel: ObservableObject")
-           // Stop any work and release resources
-       }
+        model = LidarMeshModel(uuid_: uuid)
+        model.$isTooFast
+                   .receive(on: RunLoop.main)
+                   .assign(to: \.isTooFast, on: self)
+                   .store(in: &cancellables)
+        model.$captureFrameCount
+            .receive(on: RunLoop.main)
+            .assign(to: \.capturedFrameCount, on: self)
+            .store(in: &cancellables)
+    }
     
     var sceneView : ARSCNView {
         model.sceneView
@@ -42,6 +48,10 @@ class LidarMeshViewModel: ObservableObject {
     
     func dropScan(){
         model.dropScan()
+    }
+    
+    func setRtkConfigInfo(rtk_data: RtkModel){
+        model.setRtkConfigInfo(rtk_data: rtk_data)
     }
     
 }

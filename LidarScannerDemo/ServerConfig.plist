@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>downloadTextureEndpoint</key>
+	<string>/capture/download_texture</string>
+	<key>uploadCaptureEndpoint</key>
+	<string>/capture/upload_capture</string>
+	<key>getUploadRouteEndpoint</key>
+	<string>/capture/get_upload_route</string>
+	<key>getCaptureStatusEndpoint</key>
+	<string>/capture/get_capture_status</string>
+	<key>captureCreateEndpoint</key>
+	<string>/capture/create</string>
+	<key>serverPort</key>
+	<integer>5000</integer>
+	<key>serverAddress</key>
+	<string>106.54.242.254</string>
+</dict>
+</plist>

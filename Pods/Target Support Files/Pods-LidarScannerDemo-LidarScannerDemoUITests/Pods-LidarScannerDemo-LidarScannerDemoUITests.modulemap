@@ -1,0 +1,6 @@
+framework module Pods_LidarScannerDemo_LidarScannerDemoUITests {
+  umbrella header "Pods-LidarScannerDemo-LidarScannerDemoUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

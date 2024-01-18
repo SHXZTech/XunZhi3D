@@ -26,9 +26,15 @@ struct RawScanManager{
         return raw_scan_model.isRawMeshExist
     }
     
-    
+    func getRawObjURL()-> URL{
+       return raw_scan_model.getRawObjURL()
+    }
     
     func getRawMeshURL()-> URL{
         return raw_scan_model.rawMeshURL ?? raw_scan_model.getRawMeshURL()
+    }
+    
+    func moveScanFromCacheToDist(){
+        raw_scan_model.moveFileFromCacheToDestination()
     }
 }

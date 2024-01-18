@@ -11,6 +11,9 @@ import RealityKit
 import ARKit
 import SceneKit
 import os
+import ModelIO
+import CoreGraphics
+
 
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
@@ -18,7 +21,6 @@ private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
 
 
 struct ConfigJsonManager{
-    
     var uuid: UUID
     var dataFolder: URL
     var infoJsonURL: URL
@@ -30,7 +32,6 @@ struct ConfigJsonManager{
     var coverURL: URL
     var name: String = ""
     var owners: [String] = []
-    var frames: [FrameJsonInfo] = []
     var isMeshModel: Bool = false
     var meshModelName: String = ""
     var isPointCloud: Bool = false
@@ -41,21 +42,28 @@ struct ConfigJsonManager{
     var isExtrinsicEnable: Bool = false
     var isDepthEnable: Bool = false
     var isConfidenceEnable: Bool = false
-    var isGPSEnable: Bool = false
-    var isRTKEnable: Bool = false
     var configs: [String: Any] = [:]
     var mode: String = "lidar"
-    
-    // adding
+    var rawMeshObjURL: URL
     var createDate: Date = Date()
+    var dataDestinationFolder:URL
+    var isRtkEnable = false
+    var isGpsEnable = false
+    var lat: String = ""
+    var lon: String = ""
+    var height: String = ""
+    var vertical_accuracy: String = ""
+    var horizontal_accuracy: String = ""
     
     init(uuid_ : UUID, owner_: String){
         uuid = uuid_;
-        dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
+        let baseDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
+        dataFolder = baseDirectory.appendingPathComponent(uuid.uuidString)
+        //dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
         pointCloudName = "rawPointCloud.ply";
-        meshModelName = "rawMesh.usd";
+        meshModelName = "rawMesh.obj";
         jsonInfoName = "info.json"
-        coverName = "cover.jpeg"
+        coverName = "cover.png"
         infoJsonURL = dataFolder.appendingPathComponent(jsonInfoName);
         pointCloudURL = dataFolder.appendingPathComponent(pointCloudName);
         rawMeshURL = dataFolder.appendingPathComponent(meshModelName)
@@ -66,10 +74,12 @@ struct ConfigJsonManager{
         name = formatter.string(from: Date())
         owners.append(owner_)
         createDate = Date()
+        rawMeshObjURL = dataFolder.appendingPathComponent("mesh.obj")
+        dataDestinationFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
     }
     
     
-    mutating func setLidarMode(){
+    mutating func setLidarModel(){
         mode = "lidar";
         isMeshModel = true;
         isPointCloud = false;
@@ -79,81 +89,79 @@ struct ConfigJsonManager{
         isExtrinsicEnable = true;
         isDepthEnable = true;
         isConfidenceEnable = true;
-        isGPSEnable = false;
-        isRTKEnable = false;
-    }
-    
-    mutating func enableGPS(){
-        isGPSEnable = true;
-    }
-    
-    mutating func enableRTK(){
-        isRTKEnable = true;
     }
     
     mutating func addOwner(newOwner: String){
         owners.append(newOwner);
     }
     
-    mutating func updateFrameInfo(frame: ARFrame, rtkModel: RtkModel = RtkModel()){
+    mutating func updateFrameInfo(frame: ARFrame){
         var jsonInfo = FrameJsonInfo(dataFolder_: dataFolder, arFrame_: frame);
-        jsonInfo.updateJsonInfo();
-        updateFrameCount();
+        jsonInfo.saveFrameInfo();
+        totalFrame = totalFrame+1;
     }
     
-    mutating func updateFrameCount(){
-        var existingJson: [String: Any] = [:]
-        // Check if the info.json file exists
-        if let jsonData = try? Data(contentsOf: infoJsonURL),
-           let json = try? JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
-            existingJson = json
-        }
-        totalFrame = totalFrame+1;
-        existingJson["frameCount"] = totalFrame;
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: existingJson, options: .prettyPrinted)
-            try jsonData.write(to: infoJsonURL)
-        } catch {
-            logger.error("Failed to write JSON data: \(error.localizedDescription)")
-        }
-    }
     
     mutating func updateCover() {
-        print("start updating cover..")
-        // Read and parse the info.json file to find the first image name with the "RGB_" prefix
         do {
-            let jsonData = try Data(contentsOf: infoJsonURL)
-            if let jsonDict = try JSONSerialization.jsonObject(with: jsonData) as? [String: Any],
-               let framesArray = jsonDict["frames"] as? [[String: Any]] {
-                // Find the first frame that contains an image name starting with "RGB_"
-                if let firstRGBFrame = framesArray.first(where: { frame in
-                    guard let imageName = frame["imageName"] as? String else { return false }
-                    print("start updating cover.. 1 ")
-                    return imageName.hasPrefix("RGB_")
-                }) {
-                    let rgbImageName = firstRGBFrame["imageName"] as! String
-                    let rgbImageURL = dataFolder.appendingPathComponent(rgbImageName)
-                    // Copy the found image to cover.jpeg
-                    if FileManager.default.fileExists(atPath: coverURL.path) {
-                        try FileManager.default.removeItem(at: coverURL)
+            // Get all image files in the dataFolder/images directory
+            let imagesDirectoryURL = dataFolder.appendingPathComponent("images")
+            let imageFiles = try FileManager.default.contentsOfDirectory(atPath: imagesDirectoryURL.path)
+            // Select the first image file
+            if let firstImageFile = imageFiles.first {
+                let firstImageURL = imagesDirectoryURL.appendingPathComponent(firstImageFile)
+                // Load the image
+                if let image = UIImage(contentsOfFile: firstImageURL.path) {
+                    // Resize the image to 720x720
+                    let resizedImage = resizeImage(image: image, targetSize: CGSize(width: 720, height: 720))
+                    // Convert the resized image to data
+                    if let imageData = resizedImage.pngData() {
+                        // Write the data to cover.png
+                        let coverURL = dataFolder.appendingPathComponent("cover.png")
+                        if FileManager.default.fileExists(atPath: coverURL.path) {
+                            try FileManager.default.removeItem(at: coverURL)
+                        }
+                        try imageData.write(to: coverURL)
+                        logger.info("Cover image updated successfully with \(firstImageFile)")
                     }
-                    print("try to cp ", rgbImageURL.path, " to ", coverURL.path)
-                    try FileManager.default.copyItem(at: rgbImageURL, to: coverURL)
-                    logger.info("Cover image updated successfully with \(rgbImageName)")
-                } else {
-                    logger.error("No RGB image found in frames.")
                 }
             } else {
-                logger.error("info.json format is incorrect or 'frames' key is missing.")
+                logger.error("No images found in the images directory.")
             }
         } catch {
-            logger.error("Failed to read or parse info.json: \(error.localizedDescription)")
+            logger.error("Failed to read images directory or update cover: \(error.localizedDescription)")
         }
     }
-    
+
+    // Helper function to resize an image
+    func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+        let size = image.size
+
+        let widthRatio  = targetSize.width  / size.width
+        let heightRatio = targetSize.height / size.height
+
+        // Determine what our orientation is, and use that to form the rectangle
+        var newSize: CGSize
+        if(widthRatio > heightRatio) {
+            newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+        } else {
+            newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+        }
+
+        // This is the rect that we've calculated out and this is what is actually used below
+        let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+        // Actually do the resizing to the rect using the ImageContext stuff
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+        image.draw(in: rect)
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+
+        return newImage!
+    }
+
     
     func createProjectFolder(){
-        print("create: project folder")
         do {
             try FileManager.default.createDirectory(at: dataFolder, withIntermediateDirectories: true, attributes: nil)
             logger.info("CreateProjectFolder success at: \(dataFolder)")
@@ -163,7 +171,6 @@ struct ConfigJsonManager{
     }
     
     func createConfigFile(){
-        print("create config file")
         do{
             try FileManager.default.createFile(atPath: infoJsonURL.path, contents: nil, attributes: nil)
             logger.info("CreateConfigFile success at: \(infoJsonURL)")
@@ -181,7 +188,6 @@ struct ConfigJsonManager{
         }
     }
 
-    
     func getDataFoler()->URL{
         return dataFolder;
     }
@@ -215,9 +221,8 @@ struct ConfigJsonManager{
         do {
             let filePath = getPointCloudURL();
             try plyContent.write(to: filePath, atomically: true, encoding: .utf8)
-            print("Point cloud saved successfully at \(filePath.path)")
         } catch {
-            print("Error saving point cloud: \(error)")
+            
         }
         
     }
@@ -225,8 +230,48 @@ struct ConfigJsonManager{
     func exportRawMesh(asset: MDLAsset) throws {
         try asset.export(to: getRawMeshURL())
     }
+
+
+    func exportRawMeshToObj(asset: MDLAsset) throws {
+        let objects = asset.childObjects(of: MDLObject.self) as? [MDLObject] ?? []
+        for object in objects {
+            if let mesh = object as? MDLMesh {
+                if let submeshes = mesh.submeshes as? [MDLSubmesh] {
+                    for mdlSubmesh in submeshes {
+                        let material = MDLMaterial(name: "customMaterial", scatteringFunction: MDLScatteringFunction())
+                        // Define gray color using CGColor
+                        let grayValue: CGFloat = 0.5  // Gray (midway between black and white)
+                        let cgColor = CGColor(gray: grayValue, alpha: 1.0)
+                        // Convert CGColor to float3 for MDLMaterialProperty
+                        let colorVector = SIMD3<Float>(Float(cgColor.components![0]),
+                                                       Float(cgColor.components![0]),
+                                                       Float(cgColor.components![0]))
+                        let colorProperty = MDLMaterialProperty(name: "baseColor",
+                                                                semantic: .baseColor,
+                                                                float3: colorVector)
+                        // Assign the new material property to the submesh
+                        material.setProperty(colorProperty)
+                        mdlSubmesh.material = material
+                    }
+                }
+            }
+        }
+
+        // Export the asset with the modified materials
+        try asset.export(to: rawMeshObjURL)
+    }
+
+    mutating func enableRTK(){
+        isRtkEnable = true
+    }
     
-    
+    mutating func setRtkConfiInfo(rtk_data: RtkModel){
+        lat = rtk_data.latitude;
+        lon = rtk_data.longitude;
+        height = String(rtk_data.height);
+        horizontal_accuracy = rtk_data.horizontalAccuracy;
+        vertical_accuracy = rtk_data.verticalAccuracy;
+    }
     
     func writeJsonInfo() {
         let encoder = JSONEncoder()
@@ -236,7 +281,7 @@ struct ConfigJsonManager{
         do {
             let jsonDict: [String: Any] = [
                 "uuid": uuid.uuidString,
-                "frameCount": frames.count,
+                "frameCount": totalFrame,
                 "name": name,
                 "owners": owners,
                 "configs": [
@@ -246,16 +291,20 @@ struct ConfigJsonManager{
                     ["isExtrinsicEnable": isExtrinsicEnable],
                     ["isDepthEnable": isDepthEnable],
                     ["isConfidenceEnable": isConfidenceEnable],
-                    ["isGPSEnable": isGPSEnable],
-                    ["isRTKEnable": isRTKEnable],
                     ["isMeshModel": isMeshModel],
                     ["MeshModelName": meshModelName],
                     ["isPointCloud": isPointCloud],
                     ["PointCloudName": pointCloudName],
                     ["coverName":coverName],
-                    ["createDate": createDateTimestamp]
-                ],
-                "frames": []
+                    ["createDate": createDateTimestamp],
+                    ["isGpsEnable": isGpsEnable],
+                    ["isRtkEnable": isRtkEnable],
+                    ["latitude": lat],
+                    ["longitude": lon],
+                    ["height": height],
+                    ["horizontalAccuracy": horizontal_accuracy],
+                    ["verticalAccuracy": vertical_accuracy]
+                ]
             ]
             jsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: .prettyPrinted)
         } catch let error {
@@ -270,5 +319,4 @@ struct ConfigJsonManager{
             }
         }
     }
-    
 }

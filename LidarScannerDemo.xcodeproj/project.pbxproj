@@ -7,11 +7,26 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */; };
+		BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */; };
+		E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9175A032B44108F00843379 /* ObjModelMeasureView.swift */; };
+		E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */; };
+		E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E920AEBE2B22F94900B06C30 /* ObjModelView.swift */; };
+		E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0B2B26A9EC006D64B2 /* textured.mtl */; };
+		E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0C2B26A9EC006D64B2 /* Earth.usdz */; };
+		E9212A122B26A9EC006D64B2 /* textured.obj in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0D2B26A9EC006D64B2 /* textured.obj */; };
+		E9212A132B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0E2B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg */; };
+		E9212A142B26A9EC006D64B2 /* rawMesh.usd in Resources */ = {isa = PBXBuildFile; fileRef = E9212A0F2B26A9EC006D64B2 /* rawMesh.usd */; };
 		E9325BF22A08F66300BD5A05 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF02A08F66300BD5A05 /* LICENSE */; };
 		E9325BF32A08F66300BD5A05 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E9325BF12A08F66300BD5A05 /* README.md */; };
 		E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */; };
 		E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */; };
 		E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */; };
+		E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */; };
+		E94FB8762B34060B00807E86 /* CloudService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8752B34060B00807E86 /* CloudService.swift */; };
+		E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94FB8772B34071D00807E86 /* ServerConfig.swift */; };
+		E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = E94FB8792B3409A100807E86 /* ServerConfig.plist */; };
+		E94FB87C2B3472D600807E86 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E94FB87B2B3472D600807E86 /* Podfile */; };
 		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */; };
 		E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */; };
@@ -23,7 +38,6 @@
 		E963F67029F23EB200CDE6E1 /* LidarScannerDemoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F66F29F23EB200CDE6E1 /* LidarScannerDemoTests.swift */; };
 		E963F67A29F23EB200CDE6E1 /* LidarScannerDemoUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F67929F23EB200CDE6E1 /* LidarScannerDemoUITests.swift */; };
 		E963F67C29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F67B29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift */; };
-		E963F69229F23F4C00CDE6E1 /* Earth.usdz in Resources */ = {isa = PBXBuildFile; fileRef = E963F68829F23F4C00CDE6E1 /* Earth.usdz */; };
 		E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */; };
 		E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */; };
 		E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */; };
@@ -34,7 +48,6 @@
 		E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69029F23F4C00CDE6E1 /* SCNMaterialExtention.swift */; };
 		E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69129F23F4C00CDE6E1 /* RawScanView.swift */; };
 		E963F6A029F2546200CDE6E1 /* RawScanManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */; };
-		E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */ = {isa = PBXBuildFile; fileRef = E963F6A329F275C500CDE6E1 /* rawMesh.usd */; };
 		E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6A929F391C100CDE6E1 /* ScanView.swift */; };
 		E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */ = {isa = PBXBuildFile; fileRef = E963F6AB29F776FC00CDE6E1 /* config.geojson */; };
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
@@ -48,10 +61,13 @@
 		E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E9BE9B0B2B01F21D00C91715 /* Localizable.strings */; };
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
+		E9C836082B4FCFB00022AB18 /* PipelineSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */; };
+		E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */; };
 		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
 		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
 		E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8932B04BD1400400270 /* CaptureViewService.swift */; };
 		E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8952B04C2AE00400270 /* FileManagerService.swift */; };
+		E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E318952B3D0E3500927519 /* CloudButtonView.swift */; };
 		E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */; };
 		E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */; };
 		E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */; };
@@ -67,7 +83,6 @@
 		E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */; };
 		E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */; };
 		E9E62AAF2AFA5916002DFB2C /* Develop_Guidance.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62AAE2AFA5916002DFB2C /* Develop_Guidance.md */; };
-		E9E62AB32AFB876C002DFB2C /* DeveloperView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */; };
 		E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */; };
 		E9E62AB72AFB9BAC002DFB2C /* MainTagViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */; };
 		E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */; };
@@ -75,6 +90,7 @@
 		E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */; };
 		E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */; };
 		E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */; };
+		E9F36A189E55749685999739 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7260424904E6A97A7B9BE73D /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */; };
 		E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */; };
 		E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */; };
 		E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */; };
@@ -114,11 +130,35 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0628E0887180FB9A6CEDFCC7 /* Pods-LidarScannerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		1B2A119BBA0CD697E188F0D0 /* Pods-LidarScannerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.release.xcconfig"; sourceTree = "<group>"; };
+		1C6C01A516FA009631587951 /* Pods-LidarScannerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
+		31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7260424904E6A97A7B9BE73D /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo_LidarScannerDemoUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		7CCBFF764547F1403EB3F003 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
+		BB00534AEC80808FD05056D7 /* Pods-LidarScannerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.debug.xcconfig"; sourceTree = "<group>"; };
+		C0CC02439DDA09D6F965DFE2 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E9175A032B44108F00843379 /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
+		E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureSheetView.swift; sourceTree = "<group>"; };
+		E920AEBE2B22F94900B06C30 /* ObjModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
+		E9212A0B2B26A9EC006D64B2 /* textured.mtl */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = textured.mtl; sourceTree = "<group>"; };
+		E9212A0C2B26A9EC006D64B2 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
+		E9212A0D2B26A9EC006D64B2 /* textured.obj */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = textured.obj; sourceTree = "<group>"; };
+		E9212A0E2B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = textured_0_cmxi0i2A.jpg; sourceTree = "<group>"; };
+		E9212A0F2B26A9EC006D64B2 /* rawMesh.usd */ = {isa = PBXFileReference; lastKnownFileType = file; path = rawMesh.usd; sourceTree = "<group>"; };
+		E9212A152B26D601006D64B2 /* Data_Structure.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Data_Structure.md; sourceTree = "<group>"; };
 		E9325BF02A08F66300BD5A05 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		E9325BF12A08F66300BD5A05 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameJsonInfo.swift; sourceTree = "<group>"; };
 		E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveDataManager.swift; sourceTree = "<group>"; };
+		E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModelViewer.swift; sourceTree = "<group>"; };
+		E94FB8752B34060B00807E86 /* CloudService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudService.swift; sourceTree = "<group>"; };
+		E94FB8772B34071D00807E86 /* ServerConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerConfig.swift; sourceTree = "<group>"; };
+		E94FB8792B3409A100807E86 /* ServerConfig.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = ServerConfig.plist; path = LidarScannerDemo/ServerConfig.plist; sourceTree = SOURCE_ROOT; };
+		E94FB87B2B3472D600807E86 /* Podfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Podfile; sourceTree = "<group>"; };
+		E950595D2B10AC8F002312CB /* Data_format.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Data_format.md; sourceTree = "<group>"; };
 		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewModel.swift; sourceTree = "<group>"; };
 		E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfo.swift; sourceTree = "<group>"; };
@@ -133,7 +173,6 @@
 		E963F67529F23EB200CDE6E1 /* LidarScannerDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LidarScannerDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		E963F67929F23EB200CDE6E1 /* LidarScannerDemoUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarScannerDemoUITests.swift; sourceTree = "<group>"; };
 		E963F67B29F23EB200CDE6E1 /* LidarScannerDemoUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarScannerDemoUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		E963F68829F23F4C00CDE6E1 /* Earth.usdz */ = {isa = PBXFileReference; lastKnownFileType = file.usdz; path = Earth.usdz; sourceTree = "<group>"; };
 		E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LidarMeshViewModel.swift; sourceTree = "<group>"; };
 		E963F68A29F23F4C00CDE6E1 /* ARSCNViewExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ARSCNViewExtention.swift; sourceTree = "<group>"; };
 		E963F68B29F23F4C00CDE6E1 /* SCNGeometryExtention.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SCNGeometryExtention.swift; sourceTree = "<group>"; };
@@ -145,12 +184,12 @@
 		E963F69129F23F4C00CDE6E1 /* RawScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanView.swift; sourceTree = "<group>"; };
 		E963F69C29F2526600CDE6E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E963F69F29F2546200CDE6E1 /* RawScanManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RawScanManagerTests.swift; sourceTree = "<group>"; };
-		E963F6A329F275C500CDE6E1 /* rawMesh.usd */ = {isa = PBXFileReference; lastKnownFileType = file; path = rawMesh.usd; sourceTree = "<group>"; };
 		E963F6A929F391C100CDE6E1 /* ScanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
 		E963F6AB29F776FC00CDE6E1 /* config.geojson */ = {isa = PBXFileReference; lastKnownFileType = text; path = config.geojson; sourceTree = "<group>"; };
 		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 		E97053AC2B07421900241635 /* MapMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
+		E99C2B692B58E486003EB3B8 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9BE0D932AE7945B006269D7 /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
@@ -159,10 +198,13 @@
 		E9BE9B0C2B01F21D00C91715 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSheetView.swift; sourceTree = "<group>"; };
+		E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
 		E9E2A8932B04BD1400400270 /* CaptureViewService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewService.swift; sourceTree = "<group>"; };
 		E9E2A8952B04C2AE00400270 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
+		E9E318952B3D0E3500927519 /* CloudButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudButtonView.swift; sourceTree = "<group>"; };
 		E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = develop_FAQs.md; sourceTree = "<group>"; };
 		E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@3x.png"; sourceTree = "<group>"; };
 		E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App.png"; sourceTree = "<group>"; };
@@ -177,7 +219,6 @@
 		E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTagView.swift; sourceTree = "<group>"; };
 		E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		E9E62AAE2AFA5916002DFB2C /* Develop_Guidance.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = Develop_Guidance.md; sourceTree = "<group>"; };
-		E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeveloperView.swift; sourceTree = "<group>"; };
 		E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScanViewModel.swift; sourceTree = "<group>"; };
 		E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTagViewModel.swift; sourceTree = "<group>"; };
 		E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapturePreviewView.swift; sourceTree = "<group>"; };
@@ -190,6 +231,7 @@
 		E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
 		E9F596802B06EDDD00899219 /* VersionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
 		E9F596822B06FE1D00899219 /* ModelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoView.swift; sourceTree = "<group>"; };
+		E9FFFA1B2B57D864002F05BE /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */,
+				8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +248,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -212,15 +256,30 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9F36A189E55749685999739 /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C3F0DB811AB823832C1FAD48 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				BB00534AEC80808FD05056D7 /* Pods-LidarScannerDemo.debug.xcconfig */,
+				1B2A119BBA0CD697E188F0D0 /* Pods-LidarScannerDemo.release.xcconfig */,
+				C0CC02439DDA09D6F965DFE2 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */,
+				7CCBFF764547F1403EB3F003 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */,
+				1C6C01A516FA009631587951 /* Pods-LidarScannerDemoTests.debug.xcconfig */,
+				0628E0887180FB9A6CEDFCC7 /* Pods-LidarScannerDemoTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
+				E94FB87B2B3472D600807E86 /* Podfile */,
 				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
 				E9BE9B032B01F14800C91715 /* en.lproj */,
 				E9E62A8C2AF8A9F2002DFB2C /* Assets */,
@@ -233,7 +292,7 @@
 				E963F66E29F23EB200CDE6E1 /* LidarScannerDemoTests */,
 				E963F67829F23EB200CDE6E1 /* LidarScannerDemoUITests */,
 				E963F65A29F23EB100CDE6E1 /* Products */,
-				E9F43E702ADFCCF900C2B5CF /* Frameworks */,
+				C3F0DB811AB823832C1FAD48 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -256,10 +315,9 @@
 				E963F6A729F3912900CDE6E1 /* Views */,
 				E963F6A529F390FD00CDE6E1 /* Extention */,
 				E963F69C29F2526600CDE6E1 /* Info.plist */,
-				E963F68829F23F4C00CDE6E1 /* Earth.usdz */,
+				E94FB8792B3409A100807E86 /* ServerConfig.plist */,
 				E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */,
 				E963F65E29F23EB100CDE6E1 /* ContentView.swift */,
-				E963F6A329F275C500CDE6E1 /* rawMesh.usd */,
 				E963F66029F23EB100CDE6E1 /* Experience.rcproject */,
 				E963F66229F23EB200CDE6E1 /* Assets.xcassets */,
 				E963F66429F23EB200CDE6E1 /* Preview Content */,
@@ -271,6 +329,11 @@
 		E963F66429F23EB200CDE6E1 /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
+				E9212A0B2B26A9EC006D64B2 /* textured.mtl */,
+				E9212A0E2B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg */,
+				E9212A0D2B26A9EC006D64B2 /* textured.obj */,
+				E9212A0C2B26A9EC006D64B2 /* Earth.usdz */,
+				E9212A0F2B26A9EC006D64B2 /* rawMesh.usd */,
 				E963F66529F23EB200CDE6E1 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
@@ -312,8 +375,10 @@
 		E963F6A729F3912900CDE6E1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */,
 				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
 				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
+				E920AEBE2B22F94900B06C30 /* ObjModelView.swift */,
 				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
 				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
 				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
@@ -321,12 +386,15 @@
 				E9E62AA82AFA490D002DFB2C /* SettingTabpageView.swift */,
 				E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */,
 				E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */,
-				E9E62AB22AFB876C002DFB2C /* DeveloperView.swift */,
 				E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */,
 				E9E2A8892B049F8400400270 /* CaptureView.swift */,
 				E9F596802B06EDDD00899219 /* VersionView.swift */,
 				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
 				E97053AC2B07421900241635 /* MapMarkView.swift */,
+				E9E318952B3D0E3500927519 /* CloudButtonView.swift */,
+				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
+				E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */,
+				E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -347,6 +415,7 @@
 				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
 				E9E2A8912B04BBBC00400270 /* CaptureModel.swift */,
 				E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */,
+				E94FB8772B34071D00807E86 /* ServerConfig.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -373,6 +442,8 @@
 				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
 				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
 				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
+				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
+				E94FB8752B34060B00807E86 /* CloudService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -398,6 +469,8 @@
 			children = (
 				E9E62AAE2AFA5916002DFB2C /* Develop_Guidance.md */,
 				E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */,
+				E950595D2B10AC8F002312CB /* Data_format.md */,
+				E9212A152B26D601006D64B2 /* Data_Structure.md */,
 			);
 			path = Documentation;
 			sourceTree = "<group>";
@@ -424,16 +497,14 @@
 		E9E62A942AF8A9F2002DFB2C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E99C2B692B58E486003EB3B8 /* Zip.framework */,
+				E9FFFA1B2B57D864002F05BE /* Zip.framework */,
 				E9E62A952AF8A9F2002DFB2C /* LiteRTK.framework */,
+				633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */,
+				7260424904E6A97A7B9BE73D /* Pods_LidarScannerDemo_LidarScannerDemoUITests.framework */,
+				31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */,
 			);
 			path = Frameworks;
-			sourceTree = "<group>";
-		};
-		E9F43E702ADFCCF900C2B5CF /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -443,10 +514,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F67F29F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemo" */;
 			buildPhases = (
+				558E09995DCCA65CFB3ADA93 /* [CP] Check Pods Manifest.lock */,
 				E963F65529F23EB100CDE6E1 /* Sources */,
 				E963F65629F23EB100CDE6E1 /* Frameworks */,
 				E963F65729F23EB100CDE6E1 /* Resources */,
 				E9E62A892AF235CA002DFB2C /* Embed Frameworks */,
+				084B665436E9662903546040 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -461,6 +534,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F68229F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemoTests" */;
 			buildPhases = (
+				7A6D5FB40554FE223F1AD479 /* [CP] Check Pods Manifest.lock */,
 				E963F66729F23EB200CDE6E1 /* Sources */,
 				E963F66829F23EB200CDE6E1 /* Frameworks */,
 				E963F66929F23EB200CDE6E1 /* Resources */,
@@ -479,9 +553,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E963F68529F23EB200CDE6E1 /* Build configuration list for PBXNativeTarget "LidarScannerDemoUITests" */;
 			buildPhases = (
+				86FFE0E28A19405A1EC8F8F6 /* [CP] Check Pods Manifest.lock */,
 				E963F67129F23EB200CDE6E1 /* Sources */,
 				E963F67229F23EB200CDE6E1 /* Frameworks */,
 				E963F67329F23EB200CDE6E1 /* Resources */,
+				6A54CD7EA9E42D76B2E3922A /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -543,13 +619,18 @@
 			files = (
 				E9325BF22A08F66300BD5A05 /* LICENSE in Resources */,
 				E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */,
+				E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */,
 				E9E62A992AF8A9F2002DFB2C /* iPhone App@2x.png in Resources */,
-				E963F6A429F275C500CDE6E1 /* rawMesh.usd in Resources */,
+				E9212A142B26A9EC006D64B2 /* rawMesh.usd in Resources */,
+				E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */,
+				E9212A132B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg in Resources */,
 				E9E62AAF2AFA5916002DFB2C /* Develop_Guidance.md in Resources */,
 				E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */,
 				E9325BF32A08F66300BD5A05 /* README.md in Resources */,
+				E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */,
+				E9212A122B26A9EC006D64B2 /* textured.obj in Resources */,
+				E94FB87C2B3472D600807E86 /* Podfile in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
-				E963F69229F23F4C00CDE6E1 /* Earth.usdz in Resources */,
 				E9E62A9B2AF8A9F2002DFB2C /* ntrip_config.json in Resources */,
 				E9BE9B0A2B01F20B00C91715 /* Localizable.strings in Resources */,
 				E963F66329F23EB200CDE6E1 /* Assets.xcassets in Resources */,
@@ -576,12 +657,116 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		084B665436E9662903546040 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		558E09995DCCA65CFB3ADA93 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6A54CD7EA9E42D76B2E3922A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7A6D5FB40554FE223F1AD479 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemoTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		86FFE0E28A19405A1EC8F8F6 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LidarScannerDemo-LidarScannerDemoUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		E963F65529F23EB100CDE6E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */,
+				E94FB8762B34060B00807E86 /* CloudService.swift in Sources */,
 				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
 				E9E62AA12AF8D5F4002DFB2C /* MainView.swift in Sources */,
@@ -603,7 +788,6 @@
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
-				E9E62AB32AFB876C002DFB2C /* DeveloperView.swift in Sources */,
 				E97053AD2B07421900241635 /* MapMarkView.swift in Sources */,
 				E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */,
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
@@ -617,19 +801,27 @@
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
+				E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */,
+				E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
+				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
 				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
 				E9F596812B06EDDD00899219 /* VersionView.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
+				E9C836082B4FCFB00022AB18 /* PipelineSheetView.swift in Sources */,
+				E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */,
 				E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
 				E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */,
+				E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */,
 				E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */,
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
+				E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */,
+				E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */,
 				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -724,6 +916,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -784,6 +977,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -804,19 +998,21 @@
 		};
 		E963F68029F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BB00534AEC80808FD05056D7 /* Pods-LidarScannerDemo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 4CD3AKT3SW;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Pods/**",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
@@ -831,15 +1027,15 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemo;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -852,19 +1048,21 @@
 		};
 		E963F68129F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1B2A119BBA0CD697E188F0D0 /* Pods-LidarScannerDemo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 4CD3AKT3SW;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Framework",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/Frameworks",
+					"$(PROJECT_DIR)/Pods/**",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
@@ -879,15 +1077,15 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = UIInterfaceOrientationPortrait;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemo;
+				MARKETING_VERSION = 1.1;
+				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -900,6 +1098,7 @@
 		};
 		E963F68329F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1C6C01A516FA009631587951 /* Pods-LidarScannerDemoTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -920,6 +1119,7 @@
 		};
 		E963F68429F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0628E0887180FB9A6CEDFCC7 /* Pods-LidarScannerDemoTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -940,6 +1140,7 @@
 		};
 		E963F68629F23EB200CDE6E1 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0CC02439DDA09D6F965DFE2 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
@@ -958,6 +1159,7 @@
 		};
 		E963F68729F23EB200CDE6E1 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7CCBFF764547F1403EB3F003 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;

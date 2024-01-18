@@ -91,3 +91,14 @@
 "Are you sure you want to delete this?" = "Are you sure you want to delete this project?";
 "Sure" = "Sure";
 "capture_preview_date_fromat" = "M-d HH:mm";
+"slow_down_warnning_message" = "Slow down";
+"s" = "second";
+"Delete" = "Delete";
+"Not Upload yet" = "Not Upload Yet";
+"Connect server fail" = "Connect server fail";
+"Error" = "Error";
+"Measure" = "Measure";
+"Pipeline" = "Pipeline";
+"tap anywhere to measure" = "tap anywhere to measure";
+"Meters" = "m";
+"Centimeters" = "cm";

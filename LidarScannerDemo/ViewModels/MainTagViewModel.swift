@@ -19,14 +19,7 @@ class MainTagViewModel: ObservableObject {
     }
     
     func selectCapture(uuid: UUID){
-        print("selectedCapture")
-        print("self.selectedCaptureUUID", self.selectedCaptureUUID?.uuidString ?? "nil uuid")
-        print("uuid:", uuid)
         self.selectedCaptureUUID = uuid
-        print("self.selectedCaptureUUID", self.selectedCaptureUUID!)
-        print("uuid:", uuid)
-        print()
-        
     }
 
     func loadCaptures() {
@@ -46,7 +39,7 @@ class MainTagViewModel: ObservableObject {
                     let formatter = DateFormatter()
                     formatter.dateFormat = NSLocalizedString("capture_preview_date_fromat", comment: "")
                     let dateString = formatter.string(from: creationDate)
-                    let previewImageURL = directory.appendingPathComponent("cover.jpeg")
+                    let previewImageURL = directory.appendingPathComponent("cover.png")
                     let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL)
                     tempCaptures.append(newCapture)
                 }
@@ -56,7 +49,6 @@ class MainTagViewModel: ObservableObject {
                 self.captures = sortedCaptures
             }
         } catch {
-            print("Error reading contents of documents directory: \(error)")
         }
     }
 }

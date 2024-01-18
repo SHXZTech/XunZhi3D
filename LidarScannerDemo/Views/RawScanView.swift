@@ -12,6 +12,7 @@ import ARKit
 struct RawScanView: View {
     var uuid: UUID
     var rawScanManager: RawScanManager
+    var cloud_service: CloudService
     @Binding var isPresenting: Bool
     @State private var showingExitConfirmation = false
     
@@ -19,6 +20,7 @@ struct RawScanView: View {
         self.uuid = uuid
         self.rawScanManager = RawScanManager(uuid: uuid)
         self._isPresenting = isPresenting
+        self.cloud_service = CloudService()
     }
     
     var body: some View {
@@ -54,6 +56,7 @@ struct RawScanView: View {
                                 isPresenting = false
                             },
                             .default(Text(NSLocalizedString("Save draft", comment: ""))) {
+                                rawScanManager.moveScanFromCacheToDist()
                                 isPresenting = false
                             },
                             .cancel()
@@ -61,7 +64,6 @@ struct RawScanView: View {
                     )
                 }
             }
-            
             Text(NSLocalizedString("Draft", comment: ""))
                 .multilineTextAlignment(.center)
         }
@@ -72,7 +74,7 @@ struct RawScanView: View {
     private var content: some View {
         Group {
             if rawScanManager.isRawMeshExist() {
-                ModelViewer(modelURL: rawScanManager.getRawMeshURL(), height: UIScreen.main.bounds.height*0.5)
+                ModelViewer(modelURL: rawScanManager.getRawObjURL(), height: UIScreen.main.bounds.height*0.5)
             } else {
                 Text(NSLocalizedString("Can not load model", comment: ""))
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
@@ -84,9 +86,16 @@ struct RawScanView: View {
     private var controls: some View {
         VStack {
             Button(NSLocalizedString("Upload & Process", comment: "")) {
+                rawScanManager.moveScanFromCacheToDist()
                 isPresenting = false
-                //TODO
-                //Handle upload and process action
+                cloud_service.createCapture(uuid: uuid) { result in
+                        DispatchQueue.main.async {
+                            switch result {
+                            case .success(_): break
+                            case .failure(_): break
+                            }
+                        }
+                    }
             }
             .frame(width: 360, height: 54, alignment: .center)
             .background(Color.blue)
@@ -101,12 +110,24 @@ struct RawScanView: View {
                 Text(NSLocalizedString("Image count", comment: "") + ": \(rawScanManager.raw_scan_model.frameCount)")
                     .font(.footnote)
                 Spacer()
-                Text(NSLocalizedString("Estimated time", comment: "") + "126" + NSLocalizedString("s", comment: ""))
+                Text(NSLocalizedString("Estimated time", comment: "") + formatTime(seconds: rawScanManager.raw_scan_model.estimatedProcessingTime))
                     .font(.footnote)
                 // Future button to upload to cloud
             }
             .padding(.horizontal,40)
         }
+    }
+    
+    private func formatTime(seconds: Int) -> String {
+        let formatter = DateComponentsFormatter()
+        if seconds >= 3600 { // 3600 seconds in an hour
+            formatter.allowedUnits = [.hour, .minute]
+        } else {
+            formatter.allowedUnits = [.minute]
+        }
+        formatter.unitsStyle = .abbreviated
+        formatter.zeroFormattingBehavior = .pad
+        return formatter.string(from: TimeInterval(seconds)) ?? "0"
     }
 }
 

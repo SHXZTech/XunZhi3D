@@ -7,9 +7,7 @@
 import SwiftUI
 
 struct ModelInfoView: View {
-    
-    // Assuming you have a CaptureViewService that provides these details
-    //@Binding var captureService: CaptureViewService
+
     var captureModel: CaptureModel
     // Temporary mock data for preview purposes
     var date: String = "-"
@@ -109,6 +107,10 @@ struct ModelInfoView: View {
         self.gpsEnable = captureModel.isGPS ? NSLocalizedString("open", comment: "") : NSLocalizedString("关闭", comment: "")
         
         // Initial Latitude, Longitude, and Height
+        self.initLat = captureModel.createLat ?? "-"
+        self.initLon = captureModel.createLon ?? "-"
+        self.initHeight = captureModel.createHeight ?? "-"
+        
         if let firstRtkData = captureModel.rtkDataArray.first {
             self.initLat = String(firstRtkData.latitude)
             self.initLon = String(firstRtkData.longitude)

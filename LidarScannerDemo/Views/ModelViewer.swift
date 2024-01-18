@@ -12,12 +12,10 @@ import SceneKit
 
 class SceneRendererDelegate: NSObject, ObservableObject, SCNSceneRendererDelegate {
     @Published var isSceneLoaded: Bool = false
-    
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         if !isSceneLoaded {
             DispatchQueue.main.async() {
                 self.isSceneLoaded = true
-                print("self.isSceneLoaded = true")
             }
         }
     }
@@ -32,13 +30,12 @@ struct ModelViewer: View {
     
     var body: some View {
         ZStack {
-            if let url = modelURL, let scene = try? SCNScene(url: url) {
+            if let url = modelURL{
                 LoadingView()
+                ObjModelView(objURL: url)
                     .frame(width: width, height: height)
-                SceneView(scene: scene, options: [.autoenablesDefaultLighting, .allowsCameraControl])
-                    .frame(width: width, height: height)
-                    .scaledToFit()
-            } else {
+            }
+            else{
                 Text(NSLocalizedString("No model to display", comment: ""))
             }
         }
@@ -58,7 +55,7 @@ struct LoadingView: View {
 
 struct ModelViewer_Previews: PreviewProvider {
     static var previews: some View {
-        let modelURL = Bundle.main.url(forResource: "Earth", withExtension: "usdz")!
+        let modelURL = Bundle.main.url(forResource: "textured", withExtension: "obj")!
         return ModelViewer(modelURL: modelURL)
     }
 }
