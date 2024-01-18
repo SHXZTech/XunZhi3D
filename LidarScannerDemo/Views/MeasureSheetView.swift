@@ -17,13 +17,11 @@ struct MeasureSheetView: View {
     
     var formattedDistance: String {
         let meters = Int(measuredDistance)
-        let centimeters = Int(ceil((measuredDistance - Double(meters)) * 100))
-
+        let centimeters = Int(round((measuredDistance - Double(meters)) * 100))
         if meters == 0 {
             // When meters are 0, only show centimeters
             return "\(centimeters) \(NSLocalizedString("Centimeters", comment: ""))"
         } else {
-            // When meters are more than 0, show both meters and centimeters
             return "\(meters) \(NSLocalizedString("Meters", comment: "")) \(centimeters) \(NSLocalizedString("Centimeters", comment: ""))"
         }
     }
