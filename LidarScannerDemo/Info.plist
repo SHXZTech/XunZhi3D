@@ -5,9 +5,9 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>需要相册权限以保存截图</string>
 	<key>BundleVersion</key>
-	<string>Alpha</string>
+	<string>Beta</string>
 	<key>BundleVersionNumber</key>
-	<string>0.2</string>
+	<string>1.1</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>zh_CN</string>

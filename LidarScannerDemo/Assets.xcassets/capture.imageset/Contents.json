@@ -1,11 +1,11 @@
 {
   "images" : [
     {
-      "filename" : "capture_red.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "capture@3x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

@@ -10,10 +10,11 @@ import SwiftUI
 struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
-   
-    @State var showCapture:Bool
+    
+    @State var showCapture = false
     
     @Binding var shouldReload: Bool
+    @Environment(\.colorScheme) var colorScheme
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
@@ -22,13 +23,16 @@ struct MainTagView: View {
     
     init(shouldReload: Binding<Bool>) {
         self._shouldReload = shouldReload
-        self.showCapture = false
+    }
+    
+    private var backgroundColor: Color {
+        colorScheme == .dark ? Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0) : Color.white
     }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0).ignoresSafeArea()
+                backgroundColor.ignoresSafeArea()
                 ScrollView {
                     LazyVGrid(columns: columns, spacing: 40) {
                         ForEach(viewModel.captures, id: \.id) { capture in
@@ -41,7 +45,7 @@ struct MainTagView: View {
                     .padding()
                 }
             }
-            .navigationTitle(Text("SiteSight"))
+            .navigationTitle(Text(NSLocalizedString("SiteSight", comment: "")))
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar)
         }
@@ -64,15 +68,13 @@ struct MainTagView: View {
     private var sortedCaptures: [CapturePreviewModel] {
         viewModel.captures.sorted { $0.date > $1.date }
     }
-
+    
 }
 
 // MARK: - Preview
 
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create a MainTagView with a predefined set of captures for preview purposes
-        //MainTagView(viewModel: MainTagViewModel(captures: []))
         Text("Hello world")
     }
 }
