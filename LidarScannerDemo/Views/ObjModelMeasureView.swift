@@ -1,5 +1,6 @@
 import SwiftUI
 import SceneKit
+import SceneKit.ModelIO
 
 struct ObjModelMeasureView: UIViewRepresentable {
     var objURL: URL
@@ -14,10 +15,19 @@ struct ObjModelMeasureView: UIViewRepresentable {
     @Binding var isExportImage:Bool
     @Binding var exportedImage: Image?
     
+    @Binding var isModelLoading:Bool;
+    
+    
     func makeUIView(context: Context) -> SCNView {
+        print("makeUIView called")
         let scnView = SCNView()
-        scnView.scene = createScene()
-        
+        scnView.allowsCameraControl = true
+        scnView.autoenablesDefaultLighting = true
+        scnView.delegate = context.coordinator
+        //scnView.scene = createScene()
+        createScene { loadedScene in
+                scnView.scene = loadedScene
+            }
         // Existing tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
@@ -32,7 +42,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
         scnView.delegate = context.coordinator
         return scnView
     }
-    
     
     func updateUIView(_ uiView: SCNView, context: Context) {
         // MeasureMent Mode
@@ -95,19 +104,51 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return renderer
     }
     
+//    private func createScene() -> SCNScene {
+//        let scene = SCNScene()
+//        // Load the 3D model from the provided URL
+//        print("starting loading objurl")
+//        if let modelScene = try? SCNScene(url: objURL, options: nil) {
+//            let node = SCNNode()
+//            var node_count = 1;
+//            print("loading before childnode ...")
+//            for childNode in modelScene.rootNode.childNodes {
+//                print("loading node:", node_count)
+//                node.addChildNode(childNode)
+//                node_count = node_count + 1;
+//            }
+//            scene.rootNode.addChildNode(node)
+//        }
+//        print("terminal loading objurl")
+//        return scene
+//    }
     
-    private func createScene() -> SCNScene {
-        let scene = SCNScene()
-        // Load the 3D model from the provided URL
-        if let modelScene = try? SCNScene(url: objURL, options: nil) {
-            let node = SCNNode()
-            for childNode in modelScene.rootNode.childNodes {
-                node.addChildNode(childNode)
+    private func createScene(completion: @escaping (SCNScene) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let scene = SCNScene()
+            print("Starting loading objURL on background thread")
+
+            if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
+                let node = SCNNode()
+                var nodeCount = 1
+
+                for childNode in modelScene.rootNode.childNodes {
+                    print("Loading node:", nodeCount)
+                    node.addChildNode(childNode)
+                    nodeCount += 1
+                }
+                scene.rootNode.addChildNode(node)
             }
-            scene.rootNode.addChildNode(node)
+
+            print("Finished loading objURL")
+
+            DispatchQueue.main.async {
+                completion(scene)
+                self.isModelLoading = false
+            }
         }
-        return scene
     }
+
     
     class Coordinator: NSObject , SCNSceneRendererDelegate {
         var parent: ObjModelMeasureView
@@ -116,7 +157,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
         var measurementNodes: [SCNNode] = []
         var pipelineNodes: [SCNNode] = []
         var pipelinePoints: [SCNVector3] = []
-        
         init(_ parent: ObjModelMeasureView) {
             self.parent = parent
         }
@@ -137,13 +177,11 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     // Apply new position to camera node
                     cameraNode.position = newCameraPosition
                 }
-
                 // Reset the translation
                 gestureRecognize.setTranslation(CGPoint.zero, in: scnView)
             }
         }
 
-        
         @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
             guard let scnView = gestureRecognize.view as? SCNView,
                   let scene = scnView.scene else { return }
@@ -153,7 +191,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             
             if let hitResult = hitResults.first {
                 let tappedPoint = hitResult.worldCoordinates
-                
                 // Handle measure mode
                 if parent.isMeasureActive {
                     if firstPoint == nil {
@@ -250,7 +287,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             if self.parent.isMeasureActive{
                 measurementNodes.append(sphereNode)
             }
-            
         }
         
         private func addLineBetween(_ start: SCNVector3, _ end: SCNVector3, to scene: SCNScene) {
@@ -309,38 +345,28 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 label_size = 10
                 color_ = UIColor.systemYellow
             }
-            
             // Create the text geometry with specified font size
             let textGeometry = SCNText(string: text, extrusionDepth: 0.1)
             textGeometry.font = UIFont.systemFont(ofSize: label_size) // Set your desired font size here
-            
             // Set the color of the text
             let textMaterial = SCNMaterial()
             textMaterial.diffuse.contents = color_ // Set your desired text color here
             textGeometry.materials = [textMaterial]
-            
             let textNode = SCNNode(geometry: textGeometry)
-            
             // Set the scale for the text - adjust as needed
             let textScale: CGFloat = 0.02
             textNode.scale = SCNVector3(textScale, textScale, textScale)
             textNode.position = SCNVector3(0, 0, 0)
-            
             labelNode.addChildNode(textNode)
-            
             // Position the label node
             labelNode.position = position
-            
             // Apply a billboard constraint to make the label always face the camera
             labelNode.constraints = [SCNBillboardConstraint()]
-            
             // Set rendering order
             labelNode.renderingOrder = 1000
             textNode.renderingOrder = 1000
-            
             // Ensure the label is always rendered on top
             labelNode.geometry?.firstMaterial?.writesToDepthBuffer = false
-            
             scene.rootNode.addChildNode(labelNode)
             if self.parent.isMeasureActive{
                 measurementNodes.append(labelNode)
@@ -350,9 +376,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 pipelineNodes.append(labelNode)
                 pipelineNodes.append(textNode)
             }
-            
         }
-        
         
         func clearMeasurements() {
             DispatchQueue.main.async {

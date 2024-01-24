@@ -19,6 +19,7 @@ class CaptureViewService: ObservableObject{
     var cloud_service: CloudService
     init(id_:UUID)
     {
+        print("starting captureviewservice")
         self.captureModel = CaptureModel(id:id_)
         self.cloud_service = CloudService()
         self.updateSyncedModel = false;
@@ -27,9 +28,11 @@ class CaptureViewService: ObservableObject{
         loadCaptureModel()
         loadCloudStatus()
         startCloudStatusCheckTimer()
+        print("terminal captureviewservice")
     }
     
     private func startCloudStatusCheckTimer() {
+        print("startCloudStatusCheckTimer()")
         // Check if the timer already exists. If it does, return and do not create a new one.
         guard cloudStatusCheckTimer == nil else { return }
         // Create and schedule a new timer
@@ -194,8 +197,10 @@ class CaptureViewService: ObservableObject{
     }
     
     func loadCloudStatus() {
+        print("start loadCloudStatus")
         if self.captureModel.isTexturedMeshExist{
             self.captureModel.cloudStatus = .downloaded
+            print("loadCloudStatus finish;  self.captureModel.cloudStatus = .downloaded")
             return
         }
         cloud_service.getCaptureStatus(uuid: captureModel.id) { result in
@@ -207,6 +212,7 @@ class CaptureViewService: ObservableObject{
                         self.captureModel.cloudStatus = .wait_upload
                         self.captureModel.cloudStatus = .uploading
                         if (self.uploadcapture_lock == true){
+                            print("loadCloudStatus finish;   if (self.uploadcapture_lock == true){")
                             return
                         }
                         self.uploadcapture_lock = true
@@ -298,6 +304,8 @@ class CaptureViewService: ObservableObject{
                 }
             }
         }
+       
+        print("loadCloudStatus finish;")
     }
     
     

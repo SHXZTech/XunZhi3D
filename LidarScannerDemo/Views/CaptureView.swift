@@ -29,6 +29,7 @@ struct CaptureView: View {
     
     
     init(uuid: UUID, isPresenting: Binding<Bool>) {
+        print("init captureview")
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
@@ -37,6 +38,7 @@ struct CaptureView: View {
         self.selectedViewMode = .model
         self.showErrorAlert = false
         self.errorMessage = ""
+        print("init success")
     }
     
     var body: some View {
@@ -93,9 +95,12 @@ struct CaptureView: View {
             
         } 
         .onReceive(captureService.$captureModel) { updatedModel in
+            print(".onReceive(captureService.$captureModel) { updatedModel in start")
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
+            print(".onReceive(captureService.$captureModel) { updatedModel in end")
         }
         .onReceive(captureService.$updateSyncedModel) { updated in
+            print(" .onReceive(captureService.$updateSyncedModel) { updated in start")
             if updated {
                 if captureService.checkTexturedExist(){
                     cloudButtonState = .downloaded
@@ -104,6 +109,7 @@ struct CaptureView: View {
                     self.modelURL = modelURL_
                 }
             }
+            print(" .onReceive(captureService.$updateSyncedModel) { updated in end")
         }
         .onAppear {
                     if let modelURL_ = captureService.getObjModelURL() {
