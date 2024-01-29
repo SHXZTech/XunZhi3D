@@ -37,6 +37,7 @@ class CloudServiceSessionDelegate: NSObject, URLSessionTaskDelegate, URLSessionD
 }
 
 struct CloudService  {
+    var progressObservation: NSKeyValueObservation?
     let serverConfig: ServerConfigModel
     private let sessionDelegate = CloudServiceSessionDelegate()
     init() {
@@ -68,7 +69,7 @@ struct CloudService  {
 }
 
 extension CloudService {
-    func downloadTexture(uuid: UUID, to destinationURL: URL, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
+    mutating func downloadTexture(uuid: UUID, to destinationURL: URL, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
         guard let url = serverConfig.getDownloadTextureURL else {
             completion(.failure(CloudServiceError.invalidURL))
             return
@@ -109,14 +110,13 @@ extension CloudService {
         
         task.resume()
         
-        // Progress tracking
-        let observation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
-            DispatchQueue.main.async {
-                progress(Float(progressObj.fractionCompleted))
-                print("downloading progress:", progress)
-            }
-        }
-        
+        self.progressObservation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
+                    DispatchQueue.main.async {
+                        let progressValue = Float(progressObj.fractionCompleted)
+                        progress(progressValue)
+                        print("downloading progress:", progressValue)
+                    }
+                }
     }
 }
 

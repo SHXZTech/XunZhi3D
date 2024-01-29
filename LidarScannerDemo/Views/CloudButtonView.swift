@@ -29,7 +29,7 @@ struct CloudButtonView: View {
                     Text(textForState(cloudButtonState))
                         .foregroundStyle(.white)
                 }
-                Text(textForStateMention(cloudButtonState, progress: uploadProgress))
+                Text(textForStateMention(cloudButtonState, upload_progress: uploadProgress, download_progress: downloadProgress))
                     .font(.system(size: 12))
                     .foregroundStyle(.white)
                     .multilineTextAlignment(.center)
@@ -85,19 +85,20 @@ struct CloudButtonView: View {
         }
     }
     
-    private func textForStateMention(_ state: CloudButtonState, progress: Float)-> String{
-        let formattedProgress = String(format: "%.0f%%", progress * 100) // Format
+    private func textForStateMention(_ state: CloudButtonState, upload_progress: Float, download_progress: Float)-> String{
+        let formatted_upload_progress = String(format: "%.0f%%", upload_progress * 100) // Format
+        let formatted_download_progress = String(format: "%.0f%%", download_progress * 100) // Format
         switch state {
         case .wait_upload, .not_created:
             return NSLocalizedString("Not Upload yet", comment: "")
         case .uploading:
-            return NSLocalizedString("Uploading to cloud", comment: "") + " \(formattedProgress)"
+            return NSLocalizedString("Uploading to cloud", comment: "") + " \(formatted_upload_progress)"
         case .uploaded, .wait_process, .processing:
             return NSLocalizedString("Cloud processing", comment: "")
         case .processed:
             return NSLocalizedString("Cloud processed", comment: "")
         case .downloading:
-            return NSLocalizedString("Downloading", comment: "")
+            return NSLocalizedString("Downloading", comment: "") + " \(formatted_download_progress)"
         case .downloaded:
             return NSLocalizedString("Sync cloud", comment: "")
         case .process_failed:

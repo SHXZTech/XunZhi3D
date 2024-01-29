@@ -71,7 +71,6 @@ struct MainTagView: View {
     private var customNavigationBar: some View {
            VStack {
                HStack {
-                   // Add navigation bar items here
                    Spacer()
                    Text(NSLocalizedString("SiteSight", comment: ""))
                        .font(.headline)

@@ -278,6 +278,9 @@ class CaptureViewService: ObservableObject{
             self.stopCloudStatusCheckTimer()
             return;
         }
+        DispatchQueue.main.async {
+            self.captureModel.cloudStatus = .downloading
+        }
         self.captureModel.cloudStatus = .downloading
         self.downloadTexture(completion: { success, message in
             if success {
@@ -285,14 +288,12 @@ class CaptureViewService: ObservableObject{
                 self.stopCloudStatusCheckTimer()
                 self.updateSyncedModel = true;
             } else {
-                self.captureModel.cloudStatus = .processed
                 self.stopCloudStatusCheckTimer()
             }
         })
     }
     
     func loadCloudStatus() {
-        print("start loadCloudStatus")
         if self.captureModel.isTexturedMeshExist{
             self.captureModel.cloudStatus = .downloaded
             return
@@ -301,7 +302,6 @@ class CaptureViewService: ObservableObject{
             DispatchQueue.main.async {
                 switch result {
                 case .success(let statusResponse):
-                    print("get_capture_status:",statusResponse.status)
                     switch statusResponse.status{
                     case 0:
                         DispatchQueue.main.async {
@@ -332,7 +332,14 @@ class CaptureViewService: ObservableObject{
                         break;
                     case 5:
                         DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .processed
+                            if(self.captureModel.cloudStatus != .downloading || self.captureModel.cloudStatus != .processed)
+                            {
+                                self.captureModel.cloudStatus = .processed
+                            }
+                        }
+                        self.stopCloudStatusCheckTimer()
+                        DispatchQueue.main.async {
+                            self.captureModel.cloudStatus = .downloading
                         }
                         self.downloadCapture()
                         self.startCloudStatusCheckTimer()
@@ -389,7 +396,9 @@ class CaptureViewService: ObservableObject{
     }
     
     func uploadCapture(completion: @escaping (Bool, String) -> Void) {
-        self.captureModel.cloudStatus = .uploading
+        DispatchQueue.main.async {
+            self.captureModel.cloudStatus = .uploading
+        }
         zipCapture { zipResult in
             switch zipResult {
             case .success(let zipFileURL):
@@ -431,7 +440,6 @@ class CaptureViewService: ObservableObject{
         cloud_service.downloadTexture(uuid: self.captureModel.id, to: destinationFileURL, progress: { progressValue in
             DispatchQueue.main.async {
                 self.captureModel.downloadingProgress = progressValue
-                print("self.captureModel.downloadingProgress:", progressValue)
             }
         }, completion: { result in
             switch result {
