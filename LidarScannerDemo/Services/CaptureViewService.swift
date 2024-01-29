@@ -231,7 +231,8 @@ class CaptureViewService: ObservableObject{
         case .uploading:
             break
         case .processed:
-            downloadCapture()
+            //downloadCapture()
+            break;
         case .downloading, .downloaded, .process_failed:
             break
         case .wait_process, .processing, .uploaded:

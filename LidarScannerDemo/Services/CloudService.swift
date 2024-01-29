@@ -113,6 +113,7 @@ extension CloudService {
         let observation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
             DispatchQueue.main.async {
                 progress(Float(progressObj.fractionCompleted))
+                print("downloading progress:", progress)
             }
         }
         
