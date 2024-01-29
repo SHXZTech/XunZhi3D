@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MainView: View {
+    @Environment(\.colorScheme) var colorScheme
     @State private var selectedTab = 0
     @State private var showScanView = false
     @State private var showCaptureView = false
@@ -30,7 +31,8 @@ struct MainView: View {
                 .tag(0)
             Color.clear
                 .tabItem {
-                    Image(systemName: "plus.rectangle.fill")
+                    Image("capture")
+                        .resizable()
                     Text(NSLocalizedString("scanTitle", comment: "Scan tab title"))
                 }
                 .tag(1)
@@ -46,7 +48,9 @@ struct MainView: View {
                 }
                 .tag(2)
         }
-        .accentColor(.red)
+        .accentColor(Color.white)
+        .background(Color.black) // Set the background to black
+        .edgesIgnoringSafeArea(.bottom) // Extend the background color to the bottom edge of the screen
     }
 }
 

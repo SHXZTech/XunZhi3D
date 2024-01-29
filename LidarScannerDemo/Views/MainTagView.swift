@@ -10,10 +10,11 @@ import SwiftUI
 struct MainTagView: View {
     
     @StateObject var viewModel = MainTagViewModel()
-   
-    @State var showCapture:Bool
+    
+    @State var showCapture = false
     
     @Binding var shouldReload: Bool
+    @Environment(\.colorScheme) var colorScheme
     
     let columns: [GridItem] = [
         GridItem(.flexible(), spacing: 16), // Assuming some spacing between items
@@ -22,28 +23,34 @@ struct MainTagView: View {
     
     init(shouldReload: Binding<Bool>) {
         self._shouldReload = shouldReload
-        self.showCapture = false
+    }
+    
+    private var backgroundColor: Color {
+//        Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0) //Gray
+        Color.black
     }
     
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0).ignoresSafeArea()
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 40) {
-                        ForEach(viewModel.captures, id: \.id) { capture in
-                            CapturePreviewView(capture: capture) {
-                                viewModel.selectCapture(uuid: capture.id)
-                                showCapture = true
+                backgroundColor.ignoresSafeArea()
+                VStack{
+                    customNavigationBar
+                        .frame(height: 30)
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 40) {
+                            ForEach(viewModel.captures, id: \.id) { capture in
+                                CapturePreviewView(capture: capture) {
+                                    viewModel.selectCapture(uuid: capture.id)
+                                    showCapture = true
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
-            .navigationTitle(Text("SiteSight"))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.black, for: .navigationBar)
+            .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showCapture) {
             CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
@@ -61,21 +68,33 @@ struct MainTagView: View {
         }
     }
     
+    private var customNavigationBar: some View {
+           VStack {
+               HStack {
+                   Spacer()
+                   Text(NSLocalizedString("SiteSight", comment: ""))
+                       .font(.headline)
+                       .foregroundColor(.white)
+                   Spacer()
+               }
+               .background(Color.black) // Custom navigation bar background color
+           }
+       }
+    
     private var sortedCaptures: [CapturePreviewModel] {
         viewModel.captures.sorted { $0.date > $1.date }
     }
-
+    
 }
 
 // MARK: - Preview
 
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
-        // Create a MainTagView with a predefined set of captures for preview purposes
-        //MainTagView(viewModel: MainTagViewModel(captures: []))
-        Text("Hello world")
+        MainTagView(shouldReload: .constant(false))
     }
 }
+
 
 
 

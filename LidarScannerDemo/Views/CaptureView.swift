@@ -17,6 +17,8 @@ struct CaptureView: View {
     @Binding var isPresenting: Bool
     @State private var cloudButtonState: CloudButtonState = .wait_upload
     @State private var showDeleteAlert = false
+    @State var uploadProgress: Float = 0.0
+    @State var downloadProgress: Float = 0.0
     
     enum ViewMode {
         case model, info
@@ -25,9 +27,6 @@ struct CaptureView: View {
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
     @State var modelURL: URL?;
-    
-    
-    
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
@@ -46,6 +45,7 @@ struct CaptureView: View {
                 header
                 modelInfoPicker
                 content
+                    .ignoresSafeArea()
             }
         }
         .navigationBarTitle("", displayMode: .inline)
@@ -55,7 +55,7 @@ struct CaptureView: View {
     private var header: some View {
         ZStack {
             HStack{
-                CloudButtonView(cloudButtonState: $cloudButtonState, uploadAction: CloudButtonAction)
+                CloudButtonView(cloudButtonState: $cloudButtonState,uploadProgress: $uploadProgress, downloadProgress: $downloadProgress, uploadAction: CloudButtonAction)
             }
             HStack {
                 Button(action: {
@@ -94,6 +94,8 @@ struct CaptureView: View {
         } 
         .onReceive(captureService.$captureModel) { updatedModel in
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
+            self.uploadProgress = updatedModel.uploadingProgress
+            self.downloadProgress = updatedModel.downloadingProgress
         }
         .onReceive(captureService.$updateSyncedModel) { updated in
             if updated {
@@ -110,26 +112,22 @@ struct CaptureView: View {
                         self.modelURL = modelURL_
                     }
                 }
-        .padding(.vertical, 5)
+        .onDisappear(
+            
+        )
+        //.padding(.vertical, 5)
     }
     
     
     private func CloudButtonAction() {
+        captureService.cloudButtonActionHandle()
         switch cloudButtonState {
         case .wait_upload:
-            captureService.captureModel.cloudStatus = .uploading
-            cloudButtonState = .uploading
-            captureService.uploadCapture(completion: { success, message in
-                        if success {
-                            captureService.captureModel.cloudStatus = .uploaded
-                        } else {
-                            self.errorMessage = "Upload failed: \(message)"
-                            self.showErrorAlert = true
-                        }
-                    })
+            break
         case .uploading:
             self.errorMessage = "云端处理中,请耐心等待"
             self.showErrorAlert = true
+            break
         case .uploaded:
             self.errorMessage = "已上传云端,排队处理中"
             self.showErrorAlert = true
@@ -140,16 +138,7 @@ struct CaptureView: View {
             self.errorMessage = "云端处理中,请耐心等待"
             self.showErrorAlert = true
         case .processed:
-            captureService.captureModel.cloudStatus = .downloading
-            captureService.downloadTexture(completion: { success, message in
-                if success {
-                    captureService.captureModel.cloudStatus = .downloaded
-                } else {
-                    captureService.captureModel.cloudStatus = .processed
-                    self.errorMessage = "Download failed: \(message)"
-                    self.showErrorAlert = true
-                }
-            })
+            break;
         case .downloading:
             self.errorMessage = "下载中，请耐心等待"
             self.showErrorAlert = true
@@ -160,24 +149,8 @@ struct CaptureView: View {
             self.errorMessage = "处理失败,请重新扫描"
             self.showErrorAlert = true
         case .not_created:
-            captureService.captureModel.cloudStatus = .uploading
-            captureService.createCloudCapture(completion: { success in
-                if success {
-                    captureService.captureModel.cloudStatus = .uploaded
-                    cloudButtonState = .uploading
-                    captureService.uploadCapture(completion: { success, message in
-                        if success {
-                            captureService.captureModel.cloudStatus = .uploaded
-                        } else {
-                            self.errorMessage = "Upload failed: \(message)"
-                            self.showErrorAlert = true
-                        }
-                    })
-                } else {
-                    self.errorMessage = "create failed"
-                    self.showErrorAlert = true
-                }
-            })
+            break;
+            
         }
     }
     
@@ -199,8 +172,10 @@ struct CaptureView: View {
                 if captureService.isRawMeshExist() {
                     VStack{
                         Spacer()
-                        StateModelViewer(modelURL: self.$modelURL, width: UIScreen.main.bounds.width * 1, height: UIScreen.main.bounds.height * 0.8)
-                            .cornerRadius(15)
+                        GeometryReader { geometry in
+                            StateModelViewer(modelURL: self.$modelURL, width: geometry.size.width, height: geometry.size.height)
+                                .cornerRadius(15)
+                        }
                         Spacer()
                     }
                 } else {
@@ -220,7 +195,7 @@ struct CaptureView: View {
 
     func formatBytes(_ bytes: Int64) -> String {
         let formatter = ByteCountFormatter()
-        formatter.allowedUnits = [.useMB] // or [.useKB, .useGB] depending on the size you expect
+        formatter.allowedUnits = [.useMB]
         formatter.countStyle = .file
         return formatter.string(fromByteCount: bytes)
     }

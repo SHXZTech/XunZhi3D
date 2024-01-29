@@ -20,18 +20,26 @@ struct StateModelViewer: View {
     @State var pipelineExportedImage:Image?
     @State var isExportImage = false
     
+    @State var isModelLoading = true;
+    
     
     @State private var viewKey = UUID()
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage)
+                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
                 Text(NSLocalizedString("No model to display", comment: ""))
             }
             ToolBarView()
+            if isModelLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
+                    .foregroundColor(.mint)
+                    .scaleEffect(1)
+            }
         }
         .onChange(of: modelURL) { _ in
             viewKey = UUID()  // Change the key to force a refresh
@@ -117,7 +125,4 @@ struct StateModelViewer: View {
         }
         .padding(.bottom, 10)
     }
-    
-    
 }
-

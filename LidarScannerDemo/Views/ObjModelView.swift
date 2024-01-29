@@ -23,7 +23,6 @@ struct ObjModelView: UIViewRepresentable {
                 node.addChildNode(childNode)
             }
         }
-        
         scene.rootNode.addChildNode(node)
         return scene
     }

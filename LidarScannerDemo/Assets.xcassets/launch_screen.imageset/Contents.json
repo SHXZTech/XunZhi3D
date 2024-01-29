@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "capture_red.png",
+      "filename" : "SiteSight_launch_screen.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "SiteSight_launch_screen@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "SiteSight_launch_screen@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

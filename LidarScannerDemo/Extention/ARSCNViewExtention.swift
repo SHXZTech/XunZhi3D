@@ -10,20 +10,20 @@ import SceneKit
 import ARKit
 
 extension ARSCNView: ARCoachingOverlayViewDelegate {
-    func addCoaching() {
+    func addCoaching(active: Bool) {
         let coachingOverlay = ARCoachingOverlayView()
         coachingOverlay.delegate = self
         coachingOverlay.session = self.session
         coachingOverlay.activatesAutomatically = true
         #if DEBUG
-        coachingOverlay.setActive(true, animated: true)
+        coachingOverlay.setActive(active, animated: true)
         #endif
         coachingOverlay.goal = .tracking
         coachingOverlay.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(coachingOverlay)
 
         // Determine the top padding needed to avoid covering the exit button
-        let topPadding: CGFloat = 70 // Adjust this value based on the size of your exit button
+        let topPadding: CGFloat = 0 // Adjust this value based on the size of your exit button
 
         // Set constraints
         NSLayoutConstraint.activate([
