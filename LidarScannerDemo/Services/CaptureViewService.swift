@@ -29,7 +29,6 @@ class CaptureViewService: ObservableObject{
         captureModel.id = id_
         loadCaptureModel()
         loadCloudStatus()
-        //startCloudStatusCheckTimer()
     }
     
     private func startCloudStatusCheckTimer() {

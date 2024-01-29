@@ -41,9 +41,9 @@ struct RawScanView: View {
                 Button(action: {
                     self.showingExitConfirmation = true
                 }, label: {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.red)
-                        .font(.title)
+                    Image(systemName: "xmark")
+                        .foregroundColor(.white)
+                        .font(.system(size: 18))
                 })
                 .padding(.horizontal, 25)
                 .actionSheet(isPresented: $showingExitConfirmation) {
@@ -66,6 +66,7 @@ struct RawScanView: View {
             }
             Text(NSLocalizedString("Draft", comment: ""))
                 .multilineTextAlignment(.center)
+                .font(.system(size: 20))
         }
         .padding(.vertical, 10)
     }
@@ -87,7 +88,6 @@ struct RawScanView: View {
         VStack {
             Button(NSLocalizedString("Upload & Process", comment: "")) {
                 rawScanManager.moveScanFromCacheToDist()
-                isPresenting = false
                 cloud_service.createCapture(uuid: uuid) { result in
                         DispatchQueue.main.async {
                             switch result {
@@ -96,6 +96,7 @@ struct RawScanView: View {
                             }
                         }
                     }
+                isPresenting = false
             }
             .frame(width: 360, height: 54, alignment: .center)
             .background(Color.blue)
