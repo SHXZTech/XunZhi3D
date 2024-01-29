@@ -114,7 +114,6 @@ extension CloudService {
                     DispatchQueue.main.async {
                         let progressValue = Float(progressObj.fractionCompleted)
                         progress(progressValue)
-                        print("downloading progress:", progressValue)
                     }
                 }
     }
@@ -123,7 +122,6 @@ extension CloudService {
 extension CloudService {
     
     func uploadCapture(uuid: UUID, fileURL: URL, progressHandler: @escaping (Float) -> Void, completion: @escaping (Result<UploadRouteResponse, Error>) -> Void) {
-        print("start uploadCapture in CloudService")
         guard let url = serverConfig.uploadCaptureURL else {
             completion(.failure(CloudServiceError.invalidURL))
             return

@@ -33,7 +33,6 @@ class CaptureViewService: ObservableObject{
     }
     
     private func startCloudStatusCheckTimer() {
-        print("startCloudStatusCheckTimer()")
         guard cloudStatusCheckTimer == nil else { return }
         cloudStatusCheckTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             guard let self = self else { return }

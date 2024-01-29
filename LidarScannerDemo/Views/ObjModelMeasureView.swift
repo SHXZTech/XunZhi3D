@@ -19,7 +19,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
     
     
     func makeUIView(context: Context) -> SCNView {
-        print("makeUIView called")
         let scnView = SCNView()
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
@@ -104,44 +103,19 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return renderer
     }
     
-//    private func createScene() -> SCNScene {
-//        let scene = SCNScene()
-//        // Load the 3D model from the provided URL
-//        print("starting loading objurl")
-//        if let modelScene = try? SCNScene(url: objURL, options: nil) {
-//            let node = SCNNode()
-//            var node_count = 1;
-//            print("loading before childnode ...")
-//            for childNode in modelScene.rootNode.childNodes {
-//                print("loading node:", node_count)
-//                node.addChildNode(childNode)
-//                node_count = node_count + 1;
-//            }
-//            scene.rootNode.addChildNode(node)
-//        }
-//        print("terminal loading objurl")
-//        return scene
-//    }
-    
     private func createScene(completion: @escaping (SCNScene) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             let scene = SCNScene()
-            print("Starting loading objURL on background thread")
-
             if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
                 let node = SCNNode()
                 var nodeCount = 1
 
                 for childNode in modelScene.rootNode.childNodes {
-                    print("Loading node:", nodeCount)
                     node.addChildNode(childNode)
                     nodeCount += 1
                 }
                 scene.rootNode.addChildNode(node)
             }
-
-            print("Finished loading objURL")
-
             DispatchQueue.main.async {
                 completion(scene)
                 self.isModelLoading = false

@@ -93,32 +93,11 @@ struct CaptureView: View {
             
         } 
         .onReceive(captureService.$captureModel) { updatedModel in
-            print("on receive")
-            print("updatedModel.cloudStatus" , updatedModel.cloudStatus)
-            print("updatedModel.uploadingProgress:", updatedModel.uploadingProgress)
-            print("updatedModel.downloadingProgress:", updatedModel.downloadingProgress)
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
-//            if(updatedModel.uploadingProgress>0.01 && updatedModel.uploadingProgress<0.9999){
-//                cloudButtonState = .uploading
-//            }
-//            else{
-//                if(updatedModel.uploadingProgress>0.9999){
-//                    cloudButtonState = .uploaded
-//                }
-//            }
-//            if(updatedModel.downloadingProgress>0.01 && updatedModel.downloadingProgress<0.999){
-//                cloudButtonState = .downloading
-//            }
-//            else{
-//                if(updatedModel.downloadingProgress>0.9999){
-//                    cloudButtonState = .downloaded
-//                }
-//            }
             self.uploadProgress = updatedModel.uploadingProgress
             self.downloadProgress = updatedModel.downloadingProgress
         }
         .onReceive(captureService.$updateSyncedModel) { updated in
-            print(" .onReceive(captureService.$updateSyncedModel) { updated in start")
             if updated {
                 if captureService.checkTexturedExist(){
                     cloudButtonState = .downloaded
@@ -127,7 +106,6 @@ struct CaptureView: View {
                     self.modelURL = modelURL_
                 }
             }
-            print(" .onReceive(captureService.$updateSyncedModel) { updated in end")
         }
         .onAppear {
                     if let modelURL_ = captureService.getObjModelURL() {
