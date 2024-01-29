@@ -83,7 +83,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let config = ARWorldTrackingConfiguration()
         sceneView.session.delegate = self
         sceneView.session.run(config)
-        sceneView.addCoaching()
+        sceneView.addCoaching(active: false)
 #if DEBUG
         //sceneView.debugOptions = [SCNDebugOptions.showFeaturePoints, SCNDebugOptions.showCameras]
 #endif
@@ -202,6 +202,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
+        sceneView.addCoaching(active: true)
     }
     
     func dropScan(){

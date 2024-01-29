@@ -37,9 +37,8 @@ struct StateModelViewer: View {
             if isModelLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
-                    .foregroundColor(.black)
+                    .foregroundColor(.mint)
                     .scaleEffect(1)
-                    
             }
         }
         .onChange(of: modelURL) { _ in

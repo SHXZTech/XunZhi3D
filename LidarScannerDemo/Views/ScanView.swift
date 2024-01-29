@@ -64,6 +64,7 @@ struct ScanView: View {
                         }
                         scanButton
                     }
+                    .padding(.bottom, 65)
                 }
                 VStack{
                     if showTooFastWarning {
@@ -138,9 +139,9 @@ struct ScanView: View {
             lidarMeshViewModel.dropScan()
             isPresenting = false
         }) {
-            Image(systemName: "xmark.circle.fill")
-                .foregroundColor(.red)
-                .font(.title)
+            Image(systemName: "xmark")
+                .foregroundColor(.white)
+                .font(.system(size: 18))
         }
         .padding(.horizontal, 25)
     }
@@ -148,6 +149,8 @@ struct ScanView: View {
     private var scanArea: some View {
         ZStack {
             LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             GeoSensorView(viewModel: rtkViewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(20)
@@ -183,7 +186,6 @@ struct ScanView: View {
         }
     }
     
-    
     private func scanAction() {
         switch scanStatus {
         case "ready":
@@ -212,7 +214,7 @@ struct LidarMeshViewContainer: UIViewRepresentable {
         LidarViewModel.sceneView.delegate = context.coordinator
         let config = ARWorldTrackingConfiguration()
         LidarViewModel.sceneView.session.run(config)
-        LidarViewModel.sceneView.addCoaching()
+        LidarViewModel.sceneView.addCoaching(active: false)
         LidarViewModel.sceneView.debugOptions = []
         return LidarViewModel.sceneView
     }

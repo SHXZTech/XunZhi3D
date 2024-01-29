@@ -26,28 +26,31 @@ struct MainTagView: View {
     }
     
     private var backgroundColor: Color {
-        colorScheme == .dark ? Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0) : Color.white
+//        Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0) //Gray
+        Color.black
     }
     
     var body: some View {
         NavigationStack {
             ZStack {
                 backgroundColor.ignoresSafeArea()
-                ScrollView {
-                    LazyVGrid(columns: columns, spacing: 40) {
-                        ForEach(viewModel.captures, id: \.id) { capture in
-                            CapturePreviewView(capture: capture) {
-                                viewModel.selectCapture(uuid: capture.id)
-                                showCapture = true
+                VStack{
+                    customNavigationBar
+                        .frame(height: 30)
+                    ScrollView {
+                        LazyVGrid(columns: columns, spacing: 40) {
+                            ForEach(viewModel.captures, id: \.id) { capture in
+                                CapturePreviewView(capture: capture) {
+                                    viewModel.selectCapture(uuid: capture.id)
+                                    showCapture = true
+                                }
                             }
                         }
+                        .padding()
                     }
-                    .padding()
                 }
             }
-            .navigationTitle(Text(NSLocalizedString("SiteSight", comment: "")))
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.black, for: .navigationBar)
+            .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showCapture) {
             CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
@@ -65,6 +68,20 @@ struct MainTagView: View {
         }
     }
     
+    private var customNavigationBar: some View {
+           VStack {
+               HStack {
+                   // Add navigation bar items here
+                   Spacer()
+                   Text(NSLocalizedString("SiteSight", comment: ""))
+                       .font(.headline)
+                       .foregroundColor(.white)
+                   Spacer()
+               }
+               .background(Color.black) // Custom navigation bar background color
+           }
+       }
+    
     private var sortedCaptures: [CapturePreviewModel] {
         viewModel.captures.sorted { $0.date > $1.date }
     }
@@ -75,9 +92,10 @@ struct MainTagView: View {
 
 struct MainTagView_Previews: PreviewProvider {
     static var previews: some View {
-        Text("Hello world")
+        MainTagView(shouldReload: .constant(false))
     }
 }
+
 
 
 

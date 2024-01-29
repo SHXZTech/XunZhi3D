@@ -2,14 +2,48 @@ import Foundation
 import MobileCoreServices
 
 
-struct CloudService {
-    let serverConfig: ServerConfigModel
+class CloudServiceSessionDelegate: NSObject, URLSessionTaskDelegate, URLSessionDataDelegate {
+    var progressHandler: ((Float) -> Void)?
+    var completionHandler: ((Result<UploadRouteResponse, Error>) -> Void)?
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didSendBodyData bytesSent: Int64, totalBytesSent: Int64, totalBytesExpectedToSend: Int64) {
+        let progress = Float(totalBytesSent) / Float(totalBytesExpectedToSend)
+        DispatchQueue.main.async {
+            self.progressHandler?(progress)
+        }
+    }
+    
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        if let error = error {
+            DispatchQueue.main.async {
+                self.completionHandler?(.failure(error))
+            }
+            return
+        }
+    }
+    
+    func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
+        do {
+            let responseObj = try JSONDecoder().decode(UploadRouteResponse.self, from: data)
+            DispatchQueue.main.async {
+                self.completionHandler?(.success(responseObj))
+            }
+        } catch {
+            DispatchQueue.main.async {
+                self.completionHandler?(.failure(error))
+            }
+        }
+    }
+}
 
+struct CloudService  {
+    let serverConfig: ServerConfigModel
+    private let sessionDelegate = CloudServiceSessionDelegate()
     init() {
         let loadedConfig = ServerConfigModel.loadFromPlist(named: "ServerConfig")
         self.serverConfig = loadedConfig!
     }
-
+    
     // Function to create a capture
     func createCapture(uuid: UUID, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = serverConfig.captureCreateURL else {
@@ -30,65 +64,65 @@ struct CloudService {
             }
         }.resume()
     }
- 
+    
 }
 
 extension CloudService {
-    func downloadTexture(uuid: UUID, to destinationURL: URL, completion: @escaping (Result<URL, Error>) -> Void) {
+    func downloadTexture(uuid: UUID, to destinationURL: URL, progress: @escaping (Float) -> Void, completion: @escaping (Result<URL, Error>) -> Void) {
         guard let url = serverConfig.getDownloadTextureURL else {
             completion(.failure(CloudServiceError.invalidURL))
             return
         }
-
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [URLQueryItem(name: "uuid", value: uuid.uuidString)]
-
         guard let queryURL = urlComponents?.url else {
             completion(.failure(CloudServiceError.invalidURL))
             return
         }
-
         var request = URLRequest(url: queryURL)
         request.httpMethod = "GET"
-
-        let task = URLSession.shared.downloadTask(with: request) { localURL, response, error in
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: .main)
+        let task = session.downloadTask(with: request) { localURL, response, error in
             if let error = error {
                 completion(.failure(error))
                 return
             }
-
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 completion(.failure(CloudServiceError.unknown))
                 return
             }
-
             guard let tempLocalURL = localURL else {
                 completion(.failure(CloudServiceError.unknown))
                 return
             }
-
-            // Use the provided destination URL to save the file
-            let permanentURL = destinationURL
             do {
-                // Move the file from the temporary location to the permanent location
                 let fileManager = FileManager.default
-                if fileManager.fileExists(atPath: permanentURL.path) {
-                    try fileManager.removeItem(at: permanentURL)
+                if fileManager.fileExists(atPath: destinationURL.path) {
+                    try fileManager.removeItem(at: destinationURL)
                 }
-                try fileManager.moveItem(at: tempLocalURL, to: permanentURL)
-                completion(.success(permanentURL))
+                try fileManager.moveItem(at: tempLocalURL, to: destinationURL)
+                completion(.success(destinationURL))
             } catch {
                 completion(.failure(error))
             }
         }
-
+        
         task.resume()
+        
+        // Progress tracking
+        let observation = task.progress.observe(\.fractionCompleted) { progressObj, _ in
+            DispatchQueue.main.async {
+                progress(Float(progressObj.fractionCompleted))
+            }
+        }
+        
     }
 }
 
 extension CloudService {
     
-    func uploadCapture(uuid: UUID, fileURL: URL, completion: @escaping (Result<UploadRouteResponse, Error>) -> Void) {
+    func uploadCapture(uuid: UUID, fileURL: URL, progressHandler: @escaping (Float) -> Void, completion: @escaping (Result<UploadRouteResponse, Error>) -> Void) {
+        print("start uploadCapture in CloudService")
         guard let url = serverConfig.uploadCaptureURL else {
             completion(.failure(CloudServiceError.invalidURL))
             return
@@ -101,46 +135,28 @@ extension CloudService {
         request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
         
         var body = Data()
-        
-        // Add the UUID part
         body.append(convertFormField(named: "uuid", value: uuid.uuidString, using: boundary))
-
-        // Add the file part
+        
         do {
             let fileData = try Data(contentsOf: fileURL)
             let filename = fileURL.lastPathComponent
             let mimeType = mimeTypeForPath(path: fileURL.path)
-            body.append(convertFileData(fieldName: "file",
-                                        fileName: filename,
-                                        mimeType: mimeType,
-                                        fileData: fileData,
-                                        using: boundary))
+            body.append(convertFileData(fieldName: "file", fileName: filename, mimeType: mimeType, fileData: fileData, using: boundary))
         } catch {
             completion(.failure(error))
             return
         }
         
         body.append("--\(boundary)--\r\n".data(using: .utf8)!)
-
-        request.httpBody = body
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            guard let data = data, let responseString = String(data: data, encoding: .utf8) else {
-                completion(.failure(CloudServiceError.unknown))
-                return
-            }
-            // Decode your response into `UploadRouteResponse` if you have a defined structure
-            do {
-                let responseObj = try JSONDecoder().decode(UploadRouteResponse.self, from: data)
-                completion(.success(responseObj))
-            } catch {
-                completion(.failure(error))
-            }
-        }.resume()
+        
+        sessionDelegate.progressHandler = progressHandler
+        sessionDelegate.completionHandler = completion
+        
+        let configuration = URLSessionConfiguration.default
+        let session = URLSession(configuration: configuration, delegate: sessionDelegate, delegateQueue: OperationQueue.main)
+        
+        let task = session.uploadTask(with: request, from: body)
+        task.resume()
     }
     
     // Helper methods for multipart/form-data
@@ -151,7 +167,7 @@ extension CloudService {
         data.appendString("\(value)\r\n")
         return data as Data
     }
-
+    
     private func convertFileData(fieldName: String,
                                  fileName: String,
                                  mimeType: String,
@@ -165,7 +181,7 @@ extension CloudService {
         data.appendString("\r\n")
         return data as Data
     }
-
+    
     private func mimeTypeForPath(path: String) -> String {
         let url = URL(fileURLWithPath: path)
         let pathExtension = url.pathExtension
@@ -191,7 +207,7 @@ extension CloudService {
         // Assuming the UUID is sent as a query parameter
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [URLQueryItem(name: "uuid", value: uuid.uuidString)]
-
+        
         guard let queryURL = urlComponents?.url else {
             completion(.failure(CloudServiceError.invalidURL))
             return
@@ -243,9 +259,20 @@ struct UploadRouteResponse: Codable {
     // Add other fields based on your server's response
     // If the server includes a success flag, add it here as an optional property
     var success: Bool?
-
+    
     // Include any additional fields that your server may return
     // Make them optional if they are not always present in the response
     // var additionalField: DataType?
+}
+
+
+
+
+extension Data {
+    mutating func append(_ string: String) {
+        if let data = string.data(using: .utf8) {
+            append(data)
+        }
+    }
 }
 

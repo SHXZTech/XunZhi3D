@@ -48,7 +48,9 @@ struct MainView: View {
                 }
                 .tag(2)
         }
-        .accentColor(colorScheme == .dark ? .white : .black)
+        .accentColor(Color.white)
+        .background(Color.black) // Set the background to black
+        .edgesIgnoringSafeArea(.bottom) // Extend the background color to the bottom edge of the screen
     }
 }
 

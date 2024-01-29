@@ -122,7 +122,7 @@ struct ConfigJsonManager{
                             try FileManager.default.removeItem(at: coverURL)
                         }
                         try imageData.write(to: coverURL)
-                        logger.info("Cover image updated successfully with \(firstImageFile)")
+                        //logger.info("Cover image updated successfully with \(firstImageFile)")
                     }
                 }
             } else {

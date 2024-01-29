@@ -30,6 +30,7 @@ class LidarMeshViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
+    
     var sceneView : ARSCNView {
         model.sceneView
     }

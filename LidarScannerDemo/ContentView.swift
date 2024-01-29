@@ -14,6 +14,7 @@ struct ContentView : View {
    
     var body: some View {
         MainView()
+            .preferredColorScheme(/*@START_MENU_TOKEN@*/.dark/*@END_MENU_TOKEN@*/) // force dark theme
     }
 }
 
