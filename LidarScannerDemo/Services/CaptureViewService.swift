@@ -81,7 +81,6 @@ class CaptureViewService: ObservableObject{
                     if captureModel.isTexturedMeshExist{
                         captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
                     }
-                    
                 }
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
                     for config in configs {
@@ -384,9 +383,9 @@ class CaptureViewService: ObservableObject{
         cloud_service.createCapture(uuid: self.captureModel.id) { createResult in
             DispatchQueue.main.async {
                 switch createResult {
-                case .success(let createResponse):
+                case .success(_):
                     completion(true)
-                case .failure(let createError):
+                case .failure(_):
                     completion(false)
                 }
             }

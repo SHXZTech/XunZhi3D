@@ -30,6 +30,28 @@
 		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */; };
 		E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */; };
+		E95D2AC02B6A621400648DBC /* UploadButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */; };
+		E95D2AD72B6B4DC700648DBC /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */; };
+		E95D2AD82B6B4DC700648DBC /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC32B6B4DC700648DBC /* ScanView.swift */; };
+		E95D2AD92B6B4DC700648DBC /* ModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC42B6B4DC700648DBC /* ModelViewer.swift */; };
+		E95D2ADA2B6B4DC700648DBC /* GeoSensorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC52B6B4DC700648DBC /* GeoSensorView.swift */; };
+		E95D2ADB2B6B4DC700648DBC /* CloudButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC62B6B4DC700648DBC /* CloudButtonView.swift */; };
+		E95D2ADC2B6B4DC700648DBC /* UploadButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC72B6B4DC700648DBC /* UploadButtonView.swift */; };
+		E95D2ADD2B6B4DC700648DBC /* ModelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC82B6B4DC700648DBC /* ModelInfoView.swift */; };
+		E95D2ADE2B6B4DC700648DBC /* MeasureSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC92B6B4DC700648DBC /* MeasureSheetView.swift */; };
+		E95D2ADF2B6B4DC700648DBC /* RawScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACA2B6B4DC700648DBC /* RawScanView.swift */; };
+		E95D2AE02B6B4DC700648DBC /* CapturePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACB2B6B4DC700648DBC /* CapturePreviewView.swift */; };
+		E95D2AE12B6B4DC700648DBC /* RtkSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACC2B6B4DC700648DBC /* RtkSettingView.swift */; };
+		E95D2AE22B6B4DC700648DBC /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACD2B6B4DC700648DBC /* ObjModelView.swift */; };
+		E95D2AE32B6B4DC700648DBC /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACE2B6B4DC700648DBC /* LicenseView.swift */; };
+		E95D2AE42B6B4DC700648DBC /* MapMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ACF2B6B4DC700648DBC /* MapMarkView.swift */; };
+		E95D2AE52B6B4DC700648DBC /* StateModelViewer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD02B6B4DC700648DBC /* StateModelViewer.swift */; };
+		E95D2AE62B6B4DC700648DBC /* SettingTabpageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD12B6B4DC700648DBC /* SettingTabpageView.swift */; };
+		E95D2AE72B6B4DC700648DBC /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD22B6B4DC700648DBC /* MainView.swift */; };
+		E95D2AE82B6B4DC700648DBC /* VersionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD32B6B4DC700648DBC /* VersionView.swift */; };
+		E95D2AE92B6B4DC700648DBC /* PipelineSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD42B6B4DC700648DBC /* PipelineSheetView.swift */; };
+		E95D2AEA2B6B4DC700648DBC /* MainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD52B6B4DC700648DBC /* MainTagView.swift */; };
+		E95D2AEB2B6B4DC700648DBC /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AD62B6B4DC700648DBC /* CaptureView.swift */; };
 		E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */; };
 		E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F65E29F23EB100CDE6E1 /* ContentView.swift */; };
 		E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = E963F66029F23EB100CDE6E1 /* Experience.rcproject */; };
@@ -162,6 +184,28 @@
 		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewModel.swift; sourceTree = "<group>"; };
 		E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfo.swift; sourceTree = "<group>"; };
+		E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButtonView.swift; sourceTree = "<group>"; };
+		E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
+		E95D2AC32B6B4DC700648DBC /* ScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
+		E95D2AC42B6B4DC700648DBC /* ModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelViewer.swift; sourceTree = "<group>"; };
+		E95D2AC52B6B4DC700648DBC /* GeoSensorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoSensorView.swift; sourceTree = "<group>"; };
+		E95D2AC62B6B4DC700648DBC /* CloudButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudButtonView.swift; sourceTree = "<group>"; };
+		E95D2AC72B6B4DC700648DBC /* UploadButtonView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UploadButtonView.swift; sourceTree = "<group>"; };
+		E95D2AC82B6B4DC700648DBC /* ModelInfoView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelInfoView.swift; sourceTree = "<group>"; };
+		E95D2AC92B6B4DC700648DBC /* MeasureSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MeasureSheetView.swift; sourceTree = "<group>"; };
+		E95D2ACA2B6B4DC700648DBC /* RawScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RawScanView.swift; sourceTree = "<group>"; };
+		E95D2ACB2B6B4DC700648DBC /* CapturePreviewView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CapturePreviewView.swift; sourceTree = "<group>"; };
+		E95D2ACC2B6B4DC700648DBC /* RtkSettingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkSettingView.swift; sourceTree = "<group>"; };
+		E95D2ACD2B6B4DC700648DBC /* ObjModelView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
+		E95D2ACE2B6B4DC700648DBC /* LicenseView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
+		E95D2ACF2B6B4DC700648DBC /* MapMarkView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
+		E95D2AD02B6B4DC700648DBC /* StateModelViewer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateModelViewer.swift; sourceTree = "<group>"; };
+		E95D2AD12B6B4DC700648DBC /* SettingTabpageView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingTabpageView.swift; sourceTree = "<group>"; };
+		E95D2AD22B6B4DC700648DBC /* MainView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		E95D2AD32B6B4DC700648DBC /* VersionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionView.swift; sourceTree = "<group>"; };
+		E95D2AD42B6B4DC700648DBC /* PipelineSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PipelineSheetView.swift; sourceTree = "<group>"; };
+		E95D2AD52B6B4DC700648DBC /* MainTagView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTagView.swift; sourceTree = "<group>"; };
+		E95D2AD62B6B4DC700648DBC /* CaptureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LidarScannerDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E963F65C29F23EB100CDE6E1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E963F65E29F23EB100CDE6E1 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -274,6 +318,34 @@
 				0628E0887180FB9A6CEDFCC7 /* Pods-LidarScannerDemoTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		E95D2AC12B6B4DC700648DBC /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */,
+				E95D2AC32B6B4DC700648DBC /* ScanView.swift */,
+				E95D2AC42B6B4DC700648DBC /* ModelViewer.swift */,
+				E95D2AC52B6B4DC700648DBC /* GeoSensorView.swift */,
+				E95D2AC62B6B4DC700648DBC /* CloudButtonView.swift */,
+				E95D2AC72B6B4DC700648DBC /* UploadButtonView.swift */,
+				E95D2AC82B6B4DC700648DBC /* ModelInfoView.swift */,
+				E95D2AC92B6B4DC700648DBC /* MeasureSheetView.swift */,
+				E95D2ACA2B6B4DC700648DBC /* RawScanView.swift */,
+				E95D2ACB2B6B4DC700648DBC /* CapturePreviewView.swift */,
+				E95D2ACC2B6B4DC700648DBC /* RtkSettingView.swift */,
+				E95D2ACD2B6B4DC700648DBC /* ObjModelView.swift */,
+				E95D2ACE2B6B4DC700648DBC /* LicenseView.swift */,
+				E95D2ACF2B6B4DC700648DBC /* MapMarkView.swift */,
+				E95D2AD02B6B4DC700648DBC /* StateModelViewer.swift */,
+				E95D2AD12B6B4DC700648DBC /* SettingTabpageView.swift */,
+				E95D2AD22B6B4DC700648DBC /* MainView.swift */,
+				E95D2AD32B6B4DC700648DBC /* VersionView.swift */,
+				E95D2AD42B6B4DC700648DBC /* PipelineSheetView.swift */,
+				E95D2AD52B6B4DC700648DBC /* MainTagView.swift */,
+				E95D2AD62B6B4DC700648DBC /* CaptureView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 		E963F65029F23EB100CDE6E1 = {
@@ -395,6 +467,8 @@
 				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
 				E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */,
 				E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */,
+				E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */,
+				E95D2AC12B6B4DC700648DBC /* Views */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -765,31 +839,45 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E95D2AE92B6B4DC700648DBC /* PipelineSheetView.swift in Sources */,
 				E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */,
+				E95D2AD72B6B4DC700648DBC /* ObjModelMeasureView.swift in Sources */,
+				E95D2ADF2B6B4DC700648DBC /* RawScanView.swift in Sources */,
 				E94FB8762B34060B00807E86 /* CloudService.swift in Sources */,
 				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
+				E95D2AE72B6B4DC700648DBC /* MainView.swift in Sources */,
 				E963F69329F23F4C00CDE6E1 /* LidarMeshViewModel.swift in Sources */,
 				E9E62AA12AF8D5F4002DFB2C /* MainView.swift in Sources */,
+				E95D2AE22B6B4DC700648DBC /* ObjModelView.swift in Sources */,
 				E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */,
 				E9F43E7D2ADFE9F300C2B5CF /* GeoSensorModel.swift in Sources */,
+				E95D2AE02B6B4DC700648DBC /* CapturePreviewView.swift in Sources */,
+				E95D2ADA2B6B4DC700648DBC /* GeoSensorView.swift in Sources */,
 				E9E62AB72AFB9BAC002DFB2C /* MainTagViewModel.swift in Sources */,
 				E963F69929F23F4C00CDE6E1 /* RawScanManager.swift in Sources */,
 				E9F43E7B2ADFE9D700C2B5CF /* GeoSensorView.swift in Sources */,
+				E95D2ADE2B6B4DC700648DBC /* MeasureSheetView.swift in Sources */,
 				E9E62AA32AF8E902002DFB2C /* MainViewModel.swift in Sources */,
 				E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */,
 				E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */,
+				E95D2AE62B6B4DC700648DBC /* SettingTabpageView.swift in Sources */,
+				E95D2AD82B6B4DC700648DBC /* ScanView.swift in Sources */,
 				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
 				E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */,
 				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
 				E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
+				E95D2AE82B6B4DC700648DBC /* VersionView.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
+				E95D2AC02B6A621400648DBC /* UploadButtonView.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
+				E95D2ADD2B6B4DC700648DBC /* ModelInfoView.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
 				E97053AD2B07421900241635 /* MapMarkView.swift in Sources */,
 				E963F6AA29F391C100CDE6E1 /* ScanView.swift in Sources */,
+				E95D2AE12B6B4DC700648DBC /* RtkSettingView.swift in Sources */,
 				E963F69429F23F4C00CDE6E1 /* ARSCNViewExtention.swift in Sources */,
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */,
@@ -803,16 +891,23 @@
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */,
 				E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */,
+				E95D2ADC2B6B4DC700648DBC /* UploadButtonView.swift in Sources */,
+				E95D2AEA2B6B4DC700648DBC /* MainTagView.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
 				E9E62AA92AFA490D002DFB2C /* SettingTabpageView.swift in Sources */,
 				E9E62AC12AFCD728002DFB2C /* ConfigJsonModel.swift in Sources */,
+				E95D2AE42B6B4DC700648DBC /* MapMarkView.swift in Sources */,
+				E95D2AEB2B6B4DC700648DBC /* CaptureView.swift in Sources */,
 				E9F596812B06EDDD00899219 /* VersionView.swift in Sources */,
+				E95D2AE52B6B4DC700648DBC /* StateModelViewer.swift in Sources */,
 				E9F43E7F2AE0C7AA00C2B5CF /* RtkSettingView.swift in Sources */,
 				E9C836082B4FCFB00022AB18 /* PipelineSheetView.swift in Sources */,
 				E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */,
 				E9E62ABF2AFCC21F002DFB2C /* ScanService.swift in Sources */,
+				E95D2AE32B6B4DC700648DBC /* LicenseView.swift in Sources */,
 				E963F66129F23EB100CDE6E1 /* Experience.rcproject in Sources */,
+				E95D2AD92B6B4DC700648DBC /* ModelViewer.swift in Sources */,
 				E9325BF52A0B237900BD5A05 /* FrameJsonInfo.swift in Sources */,
 				E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */,
 				E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */,
@@ -822,6 +917,7 @@
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
 				E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */,
 				E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */,
+				E95D2ADB2B6B4DC700648DBC /* CloudButtonView.swift in Sources */,
 				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

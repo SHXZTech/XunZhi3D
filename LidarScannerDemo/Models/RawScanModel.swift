@@ -11,6 +11,10 @@ import os
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
 
+enum CaptureState {
+    case wait_upload, uploading, uploaded, wait_process, processing, processed, downloading, downloaded, process_failed, not_created
+}
+
 struct RawScanModel: Identifiable {
     var id:UUID
     var isExist:Bool = false
@@ -22,24 +26,26 @@ struct RawScanModel: Identifiable {
     var frameCount:Int = 0
     var rawMeshURL: URL?
     var scanFolder: URL
+    var zipFileURL: URL?
     var estimatedProcessingTime:Int = 0;
-    var destinationFolder: URL
+    var uploadingProgress: Float = 0.0
+    var downloadingProgress: Float = 0.0
+    var cloudStatus:CaptureState?
     
     
     
     init(id_:UUID)
     {
         id = id_
-        scanFolder = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
-        destinationFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
+        scanFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(id.uuidString)
         loadFromJson()
-        estimatedProcessingTime = frameCount*30;
+        estimatedProcessingTime = frameCount*3 + 120;
+        zipFileURL = scanFolder.appendingPathComponent(id.uuidString+".zip")
     }
     
     mutating func loadFromJson() {
         let fileManager = FileManager.default
         let jsonURL = scanFolder.appendingPathComponent("info.json")
-        //documentsDirectory.appendingPathComponent("\(id.uuidString)/info.json")
         do {
             let jsonData = try Data(contentsOf: jsonURL)
             let jsonObject = try JSONSerialization.jsonObject(with: jsonData, options: [])
@@ -93,37 +99,4 @@ struct RawScanModel: Identifiable {
         return rawMeshURL
     }
     
-    func moveFileFromCacheToDestination() {
-        let sourceFolder = scanFolder
-        let destinationFolder = destinationFolder
-        do {
-            let fileManager = FileManager.default
-            let contents = try fileManager.contentsOfDirectory(at: sourceFolder, includingPropertiesForKeys: nil)
-            // Ensure the destination folder exists
-            if !fileManager.fileExists(atPath: destinationFolder.path) {
-                try fileManager.createDirectory(at: destinationFolder, withIntermediateDirectories: true, attributes: nil)
-            }
-
-            for item in contents {
-                let destinationURL = destinationFolder.appendingPathComponent(item.lastPathComponent)
-
-                do {
-                    // Check if the source item exists before attempting to move
-                    if fileManager.fileExists(atPath: item.path) {
-                        if fileManager.fileExists(atPath: destinationURL.path) {
-                            try fileManager.removeItem(at: destinationURL)
-                        }
-                        try fileManager.moveItem(at: item, to: destinationURL)
-                    } else {
-                        logger.error("Source item does not exist: \(item.lastPathComponent)")
-                    }
-                } catch {
-                    logger.error("Error moving item \(item.lastPathComponent): \(error.localizedDescription)")
-                }
-            }
-            logger.info("All files moved from \(sourceFolder) to \(destinationFolder)")
-        } catch {
-            logger.error("Error listing contents of \(sourceFolder) or creating destination folder: \(error.localizedDescription)")
-        }
-    }
 }

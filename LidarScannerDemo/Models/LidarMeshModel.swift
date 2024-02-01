@@ -91,6 +91,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         setDistanceThreshold(threshold: 10) // set to 10 degree
         isTooFast = false
         captureFrameCount = 0;
+        
     }
     
     /**
@@ -115,6 +116,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             captureFrameCount+=1
         }
     }
+    
     
     /**
      Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds
@@ -203,6 +205,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
         sceneView.addCoaching(active: true)
+        setupBlueBackground();
     }
     
     func dropScan(){
@@ -248,8 +251,17 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             }
         }
         configJsonManager.writeJsonInfo();
-        
+        configJsonManager.moveFileFromCacheToDestination();
         return true
+    }
+    
+    
+    func setupBlueBackground() {
+        let bluePlane = SCNPlane(width: 10000, height: 10000) // Set largeValue to cover the field of view
+        bluePlane.materials.first?.diffuse.contents = UIColor.blue.withAlphaComponent(0.7) // Semi-transparent blue
+        let blueNode = SCNNode(geometry: bluePlane)
+        blueNode.position = SCNVector3(x: 0, y: 0, z: -20) // Position it behind all scanning areas
+        sceneView.scene.rootNode.addChildNode(blueNode)
     }
     
     func makeCoordinator() -> Coordinator { Coordinator(self) }
@@ -258,7 +270,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         configJsonManager.enableRTK()
         configJsonManager.setRtkConfiInfo(rtk_data: rtk_data)
     }
-    
     
     func convertToAsset(meshAnchors: [ARMeshAnchor]) -> MDLAsset? {
         guard let camera = sceneView.session.currentFrame?.camera else {return nil}
@@ -271,12 +282,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         return asset
     }
     
-
-    
-    func savePointCloud(){
-        
-    }
-    
     class Coordinator: NSObject, ARSCNViewDelegate {
         let parent : LidarMeshModel
         
@@ -284,10 +289,33 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             self.parent = parent
         }
         
-        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-            guard let meshAnchor = anchor as? ARMeshAnchor else { return }
-            node.geometry = SCNGeometry.makeFromMeshAnchor(meshAnchor)
+        private func createBlueMaterial() -> SCNMaterial {
+            let blueMaterial = SCNMaterial()
+            blueMaterial.diffuse.contents = UIColor.blue
+            return blueMaterial
         }
+        
+        private func createWhiteMaterial() -> SCNMaterial {
+            let whiteMaterial = SCNMaterial()
+            whiteMaterial.diffuse.contents = UIColor.white
+            return whiteMaterial
+        }
+        
+        private func createTransparentWhiteMaterial() -> SCNMaterial {
+                let whiteMaterial = SCNMaterial()
+                whiteMaterial.diffuse.contents = UIColor.white.withAlphaComponent(0.5) // Adjust alpha for transparency
+                return whiteMaterial
+            }
+        
+        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+                guard let meshAnchor = anchor as? ARMeshAnchor else { return }
+                let geometry = SCNGeometry.makeFromMeshAnchor(meshAnchor)
+                // Create a semi-transparent white material
+                let material = SCNMaterial()
+                material.diffuse.contents = UIColor.white.withAlphaComponent(0.7) // Adjust alpha for desired transparency
+                geometry.materials = [material]
+                node.geometry = geometry
+            }
     }
     
     

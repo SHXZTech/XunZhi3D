@@ -112,10 +112,6 @@ struct CaptureView: View {
                         self.modelURL = modelURL_
                     }
                 }
-        .onDisappear(
-            
-        )
-        //.padding(.vertical, 5)
     }
     
     
@@ -156,7 +152,6 @@ struct CaptureView: View {
     
     private var modelInfoPicker: some View {
         VStack {
-            // Segmented Picker for switching views
             Picker("Select View", selection: $selectedViewMode) {
                 Text(NSLocalizedString("3D Model", comment: "")).tag(ViewMode.model)
                 Text(NSLocalizedString("Info", comment: "")).tag(ViewMode.info)

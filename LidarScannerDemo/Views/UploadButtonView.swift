@@ -1,5 +1,5 @@
 //
-//  CloudButtonView.swift
+//  UploadButtonView.swift
 //  LidarScannerDemo
 //
 //  Created by Tao Hu on 2023/12/28.
@@ -7,8 +7,10 @@
 
 import SwiftUI
 
-struct CloudButtonView: View {
-    @Binding var cloudButtonState: CloudButtonState
+
+
+struct UploadButtonView: View {
+    @Binding var cloudButtonState: CaptureState
     @Binding var uploadProgress: Float
     @Binding var downloadProgress: Float
     var uploadAction: () -> Void
@@ -16,23 +18,11 @@ struct CloudButtonView: View {
         Button(action: uploadAction) {
             VStack(alignment: .center) {
                 HStack {
-                    if cloudButtonState == .downloading || cloudButtonState == .uploading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(0.8)
-                    } else {
-                        Image(systemName: imageForState(cloudButtonState))
-                            .foregroundColor(.white)
-                    }
-                    Text(textForState(cloudButtonState))
+                    Text(textForStateMention(cloudButtonState, upload_progress: uploadProgress,download_progress: downloadProgress))
                         .foregroundStyle(.white)
                 }
-                Text(textForStateMention(cloudButtonState, upload_progress: uploadProgress, download_progress: downloadProgress))
-                    .font(.system(size: 12))
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
             }
-            .frame(width: 140, height: 50)
+            .frame(width: 400, height: 50)
             .background(
                 ZStack {
                     if cloudButtonState == .uploading {
@@ -41,15 +31,15 @@ struct CloudButtonView: View {
                         if cloudButtonState == .downloading{
                             ProgressBackgroundView(progress: downloadProgress)
                         }else{
-                            colorForButton(cloudButtonState)}
+                            colorForUploadButton(cloudButtonState)}
                     }
                 }
             )
             .cornerRadius(15.0)
             .overlay(
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(lineWidth: 0.5)
-                    .foregroundColor(Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0))
+                    .stroke(lineWidth: 0.5)  // You can adjust the line width
+                    .foregroundColor(Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)) // And the color of the border
             )
         }
     }
@@ -64,7 +54,7 @@ struct CloudButtonView: View {
         }
     }
     
-    private func colorForButton(_ state: CloudButtonState)-> Color{
+    private func colorForUploadButton(_ state: CaptureState)-> Color{
         switch state{
         case .wait_upload, .not_created:
             return Color.blue
@@ -83,12 +73,12 @@ struct CloudButtonView: View {
         }
     }
     
-    private func textForStateMention(_ state: CloudButtonState, upload_progress: Float, download_progress: Float)-> String{
+    private func textForStateMention(_ state: CaptureState, upload_progress: Float, download_progress: Float)-> String{
         let formatted_upload_progress = String(format: "%.0f%%", upload_progress * 100) // Format
         let formatted_download_progress = String(format: "%.0f%%", download_progress * 100) // Format
         switch state {
         case .wait_upload, .not_created:
-            return NSLocalizedString("Not Upload yet", comment: "")
+            return NSLocalizedString("Upload & Process", comment: "")
         case .uploading:
             return NSLocalizedString("Uploading to cloud", comment: "") + " \(formatted_upload_progress)"
         case .uploaded, .wait_process, .processing:
@@ -104,12 +94,12 @@ struct CloudButtonView: View {
         }
     }
     
-    private func textForState(_ state: CloudButtonState) -> String {
+    private func textForUploadState(_ state: CaptureState, progress: Float) -> String {
         switch state {
         case .wait_upload, .not_created:
             return NSLocalizedString("Upload", comment: "")
         case .uploading:
-            return NSLocalizedString("Uploading", comment: "")
+            return NSLocalizedString("Uploading", comment: "")+" \(progress)"
         case .uploaded, .wait_process, .processing:
             return NSLocalizedString("Processing", comment: "")
         case .processed:
@@ -140,30 +130,3 @@ struct CloudButtonView: View {
         }
     }
 }
-
-
-struct CloudButtonView_Previews: PreviewProvider {
-    static var previews: some View {
-        CloudButtonView(cloudButtonState: .constant(.uploading), uploadProgress: .constant(0.5), downloadProgress: .constant(0.4),uploadAction: {
-        })
-        .previewLayout(.sizeThatFits) // Optionally, set a layout size for the preview
-    }
-}
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCornerCustomed(radius: radius, corners: corners) )
-    }
-}
-
-struct RoundedCornerCustomed: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
-
-

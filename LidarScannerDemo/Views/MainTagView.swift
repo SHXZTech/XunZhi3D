@@ -26,7 +26,6 @@ struct MainTagView: View {
     }
     
     private var backgroundColor: Color {
-//        Color(red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0) //Gray
         Color.black
     }
     
@@ -53,7 +52,11 @@ struct MainTagView: View {
             .navigationBarHidden(true)
         }
         .fullScreenCover(isPresented: $showCapture) {
-            CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+            if viewModel.isSelectedCaptureProcessed ?? false{
+                CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+            }else{
+                RawScanView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+            }
         }
         .onChange(of: shouldReload) { newValue in
             if newValue {
@@ -73,7 +76,7 @@ struct MainTagView: View {
                HStack {
                    Spacer()
                    Text(NSLocalizedString("SiteSight", comment: ""))
-                       .font(.headline)
+                       .font(.system(size: 20))
                        .foregroundColor(.white)
                    Spacer()
                }
