@@ -11,18 +11,17 @@ import ARKit
 
 struct RawScanView: View {
     var uuid: UUID
-    var rawScanManager: RawScanManager
     var capture_service: CaptureViewService
     @State var uploadProgress: Float = 0.0
     @State var downloadProgress: Float = 0.0
     @Binding var isPresenting: Bool
     
-    @State private var uploadButtonState: CaptureState = .wait_upload
+    @State private var uploadButtonState: CloudButtonState = .wait_upload
     @State private var showingExitConfirmation = false
+    @State private var showCaptureView = false
     
     init(uuid: UUID, isPresenting: Binding<Bool>) {
         self.uuid = uuid
-        self.rawScanManager = RawScanManager(uuid: uuid)
         self.capture_service = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
     }
@@ -36,6 +35,9 @@ struct RawScanView: View {
             controls
                 .padding(.vertical, 20)
         }
+        .fullScreenCover(isPresented: $showCaptureView) {
+                    CaptureView(uuid: uuid, isPresenting: $isPresenting)
+                }
     }
     
     private var header: some View {
@@ -84,7 +86,6 @@ struct RawScanView: View {
                 message: Text(NSLocalizedString("Deleting the draft will delete all collected data", comment: "")),
                 buttons: [
                     .destructive(Text(NSLocalizedString("Delete draft", comment: ""))) {
-                        rawScanManager.deleteProjectFolder()
                         capture_service.deleteScanFolder()
                         isPresenting = false
                     },
@@ -99,8 +100,8 @@ struct RawScanView: View {
     
     private var content: some View {
         Group {
-            if rawScanManager.isRawMeshExist() {
-                ModelViewer(modelURL: rawScanManager.getRawObjURL(), height: UIScreen.main.bounds.height*0.6)
+            if capture_service.isRawMeshExist() {
+                ModelViewer(modelURL: capture_service.getObjModelURL(), height: UIScreen.main.bounds.height*0.6)
             } else {
                 Text(NSLocalizedString("Can not load model", comment: ""))
                     .frame(width: UIScreen.main.bounds.width, height: .infinity)
@@ -112,23 +113,70 @@ struct RawScanView: View {
         VStack {
             UploadButtonView(cloudButtonState: $uploadButtonState, uploadProgress: $uploadProgress, downloadProgress: $downloadProgress, uploadAction: CloudButtonAction)
             HStack() {
-                Text(NSLocalizedString("Image count", comment: "") + ": \(rawScanManager.raw_scan_model.frameCount)")
+                Text(NSLocalizedString("Image count", comment: "") + ": \(capture_service.captureModel.frameCount)")
                     .font(.footnote)
                 Spacer()
-                Text(NSLocalizedString("Estimated time", comment: "") + formatTime(seconds: rawScanManager.raw_scan_model.estimatedProcessingTime))
+                Text(NSLocalizedString("Estimated time", comment: "") + formatTime(seconds: capture_service.captureModel.estimatedProcessingTime))
                     .font(.footnote)
             }
             .padding(.horizontal,40)
         }
-        .onReceive(rawScanManager.$raw_scan_model) { updatedModel in
+        .onReceive(capture_service.$captureModel) { updatedModel in
             uploadButtonState = updatedModel.cloudStatus ?? .wait_upload;
             self.uploadProgress = updatedModel.uploadingProgress
+            self.downloadProgress = updatedModel.downloadingProgress
             print("updatedModel.uploadingProgress = ", updatedModel.uploadingProgress)
+        }
+        .onReceive(capture_service.$updateSyncedModel) { updated in
+            if updated {
+                if capture_service.checkTexturedExist(){
+                    uploadButtonState = .downloaded
+                }
+                self.showCaptureView = true
+                //self.isPresenting = false
+            }
         }
     }
     
     private func CloudButtonAction() {
-        rawScanManager.checkstatusAndUpload()
+        capture_service.cloudButtonActionHandle()
+        switch uploadButtonState {
+        case .wait_upload:
+            break
+        case .uploading:
+//            self.errorMessage = "云端处理中,请耐心等待"
+//            self.showErrorAlert = true
+            break
+        case .uploaded:
+//            self.errorMessage = "已上传云端,排队处理中"
+//            self.showErrorAlert = true
+            break;
+        case .wait_process:
+//            self.errorMessage = "已上传云端,排队处理中"
+//            self.showErrorAlert = true
+            break;
+        case .processing:
+//            self.errorMessage = "云端处理中,请耐心等待"
+//            self.showErrorAlert = true
+            break;
+        case .processed:
+            break;
+        case .downloading:
+//            self.errorMessage = "下载中，请耐心等待"
+//            self.showErrorAlert = true
+            break;
+        case .downloaded:
+//            self.errorMessage = "已同步云端"
+//            self.showErrorAlert = true
+            break;
+        case .process_failed:
+//            self.errorMessage = "处理失败,请重新扫描"
+//            self.showErrorAlert = true
+            break;
+        case .not_created:
+            break;
+            
+        }
     }
     
     func formatTime(seconds: Int) -> String {

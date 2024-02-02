@@ -205,7 +205,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
         sceneView.addCoaching(active: true)
-        setupBlueBackground();
+        //setupBlueBackground();
     }
     
     func dropScan(){
@@ -257,11 +257,11 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     
     func setupBlueBackground() {
-        let bluePlane = SCNPlane(width: 10000, height: 10000) // Set largeValue to cover the field of view
-        bluePlane.materials.first?.diffuse.contents = UIColor.blue.withAlphaComponent(0.7) // Semi-transparent blue
-        let blueNode = SCNNode(geometry: bluePlane)
-        blueNode.position = SCNVector3(x: 0, y: 0, z: -20) // Position it behind all scanning areas
-        sceneView.scene.rootNode.addChildNode(blueNode)
+//        let bluePlane = SCNPlane(width: 10000, height: 10000) // Set largeValue to cover the field of view
+//        bluePlane.materials.first?.diffuse.contents = UIColor.blue.withAlphaComponent(0.7) // Semi-transparent blue
+//        let blueNode = SCNNode(geometry: bluePlane)
+//        blueNode.position = SCNVector3(x: 0, y: 0, z: -20) // Position it behind all scanning areas
+//        sceneView.scene.rootNode.addChildNode(blueNode)
     }
     
     func makeCoordinator() -> Coordinator { Coordinator(self) }

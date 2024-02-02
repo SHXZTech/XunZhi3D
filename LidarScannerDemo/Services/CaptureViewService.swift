@@ -111,6 +111,7 @@ class CaptureViewService: ObservableObject{
                 captureModel.isGPS = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isGpsEnable"] as? Bool == true }) ?? false
                 captureModel.isRTK = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isRtkEnable"] as? Bool == true }) ?? false
                 captureModel.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
+                captureModel.estimatedProcessingTime = captureModel.frameCount*3 + 120;
             }
         } catch {
         }

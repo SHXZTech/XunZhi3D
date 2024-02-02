@@ -11,9 +11,7 @@ import os
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
 
-enum CaptureState {
-    case wait_upload, uploading, uploaded, wait_process, processing, processed, downloading, downloaded, process_failed, not_created
-}
+
 
 struct RawScanModel: Identifiable {
     var id:UUID
@@ -30,7 +28,7 @@ struct RawScanModel: Identifiable {
     var estimatedProcessingTime:Int = 0;
     var uploadingProgress: Float = 0.0
     var downloadingProgress: Float = 0.0
-    var cloudStatus:CaptureState?
+    var cloudStatus:CloudButtonState?
     
     
     

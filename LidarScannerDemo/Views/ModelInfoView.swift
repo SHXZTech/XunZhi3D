@@ -31,7 +31,6 @@ struct ModelInfoView: View {
     // Call this function in the init
     init(capturemodel_: CaptureModel) {
         self.captureModel = capturemodel_
-
         _location = State(initialValue: captureModel.createLocation ?? NSLocalizedString("Unknown location",comment: ""))
           
         // Convert createDate to a displayable format
@@ -139,6 +138,7 @@ struct ModelInfoView: View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
             VStack(alignment: .leading){
+                Spacer().frame(height: 60)
                 createDateAndLocation
                 ImageCountAndSize
                 RtkAndGpsStatus

@@ -10,15 +10,17 @@ import SwiftUI
 
 
 struct UploadButtonView: View {
-    @Binding var cloudButtonState: CaptureState
+    @Binding var cloudButtonState: CloudButtonState
     @Binding var uploadProgress: Float
     @Binding var downloadProgress: Float
+    @State var max_upload_progress: Float = -1.0
+    @State var max_download_progress: Float = -1.0
     var uploadAction: () -> Void
     var body: some View {
         Button(action: uploadAction) {
             VStack(alignment: .center) {
                 HStack {
-                    Text(textForStateMention(cloudButtonState, upload_progress: uploadProgress,download_progress: downloadProgress))
+                    Text(textForStateMention(cloudButtonState, upload_progress: max_upload_progress,download_progress: max_download_progress))
                         .foregroundStyle(.white)
                 }
             }
@@ -26,10 +28,10 @@ struct UploadButtonView: View {
             .background(
                 ZStack {
                     if cloudButtonState == .uploading {
-                        ProgressBackgroundView(progress: uploadProgress)
+                        ProgressBackgroundView(progress: max_upload_progress)
                     } else {
                         if cloudButtonState == .downloading{
-                            ProgressBackgroundView(progress: downloadProgress)
+                            ProgressBackgroundView(progress: max_download_progress)
                         }else{
                             colorForUploadButton(cloudButtonState)}
                     }
@@ -38,9 +40,15 @@ struct UploadButtonView: View {
             .cornerRadius(15.0)
             .overlay(
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(lineWidth: 0.5)  // You can adjust the line width
+                    .stroke(lineWidth: 1)  // You can adjust the line width
                     .foregroundColor(Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)) // And the color of the border
             )
+        }
+        .onChange(of: uploadProgress) { newValue in
+                   max_upload_progress = max(max_upload_progress, newValue)
+               }
+        .onChange(of: downloadProgress) { newValue in
+            max_download_progress = max(max_download_progress, newValue)
         }
     }
     
@@ -54,7 +62,7 @@ struct UploadButtonView: View {
         }
     }
     
-    private func colorForUploadButton(_ state: CaptureState)-> Color{
+    private func colorForUploadButton(_ state: CloudButtonState)-> Color{
         switch state{
         case .wait_upload, .not_created:
             return Color.blue
@@ -73,7 +81,7 @@ struct UploadButtonView: View {
         }
     }
     
-    private func textForStateMention(_ state: CaptureState, upload_progress: Float, download_progress: Float)-> String{
+    private func textForStateMention(_ state: CloudButtonState, upload_progress: Float, download_progress: Float)-> String{
         let formatted_upload_progress = String(format: "%.0f%%", upload_progress * 100) // Format
         let formatted_download_progress = String(format: "%.0f%%", download_progress * 100) // Format
         switch state {
@@ -94,7 +102,7 @@ struct UploadButtonView: View {
         }
     }
     
-    private func textForUploadState(_ state: CaptureState, progress: Float) -> String {
+    private func textForUploadState(_ state: CloudButtonState, progress: Float) -> String {
         switch state {
         case .wait_upload, .not_created:
             return NSLocalizedString("Upload", comment: "")
@@ -110,23 +118,6 @@ struct UploadButtonView: View {
             return NSLocalizedString("Synced", comment: "")
         case .process_failed:
             return NSLocalizedString("Process failed", comment: "")
-        }
-    }
-    
-    private func imageForState(_ state: CloudButtonState) -> String {
-        switch state {
-        case .wait_upload, .not_created:
-            return "icloud.and.arrow.up"
-        case .uploaded, .wait_process, .processing:
-            return "arrow.triangle.2.circlepath.icloud"
-        case .processed, .downloading:
-            return "icloud.and.arrow.down"
-        case .downloaded:
-            return "checkmark.icloud"
-        case .uploading:
-            return "icloud.and.arrow.up.fill"
-        case .process_failed:
-            return "xmark.icloud.fill"
         }
     }
 }
