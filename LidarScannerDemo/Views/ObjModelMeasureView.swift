@@ -34,11 +34,17 @@ struct ObjModelMeasureView: UIViewRepresentable {
         // New pan gesture recognizer for two-finger drag
         let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
         panGesture.minimumNumberOfTouches = 2  // Require two fingers
+        panGesture.maximumNumberOfTouches = 2
         scnView.addGestureRecognizer(panGesture)
+
+        if let gestures = scnView.gestureRecognizers {
+            for gesture in gestures {
+                if let rotationGesture = gesture as? UIRotationGestureRecognizer {
+                    rotationGesture.isEnabled = false
+                }
+            }
+        }
         
-        scnView.allowsCameraControl = true
-        scnView.autoenablesDefaultLighting = true
-        scnView.delegate = context.coordinator
         return scnView
     }
     
@@ -135,26 +141,27 @@ struct ObjModelMeasureView: UIViewRepresentable {
             self.parent = parent
         }
         @objc func handlePan(_ gestureRecognize: UIPanGestureRecognizer) {
-            //TODO bug here, need use camera.projectionmatrix
             guard let scnView = gestureRecognize.view as? SCNView else { return }
-            if gestureRecognize.state == .changed {
+            if gestureRecognize.numberOfTouches == 2 {
                 let translation = gestureRecognize.translation(in: scnView)
-                // Get current camera node
                 if let cameraNode = scnView.pointOfView {
-                    // Calculate the new position of the camera
-                    // Adjust the translation scale factor (100.0 in this case) as needed for sensitivity
+                    // Transform the translation to the camera's orientation
+                    let cameraOrientation = cameraNode.orientation
+                    var translationVector = SCNVector3(-Float(translation.x) / 100.0, Float(translation.y) / 100.0, 0)
+                    translationVector = translationVector.transformed(by: cameraOrientation)
+
+                    // Update camera position
                     let newCameraPosition = SCNVector3(
-                        cameraNode.position.x-Float(translation.x) / 100.0,
-                        cameraNode.position.y+Float(translation.y) / 100.0,
-                        cameraNode.position.z
+                        cameraNode.position.x + translationVector.x,
+                        cameraNode.position.y + translationVector.y,
+                        cameraNode.position.z + translationVector.z
                     )
-                    // Apply new position to camera node
                     cameraNode.position = newCameraPosition
                 }
-                // Reset the translation
                 gestureRecognize.setTranslation(CGPoint.zero, in: scnView)
             }
         }
+
 
         @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
             guard let scnView = gestureRecognize.view as? SCNView,
@@ -437,5 +444,15 @@ extension SCNVector3 {
     }
     func length() -> Float {
         return sqrt(x * x + y * y + z * z)
+    }
+}
+
+
+extension SCNVector3 {
+    func transformed(by orientation: SCNQuaternion) -> SCNVector3 {
+        let glQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
+        let glVector = GLKVector3Make(self.x, self.y, self.z)
+        let transformedVector = GLKQuaternionRotateVector3(glQuaternion, glVector)
+        return SCNVector3(transformedVector.x, transformedVector.y, transformedVector.z)
     }
 }
