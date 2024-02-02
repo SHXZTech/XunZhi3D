@@ -26,8 +26,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
     enum CaptureMode {
-        /// The user has selected manual capture mode, which captures one
-        /// image per button press.
         case lidar
         
         case manual
@@ -84,14 +82,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config)
         sceneView.addCoaching(active: false)
-#if DEBUG
-        //sceneView.debugOptions = [SCNDebugOptions.showFeaturePoints, SCNDebugOptions.showCameras]
-#endif
         setAngleThreshold(threshold: 10) // set to 10cm
         setDistanceThreshold(threshold: 10) // set to 10 degree
         isTooFast = false
         captureFrameCount = 0;
-        
     }
     
     /**
@@ -257,6 +251,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     
     func setupBlueBackground() {
+        //TODO implement the blue background for unscanned area
 //        let bluePlane = SCNPlane(width: 10000, height: 10000) // Set largeValue to cover the field of view
 //        bluePlane.materials.first?.diffuse.contents = UIColor.blue.withAlphaComponent(0.7) // Semi-transparent blue
 //        let blueNode = SCNNode(geometry: bluePlane)

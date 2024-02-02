@@ -140,43 +140,6 @@ struct RawScanView: View {
     
     private func CloudButtonAction() {
         capture_service.cloudButtonActionHandle()
-        switch uploadButtonState {
-        case .wait_upload:
-            break
-        case .uploading:
-//            self.errorMessage = "云端处理中,请耐心等待"
-//            self.showErrorAlert = true
-            break
-        case .uploaded:
-//            self.errorMessage = "已上传云端,排队处理中"
-//            self.showErrorAlert = true
-            break;
-        case .wait_process:
-//            self.errorMessage = "已上传云端,排队处理中"
-//            self.showErrorAlert = true
-            break;
-        case .processing:
-//            self.errorMessage = "云端处理中,请耐心等待"
-//            self.showErrorAlert = true
-            break;
-        case .processed:
-            break;
-        case .downloading:
-//            self.errorMessage = "下载中，请耐心等待"
-//            self.showErrorAlert = true
-            break;
-        case .downloaded:
-//            self.errorMessage = "已同步云端"
-//            self.showErrorAlert = true
-            break;
-        case .process_failed:
-//            self.errorMessage = "处理失败,请重新扫描"
-//            self.showErrorAlert = true
-            break;
-        case .not_created:
-            break;
-            
-        }
     }
     
     func formatTime(seconds: Int) -> String {
