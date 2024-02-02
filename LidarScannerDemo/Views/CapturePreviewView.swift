@@ -59,7 +59,7 @@ struct CapturePreviewView: View {
 struct CapturePreviewView_Previews: PreviewProvider {
     static var previews: some View {
         // Update the preview to use a URL
-        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), dateString: "2023-11-07-13:30", date: Date(), previewImageURL: URL(fileURLWithPath: "path/to/example_preview")))
+        CapturePreviewView(capture: CapturePreviewModel(id: UUID(), dateString: "2023-11-07-13:30", date: Date(), previewImageURL: URL(fileURLWithPath: "path/to/example_preview"), isProcessed: true))
             .previewLayout(.sizeThatFits)
             .padding()
     }

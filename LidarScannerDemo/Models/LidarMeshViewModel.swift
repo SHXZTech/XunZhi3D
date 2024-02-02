@@ -55,5 +55,7 @@ class LidarMeshViewModel: ObservableObject {
         model.setRtkConfigInfo(rtk_data: rtk_data)
     }
     
+    
+    
 }
 

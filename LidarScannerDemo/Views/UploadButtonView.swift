@@ -1,5 +1,5 @@
 //
-//  CloudButtonView.swift
+//  UploadButtonView.swift
 //  LidarScannerDemo
 //
 //  Created by Tao Hu on 2023/12/28.
@@ -7,50 +7,48 @@
 
 import SwiftUI
 
-struct CloudButtonView: View {
+
+
+struct UploadButtonView: View {
     @Binding var cloudButtonState: CloudButtonState
     @Binding var uploadProgress: Float
     @Binding var downloadProgress: Float
+    @State var max_upload_progress: Float = -1.0
+    @State var max_download_progress: Float = -1.0
     var uploadAction: () -> Void
     var body: some View {
         Button(action: uploadAction) {
             VStack(alignment: .center) {
                 HStack {
-                    if cloudButtonState == .downloading || cloudButtonState == .uploading {
-                        ProgressView()
-                            .progressViewStyle(CircularProgressViewStyle(tint: .white))
-                            .scaleEffect(0.8)
-                    } else {
-                        Image(systemName: imageForState(cloudButtonState))
-                            .foregroundColor(.white)
-                    }
-                    Text(textForState(cloudButtonState))
+                    Text(textForStateMention(cloudButtonState, upload_progress: max_upload_progress,download_progress: max_download_progress))
                         .foregroundStyle(.white)
                 }
-                Text(textForStateMention(cloudButtonState, upload_progress: uploadProgress, download_progress: downloadProgress))
-                    .font(.system(size: 12))
-                    .foregroundStyle(.white)
-                    .multilineTextAlignment(.center)
             }
-            .frame(width: 140, height: 50)
+            .frame(width: 400, height: 50)
             .background(
                 ZStack {
                     if cloudButtonState == .uploading {
-                        ProgressBackgroundView(progress: uploadProgress)
+                        ProgressBackgroundView(progress: max_upload_progress)
                     } else {
                         if cloudButtonState == .downloading{
-                            ProgressBackgroundView(progress: downloadProgress)
+                            ProgressBackgroundView(progress: max_download_progress)
                         }else{
-                            colorForButton(cloudButtonState)}
+                            colorForUploadButton(cloudButtonState)}
                     }
                 }
             )
             .cornerRadius(15.0)
             .overlay(
                 RoundedRectangle(cornerRadius: 15)
-                    .stroke(lineWidth: 0.5)
-                    .foregroundColor(Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0))
+                    .stroke(lineWidth: 1)  // You can adjust the line width
+                    .foregroundColor(Color(.sRGB, red: 0.2, green: 0.2, blue: 0.2, opacity: 1.0)) // And the color of the border
             )
+        }
+        .onChange(of: uploadProgress) { newValue in
+                   max_upload_progress = max(max_upload_progress, newValue)
+               }
+        .onChange(of: downloadProgress) { newValue in
+            max_download_progress = max(max_download_progress, newValue)
         }
     }
     
@@ -64,7 +62,7 @@ struct CloudButtonView: View {
         }
     }
     
-    private func colorForButton(_ state: CloudButtonState)-> Color{
+    private func colorForUploadButton(_ state: CloudButtonState)-> Color{
         switch state{
         case .wait_upload, .not_created:
             return Color.blue
@@ -88,7 +86,7 @@ struct CloudButtonView: View {
         let formatted_download_progress = String(format: "%.0f%%", download_progress * 100) // Format
         switch state {
         case .wait_upload, .not_created:
-            return NSLocalizedString("Not Upload yet", comment: "")
+            return NSLocalizedString("Upload & Process", comment: "")
         case .uploading:
             return NSLocalizedString("Uploading to cloud", comment: "") + " \(formatted_upload_progress)"
         case .uploaded, .wait_process, .processing:
@@ -104,12 +102,12 @@ struct CloudButtonView: View {
         }
     }
     
-    private func textForState(_ state: CloudButtonState) -> String {
+    private func textForUploadState(_ state: CloudButtonState, progress: Float) -> String {
         switch state {
         case .wait_upload, .not_created:
             return NSLocalizedString("Upload", comment: "")
         case .uploading:
-            return NSLocalizedString("Uploading", comment: "")
+            return NSLocalizedString("Uploading", comment: "")+" \(progress)"
         case .uploaded, .wait_process, .processing:
             return NSLocalizedString("Processing", comment: "")
         case .processed:
@@ -122,48 +120,4 @@ struct CloudButtonView: View {
             return NSLocalizedString("Process failed", comment: "")
         }
     }
-    
-    private func imageForState(_ state: CloudButtonState) -> String {
-        switch state {
-        case .wait_upload, .not_created:
-            return "icloud.and.arrow.up"
-        case .uploaded, .wait_process, .processing:
-            return "arrow.triangle.2.circlepath.icloud"
-        case .processed, .downloading:
-            return "icloud.and.arrow.down"
-        case .downloaded:
-            return "checkmark.icloud"
-        case .uploading:
-            return "icloud.and.arrow.up.fill"
-        case .process_failed:
-            return "xmark.icloud.fill"
-        }
-    }
 }
-
-
-struct CloudButtonView_Previews: PreviewProvider {
-    static var previews: some View {
-        CloudButtonView(cloudButtonState: .constant(.uploading), uploadProgress: .constant(0.5), downloadProgress: .constant(0.4),uploadAction: {
-        })
-        .previewLayout(.sizeThatFits) // Optionally, set a layout size for the preview
-    }
-}
-
-extension View {
-    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape( RoundedCornerCustomed(radius: radius, corners: corners) )
-    }
-}
-
-struct RoundedCornerCustomed: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-    
-    func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
-        return Path(path.cgPath)
-    }
-}
-
-

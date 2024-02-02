@@ -119,9 +119,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
                 saveRtkDataToInfoJson(rtkData: rtkData, DataFolder: rtkFolder)
             }
     }
-    
 
-    
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
         // Handle error as needed
         switch error {

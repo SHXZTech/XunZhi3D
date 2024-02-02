@@ -43,9 +43,15 @@ struct CaptureView: View {
             Color.black
             VStack {
                 header
-                modelInfoPicker
-                content
-                    .ignoresSafeArea()
+                ZStack{
+                    content
+                        .ignoresSafeArea(.all)
+                    VStack{
+                        modelInfoPicker
+                            .padding(.vertical,15)
+                        Spacer()
+                    }
+                }
             }
         }
         .navigationBarTitle("", displayMode: .inline)
@@ -112,10 +118,6 @@ struct CaptureView: View {
                         self.modelURL = modelURL_
                     }
                 }
-        .onDisappear(
-            
-        )
-        //.padding(.vertical, 5)
     }
     
     
@@ -156,13 +158,15 @@ struct CaptureView: View {
     
     private var modelInfoPicker: some View {
         VStack {
-            // Segmented Picker for switching views
             Picker("Select View", selection: $selectedViewMode) {
                 Text(NSLocalizedString("3D Model", comment: "")).tag(ViewMode.model)
                 Text(NSLocalizedString("Info", comment: "")).tag(ViewMode.info)
             }
+            .background(Color.gray)
+            .cornerRadius(8)
+            .pickerStyle(SegmentedPickerStyle())
             .pickerStyle(.segmented)
-            .frame(width: 200, height: 40)
+            .frame(width: 200, height: 50)
         }
     }
     
