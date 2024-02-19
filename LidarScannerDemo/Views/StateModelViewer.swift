@@ -99,11 +99,11 @@ struct StateModelViewer: View {
                 Image(systemName: "ruler")
                     .font(.title)
                     .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.black.opacity(0.4)))
+                    .background(Circle().fill(Color.white.opacity(0.4)))
                     .foregroundColor(.white)
             }
             Text(NSLocalizedString("Measure", comment: "measure"))
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .font(.footnote)
         }
         .padding(.bottom, 10)
@@ -116,11 +116,11 @@ struct StateModelViewer: View {
                 Image(systemName: "skew") // or 􁤓
                     .font(.title)
                     .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.black.opacity(0.4)))
+                    .background(Circle().fill(Color.white.opacity(0.4)))
                     .foregroundColor(.white)
             }
             Text(NSLocalizedString("Pipeline", comment: "measure"))
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .font(.footnote)
         }
         .padding(.bottom, 10)

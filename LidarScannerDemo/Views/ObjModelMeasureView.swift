@@ -30,6 +30,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
         // Existing tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
+        scnView.backgroundColor = UIColor.black
         
         // New pan gesture recognizer for two-finger drag
         let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
@@ -140,17 +141,15 @@ struct ObjModelMeasureView: UIViewRepresentable {
         init(_ parent: ObjModelMeasureView) {
             self.parent = parent
         }
+        
         @objc func handlePan(_ gestureRecognize: UIPanGestureRecognizer) {
             guard let scnView = gestureRecognize.view as? SCNView else { return }
             if gestureRecognize.numberOfTouches == 2 {
                 let translation = gestureRecognize.translation(in: scnView)
                 if let cameraNode = scnView.pointOfView {
-                    // Transform the translation to the camera's orientation
                     let cameraOrientation = cameraNode.orientation
                     var translationVector = SCNVector3(-Float(translation.x) / 100.0, Float(translation.y) / 100.0, 0)
                     translationVector = translationVector.transformed(by: cameraOrientation)
-
-                    // Update camera position
                     let newCameraPosition = SCNVector3(
                         cameraNode.position.x + translationVector.x,
                         cameraNode.position.y + translationVector.y,

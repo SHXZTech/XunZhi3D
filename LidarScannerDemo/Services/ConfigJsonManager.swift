@@ -231,10 +231,8 @@ struct ConfigJsonManager{
                 if let submeshes = mesh.submeshes as? [MDLSubmesh] {
                     for mdlSubmesh in submeshes {
                         let material = MDLMaterial(name: "customMaterial", scatteringFunction: MDLScatteringFunction())
-                        // Define gray color using CGColor
-                        let grayValue: CGFloat = 0.5  // Gray (midway between black and white)
-                        let cgColor = CGColor(gray: grayValue, alpha: 1.0)
-                        // Convert CGColor to float3 for MDLMaterialProperty
+                        let grayValue: CGFloat = 0.5
+                        let cgColor = CGColor(red: 0.4, green: 0.5, blue: 0.1, alpha: 1.0)
                         let colorVector = SIMD3<Float>(Float(cgColor.components![0]),
                                                        Float(cgColor.components![0]),
                                                        Float(cgColor.components![0]))
