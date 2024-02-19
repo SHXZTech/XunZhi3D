@@ -23,21 +23,17 @@ struct ObjModelMeasureView: UIViewRepresentable {
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = context.coordinator
-        //scnView.scene = createScene()
         createScene { loadedScene in
                 scnView.scene = loadedScene
             }
-        // Existing tap gesture recognizer
         let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
         scnView.addGestureRecognizer(tapGesture)
         scnView.backgroundColor = UIColor.black
-        
         // New pan gesture recognizer for two-finger drag
         let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
         panGesture.minimumNumberOfTouches = 2  // Require two fingers
         panGesture.maximumNumberOfTouches = 2
         scnView.addGestureRecognizer(panGesture)
-
         if let gestures = scnView.gestureRecognizers {
             for gesture in gestures {
                 if let rotationGesture = gesture as? UIRotationGestureRecognizer {
@@ -45,7 +41,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 }
             }
         }
-        
         return scnView
     }
     
@@ -379,6 +374,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     node.removeFromParentNode()
                 }
                 self.pipelineNodes.removeAll()
+                self.pipelinePoints.removeAll()
                 self.parent.isPipelineDrawFirstPoint = false
                 self.parent.isPipelineReturnOneStep = false
                 self.parent.isExportImage = false
