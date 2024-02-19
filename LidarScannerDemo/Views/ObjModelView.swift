@@ -10,6 +10,7 @@ struct ObjModelView: UIViewRepresentable {
         scnView.scene = createScene()
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true // Automatically adds a light source
+        scnView.backgroundColor = UIColor.black
         return scnView
     }
 

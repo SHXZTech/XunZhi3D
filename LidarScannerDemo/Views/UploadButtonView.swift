@@ -13,8 +13,8 @@ struct UploadButtonView: View {
     @Binding var cloudButtonState: CloudButtonState
     @Binding var uploadProgress: Float
     @Binding var downloadProgress: Float
-    @State var max_upload_progress: Float = -1.0
-    @State var max_download_progress: Float = -1.0
+    @State var max_upload_progress: Float = 0
+    @State var max_download_progress: Float = 0
     var uploadAction: () -> Void
     var body: some View {
         Button(action: uploadAction) {

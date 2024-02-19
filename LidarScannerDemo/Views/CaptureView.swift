@@ -96,7 +96,6 @@ struct CaptureView: View {
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
-            
         } 
         .onReceive(captureService.$captureModel) { updatedModel in
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
