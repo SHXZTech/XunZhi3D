@@ -36,7 +36,7 @@ struct StateModelViewer: View {
             ToolBarView()
             if isModelLoading {
                 ProgressView()
-                    .progressViewStyle(CircularProgressViewStyle(tint: Color.black))
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .foregroundColor(.mint)
                     .scaleEffect(1)
             }
