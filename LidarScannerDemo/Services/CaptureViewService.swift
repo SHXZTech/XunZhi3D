@@ -219,12 +219,13 @@ class CaptureViewService: ObservableObject{
     }
     
     func cloudButtonActionHandle() {
-        loadCloudStatus()
         switch captureModel.cloudStatus {
         case .not_created:
             createAndautoUploading()
         case .wait_upload:
-            DispatchQueue.main.async {}
+            DispatchQueue.main.async { [self] in
+                captureModel.cloudStatus = .uploading
+            }
             uploadCapture()
         case .uploading:
             break
@@ -396,6 +397,7 @@ class CaptureViewService: ObservableObject{
     func uploadCapture(completion: @escaping (Bool, String) -> Void) {
         DispatchQueue.main.async {
             self.captureModel.cloudStatus = .uploading
+            self.captureModel.uploadingProgress = 0.00
         }
         zipCapture { zipResult in
             switch zipResult {
@@ -472,26 +474,36 @@ extension String {
 
 extension CaptureViewService {
     func zipCapture(completion: @escaping (Result<URL, Error>) -> Void) {
-        guard let scan_folder = captureModel.scanFolder else {
-            completion(.failure(CaptureViewServiceError.folderNotFound))
-            return
-        }
-        guard let zipFileURL = captureModel.zipFileURL else{
-            completion(.failure(CaptureViewServiceError.folderNotFound))
-            return
-        }
-        do {
-            let fileManager = FileManager.default
-            if fileManager.fileExists(atPath: zipFileURL.path) {
-                try fileManager.removeItem(at: zipFileURL)
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            guard let scanFolder = self?.captureModel.scanFolder else {
+                DispatchQueue.main.async {
+                    completion(.failure(CaptureViewServiceError.folderNotFound))
+                }
+                return
             }
-            try Zip.zipFiles(paths: [scan_folder], zipFilePath: zipFileURL, password: nil, progress: nil)
-            completion(.success(zipFileURL))
-        } catch {
-            completion(.failure(error))
+            guard let zipFileURL = self?.captureModel.zipFileURL else {
+                DispatchQueue.main.async {
+                    completion(.failure(CaptureViewServiceError.folderNotFound))
+                }
+                return
+            }
+            do {
+                let fileManager = FileManager.default
+                if fileManager.fileExists(atPath: zipFileURL.path) {
+                    try fileManager.removeItem(at: zipFileURL)
+                }
+                try Zip.zipFiles(paths: [scanFolder], zipFilePath: zipFileURL, password: nil, progress: nil)
+                DispatchQueue.main.async {
+                    completion(.success(zipFileURL))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
         }
     }
-    
+
 }
 
 enum CaptureViewServiceError: Error {

@@ -125,7 +125,6 @@ struct RawScanView: View {
             uploadButtonState = updatedModel.cloudStatus ?? .wait_upload;
             self.uploadProgress = updatedModel.uploadingProgress
             self.downloadProgress = updatedModel.downloadingProgress
-            print("updatedModel.uploadingProgress = ", updatedModel.uploadingProgress)
         }
         .onReceive(capture_service.$updateSyncedModel) { updated in
             if updated {
@@ -133,7 +132,6 @@ struct RawScanView: View {
                     uploadButtonState = .downloaded
                 }
                 self.showCaptureView = true
-                //self.isPresenting = false
             }
         }
     }
