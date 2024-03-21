@@ -42,8 +42,8 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             } catch {
                 ntripConfigModel.ip = "203.107.45.154"
                 ntripConfigModel.port = 8002
-                ntripConfigModel.account = "qxxsrz001"
-                ntripConfigModel.password = "572a728"
+                ntripConfigModel.account = "qxxzuu001"
+                ntripConfigModel.password = "b3b6a33"
                 ntripConfigModel.mountPointList = ["AUTO"]
                 ntripConfigModel.currentMountPoint = "AUTO"
                 ntripConfigModel.isCertified = false
