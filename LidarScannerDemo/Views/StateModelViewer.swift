@@ -19,6 +19,8 @@ struct StateModelViewer: View {
     @State var isPipelineReturnOneStep = false
     @State var pipelineExportedImage:Image?
     @State var isExportImage = false
+    @State var isExportCAD = false
+    @State var CAD_url: URL?
     
     @State var isModelLoading = true;
     
@@ -27,7 +29,7 @@ struct StateModelViewer: View {
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading)
+                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
@@ -58,7 +60,9 @@ struct StateModelViewer: View {
                 isDrawFirstPoint: $isPipelineDrawFirstPoint,
                 isReturnOneStep: $isPipelineReturnOneStep,
                 exportedImage: $pipelineExportedImage,
-                isExportImage: $isExportImage
+                isExportImage: $isExportImage,
+                isExportCAD: $isExportCAD,
+                exportedCADURL: $CAD_url
             )
             .presentationDetents(Set(determineSheetHeight()))
             .presentationCornerRadius(0)
