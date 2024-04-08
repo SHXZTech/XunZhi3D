@@ -7,18 +7,24 @@
 
 import UIKit
 import SwiftUI
+import FirebaseCore
 
+// Ensure you're using @main only once and on the correct AppDelegate declaration.
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        // Configure Firebase only once
+        FirebaseApp.configure()
+        
+        // Set up the localization
         LocalizationManager.shared.setLanguage(LocalizationManager.shared.getCurrentLanguage())
+        
         // Create the SwiftUI view that provides the window contents.
         let contentView = ContentView()
-
+        
         // Use a UIHostingController as window root view controller.
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = UIHostingController(rootView: contentView)
