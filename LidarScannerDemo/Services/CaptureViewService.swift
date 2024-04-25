@@ -436,6 +436,7 @@ class CaptureViewService: ObservableObject{
                 do {
                     try FileManager.default.createDirectory(at: textureExtractDestinationURL, withIntermediateDirectories: true, attributes: nil)
                     try Zip.unzipFile(destinationFileURL, destination: textureExtractDestinationURL, overwrite: true, password: nil, progress: nil)
+                    try FileManager.default.removeItem(at: destinationFileURL)
                     DispatchQueue.main.async {[weak self] in
                         completion(true, "File downloaded and extracted successfully")
                     }
