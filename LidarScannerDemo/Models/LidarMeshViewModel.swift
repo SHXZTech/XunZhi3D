@@ -20,13 +20,19 @@ class LidarMeshViewModel: ObservableObject {
      
     init(uuid: UUID) {
         model = LidarMeshModel(uuid_: uuid)
+        
         model.$isTooFast
-                   .receive(on: RunLoop.main)
-                   .assign(to: \.isTooFast, on: self)
-                   .store(in: &cancellables)
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isTooFast in
+                self?.isTooFast = isTooFast
+            }
+            .store(in: &cancellables)
+
         model.$captureFrameCount
             .receive(on: RunLoop.main)
-            .assign(to: \.capturedFrameCount, on: self)
+            .sink { [weak self] captureFrameCount in
+                self?.capturedFrameCount = captureFrameCount
+            }
             .store(in: &cancellables)
     }
     
@@ -53,6 +59,8 @@ class LidarMeshViewModel: ObservableObject {
     func setRtkConfigInfo(rtk_data: RtkModel){
         model.setRtkConfigInfo(rtk_data: rtk_data)
     }
+    
+    
     
 }
 

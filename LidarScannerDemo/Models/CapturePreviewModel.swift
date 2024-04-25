@@ -12,4 +12,5 @@ struct CapturePreviewModel: Identifiable {
     var dateString: String
     var date: Date
     var previewImageURL: URL
+    var isProcessed: Bool
 }

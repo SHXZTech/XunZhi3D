@@ -97,6 +97,7 @@
 "Uploading to cloud" = "正在上传...";
 "Cloud processing" = "云端处理中...";
 "Cloud processed"="云端处理已完成";
+"Processed"= "已处理";
 "Downloading" = "下载中";
 "Downloaded" = "已下载";
 "Connect server fail" = "连接服务器失败";
@@ -113,3 +114,4 @@
 "Export pipeline" = "导出轴侧图";
 "tap pipeline to measure" = "请点击模型中的管道";
 "Feedback" = "意见反馈";
+"SiteSight" = "巡智三维";

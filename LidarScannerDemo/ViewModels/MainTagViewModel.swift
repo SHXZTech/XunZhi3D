@@ -12,6 +12,7 @@ class MainTagViewModel: ObservableObject {
     @Published var captures = [CapturePreviewModel]()
 
     var selectedCaptureUUID: UUID?
+    var isSelectedCaptureProcessed: Bool?
     
     init(captures: [CapturePreviewModel] = []) {
         self.captures = captures
@@ -20,6 +21,11 @@ class MainTagViewModel: ObservableObject {
     
     func selectCapture(uuid: UUID){
         self.selectedCaptureUUID = uuid
+        if let selectedCapture = captures.first(where: { $0.id == uuid }) {
+                self.isSelectedCaptureProcessed = selectedCapture.isProcessed
+            } else {
+                self.isSelectedCaptureProcessed = false
+            }
     }
 
     func loadCaptures() {
@@ -40,7 +46,10 @@ class MainTagViewModel: ObservableObject {
                     formatter.dateFormat = NSLocalizedString("capture_preview_date_fromat", comment: "")
                     let dateString = formatter.string(from: creationDate)
                     let previewImageURL = directory.appendingPathComponent("cover.png")
-                    let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL)
+                    let texturedMeshName = "textured.obj"
+                    let texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(texturedMeshName)").path
+                    let isProcessed = fileManager.fileExists(atPath: texturedMeshPath)
+                    let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL, isProcessed: isProcessed)
                     tempCaptures.append(newCapture)
                 }
             }

@@ -14,9 +14,9 @@ import UIKit
 
 
 
-  
+
 struct ScanView: View {
-    let uuid: UUID //= UUID()
+    let uuid: UUID
     @StateObject var lidarMeshViewModel: LidarMeshViewModel
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State private var showTooFastWarning: Bool = false
@@ -24,12 +24,14 @@ struct ScanView: View {
     @State var scanStatus = "ready"
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
+    @Binding var isRawScanPresenting: Bool
     
     @State var frameNumber: Int = 0;
     
     
-    init(uuid: UUID,isPresenting: Binding<Bool>) {
+    init(uuid: UUID,isPresenting: Binding<Bool>, isRawScanPresenting: Binding<Bool>) {
         self._isPresenting = isPresenting
+        self._isRawScanPresenting = isRawScanPresenting
         self.uuid = uuid
         self._lidarMeshViewModel = StateObject(wrappedValue: LidarMeshViewModel(uuid: uuid))
     }
@@ -40,8 +42,6 @@ struct ScanView: View {
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
-    
-    
     
     var body: some View {
         VStack {
@@ -64,6 +64,7 @@ struct ScanView: View {
                         }
                         scanButton
                     }
+                    .padding(.bottom, 65)
                 }
                 VStack{
                     if showTooFastWarning {
@@ -74,12 +75,10 @@ struct ScanView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $navigateToRawScanViewer) {
-            RawScanView(uuid: uuid, isPresenting: $isPresenting)
-        }
         .onChange(of: scanStatus) { newStatus in
             if newStatus == "finished" {
-                navigateToRawScanViewer = true
+                isRawScanPresenting = true
+                isPresenting = false
             }
         }
         .onReceive(lidarMeshViewModel.$isTooFast) { isTooFast in
@@ -138,9 +137,9 @@ struct ScanView: View {
             lidarMeshViewModel.dropScan()
             isPresenting = false
         }) {
-            Image(systemName: "xmark.circle.fill")
-                .foregroundColor(.red)
-                .font(.title)
+            Image(systemName: "xmark")
+                .foregroundColor(.white)
+                .font(.system(size: 18))
         }
         .padding(.horizontal, 25)
     }
@@ -148,6 +147,8 @@ struct ScanView: View {
     private var scanArea: some View {
         ZStack {
             LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .ignoresSafeArea()
             GeoSensorView(viewModel: rtkViewModel)
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
                 .padding(20)
@@ -183,7 +184,6 @@ struct ScanView: View {
         }
     }
     
-    
     private func scanAction() {
         switch scanStatus {
         case "ready":
@@ -212,7 +212,7 @@ struct LidarMeshViewContainer: UIViewRepresentable {
         LidarViewModel.sceneView.delegate = context.coordinator
         let config = ARWorldTrackingConfiguration()
         LidarViewModel.sceneView.session.run(config)
-        LidarViewModel.sceneView.addCoaching()
+        LidarViewModel.sceneView.addCoaching(active: false)
         LidarViewModel.sceneView.debugOptions = []
         return LidarViewModel.sceneView
     }

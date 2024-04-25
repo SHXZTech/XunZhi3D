@@ -1,5 +1,7 @@
 import SwiftUI
 import SceneKit
+import SceneKit.ModelIO
+
 
 struct ObjModelMeasureView: UIViewRepresentable {
     var objURL: URL
@@ -14,25 +16,37 @@ struct ObjModelMeasureView: UIViewRepresentable {
     @Binding var isExportImage:Bool
     @Binding var exportedImage: Image?
     
+    @Binding var isModelLoading:Bool;
+    
+    @Binding var isExportCAD:Bool;
+    @Binding var exported_CAD_url: URL?
+    
+    
     func makeUIView(context: Context) -> SCNView {
         let scnView = SCNView()
-        scnView.scene = createScene()
-        
-        // Existing tap gesture recognizer
-        let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
-        scnView.addGestureRecognizer(tapGesture)
-        
-        // New pan gesture recognizer for two-finger drag
-        let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
-        panGesture.minimumNumberOfTouches = 2  // Require two fingers
-        scnView.addGestureRecognizer(panGesture)
-        
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
         scnView.delegate = context.coordinator
+        createScene { loadedScene in
+                scnView.scene = loadedScene
+            }
+        let tapGesture = UITapGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handleTap(_:)))
+        scnView.addGestureRecognizer(tapGesture)
+        scnView.backgroundColor = UIColor.black
+        // New pan gesture recognizer for two-finger drag
+        let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
+        panGesture.minimumNumberOfTouches = 2  // Require two fingers
+        panGesture.maximumNumberOfTouches = 2
+        scnView.addGestureRecognizer(panGesture)
+        if let gestures = scnView.gestureRecognizers {
+            for gesture in gestures {
+                if let rotationGesture = gesture as? UIRotationGestureRecognizer {
+                    rotationGesture.isEnabled = false
+                }
+            }
+        }
         return scnView
     }
-    
     
     func updateUIView(_ uiView: SCNView, context: Context) {
         // MeasureMent Mode
@@ -61,7 +75,26 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     }
                     self.isExportImage = false
                 }
+                //TODO Adding export cad file function
+               
+                
             }
+            
+            if isExportCAD {
+                DispatchQueue.main.async {
+                    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let dxfFilePath = documentsDirectory.appendingPathComponent("pipeline.dxf").path
+                    // Assuming exportCombinedDXF() creates a single DXF with both views
+                    context.coordinator.exportCombinedDXF(to: dxfFilePath)
+                    
+                    // Now that the file has been created, convert the file path to a URL
+                    self.exported_CAD_url = URL(fileURLWithPath: dxfFilePath)
+                    
+                    // Reset the flag to indicate the export process is complete
+                    self.isExportCAD = false
+                }
+            }
+
         } else {
             context.coordinator.clearPipelines()
         }
@@ -95,19 +128,26 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return renderer
     }
     
-    
-    private func createScene() -> SCNScene {
-        let scene = SCNScene()
-        // Load the 3D model from the provided URL
-        if let modelScene = try? SCNScene(url: objURL, options: nil) {
-            let node = SCNNode()
-            for childNode in modelScene.rootNode.childNodes {
-                node.addChildNode(childNode)
+    private func createScene(completion: @escaping (SCNScene) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            let scene = SCNScene()
+            if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
+                let node = SCNNode()
+                var nodeCount = 1
+
+                for childNode in modelScene.rootNode.childNodes {
+                    node.addChildNode(childNode)
+                    nodeCount += 1
+                }
+                scene.rootNode.addChildNode(node)
             }
-            scene.rootNode.addChildNode(node)
+            DispatchQueue.main.async {
+                completion(scene)
+                self.isModelLoading = false
+            }
         }
-        return scene
     }
+
     
     class Coordinator: NSObject , SCNSceneRendererDelegate {
         var parent: ObjModelMeasureView
@@ -116,34 +156,30 @@ struct ObjModelMeasureView: UIViewRepresentable {
         var measurementNodes: [SCNNode] = []
         var pipelineNodes: [SCNNode] = []
         var pipelinePoints: [SCNVector3] = []
-        
         init(_ parent: ObjModelMeasureView) {
             self.parent = parent
         }
+        
         @objc func handlePan(_ gestureRecognize: UIPanGestureRecognizer) {
-            //TODO bug here, need use camera.projectionmatrix
             guard let scnView = gestureRecognize.view as? SCNView else { return }
-            if gestureRecognize.state == .changed {
+            if gestureRecognize.numberOfTouches == 2 {
                 let translation = gestureRecognize.translation(in: scnView)
-                // Get current camera node
                 if let cameraNode = scnView.pointOfView {
-                    // Calculate the new position of the camera
-                    // Adjust the translation scale factor (100.0 in this case) as needed for sensitivity
+                    let cameraOrientation = cameraNode.orientation
+                    var translationVector = SCNVector3(-Float(translation.x) / 100.0, Float(translation.y) / 100.0, 0)
+                    translationVector = translationVector.transformed(by: cameraOrientation)
                     let newCameraPosition = SCNVector3(
-                        cameraNode.position.x-Float(translation.x) / 100.0,
-                        cameraNode.position.y+Float(translation.y) / 100.0,
-                        cameraNode.position.z
+                        cameraNode.position.x + translationVector.x,
+                        cameraNode.position.y + translationVector.y,
+                        cameraNode.position.z + translationVector.z
                     )
-                    // Apply new position to camera node
                     cameraNode.position = newCameraPosition
                 }
-
-                // Reset the translation
                 gestureRecognize.setTranslation(CGPoint.zero, in: scnView)
             }
         }
 
-        
+
         @objc func handleTap(_ gestureRecognize: UIGestureRecognizer) {
             guard let scnView = gestureRecognize.view as? SCNView,
                   let scene = scnView.scene else { return }
@@ -153,7 +189,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             
             if let hitResult = hitResults.first {
                 let tappedPoint = hitResult.worldCoordinates
-                
                 // Handle measure mode
                 if parent.isMeasureActive {
                     if firstPoint == nil {
@@ -196,8 +231,295 @@ struct ObjModelMeasureView: UIViewRepresentable {
         func exportCurrentView(_ scnView: SCNView) -> UIImage? {
             // Take a snapshot of the current view, including the 3D model and pipeline
             let snapshot = scnView.snapshot()
+            if let cameraNode = scnView.pointOfView {
+                    // Extrinsic parameters: Camera's position and orientation
+                    let position = cameraNode.position // SCNVector3
+                    let orientation = cameraNode.orientation // SCNQuaternion
+
+                    // Intrinsic parameters can be approximated from the camera node's properties
+                    // Note: SceneKit's SCNCamera does not directly expose fx, fy, but you can use fieldOfView and aspect ratio
+                    if let camera = cameraNode.camera {
+                        let fieldOfView = camera.fieldOfView // Y-axis field of view in degrees
+                        let aspectRatio = scnView.bounds.size.width / scnView.bounds.size.height
+                        // Assuming a simple pinhole camera model to relate FOV and focal length
+                        let fy = 0.5 / tan(fieldOfView * 0.5 * Double.pi / 180) * Double(scnView.bounds.size.height)
+                        let fx = fy * Double(aspectRatio) // Assuming square pixels (fx = fy * aspect ratio)
+
+                        // Print extrinsic parameters
+                        print("Camera Position: \(position)")
+                        print("Camera Orientation (quaternion): \(orientation)")
+
+                        // Print intrinsic parameters
+                        print("Field of View (degrees): \(fieldOfView)")
+                        print("Aspect Ratio: \(aspectRatio)")
+                        print("Focal Length (fx, fy) approximated: (\(fx), \(fy))")
+                    }
+                }
             return snapshot
         }
+             
+        func exportCombinedDXF(to filePath: String) {
+        let pipelinePoints = self.pipelinePoints
+        var dxfContent = """
+        0
+        SECTION
+        2
+        HEADER
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        TABLES
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        BLOCKS
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        ENTITIES
+        """
+
+        // Define an offset for the side view to separate it from the top-down view
+        let sideViewOffsetX: Float = 5.0  // Adjust as needed for layout
+
+        // Generate top-down view content with distances
+        for (index, point) in pipelinePoints.enumerated() where index < pipelinePoints.count - 1 {
+            let startPoint = point
+            let endPoint = pipelinePoints[index + 1]
+            let distance = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2) + pow(endPoint.z - startPoint.z, 2))
+            let distanceText = "\(String(format: "%.2f", distance))m"
+
+            // Top-down view lines
+            dxfContent += """
+            \n0
+            LINE
+            8
+            TopDownView
+            10
+            \(startPoint.x)
+            20
+            \(startPoint.z)
+            30
+            0
+            11
+            \(endPoint.x)
+            21
+            \(endPoint.z)
+            31
+            0
+            """
+
+            // Top-down view distance annotations
+            let midPointX = (startPoint.x + endPoint.x) / 2
+            let midPointZ = (startPoint.z + endPoint.z) / 2
+            let textOffsetZ = (startPoint.z < endPoint.z) ? -0.5 : 0.5  // Adjust the offset based on the line direction
+            dxfContent += """
+            \n0
+            TEXT
+            8
+            TopDownView
+            10
+            \(midPointX)
+            20
+            \(Float(midPointZ) + Float(textOffsetZ))
+            30
+            0
+            40
+            0.2
+            1
+            \(distanceText)
+            """
+        }
+
+        // Determine the position for the "Top View" text label
+        let topViewLabelX = pipelinePoints[0].x
+        let topViewLabelZ = pipelinePoints.map { $0.z }.min()! - 1.5  // Adjust the offset to avoid overlapping
+
+        // Add "Top View" text label
+        dxfContent += """
+            \n0
+            TEXT
+            8
+            0
+            10
+            \(topViewLabelX)
+            20
+            \(topViewLabelZ)
+            30
+            0
+            40
+            0.5
+            1
+            Top View
+            """
+
+        // Generate side view content with distances
+        for (index, point) in pipelinePoints.enumerated() where index < pipelinePoints.count - 1 {
+            let startPoint = transformPointForAxialSideView(point)
+            let endPoint = transformPointForAxialSideView(pipelinePoints[index + 1])
+
+            // Side view lines with offset
+            dxfContent += """
+            \n0
+            LINE
+            8
+            SideView
+            10
+            \(startPoint.x + sideViewOffsetX)
+            20
+            \(startPoint.y)
+            30
+            0
+            11
+            \(endPoint.x + sideViewOffsetX)
+            21
+            \(endPoint.y)
+            31
+            0
+            """
+            let startPoint_3D = point;
+            let endPoint_3D = pipelinePoints[index + 1];
+            // Side view distance annotations with offset
+            let distance_side = sqrt(pow(endPoint_3D.x - startPoint_3D.x, 2)+pow(endPoint_3D.y - startPoint_3D
+                .y, 2)+pow(endPoint_3D.z - startPoint_3D.z, 2))
+            
+            let distanceText = "\(String(format: "%.2f", distance_side))m"
+            let midPointXOffset = (startPoint.x + endPoint.x) / 2 + sideViewOffsetX
+            let midPointY = (startPoint.y + endPoint.y) / 2
+            let textOffsetX = (startPoint.x < endPoint.x) ? 0.5 : -0.5  // Adjust the offset based on the line direction
+            dxfContent += """
+            \n0
+            TEXT
+            8
+            SideView
+            10
+            \(Float(midPointXOffset) + Float(textOffsetX))
+            20
+            \(midPointY)
+            30
+            0
+            40
+            0.2
+            1
+            \(distanceText)
+            """
+        }
+
+        // Determine the position for the "Side View" text label
+        let sideViewStartPoint = transformPointForAxialSideView(pipelinePoints[0])
+        let sideViewLabelX = sideViewStartPoint.x + sideViewOffsetX
+        let sideViewLabelY = pipelinePoints.map { transformPointForAxialSideView($0).y }.max()! + 1.5  // Adjust the offset to avoid overlapping
+
+        // Add "Side View" text label
+        dxfContent += """
+            \n0
+            TEXT
+            8
+            0
+            10
+            \(sideViewLabelX)
+            20
+            \(sideViewLabelY)
+            30
+            0
+            40
+            0.5
+            1
+            Side View
+            """
+
+        // Close the DXF sections
+        dxfContent += "\n0\nENDSEC\n0\nEOF"
+
+        // Write the combined DXF content to a file
+        do {
+            try dxfContent.write(toFile: filePath, atomically: true, encoding: .utf8)
+            print("Combined DXF file successfully written to \(filePath)")
+        } catch {
+            print("Failed to write combined DXF file: \(error)")
+        }
+        }
+        
+      
+        private func deg2rad(_ degree: Float) -> Float {
+            return degree * .pi / 180
+        }
+
+        private func crossProduct(_ a: SCNVector3, _ b: SCNVector3) -> SCNVector3 {
+            return SCNVector3(
+                a.y * b.z - a.z * b.y,
+                a.z * b.x - a.x * b.z,
+                a.x * b.y - a.y * b.x
+            )
+        }
+
+        private func dotProduct(_ a: SCNVector3, _ b: SCNVector3) -> Float {
+            return a.x * b.x + a.y * b.y + a.z * b.z
+        }
+
+        private func normalize(_ vector: SCNVector3) -> SCNVector3 {
+            let length = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z)
+            return SCNVector3(vector.x / length, vector.y / length, vector.z / length)
+        }
+
+        private func transformPointForAxialSideView(_ point: SCNVector3) -> (x: Float, y: Float) {
+            // Adjust point coordinates: x = x, y = -z, z = y
+            let adjustedPoint = SCNVector3(point.x, -point.z, point.y)
+
+            // Define the plane normal vector
+            let normal = SCNVector3(-sin(deg2rad(45)), -sin(deg2rad(45)), cos(deg2rad(45)))
+
+            // Normalize the plane normal vector
+            let normalizedNormal = normalize(normal)
+
+            // Define the basis vectors for the projected plane
+            let basisU = normalize(crossProduct(normalizedNormal, SCNVector3(0, 0, 1)))
+            let basisV = normalize(crossProduct(normalizedNormal, basisU))
+
+            // Project the adjusted point onto the plane
+            let u = -dotProduct(adjustedPoint, basisU)
+            let v = -dotProduct(adjustedPoint, basisV)
+
+            return (u, v)
+        }
+
+       // Matrix multiplication (matrix * matrix)
+        func multiplyMatrices(A: [[Float]], B: [[Float]]) -> [[Float]] {
+            let rowsA = A.count
+            let colsA = A[0].count
+            let colsB = B[0].count
+
+            var result = Array(repeating: Array(repeating: Float(0), count: colsB), count: rowsA) // Explicitly use Float(0)
+              
+            for i in 0..<rowsA {
+                for j in 0..<colsB {
+                    for k in 0..<colsA {
+                        result[i][j] += A[i][k] * B[k][j]
+                    }
+                }
+            }
+            return result
+        }
+
+        // Matrix-vector multiplication
+        func multiplyMatrixAndVector(matrix: [[Float]], vector: [Float]) -> [Float] {
+            var result: [Float] = Array(repeating: 0.0, count: matrix.count)
+            for i in 0..<matrix.count {
+                for j in 0..<vector.count {
+                    result[i] += matrix[i][j] * vector[j]
+                }
+            }
+            return result
+        }
+
+        // Helper functions to perform matrix-vector and matrix-matrix multiplication would be needed here
+
         
         func removeLastPipelineNode() {
             guard !pipelinePoints.isEmpty else { return }
@@ -250,7 +572,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             if self.parent.isMeasureActive{
                 measurementNodes.append(sphereNode)
             }
-            
         }
         
         private func addLineBetween(_ start: SCNVector3, _ end: SCNVector3, to scene: SCNScene) {
@@ -309,38 +630,28 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 label_size = 10
                 color_ = UIColor.systemYellow
             }
-            
             // Create the text geometry with specified font size
             let textGeometry = SCNText(string: text, extrusionDepth: 0.1)
             textGeometry.font = UIFont.systemFont(ofSize: label_size) // Set your desired font size here
-            
             // Set the color of the text
             let textMaterial = SCNMaterial()
             textMaterial.diffuse.contents = color_ // Set your desired text color here
             textGeometry.materials = [textMaterial]
-            
             let textNode = SCNNode(geometry: textGeometry)
-            
             // Set the scale for the text - adjust as needed
             let textScale: CGFloat = 0.02
             textNode.scale = SCNVector3(textScale, textScale, textScale)
             textNode.position = SCNVector3(0, 0, 0)
-            
             labelNode.addChildNode(textNode)
-            
             // Position the label node
             labelNode.position = position
-            
             // Apply a billboard constraint to make the label always face the camera
             labelNode.constraints = [SCNBillboardConstraint()]
-            
             // Set rendering order
             labelNode.renderingOrder = 1000
             textNode.renderingOrder = 1000
-            
             // Ensure the label is always rendered on top
             labelNode.geometry?.firstMaterial?.writesToDepthBuffer = false
-            
             scene.rootNode.addChildNode(labelNode)
             if self.parent.isMeasureActive{
                 measurementNodes.append(labelNode)
@@ -350,9 +661,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                 pipelineNodes.append(labelNode)
                 pipelineNodes.append(textNode)
             }
-            
         }
-        
         
         func clearMeasurements() {
             DispatchQueue.main.async {
@@ -375,6 +684,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     node.removeFromParentNode()
                 }
                 self.pipelineNodes.removeAll()
+                self.pipelinePoints.removeAll()
                 self.parent.isPipelineDrawFirstPoint = false
                 self.parent.isPipelineReturnOneStep = false
                 self.parent.isExportImage = false
@@ -439,5 +749,15 @@ extension SCNVector3 {
     }
     func length() -> Float {
         return sqrt(x * x + y * y + z * z)
+    }
+}
+
+
+extension SCNVector3 {
+    func transformed(by orientation: SCNQuaternion) -> SCNVector3 {
+        let glQuaternion = GLKQuaternionMake(orientation.x, orientation.y, orientation.z, orientation.w)
+        let glVector = GLKVector3Make(self.x, self.y, self.z)
+        let transformedVector = GLKQuaternionRotateVector3(glQuaternion, glVector)
+        return SCNVector3(transformedVector.x, transformedVector.y, transformedVector.z)
     }
 }

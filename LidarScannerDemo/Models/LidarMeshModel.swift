@@ -11,6 +11,7 @@ import ARKit
 import SceneKit
 import os
 import SwiftUI
+import Combine
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
@@ -26,8 +27,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     private var status:String? // The current status of the scan ("ready", "scanning", or "finished").
     
     enum CaptureMode {
-        /// The user has selected manual capture mode, which captures one
-        /// image per button press.
         case lidar
         
         case manual
@@ -37,11 +36,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     }
     
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
-    private var overlapThreshold:Int=90 // The overlap between the current frame and the previous frame.
     
-    private var distanceThreshold:Int=10// The distance between the device and the object being scanned.
+    private var distanceThreshold:Int=50// The distance between the device and the object being scanned.
     
-    private var angleThreshold:Int=10 // The angle of the device relative to the object being scanned.
+    private var angleThreshold:Int=20 // The angle of the device relative to the object being scanned.
     
     private var speedThreshold:Float = 0.5 // over speed threshold, present warnnign
     
@@ -83,12 +81,9 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let config = ARWorldTrackingConfiguration()
         sceneView.session.delegate = self
         sceneView.session.run(config)
-        sceneView.addCoaching()
-#if DEBUG
-        //sceneView.debugOptions = [SCNDebugOptions.showFeaturePoints, SCNDebugOptions.showCameras]
-#endif
-        setAngleThreshold(threshold: 10) // set to 10cm
-        setDistanceThreshold(threshold: 10) // set to 10 degree
+        sceneView.addCoaching(active: false)
+        setAngleThreshold(threshold: angleThreshold) // set to 10cm
+        setDistanceThreshold(threshold: distanceThreshold) // set to 10 degree
         isTooFast = false
         captureFrameCount = 0;
     }
@@ -116,6 +111,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         }
     }
     
+    
     /**
      Check whether the new frame is acceptable, it checks whether the overlap/distance/angle between frames meet the threholds
      
@@ -126,9 +122,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         // Overlap check
         // Distance & angle check
         let distance = Int(calculatePoseDistance(currentFramePose: currentFramePose, previousFramePose: previousFramePose)*100);
-        //trans distance in cm
         let angleDiff = Int(calculatePoseAngle(currentFramePose: currentFramePose, previousFramePose: previousFramePose)/Float.pi * 180);
         if(distance >= distanceThreshold || angleDiff >= angleThreshold){
+            print("distance:", distance)
+            print("angleDiff:", angleDiff)
             return true
         }
         return false
@@ -202,6 +199,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
+        sceneView.addCoaching(active: true)
     }
     
     func dropScan(){
@@ -209,6 +207,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             sceneView.session.pause()
             configJsonManager.deleteProjecFolder()
         }
+        sceneView.session.pause()
     }
     
     func createStartScanConfig() ->ARConfiguration{
@@ -247,8 +246,18 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             }
         }
         configJsonManager.writeJsonInfo();
-        
+        configJsonManager.moveFileFromCacheToDestination();
         return true
+    }
+    
+    
+    func setupBlueBackground() {
+        //TODO implement the blue background for unscanned area
+//        let bluePlane = SCNPlane(width: 10000, height: 10000) // Set largeValue to cover the field of view
+//        bluePlane.materials.first?.diffuse.contents = UIColor.blue.withAlphaComponent(0.7) // Semi-transparent blue
+//        let blueNode = SCNNode(geometry: bluePlane)
+//        blueNode.position = SCNVector3(x: 0, y: 0, z: -20) // Position it behind all scanning areas
+//        sceneView.scene.rootNode.addChildNode(blueNode)
     }
     
     func makeCoordinator() -> Coordinator { Coordinator(self) }
@@ -257,7 +266,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         configJsonManager.enableRTK()
         configJsonManager.setRtkConfiInfo(rtk_data: rtk_data)
     }
-    
     
     func convertToAsset(meshAnchors: [ARMeshAnchor]) -> MDLAsset? {
         guard let camera = sceneView.session.currentFrame?.camera else {return nil}
@@ -270,9 +278,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         return asset
     }
     
-
-    
-    func savePointCloud(){
+    func releaseModel(){
         
     }
     
@@ -283,10 +289,33 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             self.parent = parent
         }
         
-        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
-            guard let meshAnchor = anchor as? ARMeshAnchor else { return }
-            node.geometry = SCNGeometry.makeFromMeshAnchor(meshAnchor)
+        private func createBlueMaterial() -> SCNMaterial {
+            let blueMaterial = SCNMaterial()
+            blueMaterial.diffuse.contents = UIColor.blue
+            return blueMaterial
         }
+        
+        private func createWhiteMaterial() -> SCNMaterial {
+            let whiteMaterial = SCNMaterial()
+            whiteMaterial.diffuse.contents = UIColor.white
+            return whiteMaterial
+        }
+        
+        private func createTransparentWhiteMaterial() -> SCNMaterial {
+                let whiteMaterial = SCNMaterial()
+                whiteMaterial.diffuse.contents = UIColor.white.withAlphaComponent(0.5) // Adjust alpha for transparency
+                return whiteMaterial
+            }
+        
+        func renderer(_ renderer: SCNSceneRenderer, didUpdate node: SCNNode, for anchor: ARAnchor) {
+                guard let meshAnchor = anchor as? ARMeshAnchor else { return }
+                let geometry = SCNGeometry.makeFromMeshAnchor(meshAnchor)
+                // Create a semi-transparent white material
+                let material = SCNMaterial()
+                material.diffuse.contents = UIColor.white.withAlphaComponent(0.7) // Adjust alpha for desired transparency
+                geometry.materials = [material]
+                node.geometry = geometry
+            }
     }
     
     

@@ -53,5 +53,8 @@ struct CaptureModel: Identifiable {
     var rtkDataArray : [RTKdata] = []
     var zipFileURL: URL?
     var isZipFileExist: Bool = false;
+    var uploadingProgress: Float = 0.0
+    var downloadingProgress: Float = 0.0
+    var estimatedProcessingTime: Int = 0
 }
 

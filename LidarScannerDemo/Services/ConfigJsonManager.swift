@@ -59,7 +59,6 @@ struct ConfigJsonManager{
         uuid = uuid_;
         let baseDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0]
         dataFolder = baseDirectory.appendingPathComponent(uuid.uuidString)
-        //dataFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
         pointCloudName = "rawPointCloud.ply";
         meshModelName = "rawMesh.obj";
         jsonInfoName = "info.json"
@@ -104,25 +103,18 @@ struct ConfigJsonManager{
     
     mutating func updateCover() {
         do {
-            // Get all image files in the dataFolder/images directory
             let imagesDirectoryURL = dataFolder.appendingPathComponent("images")
             let imageFiles = try FileManager.default.contentsOfDirectory(atPath: imagesDirectoryURL.path)
-            // Select the first image file
             if let firstImageFile = imageFiles.first {
                 let firstImageURL = imagesDirectoryURL.appendingPathComponent(firstImageFile)
-                // Load the image
                 if let image = UIImage(contentsOfFile: firstImageURL.path) {
-                    // Resize the image to 720x720
                     let resizedImage = resizeImage(image: image, targetSize: CGSize(width: 720, height: 720))
-                    // Convert the resized image to data
                     if let imageData = resizedImage.pngData() {
-                        // Write the data to cover.png
                         let coverURL = dataFolder.appendingPathComponent("cover.png")
                         if FileManager.default.fileExists(atPath: coverURL.path) {
                             try FileManager.default.removeItem(at: coverURL)
                         }
                         try imageData.write(to: coverURL)
-                        logger.info("Cover image updated successfully with \(firstImageFile)")
                     }
                 }
             } else {
@@ -239,10 +231,8 @@ struct ConfigJsonManager{
                 if let submeshes = mesh.submeshes as? [MDLSubmesh] {
                     for mdlSubmesh in submeshes {
                         let material = MDLMaterial(name: "customMaterial", scatteringFunction: MDLScatteringFunction())
-                        // Define gray color using CGColor
-                        let grayValue: CGFloat = 0.5  // Gray (midway between black and white)
-                        let cgColor = CGColor(gray: grayValue, alpha: 1.0)
-                        // Convert CGColor to float3 for MDLMaterialProperty
+                        let grayValue: CGFloat = 0.5
+                        let cgColor = CGColor(red: 0.4, green: 0.5, blue: 0.1, alpha: 1.0)
                         let colorVector = SIMD3<Float>(Float(cgColor.components![0]),
                                                        Float(cgColor.components![0]),
                                                        Float(cgColor.components![0]))
@@ -256,8 +246,6 @@ struct ConfigJsonManager{
                 }
             }
         }
-
-        // Export the asset with the modified materials
         try asset.export(to: rawMeshObjURL)
     }
 
@@ -317,6 +305,36 @@ struct ConfigJsonManager{
             } catch let error {
                 logger.error("Error writing file: \(error.localizedDescription)")
             }
+        }
+    }
+    
+    func moveFileFromCacheToDestination() {
+        let sourceFolder = dataFolder
+        let destinationFolder = dataDestinationFolder
+        do {
+            let fileManager = FileManager.default
+            let contents = try fileManager.contentsOfDirectory(at: sourceFolder, includingPropertiesForKeys: nil)
+            if !fileManager.fileExists(atPath: destinationFolder.path) {
+                try fileManager.createDirectory(at: destinationFolder, withIntermediateDirectories: true, attributes: nil)
+            }
+            for item in contents {
+                let destinationURL = destinationFolder.appendingPathComponent(item.lastPathComponent)
+                do {
+                    if fileManager.fileExists(atPath: item.path) {
+                        if fileManager.fileExists(atPath: destinationURL.path) {
+                            try fileManager.removeItem(at: destinationURL)
+                        }
+                        try fileManager.moveItem(at: item, to: destinationURL)
+                    } else {
+                        logger.error("Source item does not exist: \(item.lastPathComponent)")
+                    }
+                } catch {
+                    logger.error("Error moving item \(item.lastPathComponent): \(error.localizedDescription)")
+                }
+            }
+            logger.info("All files moved from \(sourceFolder) to \(destinationFolder)")
+        } catch {
+            logger.error("Error listing contents of \(sourceFolder) or creating destination folder: \(error.localizedDescription)")
         }
     }
 }

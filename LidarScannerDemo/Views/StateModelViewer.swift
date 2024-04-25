@@ -1,11 +1,10 @@
 import SwiftUI
 import SceneKit
 
-@available(iOS 16.4, *)
 struct StateModelViewer: View {
     @Binding var modelURL: URL?
+    @Binding var isModelViewerTop: Bool
     
-
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
     
@@ -19,22 +18,38 @@ struct StateModelViewer: View {
     @State var isPipelineReturnOneStep = false
     @State var pipelineExportedImage:Image?
     @State var isExportImage = false
+    @State var isExportCAD = false
+    @State var CAD_url: URL?
+    
+    @State var isModelLoading = true;
     
     
     @State private var viewKey = UUID()
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage)
+                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
                 Text(NSLocalizedString("No model to display", comment: ""))
             }
             ToolBarView()
+            if isModelLoading {
+                ProgressView()
+                    .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
+                    .foregroundColor(.mint)
+                    .scaleEffect(1)
+            }
         }
         .onChange(of: modelURL) { _ in
             viewKey = UUID()  // Change the key to force a refresh
+        }
+        .onChange(of: isModelViewerTop) { newValue in
+            if newValue == false {
+                showPipelineSheet = false
+                showMeasureSheet = false
+            }
         }
         .sheet(isPresented: $showMeasureSheet) {
             MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit) // Your custom bottom sheet view
@@ -50,20 +65,21 @@ struct StateModelViewer: View {
                 isDrawFirstPoint: $isPipelineDrawFirstPoint,
                 isReturnOneStep: $isPipelineReturnOneStep,
                 exportedImage: $pipelineExportedImage,
-                isExportImage: $isExportImage
+                isExportImage: $isExportImage,
+                isExportCAD: $isExportCAD,
+                exportedCADURL: $CAD_url
             )
             .presentationDetents(Set(determineSheetHeight()))
             .presentationCornerRadius(0)
             .presentationBackgroundInteraction(.enabled(upThrough: determineSheetHeight().first!))
         }
+        
     }
     
     private func determineSheetHeight() -> [PresentationDetent] {
         if pipelineExportedImage != nil {
-            // Return a larger height when there is an exported image
             return [.large] // Adjust the height as needed
         } else {
-            // Return the default height when there is no image
             return [.height(130)] // Default height
         }
     }
@@ -86,16 +102,17 @@ struct StateModelViewer: View {
     private func measureButtonView() -> some View {
         VStack {
             Button(action: {
+                showPipelineSheet = false;
                 showMeasureSheet.toggle()
             }) {
                 Image(systemName: "ruler")
                     .font(.title)
                     .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.black.opacity(0.4)))
+                    .background(Circle().fill(Color.white.opacity(0.4)))
                     .foregroundColor(.white)
             }
             Text(NSLocalizedString("Measure", comment: "measure"))
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .font(.footnote)
         }
         .padding(.bottom, 10)
@@ -104,20 +121,19 @@ struct StateModelViewer: View {
         VStack {
             Button(action: {
                 showPipelineSheet.toggle()
+                showMeasureSheet = false
             }) {
-                Image(systemName: "skew") // or 􁤓
+                Image(systemName: "skew")
                     .font(.title)
                     .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.black.opacity(0.4)))
+                    .background(Circle().fill(Color.white.opacity(0.4)))
                     .foregroundColor(.white)
             }
             Text(NSLocalizedString("Pipeline", comment: "measure"))
-                .foregroundColor(.black)
+                .foregroundColor(.white)
                 .font(.footnote)
         }
         .padding(.bottom, 10)
     }
-    
-    
 }
 

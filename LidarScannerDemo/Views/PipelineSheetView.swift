@@ -7,6 +7,11 @@ struct PipelineSheetView: View {
     @Binding var isReturnOneStep: Bool
     @Binding var exportedImage: Image? // Binding for the exported image
     @Binding var isExportImage: Bool
+    @Binding var isExportCAD:Bool
+    
+    @Binding var exportedCADURL: URL?
+    @State private var isShareSheetPresented = false
+    
     var body: some View {
         VStack {
             // Header with buttons
@@ -19,24 +24,44 @@ struct PipelineSheetView: View {
                         .resizable()
                         .scaledToFit()
                         .frame(maxWidth: .infinity, maxHeight: 600)
-                    Button(action: {
-                        if let uiImage = convertToUIImage(image) {
-                            ImageSaver.shared.saveToPhotoLibrary(image: uiImage)
-                        }
-                        isPresented = false
-                    }) {
-                        HStack {
+                    HStack{
+                        Button(action: {
+                            if let uiImage = convertToUIImage(image) {
+                                ImageSaver.shared.saveToPhotoLibrary(image: uiImage)
+                            }
+                            //isPresented = false
+                        }) {
+                            HStack {
                                 Image(systemName: "square.and.arrow.down.fill")
                                     .font(.title2)
                                 Text("保存至相册")
-                                    .font(.title2)
-                        }
-                        .frame(maxWidth: 200)
+                                    .font(.system(size: 15))
+                            }
+                            .frame(width: 120, height: 40)
                             .foregroundColor(.white)
-                            .padding(.vertical,20)
-                            .background(Color.green)
+                            .padding(20)
+                            .background(Color.blue)
                             .cornerRadius(16)
+                        }
+                        Spacer()
+                        Button(action: {
+                            self.isExportCAD = true
+                            self.isShareSheetPresented = true
+                        }) {
+                            HStack {
+                                Image(systemName: "square.and.arrow.up.fill")
+                                    .font(.title2)
+                                Text("导出CAD")
+                                    .font(.system(size: 15))
+                            }
+                            .frame(width: 120, height: 40)
+                            .foregroundColor(.white)
+                            .padding(20)
+                            .background(Color.blue)
+                            .cornerRadius(16)
+                        }
                     }
+                    .padding(.horizontal, 40)
                 }
             } else if(isDrawFirstPoint) {
                 Button(action: {
@@ -56,6 +81,11 @@ struct PipelineSheetView: View {
                 Text(NSLocalizedString("tap pipeline to measure", comment: ""))
             }
             Spacer()
+        }
+        .sheet(isPresented: $isShareSheetPresented) {
+            if let url = exportedCADURL {
+                ShareSheet(activityItems: [url])
+            }
         }
     }
     
@@ -124,10 +154,10 @@ class ImageSaver: NSObject {
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
             // Handle the error case
-            print("Error saving image: \(error.localizedDescription)")
+            return
         } else {
             // Image was saved successfully
-            print("Image saved successfully")
+            return;
         }
     }
 }
