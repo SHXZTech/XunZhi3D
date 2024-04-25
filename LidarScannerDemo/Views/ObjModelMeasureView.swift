@@ -2,6 +2,7 @@ import SwiftUI
 import SceneKit
 import SceneKit.ModelIO
 
+
 struct ObjModelMeasureView: UIViewRepresentable {
     var objURL: URL
     @Binding var isMeasureActive: Bool
@@ -16,6 +17,9 @@ struct ObjModelMeasureView: UIViewRepresentable {
     @Binding var exportedImage: Image?
     
     @Binding var isModelLoading:Bool;
+    
+    @Binding var isExportCAD:Bool;
+    @Binding var exported_CAD_url: URL?
     
     
     func makeUIView(context: Context) -> SCNView {
@@ -71,7 +75,26 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     }
                     self.isExportImage = false
                 }
+                //TODO Adding export cad file function
+               
+                
             }
+            
+            if isExportCAD {
+                DispatchQueue.main.async {
+                    let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                    let dxfFilePath = documentsDirectory.appendingPathComponent("pipeline.dxf").path
+                    // Assuming exportCombinedDXF() creates a single DXF with both views
+                    context.coordinator.exportCombinedDXF(to: dxfFilePath)
+                    
+                    // Now that the file has been created, convert the file path to a URL
+                    self.exported_CAD_url = URL(fileURLWithPath: dxfFilePath)
+                    
+                    // Reset the flag to indicate the export process is complete
+                    self.isExportCAD = false
+                }
+            }
+
         } else {
             context.coordinator.clearPipelines()
         }
@@ -208,8 +231,295 @@ struct ObjModelMeasureView: UIViewRepresentable {
         func exportCurrentView(_ scnView: SCNView) -> UIImage? {
             // Take a snapshot of the current view, including the 3D model and pipeline
             let snapshot = scnView.snapshot()
+            if let cameraNode = scnView.pointOfView {
+                    // Extrinsic parameters: Camera's position and orientation
+                    let position = cameraNode.position // SCNVector3
+                    let orientation = cameraNode.orientation // SCNQuaternion
+
+                    // Intrinsic parameters can be approximated from the camera node's properties
+                    // Note: SceneKit's SCNCamera does not directly expose fx, fy, but you can use fieldOfView and aspect ratio
+                    if let camera = cameraNode.camera {
+                        let fieldOfView = camera.fieldOfView // Y-axis field of view in degrees
+                        let aspectRatio = scnView.bounds.size.width / scnView.bounds.size.height
+                        // Assuming a simple pinhole camera model to relate FOV and focal length
+                        let fy = 0.5 / tan(fieldOfView * 0.5 * Double.pi / 180) * Double(scnView.bounds.size.height)
+                        let fx = fy * Double(aspectRatio) // Assuming square pixels (fx = fy * aspect ratio)
+
+                        // Print extrinsic parameters
+                        print("Camera Position: \(position)")
+                        print("Camera Orientation (quaternion): \(orientation)")
+
+                        // Print intrinsic parameters
+                        print("Field of View (degrees): \(fieldOfView)")
+                        print("Aspect Ratio: \(aspectRatio)")
+                        print("Focal Length (fx, fy) approximated: (\(fx), \(fy))")
+                    }
+                }
             return snapshot
         }
+             
+        func exportCombinedDXF(to filePath: String) {
+        let pipelinePoints = self.pipelinePoints
+        var dxfContent = """
+        0
+        SECTION
+        2
+        HEADER
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        TABLES
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        BLOCKS
+        0
+        ENDSEC
+        0
+        SECTION
+        2
+        ENTITIES
+        """
+
+        // Define an offset for the side view to separate it from the top-down view
+        let sideViewOffsetX: Float = 5.0  // Adjust as needed for layout
+
+        // Generate top-down view content with distances
+        for (index, point) in pipelinePoints.enumerated() where index < pipelinePoints.count - 1 {
+            let startPoint = point
+            let endPoint = pipelinePoints[index + 1]
+            let distance = sqrt(pow(endPoint.x - startPoint.x, 2) + pow(endPoint.y - startPoint.y, 2) + pow(endPoint.z - startPoint.z, 2))
+            let distanceText = "\(String(format: "%.2f", distance))m"
+
+            // Top-down view lines
+            dxfContent += """
+            \n0
+            LINE
+            8
+            TopDownView
+            10
+            \(startPoint.x)
+            20
+            \(startPoint.z)
+            30
+            0
+            11
+            \(endPoint.x)
+            21
+            \(endPoint.z)
+            31
+            0
+            """
+
+            // Top-down view distance annotations
+            let midPointX = (startPoint.x + endPoint.x) / 2
+            let midPointZ = (startPoint.z + endPoint.z) / 2
+            let textOffsetZ = (startPoint.z < endPoint.z) ? -0.5 : 0.5  // Adjust the offset based on the line direction
+            dxfContent += """
+            \n0
+            TEXT
+            8
+            TopDownView
+            10
+            \(midPointX)
+            20
+            \(Float(midPointZ) + Float(textOffsetZ))
+            30
+            0
+            40
+            0.2
+            1
+            \(distanceText)
+            """
+        }
+
+        // Determine the position for the "Top View" text label
+        let topViewLabelX = pipelinePoints[0].x
+        let topViewLabelZ = pipelinePoints.map { $0.z }.min()! - 1.5  // Adjust the offset to avoid overlapping
+
+        // Add "Top View" text label
+        dxfContent += """
+            \n0
+            TEXT
+            8
+            0
+            10
+            \(topViewLabelX)
+            20
+            \(topViewLabelZ)
+            30
+            0
+            40
+            0.5
+            1
+            Top View
+            """
+
+        // Generate side view content with distances
+        for (index, point) in pipelinePoints.enumerated() where index < pipelinePoints.count - 1 {
+            let startPoint = transformPointForAxialSideView(point)
+            let endPoint = transformPointForAxialSideView(pipelinePoints[index + 1])
+
+            // Side view lines with offset
+            dxfContent += """
+            \n0
+            LINE
+            8
+            SideView
+            10
+            \(startPoint.x + sideViewOffsetX)
+            20
+            \(startPoint.y)
+            30
+            0
+            11
+            \(endPoint.x + sideViewOffsetX)
+            21
+            \(endPoint.y)
+            31
+            0
+            """
+            let startPoint_3D = point;
+            let endPoint_3D = pipelinePoints[index + 1];
+            // Side view distance annotations with offset
+            let distance_side = sqrt(pow(endPoint_3D.x - startPoint_3D.x, 2)+pow(endPoint_3D.y - startPoint_3D
+                .y, 2)+pow(endPoint_3D.z - startPoint_3D.z, 2))
+            
+            let distanceText = "\(String(format: "%.2f", distance_side))m"
+            let midPointXOffset = (startPoint.x + endPoint.x) / 2 + sideViewOffsetX
+            let midPointY = (startPoint.y + endPoint.y) / 2
+            let textOffsetX = (startPoint.x < endPoint.x) ? 0.5 : -0.5  // Adjust the offset based on the line direction
+            dxfContent += """
+            \n0
+            TEXT
+            8
+            SideView
+            10
+            \(Float(midPointXOffset) + Float(textOffsetX))
+            20
+            \(midPointY)
+            30
+            0
+            40
+            0.2
+            1
+            \(distanceText)
+            """
+        }
+
+        // Determine the position for the "Side View" text label
+        let sideViewStartPoint = transformPointForAxialSideView(pipelinePoints[0])
+        let sideViewLabelX = sideViewStartPoint.x + sideViewOffsetX
+        let sideViewLabelY = pipelinePoints.map { transformPointForAxialSideView($0).y }.max()! + 1.5  // Adjust the offset to avoid overlapping
+
+        // Add "Side View" text label
+        dxfContent += """
+            \n0
+            TEXT
+            8
+            0
+            10
+            \(sideViewLabelX)
+            20
+            \(sideViewLabelY)
+            30
+            0
+            40
+            0.5
+            1
+            Side View
+            """
+
+        // Close the DXF sections
+        dxfContent += "\n0\nENDSEC\n0\nEOF"
+
+        // Write the combined DXF content to a file
+        do {
+            try dxfContent.write(toFile: filePath, atomically: true, encoding: .utf8)
+            print("Combined DXF file successfully written to \(filePath)")
+        } catch {
+            print("Failed to write combined DXF file: \(error)")
+        }
+        }
+        
+      
+        private func deg2rad(_ degree: Float) -> Float {
+            return degree * .pi / 180
+        }
+
+        private func crossProduct(_ a: SCNVector3, _ b: SCNVector3) -> SCNVector3 {
+            return SCNVector3(
+                a.y * b.z - a.z * b.y,
+                a.z * b.x - a.x * b.z,
+                a.x * b.y - a.y * b.x
+            )
+        }
+
+        private func dotProduct(_ a: SCNVector3, _ b: SCNVector3) -> Float {
+            return a.x * b.x + a.y * b.y + a.z * b.z
+        }
+
+        private func normalize(_ vector: SCNVector3) -> SCNVector3 {
+            let length = sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z)
+            return SCNVector3(vector.x / length, vector.y / length, vector.z / length)
+        }
+
+        private func transformPointForAxialSideView(_ point: SCNVector3) -> (x: Float, y: Float) {
+            // Adjust point coordinates: x = x, y = -z, z = y
+            let adjustedPoint = SCNVector3(point.x, -point.z, point.y)
+
+            // Define the plane normal vector
+            let normal = SCNVector3(-sin(deg2rad(45)), -sin(deg2rad(45)), cos(deg2rad(45)))
+
+            // Normalize the plane normal vector
+            let normalizedNormal = normalize(normal)
+
+            // Define the basis vectors for the projected plane
+            let basisU = normalize(crossProduct(normalizedNormal, SCNVector3(0, 0, 1)))
+            let basisV = normalize(crossProduct(normalizedNormal, basisU))
+
+            // Project the adjusted point onto the plane
+            let u = -dotProduct(adjustedPoint, basisU)
+            let v = -dotProduct(adjustedPoint, basisV)
+
+            return (u, v)
+        }
+
+       // Matrix multiplication (matrix * matrix)
+        func multiplyMatrices(A: [[Float]], B: [[Float]]) -> [[Float]] {
+            let rowsA = A.count
+            let colsA = A[0].count
+            let colsB = B[0].count
+
+            var result = Array(repeating: Array(repeating: Float(0), count: colsB), count: rowsA) // Explicitly use Float(0)
+              
+            for i in 0..<rowsA {
+                for j in 0..<colsB {
+                    for k in 0..<colsA {
+                        result[i][j] += A[i][k] * B[k][j]
+                    }
+                }
+            }
+            return result
+        }
+
+        // Matrix-vector multiplication
+        func multiplyMatrixAndVector(matrix: [[Float]], vector: [Float]) -> [Float] {
+            var result: [Float] = Array(repeating: 0.0, count: matrix.count)
+            for i in 0..<matrix.count {
+                for j in 0..<vector.count {
+                    result[i] += matrix[i][j] * vector[j]
+                }
+            }
+            return result
+        }
+
+        // Helper functions to perform matrix-vector and matrix-matrix multiplication would be needed here
+
         
         func removeLastPipelineNode() {
             guard !pipelinePoints.isEmpty else { return }

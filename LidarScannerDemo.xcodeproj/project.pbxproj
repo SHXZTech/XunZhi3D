@@ -75,6 +75,7 @@
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
 		E97053AD2B07421900241635 /* MapMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97053AC2B07421900241635 /* MapMarkView.swift */; };
+		E9A819C52BB16606004F8496 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A819C42BB16606004F8496 /* ShareSheet.swift */; };
 		E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D932AE7945B006269D7 /* RtkModel.swift */; };
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
 		E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */; };
@@ -244,6 +245,7 @@
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 		E97053AC2B07421900241635 /* MapMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
 		E99C2B692B58E486003EB3B8 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A819C42BB16606004F8496 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		E9BE0D932AE7945B006269D7 /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
 		E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NtripConfigModel.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
 				E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */,
 				E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */,
+				E9A819C42BB16606004F8496 /* ShareSheet.swift */,
 				E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */,
 				E95D2AC12B6B4DC700648DBC /* Views */,
 			);
@@ -941,6 +944,7 @@
 				E963F65F29F23EB100CDE6E1 /* ContentView.swift in Sources */,
 				E9325BF92A0E409C00BD5A05 /* SaveDataManager.swift in Sources */,
 				E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */,
+				E9A819C52BB16606004F8496 /* ShareSheet.swift in Sources */,
 				E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */,
 				E9325BF72A0E3BE000BD5A05 /* ConfigJsonManager.swift in Sources */,
 				E9E62ABB2AFC8AE4002DFB2C /* StringExtension.swift in Sources */,
