@@ -11,6 +11,7 @@ import ARKit
 import SceneKit
 import os
 import SwiftUI
+import Combine
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
@@ -35,11 +36,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     }
     
     private var mode:String = "Auto" // "auto_lidar, auto_camera, manual,"
-    private var overlapThreshold:Int=90 // The overlap between the current frame and the previous frame.
     
-    private var distanceThreshold:Int=10// The distance between the device and the object being scanned.
+    private var distanceThreshold:Int=50// The distance between the device and the object being scanned.
     
-    private var angleThreshold:Int=10 // The angle of the device relative to the object being scanned.
+    private var angleThreshold:Int=20 // The angle of the device relative to the object being scanned.
     
     private var speedThreshold:Float = 0.5 // over speed threshold, present warnnign
     
@@ -82,8 +82,8 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.delegate = self
         sceneView.session.run(config)
         sceneView.addCoaching(active: false)
-        setAngleThreshold(threshold: 10) // set to 10cm
-        setDistanceThreshold(threshold: 10) // set to 10 degree
+        setAngleThreshold(threshold: angleThreshold) // set to 10cm
+        setDistanceThreshold(threshold: distanceThreshold) // set to 10 degree
         isTooFast = false
         captureFrameCount = 0;
     }
@@ -122,9 +122,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         // Overlap check
         // Distance & angle check
         let distance = Int(calculatePoseDistance(currentFramePose: currentFramePose, previousFramePose: previousFramePose)*100);
-        //trans distance in cm
         let angleDiff = Int(calculatePoseAngle(currentFramePose: currentFramePose, previousFramePose: previousFramePose)/Float.pi * 180);
         if(distance >= distanceThreshold || angleDiff >= angleThreshold){
+            print("distance:", distance)
+            print("angleDiff:", angleDiff)
             return true
         }
         return false
@@ -199,7 +200,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
         sceneView.addCoaching(active: true)
-        //setupBlueBackground();
     }
     
     func dropScan(){
@@ -207,6 +207,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             sceneView.session.pause()
             configJsonManager.deleteProjecFolder()
         }
+        sceneView.session.pause()
     }
     
     func createStartScanConfig() ->ARConfiguration{
@@ -275,6 +276,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             asset.add(mdlMesh)
         }
         return asset
+    }
+    
+    func releaseModel(){
+        
     }
     
     class Coordinator: NSObject, ARSCNViewDelegate {

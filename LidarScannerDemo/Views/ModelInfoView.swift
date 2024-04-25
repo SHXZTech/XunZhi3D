@@ -7,11 +7,8 @@
 import SwiftUI
 
 struct ModelInfoView: View {
-
     var captureModel: CaptureModel
-    // Temporary mock data for preview purposes
     var date: String = "-"
-    //var location: String = "-"
     var frameCount: String = "-"
     var folderSize: String = "-"
     var rtkEnable: String = "-"
@@ -25,14 +22,11 @@ struct ModelInfoView: View {
     let half_scrren_width = UIScreen.main.bounds.width / 2 - 10
     
     @State private var location: String
-
     
-    
-    // Call this function in the init
     init(capturemodel_: CaptureModel) {
         self.captureModel = capturemodel_
         _location = State(initialValue: captureModel.createLocation ?? NSLocalizedString("Unknown location",comment: ""))
-          
+        
         // Convert createDate to a displayable format
         if let createDate = captureModel.createDate {
             let formatter = DateFormatter()
@@ -81,8 +75,8 @@ struct ModelInfoView: View {
             }
         }
     }
-
-
+    
+    
     
     private mutating func PreProcessCaptureModel() {
         // Convert createDate to a displayable format
@@ -91,7 +85,6 @@ struct ModelInfoView: View {
             formatter.dateFormat = NSLocalizedString("date_format", comment: "") // Adjust the date format as needed
             self.date = formatter.string(from: createDate)
         }
-        
         
         // Frame Count
         self.frameCount = String(captureModel.frameCount)
@@ -126,10 +119,6 @@ struct ModelInfoView: View {
         if let vAccuracy = captureModel.minVerticalAccuracy {
             self.verticalAccuracy = String(format: NSLocalizedString("height_format", comment: ""), vAccuracy)
         }
-        
-        // Location - read the location from internet
-        //self.location = captureModel.createLocation ?? "Unknown Location"
-        
         
     }
     
@@ -323,12 +312,8 @@ struct ModelInfoView: View {
     
 }
 
-
-
-// Preview Provider
 struct ModelInfoView_Previews: PreviewProvider {
     static var previews: some View {
         Text("Hello world")
-        //ModelInfoView()
     }
 }

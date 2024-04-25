@@ -85,6 +85,16 @@
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
 		E9C836082B4FCFB00022AB18 /* PipelineSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */; };
+		E9C84ECA2BC3DCD5007B9401 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */; };
+		E9C84ECD2BC3DDA0007B9401 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */; };
+		E9C84ECF2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */; };
+		E9C84ED12BC3DDA0007B9401 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */; };
+		E9C84ED32BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */; };
+		E9C84ED52BC3DDA0007B9401 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */; };
+		E9C84ED72BC3DDA0007B9401 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */; };
+		E9C84ED92BC3DDA0007B9401 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */; };
+		E9C84EDB2BC3DDA0007B9401 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */; };
+		E9C84EDD2BC3DDA0007B9401 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */; };
 		E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */; };
 		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
 		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
@@ -245,6 +255,7 @@
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSheetView.swift; sourceTree = "<group>"; };
+		E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
@@ -285,8 +296,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E9C84EDD2BC3DDA0007B9401 /* FirebasePerformance in Frameworks */,
 				E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */,
+				E9C84ED32BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */,
+				E9C84ECD2BC3DDA0007B9401 /* FirebaseAnalytics in Frameworks */,
+				E9C84ED52BC3DDA0007B9401 /* FirebaseAppCheck in Frameworks */,
+				E9C84ECF2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
+				E9C84ED92BC3DDA0007B9401 /* FirebaseCrashlytics in Frameworks */,
+				E9C84ED12BC3DDA0007B9401 /* FirebaseAnalyticsSwift in Frameworks */,
+				E9C84ED72BC3DDA0007B9401 /* FirebaseAuth in Frameworks */,
+				E9C84EDB2BC3DDA0007B9401 /* FirebaseInstallations in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,6 +373,7 @@
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
+				E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */,
 				E94FB87B2B3472D600807E86 /* Podfile */,
 				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
 				E9BE9B032B01F14800C91715 /* en.lproj */,
@@ -597,12 +618,24 @@
 				E963F65729F23EB100CDE6E1 /* Resources */,
 				E9E62A892AF235CA002DFB2C /* Embed Frameworks */,
 				084B665436E9662903546040 /* [CP] Embed Pods Frameworks */,
+				E9C84EDE2BC3F657007B9401 /* ShellScript */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = LidarScannerDemo;
+			packageProductDependencies = (
+				E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */,
+				E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */,
+				E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */,
+				E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */,
+				E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */,
+				E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */,
+				E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */,
+				E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */,
+				E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */,
+			);
 			productName = LidarScannerDemo;
 			productReference = E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */;
 			productType = "com.apple.product-type.application";
@@ -678,6 +711,9 @@
 				"zh-Hans",
 			);
 			mainGroup = E963F65029F23EB100CDE6E1;
+			packageReferences = (
+				E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = E963F65A29F23EB100CDE6E1 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -713,6 +749,7 @@
 				E963F66329F23EB200CDE6E1 /* Assets.xcassets in Resources */,
 				E9E62A9A2AF8A9F2002DFB2C /* iPhone App@1x.png in Resources */,
 				E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */,
+				E9C84ECA2BC3DCD5007B9401 /* GoogleService-Info.plist in Resources */,
 				E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */,
 				E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */,
 			);
@@ -834,6 +871,28 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
+		};
+		E9C84EDE2BC3F657007B9401 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${PRODUCT_NAME}",
+				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Info.plist",
+				"$(TARGET_BUILD_DIR)/$(UNLOCALIZED_RESOURCES_FOLDER_PATH)/GoogleService-Info.plist",
+				"$(TARGET_BUILD_DIR)/$(EXECUTABLE_PATH)",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\"${BUILD_DIR%/Build/*}/SourcePackages/checkouts/firebase-ios-sdk/Crashlytics/run\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1116,8 +1175,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "景视三维";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "巡智三维";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Need Bluetooth permission for RTK connection.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Need Bluetooth permission for RTK connection.";
@@ -1135,7 +1193,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240219;
+				MARKETING_VERSION = 20240425;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-framework",
+					"\"Zip\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1167,8 +1232,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "景视三维";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "巡智三维";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Need Bluetooth permission for RTK connection.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Need Bluetooth permission for RTK connection.";
@@ -1186,7 +1250,14 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240219;
+				MARKETING_VERSION = 20240425;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-l\"z\"",
+					"-framework",
+					"\"Zip\"",
+					"-ObjC",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1318,6 +1389,65 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.23.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsOnDeviceConversion;
+		};
+		E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsSwift;
+		};
+		E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalyticsWithoutAdIdSupport;
+		};
+		E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAppCheck;
+		};
+		E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+		E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseInstallations;
+		};
+		E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebasePerformance;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E963F65129F23EB100CDE6E1 /* Project object */;
 }
