@@ -21,15 +21,21 @@ class RTKViewModel: ObservableObject {
         self.rtkService = RtkService()
         setupBindings()
     }
+    
 
     private func setupBindings() {
         rtkService.$rtkData
             .receive(on: DispatchQueue.main)
-            .assign(to: \.rtkData, on: self)
+            .sink { [weak self] newRtkData in
+                self?.rtkData = newRtkData
+            }
             .store(in: &cancellables)
+
         rtkService.$ntripConfigModel
             .receive(on: DispatchQueue.main)
-            .assign(to: \.ntripConfigData, on: self)
+            .sink { [weak self] newNtripConfigData in
+                self?.ntripConfigData = newNtripConfigData
+            }
             .store(in: &cancellables_ntrip)
     }
     

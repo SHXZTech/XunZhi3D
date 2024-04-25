@@ -30,6 +30,12 @@ class CaptureViewService: ObservableObject{
         loadCaptureModel()
         loadCloudStatus()
     }
+        
+    public func clearTimer(){
+        cloudStatusCheckTimer?.invalidate()
+        cloudStatusCheckTimer = nil
+        print("debug info: remove Timer")
+    }
     
     private func startCloudStatusCheckTimer() {
         guard cloudStatusCheckTimer == nil else { return }
@@ -189,42 +195,44 @@ class CaptureViewService: ObservableObject{
         }
     }
     
-    func checkstatusAndUpload(){
+    func checkstatusAndUpload() {
         loadCloudStatus();
-        if captureModel.cloudStatus == .not_created{
-            self.createCloudCapture(completion: { success in
+        if captureModel.cloudStatus == .not_created {
+            createCloudCapture(completion: { [weak self] success in
+                guard let self = self else { return }
                 if success {
-                    self.captureModel.cloudStatus = .uploaded
-                    self.uploadCapture(completion: { success, message in
+                    self.uploadCapture(completion: { [weak self] success, message in
+                        guard let self = self else { return }
                         if success {
-                            self.captureModel.cloudStatus = .uploaded
                             self.startCloudStatusCheckTimer()
                         } else {
-                            self.captureModel.cloudStatus = .wait_upload
                             self.stopCloudStatusCheckTimer()
+                        }
+                        DispatchQueue.main.async {
+                            self.captureModel.cloudStatus = success ? .uploaded : .wait_upload
                         }
                     })
                 }
             })
-        }else{
-            self.captureModel.cloudStatus = .uploading
-            self.uploadCapture(completion: { success, message in
-                if success {
-                    self.captureModel.cloudStatus = .uploaded
-                } else {
-                    self.captureModel.cloudStatus = .wait_upload
+        } else {
+            uploadCapture(completion: { [weak self] success, message in
+                guard let self = self else { return }
+                DispatchQueue.main.async {
+                    self.captureModel.cloudStatus = success ? .uploaded : .wait_upload
                 }
             })
         }
     }
+    
     
     func cloudButtonActionHandle() {
         switch captureModel.cloudStatus {
         case .not_created:
             createAndautoUploading()
         case .wait_upload:
-            DispatchQueue.main.async { [self] in
-                captureModel.cloudStatus = .uploading
+            DispatchQueue.main.async { [weak self] in
+                guard let self = self else { return }
+                self.captureModel.cloudStatus = .uploading
             }
             uploadCapture()
         case .uploading:
@@ -245,7 +253,8 @@ class CaptureViewService: ObservableObject{
     
     func createAndautoUploading(){
         self.captureModel.cloudStatus = .uploading
-        self.createCloudCapture(completion: { success in
+        self.createCloudCapture(completion: { [weak self] success in
+            guard let self = self else { return }
             if success {
                 self.uploadCapture()
             }
@@ -253,125 +262,97 @@ class CaptureViewService: ObservableObject{
     }
     
     func uploadCapture(){
-        DispatchQueue.main.async {
-            self.captureModel.cloudStatus = .uploading
+        DispatchQueue.main.async { [weak self] in
+            self?.captureModel.cloudStatus = .uploading
         }
-        self.uploadCapture(completion: { success, message in
-            if success {
-                DispatchQueue.main.async {
-                    self.captureModel.cloudStatus = .uploaded
-                }
-                self.startCloudStatusCheckTimer()
-            } else {
-                DispatchQueue.main.async {
-                    self.captureModel.cloudStatus = .wait_upload
+        self.uploadCapture(completion: { [weak self] success, message in
+            guard let self = self else { return }
+            DispatchQueue.main.async { [weak self] in
+                if success {
+                    self?.captureModel.cloudStatus = .uploaded
+                    self?.startCloudStatusCheckTimer()
+                } else {
+                    self?.captureModel.cloudStatus = .wait_upload
                 }
             }
         })
     }
     
-    func downloadCapture(){
-        if self.checkTexturedExist(){
-            self.captureModel.cloudStatus = .downloaded
-            self.loadCloudStatus()
-            self.stopCloudStatusCheckTimer()
-            return;
-        }
-        DispatchQueue.main.async {
-            self.captureModel.cloudStatus = .downloading
-        }
-        self.captureModel.cloudStatus = .downloading
-        self.downloadTexture(completion: { success, message in
-            if success {
-                self.captureModel.cloudStatus = .downloaded
-                self.stopCloudStatusCheckTimer()
-                self.updateSyncedModel = true;
-            } else {
-                self.stopCloudStatusCheckTimer()
+    func downloadCapture() {
+        if self.checkTexturedExist() {
+            DispatchQueue.main.async { [weak self] in
+                self?.captureModel.cloudStatus = .downloaded
+                self?.loadCloudStatus()
+                self?.stopCloudStatusCheckTimer()
             }
-        })
-    }
-    
-    func loadCloudStatus() {
-        if self.captureModel.isTexturedMeshExist{
-            self.captureModel.cloudStatus = .downloaded
             return
         }
-        cloud_service.getCaptureStatus(uuid: captureModel.id) { result in
-            DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            self?.captureModel.cloudStatus = .downloading
+        }
+        downloadTexture(completion: { [weak self] success, message in
+            guard let self = self else { return }
+            DispatchQueue.main.async {[weak self] in
+                if success {
+                    self?.captureModel.cloudStatus = .downloaded
+                    self?.stopCloudStatusCheckTimer()
+                    self?.updateSyncedModel = true
+                } else {
+                    self?.stopCloudStatusCheckTimer()
+                }
+            }
+        })
+    }
+    
+    
+    func loadCloudStatus() {
+        if self.captureModel.isTexturedMeshExist {
+            DispatchQueue.main.async { [weak self] in
+                self?.captureModel.cloudStatus = .downloaded
+            }
+            return
+        }
+        cloud_service.getCaptureStatus(uuid: captureModel.id) { [weak self] result in
+            DispatchQueue.main.async {[weak self] in
+                guard let self = self else { return }
                 switch result {
                 case .success(let statusResponse):
                     switch statusResponse.status{
                     case 0:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .wait_upload
-                        }
-                        break;
+                        self.captureModel.cloudStatus = .wait_upload
                     case 1:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .uploading
-                        }
-                        break;
+                        self.captureModel.cloudStatus = .uploading
                     case 2:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .uploaded
-                        }
-                        break;
+                        self.captureModel.cloudStatus = .uploaded
                     case 3:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .wait_process
-                        }
+                        self.captureModel.cloudStatus = .wait_process
                         self.startCloudStatusCheckTimer()
-                        break;
                     case 4:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .processing
-                        }
+                        self.captureModel.cloudStatus = .processing
                         self.startCloudStatusCheckTimer()
-                        break;
                     case 5:
-                        DispatchQueue.main.async {
-                            if(self.captureModel.cloudStatus != .downloading || self.captureModel.cloudStatus != .processed)
-                            {
-                                self.captureModel.cloudStatus = .processed
-                            }
+                        if (self.captureModel.cloudStatus != .downloading && self.captureModel.cloudStatus != .processed) {
+                            self.captureModel.cloudStatus = .processed
                         }
                         self.stopCloudStatusCheckTimer()
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .downloading
-                        }
+                        self.captureModel.cloudStatus = .downloading
                         self.downloadCapture()
                         self.startCloudStatusCheckTimer()
-                        break;
                     case 6:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .downloading
-                        }
+                        self.captureModel.cloudStatus
+                        = .downloading
                         self.startCloudStatusCheckTimer()
-                        break;
                     case 7:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .downloaded
-                        }
+                        self.captureModel.cloudStatus = .downloaded
                         self.stopCloudStatusCheckTimer()
-                        break;
                     case 100:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .not_created
-                        }
+                        self.captureModel.cloudStatus = .not_created
                         self.stopCloudStatusCheckTimer()
-                        break;
                     case -1:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = .process_failed
-                        }
+                        self.captureModel.cloudStatus = .process_failed
                         self.stopCloudStatusCheckTimer()
-                        break;
                     default:
-                        DispatchQueue.main.async {
-                            self.captureModel.cloudStatus = nil
-                        }
-                        break
+                        self.captureModel.cloudStatus = nil
                     }
                 case .failure(_):
                     self.captureModel.cloudStatus = nil
@@ -381,9 +362,12 @@ class CaptureViewService: ObservableObject{
         }
     }
     
+    
+    
     func createCloudCapture(completion: @escaping (Bool) -> Void) {
-        cloud_service.createCapture(uuid: self.captureModel.id) { createResult in
-            DispatchQueue.main.async {
+        cloud_service.createCapture(uuid: self.captureModel.id) { [weak self] createResult in
+            DispatchQueue.main.async {[weak self] in
+                guard let self = self else { return }
                 switch createResult {
                 case .success(_):
                     completion(true)
@@ -394,39 +378,42 @@ class CaptureViewService: ObservableObject{
         }
     }
     
+    
     func uploadCapture(completion: @escaping (Bool, String) -> Void) {
-        DispatchQueue.main.async {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
             self.captureModel.cloudStatus = .uploading
             self.captureModel.uploadingProgress = 0.00
         }
-        zipCapture { zipResult in
+        zipCapture { [weak self] zipResult in
+            guard let self = self else { return }
             switch zipResult {
             case .success(let zipFileURL):
-                self.cloud_service.uploadCapture(uuid: self.captureModel.id, fileURL: zipFileURL, progressHandler: { progressValue in
-                    DispatchQueue.main.async {
-                        self.captureModel.cloudStatus = .uploading
-                        self.captureModel.uploadingProgress = progressValue
+                self.cloud_service.uploadCapture(uuid: self.captureModel.id, fileURL: zipFileURL, progressHandler: { [weak self] progressValue in
+                    DispatchQueue.main.async {[weak self] in
+                        self?.captureModel.cloudStatus = .uploading
+                        self?.captureModel.uploadingProgress = progressValue
                     }
-                }, completion: { result in
-                    switch result {
-                    case .success(_):
-                        DispatchQueue.main.async {
+                }, completion: { [weak self] result in
+                    guard let self = self else { return }
+                    DispatchQueue.main.async {[weak self] in
+                        switch result {
+                        case .success(_):
                             completion(true, "Upload successful")
-                        }
-                        self.loadCloudStatus()
-                    case .failure(let error):
-                        DispatchQueue.main.async {
+                            self?.loadCloudStatus()
+                        case .failure(let error):
                             completion(false, "Upload failed: \(error.localizedDescription)")
                         }
                     }
                 })
             case .failure(let error):
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(false, "Zipping failed: \(error.localizedDescription)")
                 }
             }
         }
     }
+    
     
     
     func downloadTexture(completion: @escaping (Bool, String) -> Void) {
@@ -437,26 +424,28 @@ class CaptureViewService: ObservableObject{
         let destinationFileURL = scanFolder.appendingPathComponent("textured.zip")
         let textureExtractDestinationURL = scanFolder.appendingPathComponent("textured")
         
-        cloud_service.downloadTexture(uuid: self.captureModel.id, to: destinationFileURL, progress: { progressValue in
-            DispatchQueue.main.async {
-                self.captureModel.downloadingProgress = progressValue
+        cloud_service.downloadTexture(uuid: self.captureModel.id, to: destinationFileURL, progress: { [weak self] progressValue in
+            guard let self = self else { return }
+            DispatchQueue.main.async {[weak self] in
+                self?.captureModel.downloadingProgress = progressValue
             }
-        }, completion: { result in
+        }, completion: { [weak self] result in
+            guard let self = self else { return }
             switch result {
             case .success(_):
                 do {
                     try FileManager.default.createDirectory(at: textureExtractDestinationURL, withIntermediateDirectories: true, attributes: nil)
                     try Zip.unzipFile(destinationFileURL, destination: textureExtractDestinationURL, overwrite: true, password: nil, progress: nil)
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async {[weak self] in
                         completion(true, "File downloaded and extracted successfully")
                     }
                 } catch {
-                    DispatchQueue.main.async {
+                    DispatchQueue.main.async {[weak self] in
                         completion(false, "Failed to extract file: \(error.localizedDescription)")
                     }
                 }
             case .failure(let error):
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(false, "Download failed: \(error.localizedDescription)")
                 }
             }
@@ -476,13 +465,13 @@ extension CaptureViewService {
     func zipCapture(completion: @escaping (Result<URL, Error>) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let scanFolder = self?.captureModel.scanFolder else {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(.failure(CaptureViewServiceError.folderNotFound))
                 }
                 return
             }
             guard let zipFileURL = self?.captureModel.zipFileURL else {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(.failure(CaptureViewServiceError.folderNotFound))
                 }
                 return
@@ -493,17 +482,17 @@ extension CaptureViewService {
                     try fileManager.removeItem(at: zipFileURL)
                 }
                 try Zip.zipFiles(paths: [scanFolder], zipFilePath: zipFileURL, password: nil, progress: nil)
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(.success(zipFileURL))
                 }
             } catch {
-                DispatchQueue.main.async {
+                DispatchQueue.main.async {[weak self] in
                     completion(.failure(error))
                 }
             }
         }
     }
-
+    
 }
 
 enum CaptureViewServiceError: Error {

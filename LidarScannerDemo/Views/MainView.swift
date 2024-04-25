@@ -5,20 +5,29 @@ struct MainView: View {
     @State private var selectedTab = 0
     @State private var showScanView = false
     @State private var showCaptureView = false
+    @State private var showRawScanView = false
     @State var shouldReloadMaintagView = false
+    @State var currentUUID = UUID()
     
     var body: some View {
         ZStack(alignment: .bottom) {
             mainTabView
         }
-       .fullScreenCover(isPresented: $showScanView) {
-            ScanView(uuid: UUID(),isPresenting: $showScanView)
+        .fullScreenCover(isPresented: $showScanView) {
+            ScanView(uuid: currentUUID,isPresenting: $showScanView, isRawScanPresenting: $showRawScanView)
+        }
+        .fullScreenCover(isPresented: $showRawScanView) {
+            RawScanView(uuid: currentUUID, isPresenting: $showRawScanView)
         }
         .onChange(of: showScanView) { newValue in
-                    if (!newValue) {
-                        shouldReloadMaintagView = true;
-                    }
-                }
+            if newValue {
+                currentUUID = UUID() // Update the UUID every time the ScanView is about to be presented
+            }
+            if !newValue {
+                shouldReloadMaintagView = true
+            }
+        }
+        
     }
     
     private var mainTabView: some View {
@@ -39,7 +48,6 @@ struct MainView: View {
                 .onAppear {
                     self.showScanView = true
                     self.selectedTab = 0
-                    
                 }
             SettingTabpageView()
                 .tabItem {

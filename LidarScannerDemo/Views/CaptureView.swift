@@ -19,6 +19,7 @@ struct CaptureView: View {
     @State private var showDeleteAlert = false
     @State var uploadProgress: Float = 0.0
     @State var downloadProgress: Float = 0.0
+    @State var isModelViewerTop: Bool = true;
     
     enum ViewMode {
         case model, info
@@ -96,7 +97,7 @@ struct CaptureView: View {
                 }
             }
             .frame(width: UIScreen.main.bounds.width)
-        } 
+        }
         .onReceive(captureService.$captureModel) { updatedModel in
             cloudButtonState = updatedModel.cloudStatus ?? .wait_upload;
             self.uploadProgress = updatedModel.uploadingProgress
@@ -113,10 +114,10 @@ struct CaptureView: View {
             }
         }
         .onAppear {
-                    if let modelURL_ = captureService.getObjModelURL() {
-                        self.modelURL = modelURL_
-                    }
-                }
+            if let modelURL_ = captureService.getObjModelURL() {
+                self.modelURL = modelURL_
+            }
+        }
     }
     
     
@@ -166,6 +167,9 @@ struct CaptureView: View {
             .pickerStyle(SegmentedPickerStyle())
             .pickerStyle(.segmented)
             .frame(width: 200, height: 50)
+            .onChange(of: selectedViewMode) { newValue in
+                        isModelViewerTop = (newValue == .model)
+                    }
         }
     }
     
@@ -176,7 +180,7 @@ struct CaptureView: View {
                     VStack{
                         Spacer()
                         GeometryReader { geometry in
-                            StateModelViewer(modelURL: self.$modelURL, width: geometry.size.width, height: geometry.size.height)
+                            StateModelViewer(modelURL: self.$modelURL, isModelViewerTop: self.$isModelViewerTop, width: geometry.size.width, height: geometry.size.height)
                                 .cornerRadius(15)
                         }
                         Spacer()
@@ -195,7 +199,7 @@ struct CaptureView: View {
         }
         .animation(.easeInOut, value: selectedViewMode)
     }
-
+    
     func formatBytes(_ bytes: Int64) -> String {
         let formatter = ByteCountFormatter()
         formatter.allowedUnits = [.useMB]

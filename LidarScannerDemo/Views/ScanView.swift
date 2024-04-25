@@ -14,9 +14,9 @@ import UIKit
 
 
 
-  
+
 struct ScanView: View {
-    let uuid: UUID //= UUID()
+    let uuid: UUID
     @StateObject var lidarMeshViewModel: LidarMeshViewModel
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State private var showTooFastWarning: Bool = false
@@ -24,12 +24,14 @@ struct ScanView: View {
     @State var scanStatus = "ready"
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
+    @Binding var isRawScanPresenting: Bool
     
     @State var frameNumber: Int = 0;
     
     
-    init(uuid: UUID,isPresenting: Binding<Bool>) {
+    init(uuid: UUID,isPresenting: Binding<Bool>, isRawScanPresenting: Binding<Bool>) {
         self._isPresenting = isPresenting
+        self._isRawScanPresenting = isRawScanPresenting
         self.uuid = uuid
         self._lidarMeshViewModel = StateObject(wrappedValue: LidarMeshViewModel(uuid: uuid))
     }
@@ -40,8 +42,6 @@ struct ScanView: View {
         let generator = UIImpactFeedbackGenerator(style: .light)
         generator.impactOccurred()
     }
-    
-    
     
     var body: some View {
         VStack {
@@ -75,12 +75,10 @@ struct ScanView: View {
                 }
             }
         }
-        .fullScreenCover(isPresented: $navigateToRawScanViewer) {
-            RawScanView(uuid: uuid, isPresenting: $isPresenting)
-        }
         .onChange(of: scanStatus) { newStatus in
             if newStatus == "finished" {
-                navigateToRawScanViewer = true
+                isRawScanPresenting = true
+                isPresenting = false
             }
         }
         .onReceive(lidarMeshViewModel.$isTooFast) { isTooFast in

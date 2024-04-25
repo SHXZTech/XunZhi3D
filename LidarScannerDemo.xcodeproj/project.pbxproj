@@ -1171,8 +1171,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "景视三维";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "巡智三维";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Need Bluetooth permission for RTK connection.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Need Bluetooth permission for RTK connection.";
@@ -1190,7 +1189,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 20240425;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",
@@ -1229,8 +1228,7 @@
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = LidarScannerDemo/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "景视三维";
-				INFOPLIST_KEY_LSApplicationCategoryType = "";
+				INFOPLIST_KEY_CFBundleDisplayName = "巡智三维";
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
 				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = "Need Bluetooth permission for RTK connection.";
 				INFOPLIST_KEY_NSBluetoothPeripheralUsageDescription = "Need Bluetooth permission for RTK connection.";
@@ -1248,7 +1246,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 20240425;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",

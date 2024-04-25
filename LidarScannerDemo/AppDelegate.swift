@@ -7,7 +7,7 @@
 
 import UIKit
 import SwiftUI
-import FirebaseCore
+//import FirebaseCore
 
 // Ensure you're using @main only once and on the correct AppDelegate declaration.
 @main
@@ -17,7 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Configure Firebase only once
-        FirebaseApp.configure()
+        //FirebaseApp.configure()
         
         // Set up the localization
         LocalizationManager.shared.setLanguage(LocalizationManager.shared.getCurrentLanguage())

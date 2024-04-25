@@ -11,6 +11,7 @@ import ARKit
 import SceneKit
 import os
 import SwiftUI
+import Combine
 
 private let logger = Logger(subsystem: "com.graphopti.lidarScannerDemo",
                             category: "lidarScannerDemoDelegate")
@@ -38,7 +39,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
     
     private var distanceThreshold:Int=50// The distance between the device and the object being scanned.
     
-    private var angleThreshold:Int=50 // The angle of the device relative to the object being scanned.
+    private var angleThreshold:Int=20 // The angle of the device relative to the object being scanned.
     
     private var speedThreshold:Float = 0.5 // over speed threshold, present warnnign
     
@@ -199,7 +200,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         sceneView.session.run(config, options: [.removeExistingAnchors, .resetSceneReconstruction, .resetTracking])
         status="scanning"
         sceneView.addCoaching(active: true)
-        //setupBlueBackground();
     }
     
     func dropScan(){
@@ -207,6 +207,7 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             sceneView.session.pause()
             configJsonManager.deleteProjecFolder()
         }
+        sceneView.session.pause()
     }
     
     func createStartScanConfig() ->ARConfiguration{
@@ -275,6 +276,10 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
             asset.add(mdlMesh)
         }
         return asset
+    }
+    
+    func releaseModel(){
+        
     }
     
     class Coordinator: NSObject, ARSCNViewDelegate {

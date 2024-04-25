@@ -36,8 +36,8 @@ struct RawScanView: View {
                 .padding(.vertical, 20)
         }
         .fullScreenCover(isPresented: $showCaptureView) {
-                    CaptureView(uuid: uuid, isPresenting: $isPresenting)
-                }
+            CaptureView(uuid: uuid, isPresenting: $isPresenting)
+        }
     }
     
     private var header: some View {
@@ -58,6 +58,7 @@ struct RawScanView: View {
     
     private var returnButton: some View{
         Button(action: {
+            capture_service.clearTimer();
             self.isPresenting = false
         }, label: {
             Image(systemName: "chevron.left")
