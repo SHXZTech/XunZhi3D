@@ -91,6 +91,10 @@ struct ScanView: View {
         .onReceive(lidarMeshViewModel.$capturedFrameCount) { capturedFrameCount in
             self.frameNumber = capturedFrameCount
         }
+        .onDisappear(){
+            rtkViewModel.toDisconnect()
+            rtkViewModel.stopTimer()
+        }
     }
     
     private var statusText: some View {

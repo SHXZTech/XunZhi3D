@@ -25,11 +25,11 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     private var nmeaSourceText: String?
     private var socketUtil: HCSocketUtil?
     private var timer: Timer?
+    
     private var util: HCUtil?
     
     override init() {
         super.init()
-        
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
         self.util = HCUtil(delegate: self)
@@ -48,11 +48,13 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             }
         }
         assertNtripToHCDiff()
+        startListening() //AutoConnect
     }
     
     func startListening() {
         endListening()
         toSearch()
+        print("start listening")
     }
     
     func endListening() {
@@ -64,6 +66,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func toSearch() {
         rtkData.list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
+        print("to search")
     }
     
     func toDisconnect(isAuto: Bool = false) {
@@ -136,6 +139,9 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
         if let devices = deviceNameList, devices.count > 0 {
             self.rtkData.list = devices
+//            if !isConnected{
+//                toConnect(itemIndex: 0)
+//            }
         }else{
             self.rtkData.list.removeAll()
         }
