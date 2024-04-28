@@ -37,36 +37,6 @@ class RawScanManager{
         return raw_scan_model.rawMeshURL ?? raw_scan_model.getRawMeshURL()
     }
     
-    func uploadCapture(completion: @escaping (Bool, String) -> Void) {
-        zipCapture { zipResult in
-            switch zipResult {
-            case .success(let zipFileURL):
-                self.cloud_service.uploadCapture(uuid: self.raw_scan_model.id, fileURL: zipFileURL, progressHandler: { progressValue in
-                    DispatchQueue.main.async {
-                        self.raw_scan_model.cloudStatus = .uploading
-                        self.raw_scan_model.uploadingProgress = progressValue
-                        print("self.raw_scan_model.uploadingProgress = ", progressValue)
-                    }
-                }, completion: { result in
-                    switch result {
-                    case .success(_):
-                        DispatchQueue.main.async {
-                            self.raw_scan_model.cloudStatus = .uploaded
-                            completion(true, "Upload successful")
-                        }
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            completion(false, "Upload failed: \(error.localizedDescription)")
-                        }
-                    }
-                })
-            case .failure(let error):
-                DispatchQueue.main.async {
-                    completion(false, "Zipping failed: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
     
     func createCloudCapture(completion: @escaping (Bool) -> Void) {
         cloud_service.createCapture(uuid: self.raw_scan_model.id) { createResult in
@@ -81,35 +51,7 @@ class RawScanManager{
         }
     }
     
-    func checkstatusAndUpload(){
-        print("start checkstatusAndUpload()")
-        loadCloudStatus()
-        print("current status = ", raw_scan_model.cloudStatus)
-        if raw_scan_model.cloudStatus == .not_created{
-            self.createCloudCapture(completion: { success in
-                if success {
-                    self.raw_scan_model.cloudStatus = .uploaded
-                    self.uploadCapture(completion: { success, message in
-                        if success {
-                            self.raw_scan_model.cloudStatus = .uploaded
-                        } else {
-                            self.raw_scan_model.cloudStatus = .wait_upload
-                        }
-                    })
-                }
-            })
-        }else{
-            self.raw_scan_model.cloudStatus = .uploading
-            self.uploadCapture(completion: { success, message in
-                if success {
-                    self.raw_scan_model.cloudStatus = .uploaded
-                } else {
-                    self.raw_scan_model.cloudStatus = .wait_upload
-                }
-            })
-        }
-    }
-    
+     
     func loadCloudStatus() {
         cloud_service.getCaptureStatus(uuid: raw_scan_model.id) { result in
             DispatchQueue.main.async {

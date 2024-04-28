@@ -32,8 +32,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
-        //self.util = HCUtil()
-        //self.util?.delegate = self
         self.util = HCUtil(delegate: self)
         Task {
             do {
@@ -49,7 +47,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
                 ntripConfigModel.isCertified = false
             }
         }
-        
         assertNtripToHCDiff()
     }
     
@@ -121,7 +118,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
 
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
-        // Handle error as needed
         switch error {
         case .BleUnauthorized:
             break

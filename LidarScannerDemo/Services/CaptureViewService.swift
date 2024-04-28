@@ -380,6 +380,7 @@ class CaptureViewService: ObservableObject{
     
     
     func uploadCapture(completion: @escaping (Bool, String) -> Void) {
+        print("starting upload capture in captureview service")
         DispatchQueue.main.async { [weak self] in
             guard let self = self else { return }
             self.captureModel.cloudStatus = .uploading
@@ -395,6 +396,15 @@ class CaptureViewService: ObservableObject{
                         self?.captureModel.uploadingProgress = progressValue
                     }
                 }, completion: { [weak self] result in
+                    defer {
+                        do {
+                            try FileManager.default.removeItem(at: zipFileURL)
+                            print("Zip file deleted successfully.")
+                        } catch let error {
+                            print("Failed to delete zip file: \(error.localizedDescription)")
+                        }
+                    }
+                    
                     guard let self = self else { return }
                     DispatchQueue.main.async {[weak self] in
                         switch result {
