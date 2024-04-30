@@ -135,12 +135,6 @@ struct ScanView: View {
             rtkViewModel.toDisconnect()
             rtkViewModel.stopTimer()
         }
-//        .alert("RTK not connected", isPresented: $showRTKWarning) {
-//            Button("Continue without RTK", role: .destructive) {
-//                startScan()
-//            }
-//            Button("Cancel", role: .cancel) {}
-//        }
     }
     
     private var statusText: some View {
@@ -216,11 +210,11 @@ struct ScanView: View {
                     if scanStatus == "ready" {
                         ZStack {
                             Circle()
-                                .stroke(Color.white, lineWidth: 2) // Adjust lineWidth for ring thickness
-                                .frame(width: 68, height: 68) // Adjust frame size as needed
+                                .stroke(Color.white, lineWidth: 2)
+                                .frame(width: 68, height: 68)
                             Circle()
                                 .fill(Color.red)
-                                .frame(width: 60, height: 60) // Adjust frame size for the red circle
+                                .frame(width: 60, height: 60)
                         }
                     } else {
                         ZStack {
@@ -247,7 +241,7 @@ struct ScanView: View {
                 showRTKPoorSignalWarnning = true
                 }
         } else {
-            showRTKWarning = true  // Show warning if RTK is not connected
+            showRTKWarning = true
         }
     }
     
