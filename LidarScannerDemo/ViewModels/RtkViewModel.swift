@@ -100,8 +100,6 @@ class RTKViewModel: ObservableObject {
             print("stop timer as connected")
         }
     }
-
-
     
 //    func startTimer() {
 //        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer

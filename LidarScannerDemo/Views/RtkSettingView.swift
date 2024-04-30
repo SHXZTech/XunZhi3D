@@ -4,7 +4,7 @@ struct RtkSettingView: View {
     @ObservedObject var viewModel: RTKViewModel
     @Binding var isPresented: Bool
     @State private var showingWarningAlert = false
-//    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    //    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     enum WarningType {
         case noDeviceConnected
@@ -37,22 +37,7 @@ struct RtkSettingView: View {
                     viewModel.startAutoSearchTimer()
                 }
             }
-            .onDisappear {
-                //viewModel.stopTimer()
-                //self.timer.upstream.connect().cancel()
-            }
-//            .onReceive(timer) { _ in
-//                toggleRtkSearch()
-//            }
         }
-        // In ScanView or wherever RTKViewModel is used
-        .onAppear {
-            viewModel.viewDidAppear()
-        }
-        .onDisappear {
-            viewModel.viewDidDisappear()
-        }
-
     }
     
     func rtkDataSection() -> some View {
@@ -224,7 +209,7 @@ struct RtkSettingView: View {
                 determineWarning()
                 if currentWarning != .none {
                     viewModel.stopTimer()
-                   // self.timer.upstream.connect().cancel() // Cancel the timer immediately
+                    // self.timer.upstream.connect().cancel() // Cancel the timer immediately
                     showingWarningAlert = true
                 } else {
                     viewModel.rtkService.toConnectDiff()
@@ -244,14 +229,14 @@ struct RtkSettingView: View {
         }
     }
     
-//    func startTimer() {
-//        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
-//        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    }
-//    
-//    func stopTimer(){
-//        self.timer.upstream.connect().cancel() // Cancel the timer immediately
-//    }
+    //    func startTimer() {
+    //        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
+    //        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    //    }
+    //
+    //    func stopTimer(){
+    //        self.timer.upstream.connect().cancel() // Cancel the timer immediately
+    //    }
     
     
     func toggleRtkSearch() {

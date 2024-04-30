@@ -115,6 +115,7 @@ struct ScanView: View {
         .cornerRadius(8)
         .frame(maxWidth: 160, maxHeight: 50) // Limit the maximum width of the box
         .onAppear {
+            rtkViewModel.viewDidAppear()
             showTooFastWarning_mutex = true
             playWarningFeedback()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -123,6 +124,7 @@ struct ScanView: View {
         }
         .onDisappear{
             showTooFastWarning_mutex = false
+            rtkViewModel.viewDidDisappear()
         }
     }
     
