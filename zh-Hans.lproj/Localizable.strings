@@ -115,3 +115,13 @@
 "tap pipeline to measure" = "请点击模型中的管道";
 "Feedback" = "意见反馈";
 "SiteSight" = "巡智三维";
+"RTK not connected. Scan without RTK?" = "RTK未连接，无需RTK扫描？";
+"RTK signal is poor. Please move to an open area." = "RTK信号差，请移动至开阔空间并等待卫星信号";
+"Poor signal scan" = "差信号扫描";
+"RTK not connected" = "RTK未连接";
+"Scan without RTK" = "无RTK扫描";
+"Do you want to continue scanning without RTK data? This may affect the accuracy of the scan." = "您是否想在无RTK数据的情况下继续采集？这将导致生成的模型无地理数据。";
+"RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?" = "RTK信号未固定，请移至开阔地带并等待信号固定。您是否希望在未固定RTK信号的情况下继续进行扫描？";
+"Scan without fixed Signal" = "继续扫描";
+"RTK Poor Signal Warning" = "RTK信号弱警告";
+"RTK Signal is Not Fixed" = "RTK信号未固定";

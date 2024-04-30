@@ -17,6 +17,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var isConnected: Bool = false
     @Published var connectable: Bool = false
     @Published var isLoninSuccessful: Bool = false;
+    @Published var isFixed: Bool = false;
     
     private var uuid: UUID?
     
@@ -99,19 +100,24 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
         rtkData.createTime = deviceModel?.createTime ?? Date()
         rtkData.timeStamp = Date()
+        
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
             rtkData.diffStatus = "固定解"
             rtkData.signalStrength = 3
+            self.isFixed = true
         case 2:
             rtkData.diffStatus = "码差分"
             rtkData.signalStrength = 2
+            self.isFixed = false
         case 5:
             rtkData.diffStatus = "浮点解"
             rtkData.signalStrength = 1
+            self.isFixed = false
         default:
             rtkData.diffStatus = "单点解"
             rtkData.signalStrength = 0
+            self.isFixed = false
         }
         if let uuid = uuid {
             let dataFolder =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
@@ -139,9 +145,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcSearchResult(_ deviceNameList: [String]!, isDone: Bool) {
         if let devices = deviceNameList, devices.count > 0 {
             self.rtkData.list = devices
-//            if !isConnected{
-//                toConnect(itemIndex: 0)
-//            }
         }else{
             self.rtkData.list.removeAll()
         }

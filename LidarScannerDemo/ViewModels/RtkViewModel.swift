@@ -162,6 +162,10 @@ class RTKViewModel: ObservableObject {
         return rtkService.isConnected
     }
     
+    func isFixed()->Bool{
+        return rtkService.isFixed
+    }
+    
     var portString: String {
         get {
             return String(ntripConfigData.port)
