@@ -272,8 +272,4 @@ extension RtkService {
             // Handle any errors
         }
     }
-
-    
 }
-
-
