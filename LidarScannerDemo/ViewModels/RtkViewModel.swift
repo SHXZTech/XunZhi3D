@@ -44,7 +44,6 @@ class RTKViewModel: ObservableObject {
             .receive(on: RunLoop.main)
             .sink { [weak self] isConnected in
                 if isConnected, let self = self {
-                    // Optionally stop the timer if the device is connected
                     self.stopTimer()
                 }
             }
@@ -74,7 +73,6 @@ class RTKViewModel: ObservableObject {
             .sink { [weak self] _ in
                 self?.autoSearchAndConnect()
             }
-        // Store the subscription in the cancellables set to manage its lifecycle correctly.
         subscription.store(in: &cancellables)
     }
 
@@ -100,11 +98,6 @@ class RTKViewModel: ObservableObject {
             print("stop timer as connected")
         }
     }
-    
-//    func startTimer() {
-//        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
-//        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-//    }
     
     func stopTimer() {
         print("Stopping RTK ViewModel Timer")

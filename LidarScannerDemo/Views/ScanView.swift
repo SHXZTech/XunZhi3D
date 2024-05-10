@@ -78,43 +78,43 @@ struct ScanView: View {
             }
         }
         .alert(
-             "RTK not connected",
-             isPresented: $showRTKWarning,
-             presenting:  Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
-         ) { details in
-             Group {
-                 Button(role: .destructive) {
-                     startScan()
-                     showRTKWarning = false
-                 } label: {
-                     Text("Scan without RTK")
-                 }
-                 Button("Cancel", role: .cancel) {
-                     showRTKWarning = false
-                 }
-             }
-         } message: { details in
-             Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
-         }
-         .alert(
-             "RTK Signal is Not Fixed",
-             isPresented: $showRTKPoorSignalWarnning,
-             presenting: Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
-         ) { details in
-             Group {
-                 Button(role: .destructive) {
-                     startScan()
-                     showRTKPoorSignalWarnning = false
-                 } label: {
-                     Text(NSLocalizedString("Scan without fixed Signal", comment: ""))
-                 }
-                 Button("Cancel", role: .cancel) {
-                     showRTKPoorSignalWarnning = false
-                 }
-             }
-         } message: { details in
-             Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
-         }
+            "RTK not connected",
+            isPresented: $showRTKWarning,
+            presenting:  Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
+        ) { details in
+            Group {
+                Button(role: .destructive) {
+                    startScan()
+                    showRTKWarning = false
+                } label: {
+                    Text("Scan without RTK")
+                }
+                Button("Cancel", role: .cancel) {
+                    showRTKWarning = false
+                }
+            }
+        } message: { details in
+            Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
+        }
+        .alert(
+            "RTK Signal is Not Fixed",
+            isPresented: $showRTKPoorSignalWarnning,
+            presenting: Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
+        ) { details in
+            Group {
+                Button(role: .destructive) {
+                    startScan()
+                    showRTKPoorSignalWarnning = false
+                } label: {
+                    Text(NSLocalizedString("Scan without fixed Signal", comment: ""))
+                }
+                Button("Cancel", role: .cancel) {
+                    showRTKPoorSignalWarnning = false
+                }
+            }
+        } message: { details in
+            Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
+        }
         .onChange(of: scanStatus) { newStatus in
             if newStatus == "finished" {
                 isRawScanPresenting = true
@@ -190,7 +190,7 @@ struct ScanView: View {
         .padding(.horizontal, 25)
     }
     
-
+    
     
     private var scanArea: some View {
         ZStack {
@@ -233,36 +233,45 @@ struct ScanView: View {
     }
     
     private func scanAction() {
-        print("scan action")
-        if rtkViewModel.isConnected() {
-            if rtkViewModel.isFixed(){
-                startScan()
-            }else{
-                showRTKPoorSignalWarnning = true
+        switch scanStatus{
+        case "ready":
+            if rtkViewModel.isConnected() {
+                if rtkViewModel.isFixed(){
+                    startScan()
+                }else{
+                    showRTKPoorSignalWarnning = true
                 }
-        } else {
-            showRTKWarning = true
+            } else {
+                showRTKWarning = true
+            }
+        case "scanning":
+            finishScan()
+            
+        default: return
         }
+        
+        
+        
+        
     }
     
     private func startScan() {
-        switch scanStatus {
-        case "ready":
-            scanStatus = "scanning"
-            lidarMeshViewModel.startScan()
-            rtkViewModel.startRecord(uuid: self.uuid)
-            if rtkViewModel.isConnected(){
-                lidarMeshViewModel.setRtkConfigInfo(rtk_data: rtkViewModel.rtkData)
-            }
-        case "scanning":
-            scanStatus = "finished"
-            lidarMeshViewModel.pauseScan()
-            lidarMeshViewModel.saveScan(uuid: uuid)
-            rtkViewModel.toDisconnect()
-        default:
-            break
+        scanStatus = "scanning"
+        lidarMeshViewModel.startScan()
+        rtkViewModel.startRecord(uuid: self.uuid)
+        if rtkViewModel.isConnected(){
+            lidarMeshViewModel.setRtkConfigInfo(rtk_data: rtkViewModel.rtkData)
         }
     }
+    
+    private func finishScan() {
+        scanStatus = "finished"
+        lidarMeshViewModel.pauseScan()
+        lidarMeshViewModel.saveScan(uuid: uuid)
+        rtkViewModel.toDisconnect()
+    }
+    
+    
 }
 
 struct LidarMeshViewContainer: UIViewRepresentable {
