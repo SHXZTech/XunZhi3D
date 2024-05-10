@@ -4,7 +4,6 @@ struct RtkSettingView: View {
     @ObservedObject var viewModel: RTKViewModel
     @Binding var isPresented: Bool
     @State private var showingWarningAlert = false
-    //    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     enum WarningType {
         case noDeviceConnected

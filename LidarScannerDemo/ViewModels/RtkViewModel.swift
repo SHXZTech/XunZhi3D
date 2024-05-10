@@ -30,6 +30,7 @@ class RTKViewModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newRtkData in
                 self?.rtkData = newRtkData
+                print("async: self?.rtkData", self?.rtkData)
             }
             .store(in: &cancellables)
         
