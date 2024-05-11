@@ -20,6 +20,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var isFixed: Bool = false;
     
     private var uuid: UUID?
+    private var isRecord: Bool = false
     
     private var currentDeviceIndex: Int = -1
     private var deviceModel: HCDeviceInfoBaseModel?
@@ -85,6 +86,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func startRecord(uuid_: UUID)
     {
         self.uuid = uuid_;
+        self.isRecord = true;
     }
     
     func mapData() {
@@ -121,12 +123,18 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
             rtkData.signalStrength = 0
             self.isFixed = false
         }
-        if let uuid = uuid {
-            let dataFolder =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
-            let rtkFolder = dataFolder.appendingPathComponent("rtk")
-                saveRtkDataToInfoJson(rtkData: rtkData, DataFolder: rtkFolder)
+        if isRecord{
+            if let uuid = uuid {
+                recordRTKfile(uuid_: uuid)
             }
-        print("map data: rtiData.diffStatus:", rtkData.diffStatus)
+        }
+        print("map data: rtkData.diffStatus:", rtkData.diffStatus)
+    }
+    
+    func recordRTKfile(uuid_:UUID){
+        let dataFolder =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid_.uuidString)
+        let rtkFolder = dataFolder.appendingPathComponent("rtk")
+        saveRtkDataToInfoJson(rtkData: rtkData, DataFolder: rtkFolder)
     }
 
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
