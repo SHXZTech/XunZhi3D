@@ -17,6 +17,7 @@ class RTKViewModel: ObservableObject {
     @Published var rtkService: RtkService
     private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     private var cancellables: Set<AnyCancellable> = []
+    private var timer_cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
     
     init() {
@@ -26,12 +27,16 @@ class RTKViewModel: ObservableObject {
     }
     
     private func setupBindings() {
+//        rtkService.$rtkData
+//            .receive(on: DispatchQueue.main)
+//            .sink { [weak self] newRtkData in
+//                self?.rtkData = newRtkData
+//                print("async: self?.rtkData", self?.rtkData)
+//            }
+//            .store(in: &cancellables)
         rtkService.$rtkData
             .receive(on: DispatchQueue.main)
-            .sink { [weak self] newRtkData in
-                self?.rtkData = newRtkData
-                print("async: self?.rtkData", self?.rtkData)
-            }
+            .assign(to: \.rtkData, on: self)
             .store(in: &cancellables)
         
         rtkService.$ntripConfigModel
@@ -74,7 +79,7 @@ class RTKViewModel: ObservableObject {
             .sink { [weak self] _ in
                 self?.autoSearchAndConnect()
             }
-        subscription.store(in: &cancellables)
+        subscription.store(in: &timer_cancellables)
     }
 
     func autoSearchAndConnect() {
@@ -102,8 +107,8 @@ class RTKViewModel: ObservableObject {
     
     func stopTimer() {
         print("Stopping RTK ViewModel Timer")
-        cancellables.forEach { $0.cancel() }  // This cancels all subscriptions, including the timer.
-        cancellables.removeAll()  // Optionally clear the set if you are restarting the timer later.
+        timer_cancellables.forEach { $0.cancel() } 
+        timer_cancellables.removeAll()
     }
 
     
