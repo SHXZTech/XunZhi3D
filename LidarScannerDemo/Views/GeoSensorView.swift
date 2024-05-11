@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct GeoSensorView: View {
-    //@StateObject var rtkViewModel : RTKViewModel = RTKViewModel()
     @ObservedObject var rtkViewModel: RTKViewModel
     @State private var isShowingRtkSettingPage = false // State to control the presentation of the sheet
     
@@ -62,12 +61,9 @@ struct GeoSensorView: View {
             AccuracyIndicatorView(accuracyString: rtkViewModel.rtkData.horizontalAccuracy, title: "水平精度")
                 .frame(maxWidth: 150, maxHeight: 30, alignment: .leading)
                 .padding(.leading, 10)
-            //.padding(.top, 1)
-            AccuracyIndicatorView(accuracyString: rtkViewModel.rtkData.verticalAccuracy, title: "海拔精度")
+            AccuracyIndicatorView(accuracyString: rtkViewModel.rtkData.verticalAccuracy, title: "高程精度")
                 .frame(maxWidth: 150, maxHeight: 30, alignment: .leading)
                 .padding(.leading, 10)
-            //.padding(.top,1)
-            
         }
         .frame(maxWidth: 150, maxHeight: 100)
         .background(Color.gray.opacity(0.6))
@@ -214,7 +210,6 @@ struct RTKConnectionIndicatorView: View {
     var body: some View {
         HStack {
             Image(systemName: isConnected ? "antenna.radiowaves.left.and.right" : "antenna.radiowaves.left.and.right.slash")
-                //.badge(/*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/) TODO add a badge liked effect to antenna, replace antenna with satellite and number badge
                 .foregroundColor(isConnected ? signalColor(signalStrength: rtkViewModel.rtkData.signalStrength) : .red)
                 .frame(width: 20, height: 20)
                 .padding(.leading, 10)

@@ -17,6 +17,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     @Published var isConnected: Bool = false
     @Published var connectable: Bool = false
     @Published var isLoninSuccessful: Bool = false;
+    @Published var isFixed: Bool = false;
     
     private var uuid: UUID?
     
@@ -25,37 +26,37 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     private var nmeaSourceText: String?
     private var socketUtil: HCSocketUtil?
     private var timer: Timer?
+    
     private var util: HCUtil?
     
     override init() {
         super.init()
-        
         self.socketUtil = HCSocketUtil()
         self.socketUtil?.delegate = self
-        //self.util = HCUtil()
-        //self.util?.delegate = self
         self.util = HCUtil(delegate: self)
         Task {
+            //TODO: make the ntrip is configed from the server side, not the local file
             do {
                 let loadedConfig = try NtripConfigModel.loadFromLocal()
                 self.ntripConfigModel = loadedConfig
             } catch {
                 ntripConfigModel.ip = "203.107.45.154"
                 ntripConfigModel.port = 8002
-                ntripConfigModel.account = "qxxzuu001"
-                ntripConfigModel.password = "b3b6a33"
+                ntripConfigModel.account = "qxxsrz005"
+                ntripConfigModel.password = "5ed64b4"
                 ntripConfigModel.mountPointList = ["AUTO"]
                 ntripConfigModel.currentMountPoint = "AUTO"
                 ntripConfigModel.isCertified = false
             }
         }
-        
         assertNtripToHCDiff()
+        startListening() //AutoConnect
     }
     
     func startListening() {
         endListening()
         toSearch()
+        print("start listening")
     }
     
     func endListening() {
@@ -67,6 +68,7 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func toSearch() {
         rtkData.list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
+        print("to search")
     }
     
     func toDisconnect(isAuto: Bool = false) {
@@ -99,29 +101,36 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
         rtkData.createTime = deviceModel?.createTime ?? Date()
         rtkData.timeStamp = Date()
+        print("map data:", rtkData)
+        print("isConnected:", isConnected)
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
             rtkData.diffStatus = "固定解"
             rtkData.signalStrength = 3
+            self.isFixed = true
         case 2:
             rtkData.diffStatus = "码差分"
             rtkData.signalStrength = 2
+            self.isFixed = false
         case 5:
             rtkData.diffStatus = "浮点解"
             rtkData.signalStrength = 1
+            self.isFixed = false
         default:
             rtkData.diffStatus = "单点解"
             rtkData.signalStrength = 0
+            self.isFixed = false
         }
         if let uuid = uuid {
             let dataFolder =  FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
             let rtkFolder = dataFolder.appendingPathComponent("rtk")
                 saveRtkDataToInfoJson(rtkData: rtkData, DataFolder: rtkFolder)
             }
+        print("map data: rtiData.diffStatus:", rtkData.diffStatus)
     }
 
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
-        // Handle error as needed
+        print("hcDeviceDidFailWithError",hcDeviceDidFailWithError)
         switch error {
         case .BleUnauthorized:
             break
@@ -149,10 +158,14 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceConnected(_ index: Int) {
         currentDeviceIndex = index
         isConnected = true
+        print("debug!!: isconnected = ", isConnected)
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
+        print("hcReceive")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
+            print("debug hcReceive, currentDeviceIndex = ", currentDeviceIndex)
+            print("debug hcReceive, rtkData.list.count = ", rtkData.list.count)
             return
         }
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)
@@ -272,8 +285,4 @@ extension RtkService {
             // Handle any errors
         }
     }
-
-    
 }
-
-

@@ -21,6 +21,8 @@ struct ScanView: View {
     @StateObject var rtkViewModel: RTKViewModel = RTKViewModel()
     @State private var showTooFastWarning: Bool = false
     @State private var showTooFastWarning_mutex: Bool = false
+    @State private var showRTKPoorSignalWarnning: Bool = false
+    @State private var showRTKWarning: Bool = false
     @State var scanStatus = "ready"
     @State var navigateToRawScanViewer = false
     @Binding var isPresenting: Bool
@@ -75,6 +77,44 @@ struct ScanView: View {
                 }
             }
         }
+        .alert(
+            "RTK not connected",
+            isPresented: $showRTKWarning,
+            presenting:  Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
+        ) { details in
+            Group {
+                Button(role: .destructive) {
+                    startScan()
+                    showRTKWarning = false
+                } label: {
+                    Text("Scan without RTK")
+                }
+                Button("Cancel", role: .cancel) {
+                    showRTKWarning = false
+                }
+            }
+        } message: { details in
+            Text(NSLocalizedString("Do you want to continue scanning without RTK data? This may affect the accuracy of the scan.", comment: ""))
+        }
+        .alert(
+            "RTK Signal is Not Fixed",
+            isPresented: $showRTKPoorSignalWarnning,
+            presenting: Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
+        ) { details in
+            Group {
+                Button(role: .destructive) {
+                    startScan()
+                    showRTKPoorSignalWarnning = false
+                } label: {
+                    Text(NSLocalizedString("Scan without fixed Signal", comment: ""))
+                }
+                Button("Cancel", role: .cancel) {
+                    showRTKPoorSignalWarnning = false
+                }
+            }
+        } message: { details in
+            Text(NSLocalizedString("RTK signal is not fixed, move to open area and wait for fixing. Do you wish to proceed without fixed RTK data?", comment: "RTK signal warning"))
+        }
         .onChange(of: scanStatus) { newStatus in
             if newStatus == "finished" {
                 isRawScanPresenting = true
@@ -90,6 +130,10 @@ struct ScanView: View {
         }
         .onReceive(lidarMeshViewModel.$capturedFrameCount) { capturedFrameCount in
             self.frameNumber = capturedFrameCount
+        }
+        .onDisappear(){
+            rtkViewModel.toDisconnect()
+            rtkViewModel.stopTimer()
         }
     }
     
@@ -111,6 +155,7 @@ struct ScanView: View {
         .cornerRadius(8)
         .frame(maxWidth: 160, maxHeight: 50) // Limit the maximum width of the box
         .onAppear {
+            rtkViewModel.viewDidAppear()
             showTooFastWarning_mutex = true
             playWarningFeedback()
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -119,6 +164,7 @@ struct ScanView: View {
         }
         .onDisappear{
             showTooFastWarning_mutex = false
+            rtkViewModel.viewDidDisappear()
         }
     }
     
@@ -144,6 +190,8 @@ struct ScanView: View {
         .padding(.horizontal, 25)
     }
     
+    
+    
     private var scanArea: some View {
         ZStack {
             LidarMeshViewContainer(LidarViewModel: lidarMeshViewModel)
@@ -162,11 +210,11 @@ struct ScanView: View {
                     if scanStatus == "ready" {
                         ZStack {
                             Circle()
-                                .stroke(Color.white, lineWidth: 2) // Adjust lineWidth for ring thickness
-                                .frame(width: 68, height: 68) // Adjust frame size as needed
+                                .stroke(Color.white, lineWidth: 2)
+                                .frame(width: 68, height: 68)
                             Circle()
                                 .fill(Color.red)
-                                .frame(width: 60, height: 60) // Adjust frame size for the red circle
+                                .frame(width: 60, height: 60)
                         }
                     } else {
                         ZStack {
@@ -185,23 +233,45 @@ struct ScanView: View {
     }
     
     private func scanAction() {
-        switch scanStatus {
+        switch scanStatus{
         case "ready":
-            scanStatus = "scanning"
-            lidarMeshViewModel.startScan()
-            rtkViewModel.startRecord(uuid: self.uuid)
-            if rtkViewModel.isConnected(){
-                lidarMeshViewModel.setRtkConfigInfo(rtk_data: rtkViewModel.rtkData)
+            if rtkViewModel.isConnected() {
+                if rtkViewModel.isFixed(){
+                    startScan()
+                }else{
+                    showRTKPoorSignalWarnning = true
+                }
+            } else {
+                showRTKWarning = true
             }
         case "scanning":
-            scanStatus = "finished"
-            lidarMeshViewModel.pauseScan()
-            lidarMeshViewModel.saveScan(uuid: uuid)
-            rtkViewModel.toDisconnect()
-        default:
-            break
+            finishScan()
+            
+        default: return
+        }
+        
+        
+        
+        
+    }
+    
+    private func startScan() {
+        scanStatus = "scanning"
+        lidarMeshViewModel.startScan()
+        rtkViewModel.startRecord(uuid: self.uuid)
+        if rtkViewModel.isConnected(){
+            lidarMeshViewModel.setRtkConfigInfo(rtk_data: rtkViewModel.rtkData)
         }
     }
+    
+    private func finishScan() {
+        scanStatus = "finished"
+        lidarMeshViewModel.pauseScan()
+        lidarMeshViewModel.saveScan(uuid: uuid)
+        rtkViewModel.toDisconnect()
+    }
+    
+    
 }
 
 struct LidarMeshViewContainer: UIViewRepresentable {

@@ -15,29 +15,97 @@ class RTKViewModel: ObservableObject {
     @Published var ntripConfigData = NtripConfigModel()
     @Published var selectedDevice: String?
     @Published var rtkService: RtkService
+    private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     private var cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
+    
     init() {
         self.rtkService = RtkService()
         setupBindings()
+        startAutoSearchTimer()
     }
     
-
     private func setupBindings() {
         rtkService.$rtkData
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newRtkData in
                 self?.rtkData = newRtkData
+                print("async: self?.rtkData", self?.rtkData)
             }
             .store(in: &cancellables)
-
+        
         rtkService.$ntripConfigModel
             .receive(on: DispatchQueue.main)
             .sink { [weak self] newNtripConfigData in
                 self?.ntripConfigData = newNtripConfigData
             }
             .store(in: &cancellables_ntrip)
+        
+        rtkService.$isConnected
+            .receive(on: RunLoop.main)
+            .sink { [weak self] isConnected in
+                if isConnected, let self = self {
+                    self.stopTimer()
+                }
+            }
+            .store(in: &cancellables)
     }
+    
+    // In RTKViewModel
+    func viewDidAppear() {
+        print("view disappear")
+        startAutoSearchTimer()
+        if !isConnected() {
+            startListening()
+        }
+    }
+
+    func viewDidDisappear() {
+        print("view disappear")
+        stopTimer()
+        toDisconnect()
+        endListening()  // If you want to stop listening when the view is not visible
+    }
+
+    
+    func startAutoSearchTimer() {
+        // Start the timer and immediately connect it to a sink that manages its events.
+        let subscription = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+            .sink { [weak self] _ in
+                self?.autoSearchAndConnect()
+            }
+        subscription.store(in: &cancellables)
+    }
+
+    func autoSearchAndConnect() {
+        print("is connected?:", rtkService.isConnected)
+        print("Available devices:", rtkData.list)
+        print("Selected device:", selectedDevice ?? "None")
+        
+        if !rtkService.isConnected {
+            if let firstDevice = rtkData.list.first {
+                print("Attempting to connect to first available device:", firstDevice)
+                if let index = rtkData.list.firstIndex(of: firstDevice) {
+                    selectedDevice = firstDevice  // Optionally set the first device as selected
+                    toConnect(index: index)
+                    print("debug 1 to connect index:", index)
+                }
+            } else {
+                rtkService.startListening()
+                print("autoSearchAndConnect(): start listening")
+            }
+        } else {
+            stopTimer()
+            print("stop timer as connected")
+        }
+    }
+    
+    func stopTimer() {
+        print("Stopping RTK ViewModel Timer")
+        cancellables.forEach { $0.cancel() }  // This cancels all subscriptions, including the timer.
+        cancellables.removeAll()  // Optionally clear the set if you are restarting the timer later.
+    }
+
     
     func connectDiff(){
         rtkService.toConnectDiff()
@@ -59,11 +127,11 @@ class RTKViewModel: ObservableObject {
     func getRtkData()-> RtkModel{
         return rtkData
     }
-
+    
     func getMountPoint(){
         rtkService.getMountPoint()
     }
-
+    
     func startListening() {
         rtkService.startListening()
     }
@@ -88,14 +156,18 @@ class RTKViewModel: ObservableObject {
         return rtkService.isConnected
     }
     
+    func isFixed()->Bool{
+        return rtkService.isFixed
+    }
+    
     var portString: String {
-            get {
-                return String(ntripConfigData.port)
-            }
-            set {
-                if let newPort = Int(newValue) {
-                    ntripConfigData.port = newPort
-                }
+        get {
+            return String(ntripConfigData.port)
+        }
+        set {
+            if let newPort = Int(newValue) {
+                ntripConfigData.port = newPort
             }
         }
+    }
 }
