@@ -134,6 +134,10 @@ struct ScanView: View {
         .onDisappear(){
             rtkViewModel.toDisconnect()
             rtkViewModel.stopTimer()
+            rtkViewModel.viewDidDisappear()
+        }
+        .onAppear(){
+            rtkViewModel.viewDidAppear()
         }
     }
     
@@ -164,7 +168,6 @@ struct ScanView: View {
         }
         .onDisappear{
             showTooFastWarning_mutex = false
-            rtkViewModel.viewDidDisappear()
         }
     }
     

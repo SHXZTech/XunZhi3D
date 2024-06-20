@@ -2,11 +2,18 @@ import SwiftUI
 import SceneKit
 
 struct StateModelViewer: View {
+    
     @Binding var modelURL: URL?
     @Binding var isModelViewerTop: Bool
-    
+
+    var uuid: UUID
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
+    
+    @State var showPointMeasureSheet = false
+    @State var point_x = 0.0;
+    @State var point_y = 0.0
+    @State var point_z = 0.0;
     
     @State var showMeasureSheet = false
     @State var measuredDistance = 0.0
@@ -28,7 +35,7 @@ struct StateModelViewer: View {
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
+                ObjModelMeasureView(objURL: url, isPointMeasureActive: $showPointMeasureSheet, point_x: $point_x, point_y: $point_y, point_z: $point_z, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
@@ -49,7 +56,17 @@ struct StateModelViewer: View {
             if newValue == false {
                 showPipelineSheet = false
                 showMeasureSheet = false
+                showPointMeasureSheet = false
             }
+        }
+        .sheet(isPresented: $showPointMeasureSheet) {
+            PointMeasureSheetView(isPresented: $showPointMeasureSheet, point_x: $point_x, point_y: $point_y, point_z: $point_z, uuid: self.uuid)
+                .presentationDetents([
+                    .height(150),   // 100 points //why set 150 here, whill toggle
+                ])
+                .presentationCornerRadius(0)
+                .presentationBackgroundInteraction(.enabled(upThrough: .height(150)))
+            
         }
         .sheet(isPresented: $showMeasureSheet) {
             MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit) // Your custom bottom sheet view
@@ -90,6 +107,8 @@ struct StateModelViewer: View {
             Spacer()
             HStack(){
                 Spacer()
+                pointMeasureButtonView()
+                Spacer()
                 measureButtonView()
                 Spacer()
                 pipelineButtonView()
@@ -97,6 +116,25 @@ struct StateModelViewer: View {
             }
             .padding(.bottom,20)
         }
+    }
+    
+    private func pointMeasureButtonView() -> some View {
+        VStack {
+            Button(action: {
+                showPointMeasureSheet = false;
+                showPointMeasureSheet.toggle()
+            }) {
+                Image(systemName: "mappin.and.ellipse")
+                    .font(.title)
+                    .frame(width: 50, height: 50)
+                    .background(Circle().fill(Color.white.opacity(0.4)))
+                    .foregroundColor(.white)
+            }
+            Text(NSLocalizedString("Point", comment: "Point"))
+                .foregroundColor(.white)
+                .font(.footnote)
+        }
+        .padding(.bottom, 10)
     }
     
     private func measureButtonView() -> some View {

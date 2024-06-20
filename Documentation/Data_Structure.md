@@ -1,6 +1,6 @@
-# Data Structure of SiteSight 
+# Data Structure of XunZhi3D 
 ## Overview
-The SiteSight dataset is organized into a hierarchical file structure, primarily divided into three main categories: `cameras`, `depth`, and `confidence`. Each category contains a series of files named according to a its timestamp.
+The XunZhi3D dataset is organized into a hierarchical file structure, primarily divided into three main categories: `cameras`, `depth`, and `confidence`. Each category contains a series of files named according to a its timestamp.
 ```
 ~/UUID/
 │

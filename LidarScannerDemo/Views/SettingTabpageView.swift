@@ -28,18 +28,18 @@ struct SettingTabpageView: View {
             ZStack{
                 Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0)
                 Form {
-                    //AccountSenction
+                    AccountSection
                     //RtkSection
                     AboutSection
                 }
             }
             .navigationTitle(NSLocalizedString("Setting", comment: "Setting"))
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(Color.black, for: .navigationBar, .tabBar)
+            .toolbarBackground(Color.white, for: .navigationBar, .tabBar)
         }
     }
     
-    private var AccountSenction: some View {
+    private var AccountSection: some View {
         Section(header: Text(NSLocalizedString("Account", comment: "Account"))) {
             Text("-")
         }
@@ -52,7 +52,7 @@ struct SettingTabpageView: View {
     }
     
     private var AboutSection: some View{
-        Section(header: Text(NSLocalizedString("About", comment: "Setting")),footer: HStack{ Text("SiteSight \(appVersion) \(buildNumber)")
+        Section(header: Text(NSLocalizedString("About", comment: "Setting")),footer: HStack{ Text("XunZhi3D \(appVersion) \(buildNumber)")
             Spacer()
             Text("Copyright © 2024 Shanghai Xunzhi")}){
                 NavigationLink(destination: VersionView()) {
@@ -63,9 +63,6 @@ struct SettingTabpageView: View {
                             .foregroundColor(.gray)
                             .font(.footnote)
                     }
-                }
-                NavigationLink(destination: LicenseView()) {
-                    Text(NSLocalizedString("Copyright", comment: "CopyRight"))
                 }
                 Link(destination: URL(string: "mailto:cs@xztech.xyz;cx@xztech.xyz")!) {
                             Text(NSLocalizedString("Feedback", comment: "Feedback"))

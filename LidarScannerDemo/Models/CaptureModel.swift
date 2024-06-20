@@ -27,6 +27,7 @@ struct RTKdata{
 
 struct CaptureModel: Identifiable {
     var id:UUID                         //UUID
+    var captureName:String?
     var isExist:Bool = false            // is folder exist
     var isRawMeshExist:Bool = false     // is rawmesh enable
     var isTexturedMeshExist:Bool = false; // check whether textured exist

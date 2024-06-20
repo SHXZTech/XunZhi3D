@@ -5,11 +5,19 @@ import SceneKit.ModelIO
 
 struct ObjModelMeasureView: UIViewRepresentable {
     var objURL: URL
+    // Point measure var
+    @Binding var isPointMeasureActive: Bool
+    @Binding var point_x: Double;
+    @Binding var point_y: Double;
+    @Binding var point_z: Double;
+    
+    // Line measure var
     @Binding var isMeasureActive: Bool
     @Binding var measuredDistance: Double
     @Binding var isMeasuredFirstPoint: Bool
     @Binding var isReturnToInit: Bool
     
+    // Pipeline measure var
     @Binding var isPipelineActive: Bool
     @Binding var isPipelineDrawFirstPoint: Bool
     @Binding var isPipelineReturnOneStep: Bool
@@ -75,16 +83,12 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     }
                     self.isExportImage = false
                 }
-                //TODO Adding export cad file function
-               
-                
             }
             
             if isExportCAD {
                 DispatchQueue.main.async {
                     let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
                     let dxfFilePath = documentsDirectory.appendingPathComponent("pipeline.dxf").path
-                    // Assuming exportCombinedDXF() creates a single DXF with both views
                     context.coordinator.exportCombinedDXF(to: dxfFilePath)
                     
                     // Now that the file has been created, convert the file path to a URL
@@ -94,7 +98,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
                     self.isExportCAD = false
                 }
             }
-
         } else {
             context.coordinator.clearPipelines()
         }
@@ -114,7 +117,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
             let clonedNode = node.clone()
             scene.rootNode.addChildNode(clonedNode)
         }
-        
         return scene
     }
     
@@ -189,6 +191,14 @@ struct ObjModelMeasureView: UIViewRepresentable {
             
             if let hitResult = hitResults.first {
                 let tappedPoint = hitResult.worldCoordinates
+                //Handle point measure mode
+                if parent.isPointMeasureActive{
+                    addPoint(at: tappedPoint, to: scene)
+                    parent.point_x = Double(tappedPoint.x)
+                    parent.point_y = Double(tappedPoint.y)
+                    parent.point_z = Double(tappedPoint.z)
+                }
+                
                 // Handle measure mode
                 if parent.isMeasureActive {
                     if firstPoint == nil {
@@ -244,15 +254,6 @@ struct ObjModelMeasureView: UIViewRepresentable {
                         // Assuming a simple pinhole camera model to relate FOV and focal length
                         let fy = 0.5 / tan(fieldOfView * 0.5 * Double.pi / 180) * Double(scnView.bounds.size.height)
                         let fx = fy * Double(aspectRatio) // Assuming square pixels (fx = fy * aspect ratio)
-
-                        // Print extrinsic parameters
-                        print("Camera Position: \(position)")
-                        print("Camera Orientation (quaternion): \(orientation)")
-
-                        // Print intrinsic parameters
-                        print("Field of View (degrees): \(fieldOfView)")
-                        print("Aspect Ratio: \(aspectRatio)")
-                        print("Focal Length (fx, fy) approximated: (\(fx), \(fy))")
                     }
                 }
             return snapshot
@@ -440,9 +441,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
         // Write the combined DXF content to a file
         do {
             try dxfContent.write(toFile: filePath, atomically: true, encoding: .utf8)
-            print("Combined DXF file successfully written to \(filePath)")
         } catch {
-            print("Failed to write combined DXF file: \(error)")
         }
         }
         
@@ -547,6 +546,10 @@ struct ObjModelMeasureView: UIViewRepresentable {
         private func addPoint(at position: SCNVector3, to scene: SCNScene) {
             var radius_ = 0.02
             var color_ = UIColor.systemRed
+            if self.parent.isPointMeasureActive{
+                radius_ = 0.02
+                color_ = UIColor.systemCyan
+            }
             if self.parent.isMeasureActive{
                 radius_ = 0.02
                 color_ = UIColor.systemRed

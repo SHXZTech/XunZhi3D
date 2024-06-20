@@ -1,7 +1,7 @@
-# SiteSight
+# XunZhi3D
 
 ## Introduction
-"SiteSight" is an iOS APP for underground asset management.
+"XunZhi3D" is an iOS APP for underground asset management.
 
 ## Development Guidance
 To develop this project, you must follow the development guidance [here](./Documentation/Develop_Guidance.md). You should read and follow the guidance carefully before you start to develop.

@@ -40,7 +40,7 @@ struct MainView: View {
                 .tag(0)
             Color.clear
                 .tabItem {
-                    Image("capture")
+                    Image(systemName:"plus.rectangle.fill")
                         .resizable()
                     Text(NSLocalizedString("scanTitle", comment: "Scan tab title"))
                 }

@@ -15,9 +15,10 @@ class RTKViewModel: ObservableObject {
     @Published var ntripConfigData = NtripConfigModel()
     @Published var selectedDevice: String?
     @Published var rtkService: RtkService
-    private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    //private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    private var timer: Timer?
     private var cancellables: Set<AnyCancellable> = []
-    private var timer_cancellables: Set<AnyCancellable> = []
+    //private var timer_cancellables: Set<AnyCancellable> = []
     private var cancellables_ntrip: Set<AnyCancellable> = []
     
     init() {
@@ -27,16 +28,11 @@ class RTKViewModel: ObservableObject {
     }
     
     private func setupBindings() {
-//        rtkService.$rtkData
-//            .receive(on: DispatchQueue.main)
-//            .sink { [weak self] newRtkData in
-//                self?.rtkData = newRtkData
-//                print("async: self?.rtkData", self?.rtkData)
-//            }
-//            .store(in: &cancellables)
         rtkService.$rtkData
             .receive(on: DispatchQueue.main)
-            .assign(to: \.rtkData, on: self)
+            .sink { [weak self] newRtkData in
+                self?.rtkData = newRtkData
+            }
             .store(in: &cancellables)
         
         rtkService.$ntripConfigModel
@@ -58,7 +54,6 @@ class RTKViewModel: ObservableObject {
     
     // In RTKViewModel
     func viewDidAppear() {
-        print("view disappear")
         startAutoSearchTimer()
         if !isConnected() {
             startListening()
@@ -66,50 +61,41 @@ class RTKViewModel: ObservableObject {
     }
 
     func viewDidDisappear() {
-        print("view disappear")
         stopTimer()
         toDisconnect()
-        endListening()  // If you want to stop listening when the view is not visible
+        endListening()
     }
+
 
     
     func startAutoSearchTimer() {
-        // Start the timer and immediately connect it to a sink that manages its events.
-        let subscription = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-            .sink { [weak self] _ in
+            stopTimer()
+            timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true) { [weak self] _ in
                 self?.autoSearchAndConnect()
             }
-        subscription.store(in: &timer_cancellables)
-    }
+        }
 
     func autoSearchAndConnect() {
-        print("is connected?:", rtkService.isConnected)
-        print("Available devices:", rtkData.list)
-        print("Selected device:", selectedDevice ?? "None")
         
         if !rtkService.isConnected {
             if let firstDevice = rtkData.list.first {
-                print("Attempting to connect to first available device:", firstDevice)
                 if let index = rtkData.list.firstIndex(of: firstDevice) {
                     selectedDevice = firstDevice  // Optionally set the first device as selected
                     toConnect(index: index)
-                    print("debug 1 to connect index:", index)
                 }
             } else {
                 rtkService.startListening()
-                print("autoSearchAndConnect(): start listening")
             }
         } else {
             stopTimer()
-            print("stop timer as connected")
         }
     }
+
     
     func stopTimer() {
-        print("Stopping RTK ViewModel Timer")
-        timer_cancellables.forEach { $0.cancel() } 
-        timer_cancellables.removeAll()
-    }
+            timer?.invalidate()
+            timer = nil
+        }
 
     
     func connectDiff(){

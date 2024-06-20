@@ -17,23 +17,23 @@ struct ServerConfigModel {
     var downloadTextureEndpoint: String
     
     var captureCreateURL: URL? {
-        URL(string: "https://\(serverAddress):\(serverPort)\(captureCreateEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(captureCreateEndpoint)")
     }
     
     var getUploadRouteURL: URL? {
-        URL(string: "https://\(serverAddress):\(serverPort)\(getUploadRouteEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(getUploadRouteEndpoint)")
     }
     
     var uploadCaptureURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(uploadCaptureEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(uploadCaptureEndpoint)")
     }
     
     var getCaptureStatusURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(getCaptureStatusEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(getCaptureStatusEndpoint)")
     }
     
     var getDownloadTextureURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(downloadTextureEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(downloadTextureEndpoint)")
     }
     
     // This initializer can be used to initialize the model with specific values.
