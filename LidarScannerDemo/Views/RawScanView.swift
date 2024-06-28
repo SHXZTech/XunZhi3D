@@ -1,6 +1,5 @@
 //
 //  RawScanViewer.swift
-//  SiteSight
 //
 //  Created by Tao Hu on 2023/4/21.
 //

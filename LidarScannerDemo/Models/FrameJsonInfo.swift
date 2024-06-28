@@ -142,7 +142,6 @@ struct FrameJsonInfo{
             let jsonData = try JSONSerialization.data(withJSONObject: cameraInfo, options: .prettyPrinted)
             try jsonData.write(to: fileURL)
         } catch {
-            logger.error("Failed to write camera info JSON data: \(error.localizedDescription)")
         }
     }
     

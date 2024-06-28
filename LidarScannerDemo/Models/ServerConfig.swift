@@ -15,29 +15,34 @@ struct ServerConfigModel {
     var uploadCaptureEndpoint: String
     var getCaptureStatusEndpoint: String
     var downloadTextureEndpoint: String
+    var registerUserEndpoint: String
     
     var captureCreateURL: URL? {
-        URL(string: "https://\(serverAddress):\(serverPort)\(captureCreateEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(captureCreateEndpoint)")
     }
     
     var getUploadRouteURL: URL? {
-        URL(string: "https://\(serverAddress):\(serverPort)\(getUploadRouteEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(getUploadRouteEndpoint)")
     }
     
     var uploadCaptureURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(uploadCaptureEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(uploadCaptureEndpoint)")
     }
     
     var getCaptureStatusURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(getCaptureStatusEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(getCaptureStatusEndpoint)")
     }
     
     var getDownloadTextureURL: URL?{
-        URL(string: "https://\(serverAddress):\(serverPort)\(downloadTextureEndpoint)")
+        URL(string: "http://\(serverAddress):\(serverPort)\(downloadTextureEndpoint)")
+    }
+    
+    var getRegisterUserURL: URL?{
+        URL(string: "http://\(serverAddress):\(serverPort)\(registerUserEndpoint)")
     }
     
     // This initializer can be used to initialize the model with specific values.
-    init(serverAddress: String, serverPort: Int, captureCreateEndpoint: String, getUploadRouteEndpoint: String, uploadCaptureEndPoint: String ,getCaptureStatusEndpoint: String,downloadTextureEndpoing: String, additionalConfig: [String: Any]) {
+    init(serverAddress: String, serverPort: Int, captureCreateEndpoint: String, getUploadRouteEndpoint: String, uploadCaptureEndPoint: String ,getCaptureStatusEndpoint: String,downloadTextureEndpoing: String,registerUserEndpoint: String, additionalConfig: [String: Any]) {
         self.serverAddress = serverAddress
         self.serverPort = serverPort
         self.captureCreateEndpoint = captureCreateEndpoint
@@ -45,6 +50,7 @@ struct ServerConfigModel {
         self.uploadCaptureEndpoint = uploadCaptureEndPoint
         self.getCaptureStatusEndpoint = getCaptureStatusEndpoint
         self.downloadTextureEndpoint = downloadTextureEndpoing
+        self.registerUserEndpoint = registerUserEndpoint
     }
     
     // Static method to load the server configuration from a plist file.
@@ -60,11 +66,12 @@ struct ServerConfigModel {
               let captureCreateEndpoint = dictionary["captureCreateEndpoint"] as? String,
               let uploadCaptureEndpoint = dictionary["uploadCaptureEndpoint"] as? String,
               let getCaptureStatusEndpoint = dictionary["getCaptureStatusEndpoint"] as? String,
-              let downloadTextureEndpoing = dictionary["downloadTextureEndpoint"] as? String,
+              let downloadTextureEndpoint = dictionary["downloadTextureEndpoint"] as? String,
+              let registerUserEndpoint = dictionary["registerUserEndpoint"] as? String,
               let getUploadRouteEndpoint = dictionary["getUploadRouteEndpoint"] as? String else {
             return nil
         }
-        return ServerConfigModel(serverAddress: serverAddress, serverPort: serverPort, captureCreateEndpoint: captureCreateEndpoint, getUploadRouteEndpoint: getUploadRouteEndpoint, uploadCaptureEndPoint: uploadCaptureEndpoint, getCaptureStatusEndpoint: getCaptureStatusEndpoint, downloadTextureEndpoing: downloadTextureEndpoing, additionalConfig: dictionary)
+        return ServerConfigModel(serverAddress: serverAddress, serverPort: serverPort, captureCreateEndpoint: captureCreateEndpoint, getUploadRouteEndpoint: getUploadRouteEndpoint, uploadCaptureEndPoint: uploadCaptureEndpoint, getCaptureStatusEndpoint: getCaptureStatusEndpoint, downloadTextureEndpoing: downloadTextureEndpoint, registerUserEndpoint: registerUserEndpoint, additionalConfig: dictionary)
     }
     
 }

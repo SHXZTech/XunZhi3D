@@ -57,7 +57,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func startListening() {
         endListening()
         toSearch()
-        print("start listening")
     }
     
     func endListening() {
@@ -69,7 +68,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func toSearch() {
         rtkData.list.removeAll()
         util?.toSearchDevice(with: .BleRTK)
-        print("to search")
     }
     
     func toDisconnect(isAuto: Bool = false) {
@@ -103,8 +101,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
         rtkData.satelliteCount = "\(deviceModel?.gpsCount ?? "")"
         rtkData.createTime = deviceModel?.createTime ?? Date()
         rtkData.timeStamp = Date()
-        print("map data:", rtkData)
-        print("isConnected:", isConnected)
         switch deviceModel?.gpsLevelValue ?? 0 {
         case 4:
             rtkData.diffStatus = "固定解"
@@ -128,7 +124,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
                 recordRTKfile(uuid_: uuid)
             }
         }
-        print("map data: rtkData.diffStatus:", rtkData.diffStatus)
     }
     
     func recordRTKfile(uuid_:UUID){
@@ -138,7 +133,6 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     }
 
     func hcDeviceDidFailWithError(_ error: HCStatusError) {
-        print("hcDeviceDidFailWithError",hcDeviceDidFailWithError)
         switch error {
         case .BleUnauthorized:
             break
@@ -166,14 +160,10 @@ class RtkService: NSObject, ObservableObject, HCUtilDelegate {
     func hcDeviceConnected(_ index: Int) {
         currentDeviceIndex = index
         isConnected = true
-        print("debug!!: isconnected = ", isConnected)
     }
     
     func hcReceive(_ deviceInfoBaseModel: HCDeviceInfoBaseModel!) {
-        print("hcReceive")
         if currentDeviceIndex < 0 || currentDeviceIndex >= rtkData.list.count {
-            print("debug hcReceive, currentDeviceIndex = ", currentDeviceIndex)
-            print("debug hcReceive, rtkData.list.count = ", rtkData.list.count)
             return
         }
         deviceModel = HCDeviceInfoBaseModel(model: deviceInfoBaseModel)

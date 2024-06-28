@@ -124,8 +124,6 @@ class LidarMeshModel:NSObject, ARSessionDelegate {
         let distance = Int(calculatePoseDistance(currentFramePose: currentFramePose, previousFramePose: previousFramePose)*100);
         let angleDiff = Int(calculatePoseAngle(currentFramePose: currentFramePose, previousFramePose: previousFramePose)/Float.pi * 180);
         if(distance >= distanceThreshold || angleDiff >= angleThreshold){
-            print("distance:", distance)
-            print("angleDiff:", angleDiff)
             return true
         }
         return false

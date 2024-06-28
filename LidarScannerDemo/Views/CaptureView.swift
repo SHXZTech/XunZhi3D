@@ -13,17 +13,18 @@ import ARKit
 
 struct CaptureView: View {
     var uuid: UUID
+    enum ViewMode {
+        case model, info
+    }
     @ObservedObject var captureService: CaptureViewService
     @Binding var isPresenting: Bool
     @State private var cloudButtonState: CloudButtonState = .wait_upload
     @State private var showDeleteAlert = false
+    @State private var showRenameBox = false;
+    @State private var newCaptureName = "";
     @State var uploadProgress: Float = 0.0
     @State var downloadProgress: Float = 0.0
     @State var isModelViewerTop: Bool = true;
-    
-    enum ViewMode {
-        case model, info
-    }
     @State private var selectedViewMode:ViewMode = ViewMode.model
     @State private var showErrorAlert = false
     @State private var errorMessage = ""
@@ -62,7 +63,7 @@ struct CaptureView: View {
     private var header: some View {
         ZStack {
             HStack{
-                CloudButtonView(cloudButtonState: $cloudButtonState,uploadProgress: $uploadProgress, downloadProgress: $downloadProgress, uploadAction: CloudButtonAction)
+                Text(captureService.captureModel.captureName ?? NSLocalizedString("untitled", comment: ""))
             }
             HStack {
                 Button(action: {
@@ -71,6 +72,12 @@ struct CaptureView: View {
                 .padding([.horizontal,.leading], 20)
                 Spacer()
                 Menu {
+                    Button(action: {
+                        newCaptureName = captureService.captureModel.captureName ?? ""
+                        self.showRenameBox = true
+                    }) {
+                        Label(NSLocalizedString("Rename", comment: ""), systemImage: "pencil").foregroundStyle(.white)
+                    }
                     Button(role: .destructive,action: {
                         self.showDeleteAlert = true
                     }) {
@@ -95,6 +102,12 @@ struct CaptureView: View {
                         secondaryButton: .cancel()
                     )
                 }
+                .alert("Rename", isPresented: $showRenameBox, actions: {
+                    TextField("", text: $newCaptureName)
+                        .foregroundColor(.black)
+                    Button("Sure", action: {captureService.changeCaptureName(newName: newCaptureName)})
+                    Button("Cancel", role: .cancel, action: {showRenameBox=false})
+                })
             }
             .frame(width: UIScreen.main.bounds.width)
         }
@@ -168,8 +181,8 @@ struct CaptureView: View {
             .pickerStyle(.segmented)
             .frame(width: 200, height: 50)
             .onChange(of: selectedViewMode) { newValue in
-                        isModelViewerTop = (newValue == .model)
-                    }
+                isModelViewerTop = (newValue == .model)
+            }
         }
     }
     
@@ -180,7 +193,7 @@ struct CaptureView: View {
                     VStack{
                         Spacer()
                         GeometryReader { geometry in
-                            StateModelViewer(modelURL: self.$modelURL, isModelViewerTop: self.$isModelViewerTop, width: geometry.size.width, height: geometry.size.height)
+                            StateModelViewer(modelURL: self.$modelURL, isModelViewerTop: self.$isModelViewerTop,uuid: self.uuid, width: geometry.size.width, height: geometry.size.height)
                                 .cornerRadius(15)
                         }
                         Spacer()

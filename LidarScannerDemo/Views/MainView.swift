@@ -21,7 +21,7 @@ struct MainView: View {
         }
         .onChange(of: showScanView) { newValue in
             if newValue {
-                currentUUID = UUID() // Update the UUID every time the ScanView is about to be presented
+                currentUUID = UUID()
             }
             if !newValue {
                 shouldReloadMaintagView = true
@@ -40,7 +40,7 @@ struct MainView: View {
                 .tag(0)
             Color.clear
                 .tabItem {
-                    Image("capture")
+                    Image(systemName:"plus.rectangle.fill")
                         .resizable()
                     Text(NSLocalizedString("scanTitle", comment: "Scan tab title"))
                 }
@@ -51,20 +51,19 @@ struct MainView: View {
                 }
             SettingTabpageView()
                 .tabItem {
-                    Image(systemName: "gearshape")
-                    Text(NSLocalizedString("settingsTitle", comment: "Settings tab title"))
+                    Image(systemName: "gear")
+                    Text(NSLocalizedString("Setting", comment: "Settings tab title"))
                 }
                 .tag(2)
         }
         .accentColor(Color.white)
-        .background(Color.black) // Set the background to black
-        .edgesIgnoringSafeArea(.bottom) // Extend the background color to the bottom edge of the screen
+        .background(Color.black)
+        .edgesIgnoringSafeArea(.bottom)
     }
 }
 
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        //Text("hello world")
         MainView()
     }
 }
