@@ -59,15 +59,6 @@ struct StateModelViewer: View {
                 showPointMeasureSheet = false
             }
         }
-        .sheet(isPresented: $showPointMeasureSheet) {
-            PointMeasureSheetView(isPresented: $showPointMeasureSheet, point_x: $point_x, point_y: $point_y, point_z: $point_z, uuid: self.uuid)
-                .presentationDetents([
-                    .height(150),   // 100 points //why set 150 here, whill toggle
-                ])
-                .presentationCornerRadius(0)
-                .presentationBackgroundInteraction(.enabled(upThrough: .height(150)))
-            
-        }
         .sheet(isPresented: $showMeasureSheet) {
             MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit) // Your custom bottom sheet view
                 .presentationDetents([
@@ -107,8 +98,6 @@ struct StateModelViewer: View {
             Spacer()
             HStack(){
                 Spacer()
-                pointMeasureButtonView()
-                Spacer()
                 measureButtonView()
                 Spacer()
                 pipelineButtonView()
@@ -118,24 +107,6 @@ struct StateModelViewer: View {
         }
     }
     
-    private func pointMeasureButtonView() -> some View {
-        VStack {
-            Button(action: {
-                showPointMeasureSheet = false;
-                showPointMeasureSheet.toggle()
-            }) {
-                Image(systemName: "mappin.and.ellipse")
-                    .font(.title)
-                    .frame(width: 50, height: 50)
-                    .background(Circle().fill(Color.white.opacity(0.4)))
-                    .foregroundColor(.white)
-            }
-            Text(NSLocalizedString("Point", comment: "Point"))
-                .foregroundColor(.white)
-                .font(.footnote)
-        }
-        .padding(.bottom, 10)
-    }
     
     private func measureButtonView() -> some View {
         VStack {

@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */; };
 		BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */; };
-		E900E67A2C1BEF55009403C4 /* PointMeasureService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E6792C1BEF55009403C4 /* PointMeasureService.swift */; };
 		E900E7E62C243219009403C4 /* RenameAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E7E52C243219009403C4 /* RenameAlertView.swift */; };
 		E900E8402C2510B1009403C4 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E83F2C2510B1009403C4 /* AccountModel.swift */; };
 		E900E8422C251EA4009403C4 /* LonginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E8412C251EA4009403C4 /* LonginService.swift */; };
@@ -169,7 +168,6 @@
 		7CCBFF764547F1403EB3F003 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BB00534AEC80808FD05056D7 /* Pods-LidarScannerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C0CC02439DDA09D6F965DFE2 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		E900E6792C1BEF55009403C4 /* PointMeasureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointMeasureService.swift; sourceTree = "<group>"; };
 		E900E7E52C243219009403C4 /* RenameAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameAlertView.swift; sourceTree = "<group>"; };
 		E900E83F2C2510B1009403C4 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
 		E900E8412C251EA4009403C4 /* LonginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LonginService.swift; sourceTree = "<group>"; };
@@ -540,7 +538,6 @@
 				E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */,
 				E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */,
 				E900E8412C251EA4009403C4 /* LonginService.swift */,
-				E900E6792C1BEF55009403C4 /* PointMeasureService.swift */,
 				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
 				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
 				E9BE0DA32AE7A552006269D7 /* RtkService.swift */,
@@ -919,7 +916,6 @@
 				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
 				E95D2AE82B6B4DC700648DBC /* VersionView.swift in Sources */,
-				E900E67A2C1BEF55009403C4 /* PointMeasureService.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
