@@ -45,6 +45,7 @@ struct CloudService  {
         self.serverConfig = loadedConfig!
     }
     
+    
     // Function to create a capture
     func createCapture(uuid: UUID, completion: @escaping (Result<String, Error>) -> Void) {
         guard let url = serverConfig.captureCreateURL else {
@@ -244,6 +245,9 @@ struct CaptureStatusResponse: Codable {
 enum CloudServiceError: Error {
     case invalidURL
     case unknown
+    case serverError(statusCode: Int)
+    case decodingError
+    case noData
 }
 
 extension NSMutableData {
@@ -275,3 +279,56 @@ extension Data {
     }
 }
 
+
+
+extension CloudService {
+    func registerUser(phoneNumber: String, hashed_password: String, completion: @escaping (Result<String, Error>) -> Void) {
+        guard let url = serverConfig.getRegisterUserURL else {
+            completion(.failure(CloudServiceError.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: Any] = [
+            "user_phone": phoneNumber,
+            "hashed_password": hashed_password,
+            "user_name": "" // Add other fields as necessary
+        ]
+        
+        do {
+            request.httpBody = try JSONSerialization.data(withJSONObject: body)
+        } catch {
+            completion(.failure(error))
+            return
+        }
+        
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            
+            guard let data = data else {
+                completion(.failure(CloudServiceError.noData))
+                return
+            }
+            
+            if let httpResponse = response as? HTTPURLResponse {
+                if httpResponse.statusCode == 201 {
+                    if let responseString = String(data: data, encoding: .utf8) {
+                        completion(.success(responseString))
+                    } else {
+                        completion(.failure(CloudServiceError.decodingError))
+                    }
+                } else {
+                    completion(.failure(CloudServiceError.serverError(statusCode: httpResponse.statusCode)))
+                }
+            } else {
+                completion(.failure(CloudServiceError.unknown))
+            }
+        }.resume()
+    }
+}

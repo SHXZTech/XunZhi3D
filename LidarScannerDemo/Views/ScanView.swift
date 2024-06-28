@@ -249,13 +249,8 @@ struct ScanView: View {
             }
         case "scanning":
             finishScan()
-            
         default: return
         }
-        
-        
-        
-        
     }
     
     private func startScan() {

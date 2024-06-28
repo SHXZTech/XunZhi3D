@@ -12,6 +12,8 @@
 	<string>/capture/get_capture_status</string>
 	<key>captureCreateEndpoint</key>
 	<string>/capture/create</string>
+	<key>registerUserEndpoint</key>
+	<string>/user/register</string>
 	<key>serverPort</key>
 	<integer>5000</integer>
 	<key>serverAddress</key>
