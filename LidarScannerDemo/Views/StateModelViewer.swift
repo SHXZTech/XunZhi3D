@@ -2,11 +2,18 @@ import SwiftUI
 import SceneKit
 
 struct StateModelViewer: View {
+    
     @Binding var modelURL: URL?
     @Binding var isModelViewerTop: Bool
-    
+
+    var uuid: UUID
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
+    
+    @State var showPointMeasureSheet = false
+    @State var point_x = 0.0;
+    @State var point_y = 0.0
+    @State var point_z = 0.0;
     
     @State var showMeasureSheet = false
     @State var measuredDistance = 0.0
@@ -28,7 +35,7 @@ struct StateModelViewer: View {
     var body: some View {
         ZStack {
             if let url = modelURL {
-                ObjModelMeasureView(objURL: url, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
+                ObjModelMeasureView(objURL: url, isPointMeasureActive: $showPointMeasureSheet, point_x: $point_x, point_y: $point_y, point_z: $point_z, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
             } else {
@@ -49,6 +56,7 @@ struct StateModelViewer: View {
             if newValue == false {
                 showPipelineSheet = false
                 showMeasureSheet = false
+                showPointMeasureSheet = false
             }
         }
         .sheet(isPresented: $showMeasureSheet) {
@@ -98,6 +106,7 @@ struct StateModelViewer: View {
             .padding(.bottom,20)
         }
     }
+    
     
     private func measureButtonView() -> some View {
         VStack {

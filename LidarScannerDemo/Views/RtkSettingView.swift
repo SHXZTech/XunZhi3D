@@ -4,7 +4,6 @@ struct RtkSettingView: View {
     @ObservedObject var viewModel: RTKViewModel
     @Binding var isPresented: Bool
     @State private var showingWarningAlert = false
-    @State private var timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
     
     enum WarningType {
         case noDeviceConnected
@@ -34,14 +33,8 @@ struct RtkSettingView: View {
                 if(!viewModel.rtkService.isConnected){
                     viewModel.startListening()
                     toggleRtkSearch()
-                    startTimer()
+                    viewModel.startAutoSearchTimer()
                 }
-            }
-            .onDisappear {
-                self.timer.upstream.connect().cancel()
-            }
-            .onReceive(timer) { _ in
-                toggleRtkSearch()
             }
         }
     }
@@ -68,7 +61,6 @@ struct RtkSettingView: View {
     
     func formattedDate(with date: Date) -> String {
         let formatter = DateFormatter()
-        // Include milliseconds in the format - "yyyy-MM-dd HH:mm:ss.SSS"
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss.SSS"
         return formatter.string(from: date)
     }
@@ -154,7 +146,7 @@ struct RtkSettingView: View {
         HStack {
             Text(NSLocalizedString("None", comment: ""))
             Spacer()
-            Text(NSLocalizedString("Searching", comment: "")+" ...") // Small "Searching..." text
+            Text(NSLocalizedString("Searching", comment: "")+" ...")
                 .font(.footnote)
                 .foregroundColor(Color.gray)
             ProgressView() // Loading spinner
@@ -215,10 +207,10 @@ struct RtkSettingView: View {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                 determineWarning()
                 if currentWarning != .none {
-                    self.timer.upstream.connect().cancel() // Cancel the timer immediately
+                    viewModel.stopTimer()
+                    // self.timer.upstream.connect().cancel() // Cancel the timer immediately
                     showingWarningAlert = true
                 } else {
-                    
                     viewModel.rtkService.toConnectDiff()
                     self.isPresented = false
                 }
@@ -231,19 +223,19 @@ struct RtkSettingView: View {
                   message: Text(warningMessage(for: currentWarning)),
                   dismissButton: .default(Text(NSLocalizedString("OK", comment: ""))) {
                 //RtkService.
-                startTimer()  // Restart the timer once the alert is dismissed
+                viewModel.startAutoSearchTimer()  // Restart the timer once the alert is dismissed
             })
         }
     }
     
-    func startTimer() {
-        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
-        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
-    }
-    
-    func stopTimer(){
-        self.timer.upstream.connect().cancel() // Cancel the timer immediately
-    }
+    //    func startTimer() {
+    //        self.timer.upstream.connect().cancel() // Ensure we cancel any existing timer
+    //        self.timer = Timer.publish(every: 3, on: .main, in: .common).autoconnect()
+    //    }
+    //
+    //    func stopTimer(){
+    //        self.timer.upstream.connect().cancel() // Cancel the timer immediately
+    //    }
     
     
     func toggleRtkSearch() {

@@ -8,27 +8,38 @@
 import SwiftUI
 
 struct SettingTabpageView: View {
+    @State private var isAccountPagePresented = false
+    @State private var isLoginPagePresented = false
+    @StateObject private var accountViewModel: AccountViewModel
+    
+    
     let buildNumber = Bundle.main.object(forInfoDictionaryKey: "BundleVersionNumber") as? String ?? "Unknown"
     let appVersion = Bundle.main.object(forInfoDictionaryKey: "BundleVersion") as? String ?? "Unknown"
-    
     @AppStorage("selectedLanguage") private var selectedLanguage = Locale.current.language.languageCode?.identifier ?? "en"
-       var supportedLanguages: [String: String] {
-           guard let languageCodes = Bundle.main.object(forInfoDictionaryKey: "CFBundleLocalizations") as? [String] else { return [:] }
-           var languages: [String: String] = [:]
-           languageCodes.forEach { code in
-               let locale = Locale(identifier: code)
-               let languageName = locale.localizedString(forLanguageCode: code) ?? code
-               languages[code] = languageName
-           }
-           return languages
-       }
+    
+    init() {
+        let accountService = AccountService()
+        let accountViewModel = AccountViewModel(accountService: accountService)
+        self._accountViewModel = StateObject(wrappedValue: accountViewModel)
+    }
+    
+    var supportedLanguages: [String: String] {
+        guard let languageCodes = Bundle.main.object(forInfoDictionaryKey: "CFBundleLocalizations") as? [String] else { return [:] }
+        var languages: [String: String] = [:]
+        languageCodes.forEach { code in
+            let locale = Locale(identifier: code)
+            let languageName = locale.localizedString(forLanguageCode: code) ?? code
+            languages[code] = languageName
+        }
+        return languages
+    }
     
     var body: some View {
         NavigationStack {
             ZStack{
                 Color(red: 0.05, green: 0.05, blue: 0.05, opacity: 1.0)
                 Form {
-                    //AccountSenction
+                    AccountSection
                     //RtkSection
                     AboutSection
                 }
@@ -37,11 +48,41 @@ struct SettingTabpageView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(Color.black, for: .navigationBar, .tabBar)
         }
+        .sheet(isPresented: $isAccountPagePresented) {
+            AccountPageView(isPresented: $isAccountPagePresented)
+        }
+        .sheet(isPresented: $isLoginPagePresented){
+            LoginPageView(isPresented: $isLoginPagePresented)
+        }
     }
     
-    private var AccountSenction: some View {
+    private var AccountSection: some View {
         Section(header: Text(NSLocalizedString("Account", comment: "Account"))) {
-            Text("-")
+            HStack{
+                Image(systemName: "person.crop.circle")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 50, height: 50)
+                VStack(alignment: .leading){
+                    Text(accountViewModel.account.Name)
+                        .font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
+                    Text(accountViewModel.account.OrganizationName)
+                        .font(.subheadline)
+                }
+                .padding(.horizontal,10)
+                Spacer()
+                Image(systemName: "chevron.right")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(.gray)
+            }
+        }
+        .onTapGesture {
+            if (accountViewModel.isAccountActive == true){
+                isAccountPagePresented = true}
+            else{
+                isLoginPagePresented = true}
         }
     }
     
@@ -52,8 +93,8 @@ struct SettingTabpageView: View {
     }
     
     private var AboutSection: some View{
-        Section(header: Text(NSLocalizedString("About", comment: "Setting")),footer: HStack{ Text("SiteSight \(appVersion) \(buildNumber)")
-            Spacer()
+        Section(header: Text(NSLocalizedString("About", comment: "Setting")),
+                footer: VStack(alignment:.leading){ Text("XunZhi3D \(appVersion) \(buildNumber)")
             Text("Copyright © 2024 Shanghai Xunzhi")}){
                 NavigationLink(destination: VersionView()) {
                     HStack {
@@ -64,29 +105,11 @@ struct SettingTabpageView: View {
                             .font(.footnote)
                     }
                 }
-                NavigationLink(destination: LicenseView()) {
-                    Text(NSLocalizedString("Copyright", comment: "CopyRight"))
-                }
                 Link(destination: URL(string: "mailto:cs@xztech.xyz;cx@xztech.xyz")!) {
-                            Text(NSLocalizedString("Feedback", comment: "Feedback"))
-                        }
-//                NavigationLink(destination: DeveloperView()) {
-//                    Text(NSLocalizedString("Developer", comment: "Developer"))
-//                }
-//                Picker("Language", selection: $selectedLanguage) {
-//                    ForEach(supportedLanguages.keys.sorted(), id: \.self) { key in
-//                        Text(supportedLanguages[key] ?? key).tag(key)
-//                    }
-//                }
-//                .onChange(of: selectedLanguage) { newValue in
-//                    LocalizationManager.shared.setLanguage(newValue)
-//                    // Additional logic to refresh the UI
-//                }
+                    Text(NSLocalizedString("Feedback", comment: "Feedback"))
+                }
             }
     }
     
 }
 
-#Preview {
-    SettingTabpageView()
-}

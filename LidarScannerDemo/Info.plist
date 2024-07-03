@@ -5,7 +5,7 @@
 	<key>BundleVersion</key>
 	<string>Beta</string>
 	<key>BundleVersionNumber</key>
-	<string>1.1</string>
+	<string>20240426</string>
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>zh_CN</string>

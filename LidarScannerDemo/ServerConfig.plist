@@ -12,9 +12,11 @@
 	<string>/capture/get_capture_status</string>
 	<key>captureCreateEndpoint</key>
 	<string>/capture/create</string>
+	<key>registerUserEndpoint</key>
+	<string>/user/register</string>
 	<key>serverPort</key>
-	<integer>443</integer>
+	<integer>5000</integer>
 	<key>serverAddress</key>
-	<string>api.graphopti.com</string>
+	<string>106.54.242.254</string>
 </dict>
 </plist>

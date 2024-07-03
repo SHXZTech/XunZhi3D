@@ -1,12 +1,12 @@
 ---
 
-# SiteSight Data Format Documentation
+# XunZhi3D Data Format Documentation
 
 ## Overview
-The SiteSight format is designed for comprehensive data collection in 3D scene reconstruction, featuring a combination of imaging, depth, and positioning data. The file structure is organized to facilitate detailed scene analysis and modeling.
+The XunZhi3D format is designed for comprehensive data collection in 3D scene reconstruction, featuring a combination of imaging, depth, and positioning data. The file structure is organized to facilitate detailed scene analysis and modeling.
 
 ## File Structure
-The SiteSight data set typically includes the following files and directories:
+The XunZhi3D data set typically includes the following files and directories:
 
 ### 1. Image Files
 - **`RGB_*.jpeg`**: These are the RGB (color) images captured for each frame. The filename usually contains a timestamp or identifier.

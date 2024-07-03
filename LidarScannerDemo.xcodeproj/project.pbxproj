@@ -9,6 +9,14 @@
 /* Begin PBXBuildFile section */
 		8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */; };
 		BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */; };
+		E900E7E62C243219009403C4 /* RenameAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E7E52C243219009403C4 /* RenameAlertView.swift */; };
+		E900E8402C2510B1009403C4 /* AccountModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E83F2C2510B1009403C4 /* AccountModel.swift */; };
+		E900E8422C251EA4009403C4 /* LonginService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E8412C251EA4009403C4 /* LonginService.swift */; };
+		E900E8462C252232009403C4 /* AccountPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E8452C252232009403C4 /* AccountPageView.swift */; };
+		E900E8482C255096009403C4 /* AccountService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E8472C255096009403C4 /* AccountService.swift */; };
+		E900E84A2C2550BC009403C4 /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E8492C2550BC009403C4 /* AccountViewModel.swift */; };
+		E900E84E2C255889009403C4 /* LoginPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E84D2C255889009403C4 /* LoginPageView.swift */; };
+		E900E8502C256612009403C4 /* RegisterPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E84F2C256612009403C4 /* RegisterPageView.swift */; };
 		E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9175A032B44108F00843379 /* ObjModelMeasureView.swift */; };
 		E91E13512B4E99C50007BAC8 /* MeasureSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */; };
 		E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E920AEBE2B22F94900B06C30 /* ObjModelView.swift */; };
@@ -29,7 +37,6 @@
 		E94FB87C2B3472D600807E86 /* Podfile in Resources */ = {isa = PBXBuildFile; fileRef = E94FB87B2B3472D600807E86 /* Podfile */; };
 		E95ADFC12B08993C00F3AAB6 /* CoordinateService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */; };
 		E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */; };
-		E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */; };
 		E95D2AC02B6A621400648DBC /* UploadButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */; };
 		E95D2AD72B6B4DC700648DBC /* ObjModelMeasureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */; };
 		E95D2AD82B6B4DC700648DBC /* ScanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E95D2AC32B6B4DC700648DBC /* ScanView.swift */; };
@@ -75,6 +82,9 @@
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
 		E97053AD2B07421900241635 /* MapMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97053AC2B07421900241635 /* MapMarkView.swift */; };
+		E9881CA72C088E33001D32BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9881CA62C088E33001D32BA /* GoogleService-Info.plist */; };
+		E9A56B8E2C12D5F20053399F /* PointMeausreSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A56B8D2C12D5F20053399F /* PointMeausreSheetView.swift */; };
+		E9A56B902C12E2E00053399F /* GeoToolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */; };
 		E9A819C52BB16606004F8496 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A819C42BB16606004F8496 /* ShareSheet.swift */; };
 		E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D932AE7945B006269D7 /* RtkModel.swift */; };
 		E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */; };
@@ -85,16 +95,6 @@
 		E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */; };
 		E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */; };
 		E9C836082B4FCFB00022AB18 /* PipelineSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */; };
-		E9C84ECA2BC3DCD5007B9401 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */; };
-		E9C84ECD2BC3DDA0007B9401 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */; };
-		E9C84ECF2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */; };
-		E9C84ED12BC3DDA0007B9401 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */; };
-		E9C84ED32BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		E9C84ED52BC3DDA0007B9401 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */; };
-		E9C84ED72BC3DDA0007B9401 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */; };
-		E9C84ED92BC3DDA0007B9401 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */; };
-		E9C84EDB2BC3DDA0007B9401 /* FirebaseInstallations in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */; };
-		E9C84EDD2BC3DDA0007B9401 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */; };
 		E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */; };
 		E9E2A88A2B049F8400400270 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8892B049F8400400270 /* CaptureView.swift */; };
 		E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8912B04BBBC00400270 /* CaptureModel.swift */; };
@@ -102,10 +102,6 @@
 		E9E2A8962B04C2AE00400270 /* FileManagerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E2A8952B04C2AE00400270 /* FileManagerService.swift */; };
 		E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E318952B3D0E3500927519 /* CloudButtonView.swift */; };
 		E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */; };
-		E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */; };
-		E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */; };
-		E9E62A992AF8A9F2002DFB2C /* iPhone App@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A8F2AF8A9F2002DFB2C /* iPhone App@2x.png */; };
-		E9E62A9A2AF8A9F2002DFB2C /* iPhone App@1x.png in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A902AF8A9F2002DFB2C /* iPhone App@1x.png */; };
 		E9E62A9B2AF8A9F2002DFB2C /* ntrip_config.json in Resources */ = {isa = PBXBuildFile; fileRef = E9E62A922AF8A9F2002DFB2C /* ntrip_config.json */; };
 		E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E9E62A952AF8A9F2002DFB2C /* LiteRTK.framework */; };
 		E9E62A9F2AF8BBD4002DFB2C /* LiteRTK.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = E9E62A952AF8A9F2002DFB2C /* LiteRTK.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -172,6 +168,14 @@
 		7CCBFF764547F1403EB3F003 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.release.xcconfig"; sourceTree = "<group>"; };
 		BB00534AEC80808FD05056D7 /* Pods-LidarScannerDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.debug.xcconfig"; sourceTree = "<group>"; };
 		C0CC02439DDA09D6F965DFE2 /* Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo-LidarScannerDemoUITests/Pods-LidarScannerDemo-LidarScannerDemoUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		E900E7E52C243219009403C4 /* RenameAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RenameAlertView.swift; sourceTree = "<group>"; };
+		E900E83F2C2510B1009403C4 /* AccountModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountModel.swift; sourceTree = "<group>"; };
+		E900E8412C251EA4009403C4 /* LonginService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LonginService.swift; sourceTree = "<group>"; };
+		E900E8452C252232009403C4 /* AccountPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountPageView.swift; sourceTree = "<group>"; };
+		E900E8472C255096009403C4 /* AccountService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountService.swift; sourceTree = "<group>"; };
+		E900E8492C2550BC009403C4 /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
+		E900E84D2C255889009403C4 /* LoginPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginPageView.swift; sourceTree = "<group>"; };
+		E900E84F2C256612009403C4 /* RegisterPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterPageView.swift; sourceTree = "<group>"; };
 		E9175A032B44108F00843379 /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
 		E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasureSheetView.swift; sourceTree = "<group>"; };
 		E920AEBE2B22F94900B06C30 /* ObjModelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjModelView.swift; sourceTree = "<group>"; };
@@ -194,7 +198,6 @@
 		E950595D2B10AC8F002312CB /* Data_format.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Data_format.md; sourceTree = "<group>"; };
 		E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateService.swift; sourceTree = "<group>"; };
 		E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfoViewModel.swift; sourceTree = "<group>"; };
-		E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelInfo.swift; sourceTree = "<group>"; };
 		E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadButtonView.swift; sourceTree = "<group>"; };
 		E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjModelMeasureView.swift; sourceTree = "<group>"; };
 		E95D2AC32B6B4DC700648DBC /* ScanView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ScanView.swift; sourceTree = "<group>"; };
@@ -244,7 +247,10 @@
 		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 		E97053AC2B07421900241635 /* MapMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
+		E9881CA62C088E33001D32BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E99C2B692B58E486003EB3B8 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A56B8D2C12D5F20053399F /* PointMeausreSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointMeausreSheetView.swift; sourceTree = "<group>"; };
+		E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoToolBox.swift; sourceTree = "<group>"; };
 		E9A819C42BB16606004F8496 /* ShareSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheet.swift; sourceTree = "<group>"; };
 		E9BE0D932AE7945B006269D7 /* RtkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkModel.swift; sourceTree = "<group>"; };
 		E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RtkViewModel.swift; sourceTree = "<group>"; };
@@ -255,7 +261,6 @@
 		E9BE9B0E2B01FAA700C91715 /* BundelExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BundelExtension.swift; sourceTree = "<group>"; };
 		E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
 		E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PipelineSheetView.swift; sourceTree = "<group>"; };
-		E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RtkConfigJsonManager.swift; sourceTree = "<group>"; };
 		E9E2A8892B049F8400400270 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		E9E2A8912B04BBBC00400270 /* CaptureModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureModel.swift; sourceTree = "<group>"; };
@@ -263,10 +268,6 @@
 		E9E2A8952B04C2AE00400270 /* FileManagerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerService.swift; sourceTree = "<group>"; };
 		E9E318952B3D0E3500927519 /* CloudButtonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudButtonView.swift; sourceTree = "<group>"; };
 		E9E62A8B2AF8A9F2002DFB2C /* develop_FAQs.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = develop_FAQs.md; sourceTree = "<group>"; };
-		E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@3x.png"; sourceTree = "<group>"; };
-		E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App.png"; sourceTree = "<group>"; };
-		E9E62A8F2AF8A9F2002DFB2C /* iPhone App@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@2x.png"; sourceTree = "<group>"; };
-		E9E62A902AF8A9F2002DFB2C /* iPhone App@1x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "iPhone App@1x.png"; sourceTree = "<group>"; };
 		E9E62A922AF8A9F2002DFB2C /* ntrip_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ntrip_config.json; sourceTree = "<group>"; };
 		E9E62A952AF8A9F2002DFB2C /* LiteRTK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = LiteRTK.framework; sourceTree = "<group>"; };
 		E9E62AA02AF8D5F4002DFB2C /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -296,17 +297,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E9C84EDD2BC3DDA0007B9401 /* FirebasePerformance in Frameworks */,
 				E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */,
-				E9C84ED32BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 				8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */,
-				E9C84ECD2BC3DDA0007B9401 /* FirebaseAnalytics in Frameworks */,
-				E9C84ED52BC3DDA0007B9401 /* FirebaseAppCheck in Frameworks */,
-				E9C84ECF2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion in Frameworks */,
-				E9C84ED92BC3DDA0007B9401 /* FirebaseCrashlytics in Frameworks */,
-				E9C84ED12BC3DDA0007B9401 /* FirebaseAnalyticsSwift in Frameworks */,
-				E9C84ED72BC3DDA0007B9401 /* FirebaseAuth in Frameworks */,
-				E9C84EDB2BC3DDA0007B9401 /* FirebaseInstallations in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,27 +337,31 @@
 		E95D2AC12B6B4DC700648DBC /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */,
-				E95D2AC32B6B4DC700648DBC /* ScanView.swift */,
-				E95D2AC42B6B4DC700648DBC /* ModelViewer.swift */,
-				E95D2AC52B6B4DC700648DBC /* GeoSensorView.swift */,
-				E95D2AC62B6B4DC700648DBC /* CloudButtonView.swift */,
-				E95D2AC72B6B4DC700648DBC /* UploadButtonView.swift */,
-				E95D2AC82B6B4DC700648DBC /* ModelInfoView.swift */,
-				E95D2AC92B6B4DC700648DBC /* MeasureSheetView.swift */,
-				E95D2ACA2B6B4DC700648DBC /* RawScanView.swift */,
+				E900E8452C252232009403C4 /* AccountPageView.swift */,
 				E95D2ACB2B6B4DC700648DBC /* CapturePreviewView.swift */,
-				E95D2ACC2B6B4DC700648DBC /* RtkSettingView.swift */,
-				E95D2ACD2B6B4DC700648DBC /* ObjModelView.swift */,
-				E95D2ACE2B6B4DC700648DBC /* LicenseView.swift */,
-				E95D2ACF2B6B4DC700648DBC /* MapMarkView.swift */,
-				E95D2AD02B6B4DC700648DBC /* StateModelViewer.swift */,
-				E95D2AD12B6B4DC700648DBC /* SettingTabpageView.swift */,
-				E95D2AD22B6B4DC700648DBC /* MainView.swift */,
-				E95D2AD32B6B4DC700648DBC /* VersionView.swift */,
-				E95D2AD42B6B4DC700648DBC /* PipelineSheetView.swift */,
-				E95D2AD52B6B4DC700648DBC /* MainTagView.swift */,
 				E95D2AD62B6B4DC700648DBC /* CaptureView.swift */,
+				E95D2AC62B6B4DC700648DBC /* CloudButtonView.swift */,
+				E95D2AC52B6B4DC700648DBC /* GeoSensorView.swift */,
+				E95D2ACE2B6B4DC700648DBC /* LicenseView.swift */,
+				E900E84D2C255889009403C4 /* LoginPageView.swift */,
+				E95D2AD52B6B4DC700648DBC /* MainTagView.swift */,
+				E95D2AD22B6B4DC700648DBC /* MainView.swift */,
+				E95D2ACF2B6B4DC700648DBC /* MapMarkView.swift */,
+				E95D2AC92B6B4DC700648DBC /* MeasureSheetView.swift */,
+				E95D2AC82B6B4DC700648DBC /* ModelInfoView.swift */,
+				E95D2AC42B6B4DC700648DBC /* ModelViewer.swift */,
+				E95D2AC22B6B4DC700648DBC /* ObjModelMeasureView.swift */,
+				E95D2ACD2B6B4DC700648DBC /* ObjModelView.swift */,
+				E95D2AD42B6B4DC700648DBC /* PipelineSheetView.swift */,
+				E95D2ACA2B6B4DC700648DBC /* RawScanView.swift */,
+				E900E84F2C256612009403C4 /* RegisterPageView.swift */,
+				E900E7E52C243219009403C4 /* RenameAlertView.swift */,
+				E95D2ACC2B6B4DC700648DBC /* RtkSettingView.swift */,
+				E95D2AC32B6B4DC700648DBC /* ScanView.swift */,
+				E95D2AD12B6B4DC700648DBC /* SettingTabpageView.swift */,
+				E95D2AD02B6B4DC700648DBC /* StateModelViewer.swift */,
+				E95D2AC72B6B4DC700648DBC /* UploadButtonView.swift */,
+				E95D2AD32B6B4DC700648DBC /* VersionView.swift */,
 			);
 			name = Views;
 			sourceTree = "<group>";
@@ -373,21 +369,21 @@
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
-				E9C84EC92BC3DCD5007B9401 /* GoogleService-Info.plist */,
+				E9325BF02A08F66300BD5A05 /* LICENSE */,
 				E94FB87B2B3472D600807E86 /* Podfile */,
-				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
-				E9BE9B032B01F14800C91715 /* en.lproj */,
+				E9325BF12A08F66300BD5A05 /* README.md */,
+				E9881CA62C088E33001D32BA /* GoogleService-Info.plist */,
 				E9E62A8C2AF8A9F2002DFB2C /* Assets */,
 				E9E62A912AF8A9F2002DFB2C /* Config */,
 				E9E62A8A2AF8A9F2002DFB2C /* Documentation */,
+				E9BE9B032B01F14800C91715 /* en.lproj */,
 				E9E62A942AF8A9F2002DFB2C /* Frameworks */,
-				E9325BF02A08F66300BD5A05 /* LICENSE */,
-				E9325BF12A08F66300BD5A05 /* README.md */,
 				E963F65B29F23EB100CDE6E1 /* LidarScannerDemo */,
 				E963F66E29F23EB200CDE6E1 /* LidarScannerDemoTests */,
 				E963F67829F23EB200CDE6E1 /* LidarScannerDemoUITests */,
-				E963F65A29F23EB100CDE6E1 /* Products */,
 				C3F0DB811AB823832C1FAD48 /* Pods */,
+				E963F65A29F23EB100CDE6E1 /* Products */,
+				E9BE9B042B01F17D00C91715 /* zh-Hans.lproj */,
 			);
 			sourceTree = "<group>";
 		};
@@ -470,28 +466,29 @@
 		E963F6A729F3912900CDE6E1 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */,
-				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
-				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
-				E920AEBE2B22F94900B06C30 /* ObjModelView.swift */,
-				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
-				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
-				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
-				E9E62AA02AF8D5F4002DFB2C /* MainView.swift */,
-				E9E62AA82AFA490D002DFB2C /* SettingTabpageView.swift */,
-				E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */,
-				E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */,
 				E9E62AB82AFB9E69002DFB2C /* CapturePreviewView.swift */,
 				E9E2A8892B049F8400400270 /* CaptureView.swift */,
-				E9F596802B06EDDD00899219 /* VersionView.swift */,
-				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
-				E97053AC2B07421900241635 /* MapMarkView.swift */,
 				E9E318952B3D0E3500927519 /* CloudButtonView.swift */,
-				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
+				E9F43E7A2ADFE9D700C2B5CF /* GeoSensorView.swift */,
+				E9E62AAC2AFA540D002DFB2C /* LicenseView.swift */,
+				E9E62AAA2AFA4D92002DFB2C /* MainTagView.swift */,
+				E9E62AA02AF8D5F4002DFB2C /* MainView.swift */,
+				E97053AC2B07421900241635 /* MapMarkView.swift */,
 				E91E13502B4E99C40007BAC8 /* MeasureSheetView.swift */,
+				E9F596822B06FE1D00899219 /* ModelInfoView.swift */,
+				E963F68E29F23F4C00CDE6E1 /* ModelViewer.swift */,
+				E9175A032B44108F00843379 /* ObjModelMeasureView.swift */,
+				E920AEBE2B22F94900B06C30 /* ObjModelView.swift */,
 				E9C836072B4FCFB00022AB18 /* PipelineSheetView.swift */,
+				E9A56B8D2C12D5F20053399F /* PointMeausreSheetView.swift */,
+				E963F69129F23F4C00CDE6E1 /* RawScanView.swift */,
+				E9F43E7E2AE0C7AA00C2B5CF /* RtkSettingView.swift */,
+				E963F6A929F391C100CDE6E1 /* ScanView.swift */,
+				E9E62AA82AFA490D002DFB2C /* SettingTabpageView.swift */,
 				E9A819C42BB16606004F8496 /* ShareSheet.swift */,
+				E94F1E8A2B43E6020004EA5D /* StateModelViewer.swift */,
 				E95D2ABF2B6A621400648DBC /* UploadButtonView.swift */,
+				E9F596802B06EDDD00899219 /* VersionView.swift */,
 				E95D2AC12B6B4DC700648DBC /* Views */,
 			);
 			path = Views;
@@ -500,19 +497,19 @@
 		E963F6A829F3914600CDE6E1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */,
-				E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */,
-				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
-				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
-				E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */,
-				E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */,
-				E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */,
-				E9BE0D932AE7945B006269D7 /* RtkModel.swift */,
-				E9E62AA62AFA3278002DFB2C /* CapturePreviewModel.swift */,
-				E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */,
-				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
+				E900E83F2C2510B1009403C4 /* AccountModel.swift */,
 				E9E2A8912B04BBBC00400270 /* CaptureModel.swift */,
-				E95ADFC42B0A462F00F3AAB6 /* ModelInfo.swift */,
+				E9E62AA62AFA3278002DFB2C /* CapturePreviewModel.swift */,
+				E9E62AC02AFCD728002DFB2C /* ConfigJsonModel.swift */,
+				E9325BF42A0B237900BD5A05 /* FrameJsonInfo.swift */,
+				E9F43E7C2ADFE9F300C2B5CF /* GeoSensorModel.swift */,
+				E963F68D29F23F4C00CDE6E1 /* LidarMeshModel.swift */,
+				E963F68929F23F4C00CDE6E1 /* LidarMeshViewModel.swift */,
+				E9BE0D9B2AE795F6006269D7 /* NtripConfigModel.swift */,
+				E9E62ABC2AFC948E002DFB2C /* RawScanModel.swift */,
+				E9BE0D932AE7945B006269D7 /* RtkModel.swift */,
+				E9325BF82A0E409C00BD5A05 /* SaveDataManager.swift */,
+				E9E62AB42AFB9B7D002DFB2C /* ScanViewModel.swift */,
 				E94FB8772B34071D00807E86 /* ServerConfig.swift */,
 			);
 			path = Models;
@@ -521,10 +518,11 @@
 		E9BE0D962AE794D9006269D7 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */,
-				E9E62AA22AF8E902002DFB2C /* MainViewModel.swift */,
 				E9E62AB62AFB9BAC002DFB2C /* MainTagViewModel.swift */,
+				E9E62AA22AF8E902002DFB2C /* MainViewModel.swift */,
 				E95ADFC22B0A461C00F3AAB6 /* ModelInfoViewModel.swift */,
+				E9BE0D972AE794D9006269D7 /* RtkViewModel.swift */,
+				E900E8492C2550BC009403C4 /* AccountViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -532,16 +530,19 @@
 		E9BE0DA22AE7A508006269D7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
+				E94FB8752B34060B00807E86 /* CloudService.swift */,
 				E9325BF62A0E3BE000BD5A05 /* ConfigJsonManager.swift */,
+				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
+				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
+				E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */,
+				E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */,
+				E900E8412C251EA4009403C4 /* LonginService.swift */,
 				E963F68F29F23F4C00CDE6E1 /* RawScanManager.swift */,
+				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
 				E9BE0DA32AE7A552006269D7 /* RtkService.swift */,
 				E9E62ABE2AFCC21F002DFB2C /* ScanService.swift */,
-				E9BE9B102B01FACB00C91715 /* LocalizationManager.swift */,
-				E9E2A8932B04BD1400400270 /* CaptureViewService.swift */,
-				E9E2A8952B04C2AE00400270 /* FileManagerService.swift */,
-				E95ADFC02B08993C00F3AAB6 /* CoordinateService.swift */,
-				E9E01ECD2B285C3800488897 /* RtkConfigJsonManager.swift */,
-				E94FB8752B34060B00807E86 /* CloudService.swift */,
+				E900E8472C255096009403C4 /* AccountService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -576,10 +577,6 @@
 		E9E62A8C2AF8A9F2002DFB2C /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				E9E62A8D2AF8A9F2002DFB2C /* iPhone App@3x.png */,
-				E9E62A8E2AF8A9F2002DFB2C /* iPhone App.png */,
-				E9E62A8F2AF8A9F2002DFB2C /* iPhone App@2x.png */,
-				E9E62A902AF8A9F2002DFB2C /* iPhone App@1x.png */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -626,15 +623,6 @@
 			);
 			name = LidarScannerDemo;
 			packageProductDependencies = (
-				E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */,
-				E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */,
-				E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */,
-				E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */,
-				E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */,
-				E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */,
-				E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */,
-				E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */,
 			);
 			productName = LidarScannerDemo;
 			productReference = E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */;
@@ -733,25 +721,21 @@
 				E9325BF22A08F66300BD5A05 /* LICENSE in Resources */,
 				E963F6AC29F776FC00CDE6E1 /* config.geojson in Resources */,
 				E9212A112B26A9EC006D64B2 /* Earth.usdz in Resources */,
-				E9E62A992AF8A9F2002DFB2C /* iPhone App@2x.png in Resources */,
 				E9212A142B26A9EC006D64B2 /* rawMesh.usd in Resources */,
 				E94FB87A2B3409A100807E86 /* ServerConfig.plist in Resources */,
 				E9212A132B26A9EC006D64B2 /* textured_0_cmxi0i2A.jpg in Resources */,
 				E9E62AAF2AFA5916002DFB2C /* Develop_Guidance.md in Resources */,
-				E9E62A972AF8A9F2002DFB2C /* iPhone App@3x.png in Resources */,
 				E9325BF32A08F66300BD5A05 /* README.md in Resources */,
 				E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */,
 				E9212A122B26A9EC006D64B2 /* textured.obj in Resources */,
 				E94FB87C2B3472D600807E86 /* Podfile in Resources */,
+				E9881CA72C088E33001D32BA /* GoogleService-Info.plist in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
 				E9E62A9B2AF8A9F2002DFB2C /* ntrip_config.json in Resources */,
 				E9BE9B0A2B01F20B00C91715 /* Localizable.strings in Resources */,
 				E963F66329F23EB200CDE6E1 /* Assets.xcassets in Resources */,
-				E9E62A9A2AF8A9F2002DFB2C /* iPhone App@1x.png in Resources */,
 				E9BE9B0D2B01F21D00C91715 /* Localizable.strings in Resources */,
-				E9C84ECA2BC3DCD5007B9401 /* GoogleService-Info.plist in Resources */,
 				E9E62A962AF8A9F2002DFB2C /* develop_FAQs.md in Resources */,
-				E9E62A982AF8A9F2002DFB2C /* iPhone App.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -905,6 +889,7 @@
 				E9F596832B06FE1D00899219 /* ModelInfoView.swift in Sources */,
 				E95D2AD72B6B4DC700648DBC /* ObjModelMeasureView.swift in Sources */,
 				E95D2ADF2B6B4DC700648DBC /* RawScanView.swift in Sources */,
+				E900E8422C251EA4009403C4 /* LonginService.swift in Sources */,
 				E94FB8762B34060B00807E86 /* CloudService.swift in Sources */,
 				E9E2A8922B04BBBC00400270 /* CaptureModel.swift in Sources */,
 				E95D2AE72B6B4DC700648DBC /* MainView.swift in Sources */,
@@ -922,18 +907,20 @@
 				E9E62AA32AF8E902002DFB2C /* MainViewModel.swift in Sources */,
 				E95ADFC32B0A461C00F3AAB6 /* ModelInfoViewModel.swift in Sources */,
 				E9BE9B0F2B01FAA700C91715 /* BundelExtension.swift in Sources */,
+				E900E7E62C243219009403C4 /* RenameAlertView.swift in Sources */,
 				E95D2AE62B6B4DC700648DBC /* SettingTabpageView.swift in Sources */,
 				E95D2AD82B6B4DC700648DBC /* ScanView.swift in Sources */,
+				E900E8462C252232009403C4 /* AccountPageView.swift in Sources */,
 				E963F69729F23F4C00CDE6E1 /* LidarMeshModel.swift in Sources */,
 				E9BE0D942AE7945B006269D7 /* RtkModel.swift in Sources */,
 				E963F69B29F23F4C00CDE6E1 /* RawScanView.swift in Sources */,
-				E95ADFC52B0A462F00F3AAB6 /* ModelInfo.swift in Sources */,
 				E9BE0DA42AE7A552006269D7 /* RtkService.swift in Sources */,
 				E95D2AE82B6B4DC700648DBC /* VersionView.swift in Sources */,
 				E9BE0D992AE794D9006269D7 /* RtkViewModel.swift in Sources */,
 				E9E62AAB2AFA4D92002DFB2C /* MainTagView.swift in Sources */,
 				E963F69529F23F4C00CDE6E1 /* SCNGeometryExtention.swift in Sources */,
 				E95D2AC02B6A621400648DBC /* UploadButtonView.swift in Sources */,
+				E900E8402C2510B1009403C4 /* AccountModel.swift in Sources */,
 				E963F69829F23F4C00CDE6E1 /* ModelViewer.swift in Sources */,
 				E95D2ADD2B6B4DC700648DBC /* ModelInfoView.swift in Sources */,
 				E963F69629F23F4C00CDE6E1 /* ARMeshGeometryExtention.swift in Sources */,
@@ -950,11 +937,14 @@
 				E9E62ABB2AFC8AE4002DFB2C /* StringExtension.swift in Sources */,
 				E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */,
 				E963F65D29F23EB100CDE6E1 /* AppDelegate.swift in Sources */,
+				E900E84E2C255889009403C4 /* LoginPageView.swift in Sources */,
 				E963F69A29F23F4C00CDE6E1 /* SCNMaterialExtention.swift in Sources */,
 				E9BE0D9C2AE795F6006269D7 /* NtripConfigModel.swift in Sources */,
 				E94FB8782B34071D00807E86 /* ServerConfig.swift in Sources */,
 				E9175A042B44108F00843379 /* ObjModelMeasureView.swift in Sources */,
 				E95D2ADC2B6B4DC700648DBC /* UploadButtonView.swift in Sources */,
+				E9A56B8E2C12D5F20053399F /* PointMeausreSheetView.swift in Sources */,
+				E9A56B902C12E2E00053399F /* GeoToolBox.swift in Sources */,
 				E95D2AEA2B6B4DC700648DBC /* MainTagView.swift in Sources */,
 				E9E62AB92AFB9E69002DFB2C /* CapturePreviewView.swift in Sources */,
 				E9E01ECE2B285C3800488897 /* RtkConfigJsonManager.swift in Sources */,
@@ -975,11 +965,14 @@
 				E9BE9B112B01FACB00C91715 /* LocalizationManager.swift in Sources */,
 				E920AEBF2B22F94900B06C30 /* ObjModelView.swift in Sources */,
 				E9E62AAD2AFA540D002DFB2C /* LicenseView.swift in Sources */,
+				E900E8502C256612009403C4 /* RegisterPageView.swift in Sources */,
 				E9E62ABD2AFC948E002DFB2C /* RawScanModel.swift in Sources */,
+				E900E84A2C2550BC009403C4 /* AccountViewModel.swift in Sources */,
 				E9E62AA72AFA3279002DFB2C /* CapturePreviewModel.swift in Sources */,
 				E9E62AB52AFB9B7D002DFB2C /* ScanViewModel.swift in Sources */,
 				E94F1E8B2B43E6020004EA5D /* StateModelViewer.swift in Sources */,
 				E9E318962B3D0E3500927519 /* CloudButtonView.swift in Sources */,
+				E900E8482C255096009403C4 /* AccountService.swift in Sources */,
 				E95D2ADB2B6B4DC700648DBC /* CloudButtonView.swift in Sources */,
 				E9E2A8942B04BD1400400270 /* CaptureViewService.swift in Sources */,
 			);
@@ -1193,7 +1186,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240425;
+				MARKETING_VERSION = 20240530;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",
@@ -1201,7 +1194,7 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.xzsw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1250,7 +1243,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240425;
+				MARKETING_VERSION = 20240530;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",
@@ -1258,7 +1251,7 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.sitesight;
+				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.xzsw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1400,54 +1393,6 @@
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		E9C84ECC2BC3DDA0007B9401 /* FirebaseAnalytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalytics;
-		};
-		E9C84ECE2BC3DDA0007B9401 /* FirebaseAnalyticsOnDeviceConversion */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsOnDeviceConversion;
-		};
-		E9C84ED02BC3DDA0007B9401 /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
-		E9C84ED22BC3DDA0007B9401 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		E9C84ED42BC3DDA0007B9401 /* FirebaseAppCheck */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAppCheck;
-		};
-		E9C84ED62BC3DDA0007B9401 /* FirebaseAuth */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAuth;
-		};
-		E9C84ED82BC3DDA0007B9401 /* FirebaseCrashlytics */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseCrashlytics;
-		};
-		E9C84EDA2BC3DDA0007B9401 /* FirebaseInstallations */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseInstallations;
-		};
-		E9C84EDC2BC3DDA0007B9401 /* FirebasePerformance */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebasePerformance;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E963F65129F23EB100CDE6E1 /* Project object */;
 }

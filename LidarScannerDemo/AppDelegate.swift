@@ -7,7 +7,7 @@
 
 import UIKit
 import SwiftUI
-//import FirebaseCore
+
 
 // Ensure you're using @main only once and on the correct AppDelegate declaration.
 @main

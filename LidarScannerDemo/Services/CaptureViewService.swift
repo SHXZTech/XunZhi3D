@@ -34,7 +34,6 @@ class CaptureViewService: ObservableObject{
     public func clearTimer(){
         cloudStatusCheckTimer?.invalidate()
         cloudStatusCheckTimer = nil
-        print("debug info: remove Timer")
     }
     
     private func startCloudStatusCheckTimer() {
@@ -118,6 +117,7 @@ class CaptureViewService: ObservableObject{
                 captureModel.isRTK = (jsonDict["configs"] as? [[String: Any]])?.contains(where: { $0["isRtkEnable"] as? Bool == true }) ?? false
                 captureModel.frameCount = (jsonDict["frameCount"] as? Int) ?? 0
                 captureModel.estimatedProcessingTime = captureModel.frameCount*3 + 120;
+                captureModel.captureName = (jsonDict["name"] as? String) ?? "untitled"
             }
         } catch {
         }
@@ -154,6 +154,27 @@ class CaptureViewService: ObservableObject{
     
     func getProjectSize() -> Int64? {
         return captureModel.totalSize
+    }
+    
+    public func getCaptureName() -> String {
+        return captureModel.captureName ?? "untitled";
+    }
+    
+    public func changeCaptureName(newName: String) {
+        let fileManager = FileManager.default
+        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let jsonURL = documentsDirectory.appendingPathComponent("\(captureModel.id.uuidString)/info.json")
+        do {
+            let jsonData = try Data(contentsOf: jsonURL)
+            if var jsonDict = try JSONSerialization.jsonObject(with: jsonData, options: []) as? [String: Any] {
+                jsonDict["name"] = newName
+                let updatedJsonData = try JSONSerialization.data(withJSONObject: jsonDict, options: [])
+                try updatedJsonData.write(to: jsonURL)
+                captureModel.captureName = newName
+            }
+        } catch {
+            print("Error updating capture name: \(error)")
+        }
     }
     
     private func isExistCheck() -> Bool {
@@ -395,6 +416,13 @@ class CaptureViewService: ObservableObject{
                         self?.captureModel.uploadingProgress = progressValue
                     }
                 }, completion: { [weak self] result in
+                    defer {
+                        do {
+                            try FileManager.default.removeItem(at: zipFileURL)
+                        } catch let error {
+                        }
+                    }
+                    
                     guard let self = self else { return }
                     DispatchQueue.main.async {[weak self] in
                         switch result {

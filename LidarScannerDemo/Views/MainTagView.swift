@@ -75,7 +75,7 @@ struct MainTagView: View {
            VStack {
                HStack {
                    Spacer()
-                   Text(NSLocalizedString("SiteSight", comment: ""))
+                   Text(NSLocalizedString("XunZhi3D", comment: ""))
                        .font(.system(size: 20))
                        .foregroundColor(.white)
                    Spacer()
