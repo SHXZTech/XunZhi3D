@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		187CC9A32C3FB8DC00FC94D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187CC9A22C3FB8DC00FC94D1 /* GoogleService-Info.plist */; };
 		8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */; };
 		BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */; };
 		E900E7E62C243219009403C4 /* RenameAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E7E52C243219009403C4 /* RenameAlertView.swift */; };
@@ -82,7 +83,6 @@
 		E963F6AE29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */; };
 		E963F6B02A03734100CDE6E1 /* ARFrameExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */; };
 		E97053AD2B07421900241635 /* MapMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E97053AC2B07421900241635 /* MapMarkView.swift */; };
-		E9881CA72C088E33001D32BA /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E9881CA62C088E33001D32BA /* GoogleService-Info.plist */; };
 		E9A56B8E2C12D5F20053399F /* PointMeausreSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A56B8D2C12D5F20053399F /* PointMeausreSheetView.swift */; };
 		E9A56B902C12E2E00053399F /* GeoToolBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */; };
 		E9A819C52BB16606004F8496 /* ShareSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9A819C42BB16606004F8496 /* ShareSheet.swift */; };
@@ -160,6 +160,7 @@
 
 /* Begin PBXFileReference section */
 		0628E0887180FB9A6CEDFCC7 /* Pods-LidarScannerDemoTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.release.xcconfig"; sourceTree = "<group>"; };
+		187CC9A22C3FB8DC00FC94D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1B2A119BBA0CD697E188F0D0 /* Pods-LidarScannerDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemo.release.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemo/Pods-LidarScannerDemo.release.xcconfig"; sourceTree = "<group>"; };
 		1C6C01A516FA009631587951 /* Pods-LidarScannerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LidarScannerDemoTests.debug.xcconfig"; path = "Target Support Files/Pods-LidarScannerDemoTests/Pods-LidarScannerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemoTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -247,7 +248,6 @@
 		E963F6AD29F7AB1C00CDE6E1 /* LidarMeshModelTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LidarMeshModelTest.swift; sourceTree = "<group>"; };
 		E963F6AF2A03734100CDE6E1 /* ARFrameExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ARFrameExtension.swift; sourceTree = "<group>"; };
 		E97053AC2B07421900241635 /* MapMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapMarkView.swift; sourceTree = "<group>"; };
-		E9881CA62C088E33001D32BA /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		E99C2B692B58E486003EB3B8 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E9A56B8D2C12D5F20053399F /* PointMeausreSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointMeausreSheetView.swift; sourceTree = "<group>"; };
 		E9A56B8F2C12E2E00053399F /* GeoToolBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoToolBox.swift; sourceTree = "<group>"; };
@@ -369,10 +369,10 @@
 		E963F65029F23EB100CDE6E1 = {
 			isa = PBXGroup;
 			children = (
+				187CC9A22C3FB8DC00FC94D1 /* GoogleService-Info.plist */,
 				E9325BF02A08F66300BD5A05 /* LICENSE */,
 				E94FB87B2B3472D600807E86 /* Podfile */,
 				E9325BF12A08F66300BD5A05 /* README.md */,
-				E9881CA62C088E33001D32BA /* GoogleService-Info.plist */,
 				E9E62A8C2AF8A9F2002DFB2C /* Assets */,
 				E9E62A912AF8A9F2002DFB2C /* Config */,
 				E9E62A8A2AF8A9F2002DFB2C /* Documentation */,
@@ -700,7 +700,6 @@
 			);
 			mainGroup = E963F65029F23EB100CDE6E1;
 			packageReferences = (
-				E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = E963F65A29F23EB100CDE6E1 /* Products */;
 			projectDirPath = "";
@@ -729,7 +728,7 @@
 				E9212A102B26A9EC006D64B2 /* textured.mtl in Resources */,
 				E9212A122B26A9EC006D64B2 /* textured.obj in Resources */,
 				E94FB87C2B3472D600807E86 /* Podfile in Resources */,
-				E9881CA72C088E33001D32BA /* GoogleService-Info.plist in Resources */,
+				187CC9A32C3FB8DC00FC94D1 /* GoogleService-Info.plist in Resources */,
 				E963F66629F23EB200CDE6E1 /* Preview Assets.xcassets in Resources */,
 				E9E62A9B2AF8A9F2002DFB2C /* ntrip_config.json in Resources */,
 				E9BE9B0A2B01F20B00C91715 /* Localizable.strings in Resources */,
@@ -1157,7 +1156,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 4CD3AKT3SW;
+				DEVELOPMENT_TEAM = 2S966ACD29;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1194,7 +1193,7 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.xzsw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxy.xzsw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1214,7 +1213,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 4CD3AKT3SW;
+				DEVELOPMENT_TEAM = 2S966ACD29;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1251,7 +1250,7 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.graphopti.xzsw;
+				PRODUCT_BUNDLE_IDENTIFIER = com.zxy.xzsw;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -1382,17 +1381,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		E9C84ECB2BC3DD04007B9401 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.23.1;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = E963F65129F23EB100CDE6E1 /* Project object */;
 }

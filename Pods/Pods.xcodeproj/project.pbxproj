@@ -15,6 +15,7 @@
 		678FE906938FA25B6D280F5016209DAE /* zip.h in Headers */ = {isa = PBXBuildFile; fileRef = 06329648F57B0C572E7AC416095E1D52 /* zip.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		691E9F5D2298ABA13C73EE77B70D0599 /* crypt.h in Headers */ = {isa = PBXBuildFile; fileRef = EC5DEEF60D55FD5C3C499A1855324B7A /* crypt.h */; settings = {ATTRIBUTES = (Project, ); }; };
 		751F975F82DAEA7230BB1DF365391B08 /* ioapi.h in Headers */ = {isa = PBXBuildFile; fileRef = 396BAF6FAD4C003E48FEEA49DAB88444 /* ioapi.h */; settings = {ATTRIBUTES = (Project, ); }; };
+		85883F040E2BD65916AB0860BEBE2395 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		8926C8D4B7BBFB2330B0E1AEEFA9527F /* Pods-LidarScannerDemoTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B4C948C4C9C835A3C1A3FFA1C28C4C /* Pods-LidarScannerDemoTests-dummy.m */; };
 		8C4281674788B5349E0E175C38E4536C /* Zip-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DFBE7BCA8FA03E5734FB29916FC9F71 /* Zip-dummy.m */; };
 		98EEAF9572C6B5A108BDF6A71AE14FF7 /* Pods-LidarScannerDemoTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = D56A1360474C8753BB279968C42D1337 /* Pods-LidarScannerDemoTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -26,7 +27,6 @@
 		CA7DCC73811BC75D718A5DA380A9C28F /* Pods-LidarScannerDemo-LidarScannerDemoUITests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6652F3C23E0DCD6BD4CEA1787C4C40DA /* Pods-LidarScannerDemo-LidarScannerDemoUITests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D53CBFE54D9DC3FF6335E053527D5CCA /* Zip-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = AB13EB6BD42BA5B48CCCC4EC435D7607 /* Zip-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC38EF5A2F3659F593128137162BA98D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
-		E99C2B662B58E439003EB3B8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 73010CC983E3809BECEE5348DA1BB8C6 /* Foundation.framework */; };
 		EA76F16D2C1BD5B0BF2C181BDF272CB3 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = 39B971666DF16CEC1E9C2B29363A3A02 /* ioapi.c */; };
 		F310753D3E48C429BDCC55FD7B1C7B0A /* ZipUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF0F3AD7B930513B11191C6CE535FC79 /* ZipUtilities.swift */; };
 		F567975E9EE286866FC53FA0ADDA0146 /* Pods-LidarScannerDemo-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 6325B9AEEE73E4B5ED0DE26615CA17D4 /* Pods-LidarScannerDemo-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -91,7 +91,7 @@
 		9F105FCB0F7E67B6A8F3530B1CC6A725 /* Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LidarScannerDemo-LidarScannerDemoUITests-frameworks.sh"; sourceTree = "<group>"; };
 		A52C90F2DCB2ACE95BDCEEF64AAAA794 /* Pods-LidarScannerDemoTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-LidarScannerDemoTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A845402EF959A57A4640F2A4F5155943 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods_LidarScannerDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LidarScannerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods-LidarScannerDemo */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = "Pods-LidarScannerDemo"; path = Pods_LidarScannerDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AB13EB6BD42BA5B48CCCC4EC435D7607 /* Zip-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Zip-umbrella.h"; sourceTree = "<group>"; };
 		B00F614F5FCAE5C4F24D0945A5199283 /* Pods-LidarScannerDemo-LidarScannerDemoUITests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-LidarScannerDemo-LidarScannerDemoUITests-acknowledgements.markdown"; sourceTree = "<group>"; };
 		B0ABBA438A03D19135B9B0EE1B3164F5 /* Pods-LidarScannerDemo-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-LidarScannerDemo-frameworks.sh"; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E99C2B662B58E439003EB3B8 /* Foundation.framework in Frameworks */,
+				85883F040E2BD65916AB0860BEBE2395 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -204,7 +204,7 @@
 		972FA1F3C3422F31E1DD69CBE4545814 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods_LidarScannerDemo.framework */,
+				AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods-LidarScannerDemo */,
 				723DD6FC66C590A6BF9A3B8A6C36D08E /* Pods-LidarScannerDemo-LidarScannerDemoUITests */,
 				91426D20F394872783A4BFC0BC5655D0 /* Pods-LidarScannerDemoTests */,
 				A845402EF959A57A4640F2A4F5155943 /* Zip.framework */,
@@ -362,7 +362,7 @@
 			);
 			name = "Pods-LidarScannerDemo";
 			productName = Pods_LidarScannerDemo;
-			productReference = AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods_LidarScannerDemo.framework */;
+			productReference = AA2099DAF4510D4D1C18625D7CF2BDA8 /* Pods-LidarScannerDemo */;
 			productType = "com.apple.product-type.framework";
 		};
 		BF4B8AA59074F97398515FE6294DDFAE /* Pods-LidarScannerDemo-LidarScannerDemoUITests */ = {
@@ -421,6 +421,9 @@
 				en,
 			);
 			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
+			packageReferences = (
+				187CC9A12C3FB8C200FC94D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
 			productRefGroup = 972FA1F3C3422F31E1DD69CBE4545814 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -558,9 +561,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -674,9 +674,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -758,7 +755,6 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				FRAMEWORK_SEARCH_PATHS = "/Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -799,7 +795,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Zip/Zip-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Zip/Zip-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -814,9 +809,6 @@
 				PRODUCT_NAME = Zip;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -838,7 +830,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				ENABLE_TESTING_SEARCH_PATHS = YES;
 				GCC_PREFIX_HEADER = "Target Support Files/Zip/Zip-prefix.pch";
 				INFOPLIST_FILE = "Target Support Files/Zip/Zip-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -853,9 +844,6 @@
 				PRODUCT_NAME = Zip;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -940,7 +928,6 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				FRAMEWORK_SEARCH_PATHS = "/Users/taohu/Desktop/lidar/lidar_test/LidarScannerDemo/Pods/**";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1014,6 +1001,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		187CC9A12C3FB8C200FC94D1 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.29.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
 	};
 	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
 }
