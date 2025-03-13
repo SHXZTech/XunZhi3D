@@ -74,6 +74,7 @@ struct ConfigJsonManager{
         owners.append(owner_)
         createDate = Date()
         rawMeshObjURL = dataFolder.appendingPathComponent("mesh.obj")
+        //rawMeshObjURL = dataFolder.appendingPathComponent("\(uuid.uuidString.lowercased()).glb")
         dataDestinationFolder = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(uuid.uuidString)
     }
     

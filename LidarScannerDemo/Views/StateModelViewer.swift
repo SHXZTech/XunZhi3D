@@ -5,7 +5,7 @@ struct StateModelViewer: View {
     
     @Binding var modelURL: URL?
     @Binding var isModelViewerTop: Bool
-
+    
     var uuid: UUID
     var width = UIScreen.main.bounds.width
     var height = UIScreen.main.bounds.height
@@ -38,15 +38,47 @@ struct StateModelViewer: View {
                 ObjModelMeasureView(objURL: url, isPointMeasureActive: $showPointMeasureSheet, point_x: $point_x, point_y: $point_y, point_z: $point_z, isMeasureActive: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit, isPipelineActive: $showPipelineSheet, isPipelineDrawFirstPoint: $isPipelineDrawFirstPoint, isPipelineReturnOneStep: $isPipelineReturnOneStep, isExportImage: $isExportImage, exportedImage: $pipelineExportedImage, isModelLoading: $isModelLoading, isExportCAD: $isExportCAD, exported_CAD_url: $CAD_url)
                     .frame(width: width, height: height)
                     .id(viewKey)  // Use the key here
+                    .onAppear {
+                                print("StateModelViewer url is == == == ", url)
+                                print("直接显示glb时没有打印这里，直接显示obj的时候显示了这里")
+                            }
             } else {
                 Text(NSLocalizedString("No model to display", comment: ""))
+                    .onAppear {
+                                print("显示obj的时候这里才执行")
+                            }
             }
+
             ToolBarView()
             if isModelLoading {
                 ProgressView()
                     .progressViewStyle(CircularProgressViewStyle(tint: Color.white))
                     .foregroundColor(.mint)
                     .scaleEffect(1)
+            }
+            if (showMeasureSheet) {
+                VStack {
+                    Spacer()
+                    MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit)
+                        .frame(maxHeight: 150)
+                        .background(Color.black)
+                }
+            }
+            if (showPipelineSheet) {
+                VStack {
+                    Spacer()
+                    PipelineSheetView(
+                        isPresented: $showPipelineSheet,
+                        isDrawFirstPoint: $isPipelineDrawFirstPoint,
+                        isReturnOneStep: $isPipelineReturnOneStep,
+                        exportedImage: $pipelineExportedImage,
+                        isExportImage: $isExportImage,
+                        isExportCAD: $isExportCAD,
+                        exportedCADURL: $CAD_url
+                    )
+                    .frame(maxHeight: 150)
+                    .background(Color.black)
+                }
             }
         }
         .onChange(of: modelURL) { _ in
@@ -59,28 +91,28 @@ struct StateModelViewer: View {
                 showPointMeasureSheet = false
             }
         }
-        .sheet(isPresented: $showMeasureSheet) {
-            MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit) // Your custom bottom sheet view
-                .presentationDetents([
-                    .height(130),   // 100 points
-                ])
-                .presentationCornerRadius(0)
-                .presentationBackgroundInteraction(.enabled(upThrough: .height(130)))
-        }
-        .sheet(isPresented: $showPipelineSheet) {
-            PipelineSheetView(
-                isPresented: $showPipelineSheet,
-                isDrawFirstPoint: $isPipelineDrawFirstPoint,
-                isReturnOneStep: $isPipelineReturnOneStep,
-                exportedImage: $pipelineExportedImage,
-                isExportImage: $isExportImage,
-                isExportCAD: $isExportCAD,
-                exportedCADURL: $CAD_url
-            )
-            .presentationDetents(Set(determineSheetHeight()))
-            .presentationCornerRadius(0)
-            .presentationBackgroundInteraction(.enabled(upThrough: determineSheetHeight().first!))
-        }
+        //        .sheet(isPresented: $showMeasureSheet) {
+        //            MeasureSheetView(isPresented: $showMeasureSheet, measuredDistance: $measuredDistance, isMeasuredFirstPoint: $isMeasuredFirstPoint, isReturnToInit: $isReturnToInit) // Your custom bottom sheet view
+        //                .presentationDetents([
+        //                    .height(130),   // 100 points
+        //                ])
+        //                .presentationCornerRadius(0)
+        //                .presentationBackgroundInteraction(.enabled(upThrough: .height(130)))
+        //        }
+        //        .sheet(isPresented: $showPipelineSheet) {
+        //            PipelineSheetView(
+        //                isPresented: $showPipelineSheet,
+        //                isDrawFirstPoint: $isPipelineDrawFirstPoint,
+        //                isReturnOneStep: $isPipelineReturnOneStep,
+        //                exportedImage: $pipelineExportedImage,
+        //                isExportImage: $isExportImage,
+        //                isExportCAD: $isExportCAD,
+        //                exportedCADURL: $CAD_url
+        //            )
+        //            .presentationDetents(Set(determineSheetHeight()))
+        //            .presentationCornerRadius(0)
+        //            .presentationBackgroundInteraction(.enabled(upThrough: determineSheetHeight().first!))
+        //        }
         
     }
     

@@ -1,5 +1,6 @@
 import SwiftUI
 import SceneKit
+import GLTFSceneKit
 
 struct ObjModelView: UIViewRepresentable {
     var objURL: URL
@@ -19,6 +20,7 @@ struct ObjModelView: UIViewRepresentable {
     private func createScene() -> SCNScene {
         let scene = SCNScene()
         let node = SCNNode()
+        print("objurl is ----------------",objURL)
         if let modelScene = try? SCNScene(url: objURL, options: nil) {
             for childNode in modelScene.rootNode.childNodes {
                 node.addChildNode(childNode)
@@ -27,6 +29,7 @@ struct ObjModelView: UIViewRepresentable {
         scene.rootNode.addChildNode(node)
         return scene
     }
+
 }
 
 struct ObjModelView_Previews: PreviewProvider {
@@ -34,6 +37,7 @@ struct ObjModelView_Previews: PreviewProvider {
         guard let objURL = Bundle.main.url(forResource: "textured", withExtension: "obj") else {
             fatalError("Failed to find model file.")
         }
+        print("objURL preview is ======",objURL)
 
         return ObjModelView(objURL: objURL)
             .previewLayout(.sizeThatFits)

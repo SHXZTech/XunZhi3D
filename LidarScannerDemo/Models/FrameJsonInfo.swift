@@ -10,7 +10,7 @@ import RealityKit
 import ARKit
 import SceneKit
 import os
-
+import UIKit
 
 
 
@@ -160,9 +160,20 @@ struct FrameJsonInfo{
     mutating func writeImages(){
         let timeStampSince1970 = timeStampGlobal.timeIntervalSince1970
         let fileName = String(format: "%.15f", timeStampSince1970)
-        if let jpegData = arFrame.capturedjpegData(){
-            ImageName = saveJpgData(jpegData: jpegData, fileFolder: imageFolder, timeStamp: fileName, type: "")
+        
+        if let jpegData = arFrame.capturedjpegData() {
+            if let image = UIImage(data: jpegData) {
+                let compressionQuality: CGFloat = 0.5
+                if let compressedData = image.jpegData(compressionQuality: compressionQuality) {
+                    ImageName = saveJpgData(jpegData: compressedData, fileFolder: imageFolder, timeStamp: fileName, type: "")
+                }
+            }
         }
+
+        
+//        if let jpegData = arFrame.capturedjpegData(){
+//            ImageName = saveJpgData(jpegData: jpegData, fileFolder: imageFolder, timeStamp: fileName, type: "")
+//        }
         if(arFrame.sceneDepth != nil) || (arFrame.smoothedSceneDepth != nil) {
             if let depthImage = arFrame.lidarDepthData()
             {

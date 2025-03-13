@@ -67,6 +67,7 @@ struct MeasureSheetView: View {
             }
             Spacer()
         }
+        .padding(.bottom, 20)
     }
 }
 

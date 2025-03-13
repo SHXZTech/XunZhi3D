@@ -10,7 +10,7 @@ import SceneKit
 import ARKit
 
 
-
+//这个脚本在只显示glb模型的时候根本没有调用，显示obj的时候才调用
 struct CaptureView: View {
     var uuid: UUID
     enum ViewMode {
@@ -30,6 +30,7 @@ struct CaptureView: View {
     @State private var errorMessage = ""
     @State var modelURL: URL?;
     init(uuid: UUID, isPresenting: Binding<Bool>) {
+        print("CaptureView initialized")  // 视图初始化时打印
         self.uuid = uuid
         self.captureService = CaptureViewService(id_: uuid)
         self._isPresenting = isPresenting
@@ -124,12 +125,14 @@ struct CaptureView: View {
                 if let modelURL_ = captureService.getObjModelURL() {
                     self.modelURL = modelURL_
                 }
+                
             }
         }
         .onAppear {
             if let modelURL_ = captureService.getObjModelURL() {
                 self.modelURL = modelURL_
             }
+            print("modelURL_0000000000 == == == ",self.modelURL)
         }
     }
     
@@ -193,6 +196,11 @@ struct CaptureView: View {
                     VStack{
                         Spacer()
                         GeometryReader { geometry in
+                            // 打印 modelURL 的值
+                            Text("Model URL: \(String(describing: self.$modelURL))")  // 打印 modelURL 的值
+                            .onAppear {
+                                         print("Model URL is: \(String(describing: self.$modelURL))")
+                                       }
                             StateModelViewer(modelURL: self.$modelURL, isModelViewerTop: self.$isModelViewerTop,uuid: self.uuid, width: geometry.size.width, height: geometry.size.height)
                                 .cornerRadius(15)
                         }
@@ -201,6 +209,9 @@ struct CaptureView: View {
                 } else {
                     Text(NSLocalizedString("Can not load model", comment: ""))
                         .frame(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height * 0.6)
+                        .onAppear {
+                                     print("Model URL obj is: \(String(describing: self.$modelURL))")
+                                   }
                 }
             }
             .opacity(selectedViewMode == .model ? 1 : 0)
@@ -221,9 +232,14 @@ struct CaptureView: View {
     }
 }
 
+
+///这个脚本在只显示glb模型的时候根本没有调用，显示obj的时候才调用
 struct CaptureView_Previews: PreviewProvider {
     static var previews: some View {
         CaptureView(uuid: UUID(uuidString: "BC587603-DA6B-4CF6-809F-A44E760327FE") ?? UUID(), isPresenting: .constant(true))
+            .onAppear {
+                            print("CaptureView_Previews is being previewed")
+                        }
     }
 }
 

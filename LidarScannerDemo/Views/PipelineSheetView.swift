@@ -82,6 +82,7 @@ struct PipelineSheetView: View {
             }
             Spacer()
         }
+        .padding(.bottom, 20)
         .sheet(isPresented: $isShareSheetPresented) {
             if let url = exportedCADURL {
                 ShareSheet(activityItems: [url])

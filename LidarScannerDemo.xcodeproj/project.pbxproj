@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		187CC9A32C3FB8DC00FC94D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 187CC9A22C3FB8DC00FC94D1 /* GoogleService-Info.plist */; };
+		18A9CE5C2CE4A0BF00CCF538 /* GLTFSceneKit in Frameworks */ = {isa = PBXBuildFile; productRef = 18A9CE5B2CE4A0BF00CCF538 /* GLTFSceneKit */; };
 		8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 633323D08B876E43813B7892 /* Pods_LidarScannerDemo.framework */; };
 		BFAF94F17D1EB1362178CA35 /* Pods_LidarScannerDemoTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31DF809856BA577F15CEA623 /* Pods_LidarScannerDemoTests.framework */; };
 		E900E7E62C243219009403C4 /* RenameAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E900E7E52C243219009403C4 /* RenameAlertView.swift */; };
@@ -297,6 +298,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18A9CE5C2CE4A0BF00CCF538 /* GLTFSceneKit in Frameworks */,
 				E9E62A9D2AF8BBBC002DFB2C /* LiteRTK.framework in Frameworks */,
 				8D3E0781EBDF5F429A8DE5C9 /* Pods_LidarScannerDemo.framework in Frameworks */,
 			);
@@ -623,6 +625,7 @@
 			);
 			name = LidarScannerDemo;
 			packageProductDependencies = (
+				18A9CE5B2CE4A0BF00CCF538 /* GLTFSceneKit */,
 			);
 			productName = LidarScannerDemo;
 			productReference = E963F65929F23EB100CDE6E1 /* LidarScannerDemo.app */;
@@ -700,6 +703,7 @@
 			);
 			mainGroup = E963F65029F23EB100CDE6E1;
 			packageReferences = (
+				18A9CE5A2CE4A0BF00CCF538 /* XCRemoteSwiftPackageReference "GLTFSceneKit" */,
 			);
 			productRefGroup = E963F65A29F23EB100CDE6E1 /* Products */;
 			projectDirPath = "";
@@ -1153,10 +1157,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 2S966ACD29;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1185,7 +1190,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240530;
+				MARKETING_VERSION = 202401121;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",
@@ -1193,8 +1198,9 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zxy.xzsw;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1210,10 +1216,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LidarScannerDemo/Preview Content\"";
-				DEVELOPMENT_TEAM = 2S966ACD29;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				ENABLE_PREVIEWS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1242,7 +1249,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 20240530;
+				MARKETING_VERSION = 202401121;
 				OTHER_LDFLAGS = (
 					"$(inherited)",
 					"-l\"z\"",
@@ -1250,8 +1257,9 @@
 					"\"Zip\"",
 					"-ObjC",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.zxy.xzsw;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
@@ -1269,11 +1277,12 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemoTests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1290,11 +1299,12 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemoTests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1310,10 +1320,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemoUITests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1329,10 +1340,11 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 98S6NS7JP3;
+				DEVELOPMENT_TEAM = 986M6TSKK2;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = GraphOpti.LidarScannerDemoUITests;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = "com.zxy-testflightGLB.xzsw";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -1381,6 +1393,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		18A9CE5A2CE4A0BF00CCF538 /* XCRemoteSwiftPackageReference "GLTFSceneKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/magicien/GLTFSceneKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		18A9CE5B2CE4A0BF00CCF538 /* GLTFSceneKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 18A9CE5A2CE4A0BF00CCF538 /* XCRemoteSwiftPackageReference "GLTFSceneKit" */;
+			productName = GLTFSceneKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = E963F65129F23EB100CDE6E1 /* Project object */;
 }

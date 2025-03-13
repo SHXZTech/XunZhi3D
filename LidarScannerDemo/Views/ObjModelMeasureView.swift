@@ -1,6 +1,7 @@
 import SwiftUI
 import SceneKit
 import SceneKit.ModelIO
+import GLTFSceneKit
 
 
 struct ObjModelMeasureView: UIViewRepresentable {
@@ -31,6 +32,7 @@ struct ObjModelMeasureView: UIViewRepresentable {
     
     
     func makeUIView(context: Context) -> SCNView {
+        print("直接显示glb文件时，这个方法没有执行")
         let scnView = SCNView()
         scnView.allowsCameraControl = true
         scnView.autoenablesDefaultLighting = true
@@ -130,25 +132,67 @@ struct ObjModelMeasureView: UIViewRepresentable {
         return renderer
     }
     
+//    private func createScene(completion: @escaping (SCNScene) -> Void) {
+//        DispatchQueue.global(qos: .userInitiated).async {
+//            print("final show self.objURL is == == == ",self.objURL)
+//            let scene = SCNScene()
+//            if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
+//                let node = SCNNode()
+//                var nodeCount = 1
+//
+//                for childNode in modelScene.rootNode.childNodes {
+//                    node.addChildNode(childNode)
+//                    nodeCount += 1
+//                }
+//                scene.rootNode.addChildNode(node)
+//            }
+//            DispatchQueue.main.async {
+//                completion(scene)
+//                self.isModelLoading = false
+//            }
+//        }
+//    }
+    
     private func createScene(completion: @escaping (SCNScene) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
+            print("final show self.objURL is == == == ", self.objURL)
+            
             let scene = SCNScene()
-            if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
-                let node = SCNNode()
-                var nodeCount = 1
-
-                for childNode in modelScene.rootNode.childNodes {
-                    node.addChildNode(childNode)
-                    nodeCount += 1
+            
+            // 判断文件是否是 .glb 格式
+            if self.objURL.pathExtension.lowercased() == "glb" {
+                do {
+                    // 使用 GLTFSceneSource 加载 .glb 文件
+                    let source = GLTFSceneSource(url: self.objURL)
+                    let gltfScene = try source.scene()
+                    
+                    // 将加载的 GLTF 场景添加到 SCNScene
+                    scene.rootNode.addChildNode(gltfScene.rootNode)
+                } catch {
+                    print("Error loading GLB model: \(error)")
                 }
-                scene.rootNode.addChildNode(node)
+            } else {
+                // 处理 OBJ 文件
+                if let modelScene = try? SCNScene(url: self.objURL, options: nil) {
+                    let node = SCNNode()
+                    var nodeCount = 1
+                    
+                    for childNode in modelScene.rootNode.childNodes {
+                        node.addChildNode(childNode)
+                        nodeCount += 1
+                    }
+                    scene.rootNode.addChildNode(node)
+                }
             }
+
             DispatchQueue.main.async {
                 completion(scene)
                 self.isModelLoading = false
             }
         }
     }
+
+
 
     
     class Coordinator: NSObject , SCNSceneRendererDelegate {

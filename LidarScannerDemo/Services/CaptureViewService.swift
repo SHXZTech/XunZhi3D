@@ -73,8 +73,27 @@ class CaptureViewService: ObservableObject{
             if let jsonDict = jsonObject as? [String: Any] {
                 captureModel.isExist = isExistCheck()
                 if let configs = jsonDict["configs"] as? [[String: Any]] {
-                    let rawMeshName = "mesh.obj"
-                    let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/\(rawMeshName)").path
+                    
+                    
+                    //let rawMeshName = "mesh.obj"
+                    //let rawMeshName = "\(captureModel.id.uuidString.lowercased()).glb"
+                    //let rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/\(rawMeshName)").path
+                    
+                    let rawMeshPath:String
+                    if FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/\(captureModel.id.uuidString.lowercased()).glb").path) {
+                        rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/\(captureModel.id.uuidString.lowercased()).glb").path
+                    }
+                    else if FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/textured.obj").path)
+                    {
+                        rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/textured/textured.obj").path
+                    }
+                    else
+                    {
+                        rawMeshPath = documentsDirectory.appendingPathComponent("\(id.uuidString)/mesh.obj").path
+                    }
+                    
+                    
+                    print("rawMeshPath is == == ==",rawMeshPath)
                     captureModel.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                     if captureModel.isRawMeshExist {
                         captureModel.rawMeshURL = URL(fileURLWithPath: rawMeshPath)
@@ -123,13 +142,40 @@ class CaptureViewService: ObservableObject{
         }
     }
     
+    //确认纹理是否存在
+//    func checkTexturedExist()-> Bool{
+//        let fileManager = FileManager.default
+//        let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let texturedMeshPath = documentsDirectory.appendingPathComponent("\(self.captureModel.id.uuidString)/textured/textured.obj").path
+//        captureModel.isTexturedMeshExist = fileManager.fileExists(atPath: texturedMeshPath)
+//        if captureModel.isTexturedMeshExist{
+//            captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
+//            return true;
+//        }
+//        else{ return false;}
+//    }
+    
+    //确认纹理是否存在--copy
     func checkTexturedExist()-> Bool{
         let fileManager = FileManager.default
         let documentsDirectory = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let texturedMeshPath = documentsDirectory.appendingPathComponent("\(self.captureModel.id.uuidString)/textured/textured.obj").path
+        let texturedMeshPath = documentsDirectory.appendingPathComponent("\(self.captureModel.id.uuidString)/textured/\(self.captureModel.id.uuidString.lowercased()).glb").path
+        print("texturedMeshPath is == == == ",texturedMeshPath)
+        
+        let texturedMeshPath01 = documentsDirectory.appendingPathComponent("\(self.captureModel.id.uuidString)").path
+
+        do {
+            let fileManager = FileManager.default
+            let files = try fileManager.contentsOfDirectory(atPath: texturedMeshPath01)
+            print("Files in the directory: \(files)")
+        } catch {
+            print("Error reading directory contents: \(error)")
+        }
+        
         captureModel.isTexturedMeshExist = fileManager.fileExists(atPath: texturedMeshPath)
         if captureModel.isTexturedMeshExist{
             captureModel.texturedObjURL = URL(fileURLWithPath: texturedMeshPath)
+            print("captureModel.texturedObjURL is == == == ",captureModel.texturedObjURL)
             return true;
         }
         else{ return false;}
@@ -191,6 +237,7 @@ class CaptureViewService: ObservableObject{
     }
     
     func isRawMeshExist() -> Bool{
+        print("captureModel.isRawMeshExist == == ==",captureModel.isRawMeshExist)
         return captureModel.isRawMeshExist
     }
     
@@ -199,11 +246,14 @@ class CaptureViewService: ObservableObject{
     }
     
     func getObjModelURL() -> URL?{
+        print("333333333checkTexturedExist== == ==",checkTexturedExist())
         checkTexturedExist()
         if self.captureModel.isTexturedMeshExist{
-            return captureModel.texturedObjURL
+            print("显示贴好图的== == ==",captureModel.texturedObjURL)
+            return captureModel.texturedObjURL//如果已经有贴好图的版本，那么就显示贴好图的
         }else{
-            return captureModel.objModelURL}
+            print("显示白模== == ==",captureModel.objModelURL)
+            return captureModel.objModelURL}//要不然就显示白模
     }
     
     func getProjectCreationDate() -> Date? {
@@ -301,6 +351,7 @@ class CaptureViewService: ObservableObject{
     
     func downloadCapture() {
         if self.checkTexturedExist() {
+            print("222222222checkTexturedExist")
             DispatchQueue.main.async { [weak self] in
                 self?.captureModel.cloudStatus = .downloaded
                 self?.loadCloudStatus()
@@ -449,7 +500,9 @@ class CaptureViewService: ObservableObject{
             completion(false, "Scan folder does not exist")
             return
         }
+        print("scanFolder is ======",scanFolder)
         let destinationFileURL = scanFolder.appendingPathComponent("textured.zip")
+        //let destinationFileURL = scanFolder.appendingPathComponent("textured.glb")
         let textureExtractDestinationURL = scanFolder.appendingPathComponent("textured")
         
         cloud_service.downloadTexture(uuid: self.captureModel.id, to: destinationFileURL, progress: { [weak self] progressValue in
@@ -471,6 +524,9 @@ class CaptureViewService: ObservableObject{
                 } catch {
                     DispatchQueue.main.async {[weak self] in
                         completion(false, "Failed to extract file: \(error.localizedDescription)")
+                        print("Destination File URL:", destinationFileURL.path)
+                        print("Texture Extract Destination URL:", textureExtractDestinationURL.path)
+                        print("Failed to extract file",(error.localizedDescription))
                     }
                 }
             case .failure(let error):

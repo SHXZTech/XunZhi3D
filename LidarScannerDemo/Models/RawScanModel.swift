@@ -50,6 +50,7 @@ struct RawScanModel: Identifiable {
             if let jsonDict = jsonObject as? [String: Any] {
                 self.isExist = self.isExistCheck()
                 let rawMeshName = "mesh.obj"
+                //let rawMeshName = "\(id.uuidString.lowercased()).glb"
                 let rawMeshPath = scanFolder.appendingPathComponent(rawMeshName).path
                 self.isRawMeshExist = fileManager.fileExists(atPath: rawMeshPath)
                 if self.isRawMeshExist {
@@ -94,6 +95,7 @@ struct RawScanModel: Identifiable {
     
     func getRawObjURL() -> URL{
         let rawMeshURL = scanFolder.appendingPathComponent("mesh.obj")
+        //let rawMeshURL = scanFolder.appendingPathComponent("\(id.uuidString.lowercased()).glb")
         return rawMeshURL
     }
     

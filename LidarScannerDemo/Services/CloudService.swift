@@ -75,29 +75,42 @@ extension CloudService {
             completion(.failure(CloudServiceError.invalidURL))
             return
         }
+        print("url 001 is ====",url)
         var urlComponents = URLComponents(url: url, resolvingAgainstBaseURL: false)
         urlComponents?.queryItems = [URLQueryItem(name: "uuid", value: uuid.uuidString)]
         guard let queryURL = urlComponents?.url else {
             completion(.failure(CloudServiceError.invalidURL))
             return
         }
+
+        //let queryURL = url.appendingPathComponent("\(uuid.uuidString).glb")
+        //let queryURL = url
+
+        
+        
+        print("queryURL is =====",queryURL)
+        //var request = URLRequest(url: queryURL)
         var request = URLRequest(url: queryURL)
         request.httpMethod = "GET"
         let session = URLSession(configuration: .default, delegate: nil, delegateQueue: .main)
         let task = session.downloadTask(with: request) { localURL, response, error in
             if let error = error {
+                print("111111111111")
                 completion(.failure(error))
                 return
             }
             guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
                 completion(.failure(CloudServiceError.unknown))
+                print("222222222222")
                 return
             }
             guard let tempLocalURL = localURL else {
                 completion(.failure(CloudServiceError.unknown))
+                print("333333333333")
                 return
             }
             do {
+                print("destinationURL is ======",destinationURL)//这里是textured.zip
                 let fileManager = FileManager.default
                 if fileManager.fileExists(atPath: destinationURL.path) {
                     try fileManager.removeItem(at: destinationURL)

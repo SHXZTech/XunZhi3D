@@ -53,9 +53,16 @@ struct MainTagView: View {
         }
         .fullScreenCover(isPresented: $showCapture) {
             if viewModel.isSelectedCaptureProcessed ?? false{
+                
                 CaptureView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+                    .onAppear(){
+                        print("调用CaptureView方法== == ==，viewModel.selectedCaptureUUID== == ==",viewModel.selectedCaptureUUID)
+                    }
             }else{
                 RawScanView(uuid: viewModel.selectedCaptureUUID!, isPresenting: $showCapture)
+                    .onAppear(){
+                        print("调用RawScanView方法== == ==，viewModel.selectedCaptureUUID== == ==",viewModel.selectedCaptureUUID)
+                    }
             }
         }
         .onChange(of: shouldReload) { newValue in

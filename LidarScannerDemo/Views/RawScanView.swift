@@ -130,6 +130,7 @@ struct RawScanView: View {
             if updated {
                 if capture_service.checkTexturedExist(){
                     uploadButtonState = .downloaded
+                    print("11111111111checkTexturedExist")
                 }
                 self.showCaptureView = true
             }

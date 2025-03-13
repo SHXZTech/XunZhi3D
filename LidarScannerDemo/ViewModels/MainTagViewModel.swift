@@ -20,10 +20,15 @@ class MainTagViewModel: ObservableObject {
     }
     
     func selectCapture(uuid: UUID){
+        print("glb的时候进入了这里，uuid == == ==",uuid)
         self.selectedCaptureUUID = uuid
         if let selectedCapture = captures.first(where: { $0.id == uuid }) {
+                print("selectedCapture不为空")
                 self.isSelectedCaptureProcessed = selectedCapture.isProcessed
+                print("self.isSelectedCaptureProcessed == == ==",self.isSelectedCaptureProcessed)
+            
             } else {
+                print("selectedCapture为空")
                 self.isSelectedCaptureProcessed = false
             }
     }
@@ -46,8 +51,33 @@ class MainTagViewModel: ObservableObject {
                     formatter.dateFormat = NSLocalizedString("capture_preview_date_fromat", comment: "")
                     let dateString = formatter.string(from: creationDate)
                     let previewImageURL = directory.appendingPathComponent("cover.png")
-                    let texturedMeshName = "textured.obj"
-                    let texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(texturedMeshName)").path
+                    
+                    
+                    ///1118-16:19修改
+                    //let texturedMeshName = "textured.obj"
+                    //let texturedMeshName : String
+                    //let texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(texturedMeshName)").path
+                    
+//                    if FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(uuid.uuidString.lowercased()).glb").path) {
+//                        texturedMeshName = "\(uuid.uuidString.lowercased()).glb"
+//                    } else {
+//                        texturedMeshName = "textured.obj"
+//                    }
+                    
+                    let texturedMeshPath:String
+                    if FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(uuid.uuidString.lowercased()).glb").path) {
+                        texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/\(uuid.uuidString.lowercased()).glb").path
+                    }
+                    else if FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/textured.obj").path)
+                    {
+                        texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/textured.obj").path
+                    }
+                    else
+                    {
+                        texturedMeshPath = documentsDirectory.appendingPathComponent("\(uuid.uuidString)/textured/mesh.obj").path
+                    }
+                    
+                    
                     let isProcessed = fileManager.fileExists(atPath: texturedMeshPath)
                     let newCapture = CapturePreviewModel(id: uuid, dateString: dateString, date: creationDate, previewImageURL: previewImageURL, isProcessed: isProcessed)
                     tempCaptures.append(newCapture)
